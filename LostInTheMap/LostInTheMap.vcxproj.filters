@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\components">
+      <UniqueIdentifier>{47f2b043-cbe5-47c6-9388-21b79b1ee93d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\systems">
+      <UniqueIdentifier>{55497336-84ea-4356-8cc7-2312e0773163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems">
+      <UniqueIdentifier>{78264a62-7fc3-407b-880f-63bc9dce0a63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="asset_container.h">
@@ -36,6 +45,42 @@
     <ClInclude Include="EventTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ILocatable.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ICollidable.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="IDrawable.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="IFightable.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="IMovable.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="IAnimatable.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ILiving.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="IDescriptable.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ITalkable.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="Space.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceSystem.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="asset_container.cpp">
@@ -58,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="input_system.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceSystem.cpp">
+      <Filter>Source Files\systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
