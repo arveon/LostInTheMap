@@ -69,7 +69,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)/libs/SDL2_image/include;$(SolutionDir)/libs/SDL2_mixer/include;$(SolutionDir)/libs/SDL2_ttf/include;$(SolutionDir)/libs/SDL2/include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)/libs/SDL2_mixer/lib/x86;$(SolutionDir)/libs/SDL2/lib/x86;$(SolutionDir)/libs/SDL2_image/lib/x86;$(SolutionDir)/libs/SDL2_ttf/lib/x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -77,6 +80,10 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,8 +122,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="asset_container.h" />
+    <ClInclude Include="asset_controller.h" />
+    <ClInclude Include="EventTypes.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="input_system.h" />
+    <ClInclude Include="SDL_manager.h" />
+    <ClInclude Include="xml_system.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="asset_container.cpp" />
+    <ClCompile Include="asset_controller.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="input_system.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SDL_manager.cpp" />
+    <ClCompile Include="xml_system.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\rapidxml.1.13\build\native\rapidxml.targets" Condition="Exists('..\packages\rapidxml.1.13\build\native\rapidxml.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\rapidxml.1.13\build\native\rapidxml.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\rapidxml.1.13\build\native\rapidxml.targets'))" />
+  </Target>
 </Project>

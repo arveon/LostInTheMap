@@ -1,4 +1,6 @@
 #pragma once
+
+//class will have functionality of loading/unloading visual and audio assets
 class asset_controller
 {
 public:
