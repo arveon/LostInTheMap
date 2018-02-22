@@ -122,7 +122,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="asset_container.h" />
     <ClInclude Include="asset_controller.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Entity.h" />
@@ -132,16 +131,17 @@
     <ClInclude Include="SDL_manager.h" />
     <ClInclude Include="Space.h" />
     <ClInclude Include="SpaceSystem.h" />
+    <ClInclude Include="SplashScreeenSystem.h" />
     <ClInclude Include="xml_system.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="asset_container.cpp" />
     <ClCompile Include="asset_controller.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input_system.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SDL_manager.cpp" />
     <ClCompile Include="SpaceSystem.cpp" />
+    <ClCompile Include="SplashScreeenSystem.cpp" />
     <ClCompile Include="xml_system.cpp" />
   </ItemGroup>
   <ItemGroup>

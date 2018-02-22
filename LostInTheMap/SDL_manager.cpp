@@ -4,6 +4,7 @@ std::vector<SDL_manager::callback> SDL_manager::mouse_down_callbacks;
 std::vector<SDL_manager::callback> SDL_manager::window_close_callbacks;
 SDL_manager::mouse SDL_manager::mouse_state;
 std::vector<HardInputEventType> SDL_manager::events;
+SDL_Renderer* SDL_manager::renderer;
 
 SDL_manager::SDL_manager()
 {

@@ -5,6 +5,8 @@
 class Space
 {
 public:
-	std::vector<Entity> objects;
+	std::vector<Entity*> objects;
+
+	~Space() {};
 };
 

@@ -4,6 +4,7 @@
 
 class Entity
 {
+public:
 	Transform transform;
 	std::vector<Component*> components;
 

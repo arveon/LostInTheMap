@@ -31,12 +31,13 @@ private:
 	bool initialised;
 
 	SDL_Window* game_window;
-	SDL_Renderer* renderer;
+	
 
 	static std::vector<callback> mouse_down_callbacks;
 	static std::vector<callback> window_close_callbacks;
 	static std::vector<HardInputEventType> events;
 public:
+	static SDL_Renderer * renderer;
 	SDL_manager();
 	~SDL_manager();
 
