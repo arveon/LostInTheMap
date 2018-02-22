@@ -99,7 +99,6 @@ class Transform
 {
 public:
 	SDL_Rect position;
-
 };
 
 struct tile

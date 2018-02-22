@@ -2,7 +2,6 @@
 #include <vector>
 #include "Components.h"
 
-
 class Entity
 {
 	Transform transform;
@@ -26,7 +25,19 @@ class Entity
 			components.push_back(cmp);
 			cmp->owner = this;
 		}
-		
+	}
+
+	void remove_component(ComponentType type)
+	{
+		for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); it++)
+		{
+			Component* temp = *it;
+			if (temp->type == type)
+			{
+				components.erase(it);
+				break;
+			}
+		}
 	}
 
 };
