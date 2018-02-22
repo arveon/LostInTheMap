@@ -5,11 +5,19 @@
 class Entity
 {
 public:
-	Transform transform;
+	Transform* transform;
 	std::vector<Component*> components;
 
 	void add_component(Component* cmp)
 	{
+
+		if (cmp->type == ComponentType::Location && transform == nullptr)
+		{
+			transform = static_cast<Transform*>(cmp);
+			transform->owner = this;
+			return;
+		}
+
 		bool already_exists = false;
 		for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); it++)
 		{

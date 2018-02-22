@@ -79,8 +79,6 @@ void SDL_manager::update_input()
 		}
 	}
 
-
-
 }
 
 void SDL_manager::trigger_input_listeners()

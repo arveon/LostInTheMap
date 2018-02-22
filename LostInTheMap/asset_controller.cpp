@@ -15,7 +15,7 @@ asset_controller::~asset_controller()
 SDL_Texture * asset_controller::load_texture(const char * path)
 {
 	SDL_Texture* temp = IMG_LoadTexture(renderer, path);
-	//std::cout << IMG_GetError() << " for image " << path;
+	std::cout << IMG_GetError() << " for image " << path;
 	assert(temp);
 	return temp;
 }

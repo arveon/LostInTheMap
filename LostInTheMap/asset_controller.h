@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <iostream>
 
 //class will have functionality of loading/unloading visual and audio assets
 class asset_controller

@@ -5,6 +5,7 @@
 class Space
 {
 public:
+	bool initialised = false;
 	std::vector<Entity*> objects;
 
 	~Space() {};

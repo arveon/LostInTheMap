@@ -33,7 +33,9 @@ void Game::game_loop()
 		switch (state)
 		{
 		case game_state::splash:
-			
+			if (!splash_screen_space.initialised)
+				SplashScreenSystem::init_space(splash_screen_space);
+			SplashScreenSystem::update(1);
 			break;
 		case game_state::main_menu:
 		
