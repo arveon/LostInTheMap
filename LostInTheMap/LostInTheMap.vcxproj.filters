@@ -48,38 +48,14 @@
     <ClInclude Include="Entity.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
-    <ClInclude Include="ILocatable.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="ICollidable.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="IDrawable.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="IFightable.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="IMovable.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="IAnimatable.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="ILiving.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="IDescriptable.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="ITalkable.h">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
     <ClInclude Include="Space.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
     <ClInclude Include="SpaceSystem.h">
       <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>Header Files\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
