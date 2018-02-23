@@ -57,6 +57,12 @@
     <ClInclude Include="asset_controller.h">
       <Filter>Header Files\systems</Filter>
     </ClInclude>
+    <ClInclude Include="render_system.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -74,14 +80,17 @@
     <ClCompile Include="input_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpaceSystem.cpp">
-      <Filter>Source Files\systems</Filter>
-    </ClCompile>
     <ClCompile Include="SplashScreeenSystem.cpp">
       <Filter>Source Files\systems</Filter>
     </ClCompile>
     <ClCompile Include="asset_controller.cpp">
       <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="render_system.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceSystem.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,9 +4,11 @@
 #include "xml_system.h"
 #include "asset_controller.h"
 #include "SplashScreeenSystem.h"
+#include "EventTypes.h"
+#include "Time.h"
 
 #include <stdlib.h>
-#include "EventTypes.h"
+
 
 
 enum game_state
@@ -28,6 +30,7 @@ private:
 	SDL_manager sdl_manager;
 	static bool running;
 
+	time time;
 	Space splash_screen_space;
 public:
 	Game();

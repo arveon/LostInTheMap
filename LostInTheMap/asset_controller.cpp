@@ -27,6 +27,14 @@ SDL_Rect asset_controller::get_texture_size(SDL_Texture * texture)
 	return rect;
 }
 
+//alpha 0 - 255
+void asset_controller::set_texture_alpha(SDL_Texture * texture, int alpha)
+{
+	if (alpha > 255) alpha = 255;
+	else if (alpha < 0) alpha = 0;
+	SDL_SetTextureAlphaMod(texture, alpha);
+}
+
 void asset_controller::destroy_texture(SDL_Texture* texture)
 {
 	SDL_DestroyTexture(texture);

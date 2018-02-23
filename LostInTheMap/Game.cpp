@@ -11,12 +11,13 @@ void Game::init()
 	input_system::register_event_callback(HardInputEventType::window_close, &Game::window_close);
 	Game::running = true;
 	state = game_state::splash;
+	time.init();
 }
 
 void Game::init_splash()
 {
-	
 	SplashScreenSystem::init_space(splash_screen_space);
+	SplashScreenSystem::add_space_to_render_queue(splash_screen_space);
 }
 
 void Game::finish()
@@ -34,8 +35,9 @@ void Game::game_loop()
 		{
 		case game_state::splash:
 			if (!splash_screen_space.initialised)
-				SplashScreenSystem::init_space(splash_screen_space);
-			SplashScreenSystem::update(1);
+				init_splash();
+			SplashScreenSystem::update_space(splash_screen_space, time.get_delta_time());
+			
 			break;
 		case game_state::main_menu:
 		
@@ -50,6 +52,9 @@ void Game::game_loop()
 			
 			break;
 		}
+
+		time.update();
+		render_system::render_queues();
 	}
 }
 

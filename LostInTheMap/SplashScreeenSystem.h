@@ -1,15 +1,17 @@
 #pragma once
 #include <string>
 #include <SDL.h>
+#include <vector>
 
 #include "asset_controller.h"
 #include "Space.h"
 #include "Entity.h"
+#include "SpaceSystem.h"
+#include "asset_controller.h"
 
-class SplashScreenSystem
+class SplashScreenSystem : public SpaceSystem
 {
 private:
-	
 	enum splash_state
 	{
 		not_initialised,
@@ -18,11 +20,17 @@ private:
 		disappearing,
 		done
 	};
-	splash_state state;
+	static splash_state state;
+
+	static int cur_alpha;
+	static const int total_stage_time = 1000;
+	static int elapsed_stage_time;
+
 public:
-	static SDL_Renderer* renderer;
 	static void init_space(Space& space);
-	static void update(int dt) {};
+	static void update_space(Space& space, int dt);
+	
+	static void destroy_space(Space& space);
 
 	SplashScreenSystem();
 	~SplashScreenSystem();

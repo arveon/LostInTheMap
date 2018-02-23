@@ -8,7 +8,7 @@ enum ComponentType
 	Animated,
 	Collision,
 	Description,
-	Drawing,
+	Drawable,
 	Fighting,
 	Living,
 	Location,
@@ -63,6 +63,15 @@ public:
 class IDrawable : public Component
 {
 public:
+	enum layers
+	{
+		background,
+		surface,
+		foreground,
+		ui
+	};
+
+	layers layer;
 	SDL_Texture* sprite;
 	SDL_Rect draw_rect;
 	void ReceiveMessage(void* message) {}

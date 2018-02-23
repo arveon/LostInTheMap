@@ -27,7 +27,7 @@ private:
 	}mouse;
 
 	static mouse mouse_state;
-	static Uint8* keyboard_state;
+	//static SDL_Keysym keyboard_state;
 
 	bool initialised;
 
@@ -54,5 +54,12 @@ public:
 	static void update_input();
 	static void trigger_input_listeners();
 
+	static void render_sprite(SDL_Texture*, SDL_Rect dest);
+	static void start_render() 
+	{ 
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_RenderClear(SDL_manager::renderer); 
+	}
+	static void end_render() { SDL_RenderPresent(SDL_manager::renderer); }
 };
 

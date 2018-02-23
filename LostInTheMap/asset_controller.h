@@ -16,5 +16,6 @@ public:
 	static void destroy_texture(SDL_Texture*);
 
 	static SDL_Rect get_texture_size(SDL_Texture* texture);
+	static void set_texture_alpha(SDL_Texture* texture, int alpha);
 };
 

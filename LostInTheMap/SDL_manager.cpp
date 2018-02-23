@@ -78,7 +78,7 @@ void SDL_manager::update_input()
 				mouse_state.rmb_down = false;
 		}
 	}
-
+	//keyboard_state = SDL_GetKeyboardState();
 }
 
 void SDL_manager::trigger_input_listeners()
@@ -100,4 +100,9 @@ void SDL_manager::trigger_input_listeners()
 		events.pop_back();
 	}
 
+}
+
+void SDL_manager::render_sprite(SDL_Texture * texture, SDL_Rect dest)
+{
+	SDL_RenderCopy(SDL_manager::renderer, texture, nullptr, &dest);
 }

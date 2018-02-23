@@ -22,6 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{6E60084F-825F-442B-9133-A16CDF1DBC07}</ProjectGuid>
     <RootNamespace>LostInTheMap</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -127,10 +128,12 @@
     <ClInclude Include="EventTypes.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="input_system.h" />
+    <ClInclude Include="render_system.h" />
     <ClInclude Include="SDL_manager.h" />
     <ClInclude Include="Space.h" />
     <ClInclude Include="SpaceSystem.h" />
     <ClInclude Include="SplashScreeenSystem.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="xml_system.h" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +141,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input_system.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="render_system.cpp" />
     <ClCompile Include="SDL_manager.cpp" />
     <ClCompile Include="SpaceSystem.cpp" />
     <ClCompile Include="SplashScreeenSystem.cpp" />
