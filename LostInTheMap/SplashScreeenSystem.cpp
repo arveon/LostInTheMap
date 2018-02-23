@@ -3,6 +3,7 @@
 SplashScreenSystem::splash_state SplashScreenSystem::state;
 int SplashScreenSystem::cur_alpha;
 int SplashScreenSystem::elapsed_stage_time;
+std::vector<void(*)()> SplashScreenSystem::listeners;
 
 void SplashScreenSystem::init_space(Space& space)
 {
@@ -70,10 +71,33 @@ void SplashScreenSystem::update_space(Space& space, int dt)
 			asset_controller::set_texture_alpha(comp->sprite, cur_alpha);
 		break;
 	case splash_state::disappearing:
+		elapsed_stage_time += dt;
+		cur_alpha = 255 - (elapsed_stage_time / (float)total_stage_time * 255);
+		if (elapsed_stage_time >= total_stage_time)
+		{
+			state = splash_state::done;
+			elapsed_stage_time = 0;
+		}
+		if (comp)
+			asset_controller::set_texture_alpha(comp->sprite, cur_alpha);
+		break;
 		break;
 	case splash_state::full:
+		elapsed_stage_time += dt;
+		if (elapsed_stage_time >= total_stage_time)
+		{
+			state = splash_state::disappearing;
+			elapsed_stage_time = 0;
+		}
+
 		break;
 	case splash_state::done:
+		for (int i = 0; i < listeners.size(); i++)
+		{
+			void(*callback)() = listeners.at(i);
+			callback();
+		}
+
 		break;
 	}
 

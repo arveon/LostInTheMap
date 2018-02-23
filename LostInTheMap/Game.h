@@ -26,7 +26,7 @@ enum game_state
 class Game
 {
 private:
-	game_state state;
+	static game_state state;
 	SDL_manager sdl_manager;
 	static bool running;
 
@@ -40,6 +40,7 @@ public:
 	void init();
 	void init_splash();
 	void finish();
-	static void window_close() { running = false; };
+	static void window_close_handler() { running = false; };
+	static void splash_elapsed_handler() { state = game_state::main_menu; };
 };
 
