@@ -36,16 +36,14 @@ class IAnimatable : public Component
 {
 public:
 	SDL_Texture* spritesheet;
+	SDL_Rect src_rect;
 	int cur_x_sprite, cur_y_sprite;
 	int time_elapsed;
 	int total_sprite_required_time = 100;
 	IAnimatable() : Component() {  }
 	void ReceiveMessage(void* message) {}
 
-	~IAnimatable() 
-	{
-
-	}
+	~IAnimatable() {}
 };
 
 class ICollidable : public Component
@@ -152,4 +150,18 @@ public:
 	std::vector<std::string> lines;
 	void ReceiveMessage(void* message) {}
 	ITalkable() : Component() {  }
+};
+
+
+enum InteractionState 
+{
+	none,
+	hover,
+	pressed,
+	blocked
+};
+class IMouseInteractable : public Component
+{
+public:
+	InteractionState state;
 };
