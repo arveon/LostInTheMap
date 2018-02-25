@@ -41,6 +41,8 @@ void SplashScreenSystem::init_space(Space& space)
 
 void SplashScreenSystem::destroy_space(Space& space)
 {
+	space.objects.clear();
+	space.initialised = false;
 }
 
 

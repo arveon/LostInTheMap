@@ -2,6 +2,11 @@
 
 bool Game::running;
 game_state Game::state;
+Space Game::splash_screen_space;
+Space Game::main_menu_space;
+Space Game::game_space;
+Space Game::pause_menu_space;
+Space Game::loading_space;
 
 void Game::init()
 {
@@ -12,7 +17,7 @@ void Game::init()
 
 	input_system::register_event_callback(HardInputEventType::window_close, &Game::window_close_handler);
 	Game::running = true;
-	state = game_state::splash;
+	state = game_state::main_menu;
 	time.init();
 }
 
@@ -25,6 +30,17 @@ void Game::init_splash()
 void Game::finish()
 {
 
+}
+
+void Game::splash_elapsed_handler()
+{
+	if (state == game_state::splash)
+	{
+		SplashScreenSystem::destroy_space(splash_screen_space);
+	}
+	
+	state = game_state::main_menu;
+	
 }
 
 void Game::game_loop()
@@ -45,7 +61,13 @@ void Game::game_loop()
 			
 			break;
 		case game_state::main_menu:
-			std::cout << "main menu" << std::endl;
+			if (!main_menu_space.initialised)
+			{
+				MenuLayout layout = xml_system::load_menu_layout();
+				MainMenuSystem::init(main_menu_space, layout, &register_mousedown_listener, &register_mouseup_listener, &deregister_event_listener);
+			}
+			MainMenuSystem::update_space(main_menu_space, time.get_delta_time());
+
 			break;
 		case game_state::pause_menu:
 			

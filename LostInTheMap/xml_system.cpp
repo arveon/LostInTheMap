@@ -1,7 +1,5 @@
 #include "xml_system.h"
 
-
-
 xml_system::WindowConfig xml_system::load_config_file()
 {
 	WindowConfig cfg;
@@ -12,15 +10,6 @@ xml_system::WindowConfig xml_system::load_config_file()
 	doc.parse<0>(file.data());
 
 	rapidxml::xml_node<>* cur_node = doc.first_node("window_config")->first_node();
-	//cfg.title = cur_node->first_attribute("value")->value();
-
-	/*cur_node = cur_node->next_sibling("resolution");
-	cfg.width = std::stoi(cur_node->first_attribute("width")->value());
-	cfg.height = std::stoi(cur_node->first_attribute("height")->value());
-
-	cur_node = cur_node->first_node("fullscreen");
-	cfg.fullscreen = cur_node->first_attribute("value")->value();*/
-
 
 	while (cur_node != NULL)
 	{
@@ -45,8 +34,32 @@ xml_system::WindowConfig xml_system::load_config_file()
 
 		cur_node = cur_node->next_sibling();
 	}
-
+	doc.clear();
 	return cfg;
+}
+
+MenuLayout xml_system::load_menu_layout()
+{
+	MenuLayout layout;
+	
+	rapidxml::file<> file("config/menu_layouts/main_menu.xml");
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(file.data());
+
+	rapidxml::xml_node<>* cur_node = doc.first_node("menu");
+	layout.background_path = cur_node->first_attribute("background")->value();
+
+	cur_node = cur_node->first_node("button");
+	while (cur_node != NULL)
+	{
+		SDL_Point position = { std::stoi(cur_node->first_attribute("x")->value()), std::stoi(cur_node->first_attribute("y")->value()) };
+		std::string text = cur_node->first_attribute("text")->value();
+		layout.buttons.push_back({text, position});
+		cur_node = cur_node->next_sibling();
+	}
+
+	doc.clear();
+	return layout;
 }
 
 xml_system::xml_system()

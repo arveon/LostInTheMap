@@ -5,8 +5,6 @@
 //class will manage all user input
 class input_system
 {
-private:
-	
 public:
 	static int register_event_callback(HardInputEventType, SDL_manager::callback);
 	static bool remove_event_callback(HardInputEventType, int);

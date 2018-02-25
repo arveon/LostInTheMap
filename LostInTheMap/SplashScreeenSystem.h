@@ -34,6 +34,9 @@ public:
 	
 	static void destroy_space(Space& space);
 
+	static void left_mouse_down_event();
+	static void left_mouse_up_event();
+
 	SplashScreenSystem();
 	~SplashScreenSystem();
 };

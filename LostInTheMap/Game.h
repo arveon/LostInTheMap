@@ -4,8 +4,10 @@
 #include "xml_system.h"
 #include "asset_controller.h"
 #include "SplashScreeenSystem.h"
+#include "MainMenuSystem.h"
 #include "EventTypes.h"
 #include "Time.h"
+#include "Components.h"
 
 #include <stdlib.h>
 
@@ -31,7 +33,11 @@ private:
 	static bool running;
 
 	time time;
-	Space splash_screen_space;
+	static Space splash_screen_space;
+	static Space main_menu_space;
+	static Space game_space;
+	static Space pause_menu_space;
+	static Space loading_space;
 public:
 	Game();
 	~Game();
@@ -41,6 +47,23 @@ public:
 	void init_splash();
 	void finish();
 	static void window_close_handler() { running = false; };
-	static void splash_elapsed_handler() { state = game_state::main_menu; };
+	static void splash_elapsed_handler();
+
+	//function will be passed to initialise function that would allow them to register mouseclick callback methods
+	static int register_mousedown_listener(void(*cb)())
+	{
+		return input_system::register_event_callback(HardInputEventType::left_mouse_down, cb);
+	}
+
+	//function will be passed to initialise function that would allow them to register mouseclick callback methods
+	static int register_mouseup_listener(void(*cb)())
+	{
+		return input_system::register_event_callback(HardInputEventType::left_mouse_up, cb);
+	}
+	
+	static void deregister_event_listener(HardInputEventType type,int id)
+	{
+		bool result = input_system::remove_event_callback(type, id);
+	}
 };
 

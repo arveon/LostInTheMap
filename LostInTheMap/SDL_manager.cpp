@@ -1,6 +1,7 @@
 #include "SDL_manager.h"
 
 std::vector<SDL_manager::callback> SDL_manager::mouse_down_callbacks;
+std::vector<SDL_manager::callback> SDL_manager::mouse_up_callbacks;
 std::vector<SDL_manager::callback> SDL_manager::window_close_callbacks;
 SDL_manager::mouse SDL_manager::mouse_state;
 std::vector<HardInputEventType> SDL_manager::events;
@@ -66,16 +67,28 @@ void SDL_manager::update_input()
 		if (event.type == SDL_MOUSEBUTTONDOWN)//reading mouse events to determine when the click occurs
 		{
 			if (event.button.button == SDL_BUTTON_LEFT)
+			{
+				events.push_back(HardInputEventType::left_mouse_down);
 				mouse_state.lmb_down = true;
+			}
 			else
+			{
+				events.push_back(HardInputEventType::right_mouse_down);
 				mouse_state.rmb_down = true;
+			}
 		}
 		else if (event.type == SDL_MOUSEBUTTONUP)
 		{
 			if (event.button.button == SDL_BUTTON_LEFT)
+			{
+				events.push_back(HardInputEventType::left_mouse_up);
 				mouse_state.lmb_down = false;
+			}
 			else
+			{
+				events.push_back(HardInputEventType::right_mouse_up);
 				mouse_state.rmb_down = false;
+			}
 		}
 	}
 	//keyboard_state = SDL_GetKeyboardState();
@@ -95,6 +108,21 @@ void SDL_manager::trigger_input_listeners()
 				cb();
 			}
 			break;
+		case HardInputEventType::left_mouse_down:
+			for (int i = 0; i < mouse_down_callbacks.size(); i++)
+			{
+				callback cb = mouse_down_callbacks.at(i);
+				cb();
+			}
+			break;
+		case HardInputEventType::left_mouse_up:
+			for (int i = 0; i < mouse_up_callbacks.size(); i++)
+			{
+				callback cb = mouse_up_callbacks.at(i);
+				cb();
+			}
+			break;
+
 		}
 
 		events.pop_back();

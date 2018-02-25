@@ -1,9 +1,14 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <vector>
+#include <map>
 
 #include <rapidxml\rapidxml.hpp>
 #include <rapidxml\rapidxml_utils.hpp>
+
+#include "Components.h"
+#include "MenuLayout.h"
 
 class xml_system
 {
@@ -17,9 +22,9 @@ public:
 		int height;
 		bool fullscreen;
 	} WindowConfig;
-	
 
 	static WindowConfig load_config_file();
+	static MenuLayout load_menu_layout();
 	xml_system();
 	~xml_system();
 

@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include <iostream>
+
 enum ComponentType
 {
 	Animated,
@@ -39,6 +41,11 @@ public:
 	int total_sprite_required_time = 100;
 	IAnimatable() : Component() {  }
 	void ReceiveMessage(void* message) {}
+
+	~IAnimatable() 
+	{
+
+	}
 };
 
 class ICollidable : public Component
@@ -76,6 +83,11 @@ public:
 	SDL_Rect draw_rect;
 	void ReceiveMessage(void* message) {}
 	IDrawable() : Component() {  }
+
+	~IDrawable()
+	{
+		std::cout << "component_destroyed" << std::endl;
+	}
 };
 
 

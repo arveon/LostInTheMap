@@ -22,18 +22,15 @@
     <Filter Include="Source Files\systems">
       <UniqueIdentifier>{78264a62-7fc3-407b-880f-63bc9dce0a63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\structs">
+      <UniqueIdentifier>{255f878f-b3e7-43de-8d6e-4b76f9b23d70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SDL_manager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="xml_system.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="input_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EventTypes.h">
@@ -63,6 +60,18 @@
     <ClInclude Include="Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="xml_system.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuLayout.h">
+      <Filter>Header Files\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuSystem.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="input_system.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -72,12 +81,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SDL_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="xml_system.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="input_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SplashScreeenSystem.cpp">
@@ -91,6 +94,15 @@
     </ClCompile>
     <ClCompile Include="SpaceSystem.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xml_system.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuSystem.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="input_system.cpp">
+      <Filter>Source Files\systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
