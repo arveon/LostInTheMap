@@ -37,12 +37,43 @@ SDL_Texture * asset_controller::create_ui_text_button_spritesheet(std::string te
 	//TODO: finish this method for all the cases of type
 	//load appropriate font depending on what text is used for
 	SDL_Texture* result = nullptr;
+
+	TTF_Font * font;
+	std::vector<SDL_Texture*> sprites;
+
 	switch (type)
 	{
 	case UI_text_type::main_menu_button_main:
-		
+		font = SDL_manager::load_font("assets/fonts/Inked_Out.ttf", 16, {0,0,0});
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 191,191,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 168,138,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 255,255,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 150,150,150 }, font));
+		result = SDL_manager::get_spritesheet_from_sprites(sprites);
 		break;
 	case UI_text_type::main_menu_secondary_button:
+		font = SDL_manager::load_font("assets/fonts/Inked_Out.ttf", 12, { 0,0,0 });
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 191,191,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 168,138,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 255,255,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 150,150,150 }, font));
+		result = SDL_manager::get_spritesheet_from_sprites(sprites);
+		break;
+	case UI_text_type::main_menu_text:
+		font = SDL_manager::load_font("assets/fonts/Inked_Out.ttf", 10, { 0,0,0 });
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 191,191,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 168,138,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 255,255,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 150,150,150 }, font));
+		result = SDL_manager::get_spritesheet_from_sprites(sprites);
+		break;
+	case UI_text_type::game_dialog:
+		font = SDL_manager::load_font("assets/fonts/LinLibertine.ttf", 10, { 0,0,0 });
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 191,191,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 168,138,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 255,255,40 }, font));
+		sprites.push_back(SDL_manager::get_texture_from_text(text.c_str(), { 150,150,150 }, font));
+		result = SDL_manager::get_spritesheet_from_sprites(sprites);
 		break;
 	}
 	return result;

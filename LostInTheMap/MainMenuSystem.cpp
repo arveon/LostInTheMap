@@ -38,23 +38,46 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 
 	background->transform = background_transf;
 	background->add_component(background_draw_component);
+	space.objects.push_back(background);
 #pragma endregion
 
 #pragma region initialise all buttons
-	for (int i = 0; i < layout.buttons.size(); i++)
+	for (unsigned int i = 0; i < layout.buttons.size(); i++)
 	{
 		Button button = layout.buttons.at(i);
-		Entity* button_ent;
+		Entity* button_ent = new Entity();;
+		
+		//create animation component
+		IAnimatable* animation = new IAnimatable;
+		animation->spritesheet = asset_controller::create_ui_text_button_spritesheet(button.name, UI_text_type::main_menu_button_main);
+		SDL_Rect temp = asset_controller::get_texture_size(animation->spritesheet);
+		animation->src_rect.w = temp.w / 4;
+		animation->src_rect.h = temp.h;
+		animation->src_rect.x = 0;
+		animation->src_rect.y = 0;
+		animation->owner = button_ent;
+		animation->type = ComponentType::Animated;
+		button_ent->add_component(animation);
+
 		Transform* button_transf = new Transform;
 		button_transf->isActive = true;
-		
+		button_transf->position = { button.position.x, button.position.y, animation->src_rect.w, animation->src_rect.h };
+		button_transf->owner = button_ent;
+		button_transf->type = ComponentType::Location;
+		button_ent->transform = button_transf;
 
-		IAnimatable* animation = new IAnimatable;
+		IDrawable* drawable = new IDrawable;
+		drawable->sprite = asset_controller::get_sprite_from_spritesheet(animation->spritesheet, animation->src_rect);
+		drawable->draw_rect = button_transf->position;
+		drawable->owner = button_ent;
+		drawable->type = ComponentType::Drawable;
+		button_ent->add_component(drawable);
 		
+		space.objects.push_back(button_ent);
 	}
 #pragma endregion
 
-
+	add_space_to_render_queue(space);
 	space.initialised = true;
 }
 

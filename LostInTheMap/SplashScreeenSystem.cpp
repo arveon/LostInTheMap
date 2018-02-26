@@ -63,7 +63,7 @@ void SplashScreenSystem::update_space(Space& space, int dt)
 		break;
 	case splash_state::appearing:
 		elapsed_stage_time += dt;
-		cur_alpha = elapsed_stage_time / (float)total_stage_time * 255;
+		cur_alpha =static_cast<int>(elapsed_stage_time / (float)total_stage_time * 255);
 		if (elapsed_stage_time >= total_stage_time)
 		{
 			state = splash_state::full;
@@ -74,7 +74,7 @@ void SplashScreenSystem::update_space(Space& space, int dt)
 		break;
 	case splash_state::disappearing:
 		elapsed_stage_time += dt;
-		cur_alpha = 255 - (elapsed_stage_time / (float)total_stage_time * 255);
+		cur_alpha = static_cast<int>(255 - (elapsed_stage_time / (float)total_stage_time * 255));
 		if (elapsed_stage_time >= total_stage_time)
 		{
 			state = splash_state::done;
@@ -94,7 +94,7 @@ void SplashScreenSystem::update_space(Space& space, int dt)
 
 		break;
 	case splash_state::done:
-		for (int i = 0; i < listeners.size(); i++)
+		for (unsigned int i = 0; i < listeners.size(); i++)
 		{
 			void(*callback)() = listeners.at(i);
 			callback();

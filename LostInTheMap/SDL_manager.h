@@ -93,5 +93,6 @@ public:
 	static SDL_Texture* load_texture(const char* path);
 	
 	static SDL_Texture* get_texture_from_text(const char* text, SDL_Color color, TTF_Font* font);
+	static SDL_Texture* get_spritesheet_from_sprites(std::vector<SDL_Texture*> sprites);
 };
 

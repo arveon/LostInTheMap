@@ -106,21 +106,21 @@ void SDL_manager::trigger_input_listeners()
 		switch (type)
 		{
 		case HardInputEventType::window_close:
-			for (int i = 0; i < window_close_callbacks.size(); i++)
+			for (unsigned int i = 0; i < window_close_callbacks.size(); i++)
 			{
 				callback cb = window_close_callbacks.at(i);
 				cb();
 			}
 			break;
 		case HardInputEventType::left_mouse_down:
-			for (int i = 0; i < mouse_down_callbacks.size(); i++)
+			for (unsigned int i = 0; i < mouse_down_callbacks.size(); i++)
 			{
 				callback cb = mouse_down_callbacks.at(i);
 				cb();
 			}
 			break;
 		case HardInputEventType::left_mouse_up:
-			for (int i = 0; i < mouse_up_callbacks.size(); i++)
+			for (unsigned int i = 0; i < mouse_up_callbacks.size(); i++)
 			{
 				callback cb = mouse_up_callbacks.at(i);
 				cb();
@@ -149,7 +149,6 @@ SDL_Texture* SDL_manager::get_sprite_from_spritesheet(SDL_Texture * texture, SDL
 	return subtexture;
 }
 
-
 TTF_Font * SDL_manager::load_font(const char * path, int size, SDL_Color color)
 {
 	TTF_Font* result = TTF_OpenFont(path, size);
@@ -172,4 +171,25 @@ SDL_Texture * SDL_manager::get_texture_from_text(const char*  text, SDL_Color co
 	SDL_Texture* temp_t = SDL_CreateTextureFromSurface(renderer, temp_s);
 	SDL_FreeSurface(temp_s);
 	return temp_t;
+}
+
+SDL_Texture * SDL_manager::get_spritesheet_from_sprites(std::vector<SDL_Texture*> sprites)
+{
+	if (sprites.size() < 1)
+		return nullptr;
+
+	int w, h;
+	SDL_QueryTexture(sprites.at(0), NULL, NULL, &w, &h);
+
+	SDL_Texture* result = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w*sprites.size(), h);
+	SDL_SetRenderTarget(renderer, result);
+	SDL_Rect dest_rect = {0,0,w,h};
+	for (unsigned int i = 0; i < sprites.size(); i++)
+	{
+		SDL_RenderCopy(renderer, sprites.at(i), NULL, &dest_rect);
+		dest_rect.x += dest_rect.w;
+	}
+
+	SDL_SetRenderTarget(renderer, NULL);
+	return result;
 }

@@ -37,7 +37,7 @@ class IAnimatable : public Component
 public:
 	SDL_Texture* spritesheet;
 	SDL_Rect src_rect;
-	int cur_x_sprite, cur_y_sprite;
+	//int cur_x_sprite, cur_y_sprite;
 	int time_elapsed;
 	int total_sprite_required_time = 100;
 	IAnimatable() : Component() {  }
