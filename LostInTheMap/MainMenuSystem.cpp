@@ -45,7 +45,7 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 	for (unsigned int i = 0; i < layout.buttons.size(); i++)
 	{
 		Button button = layout.buttons.at(i);
-		Entity* button_ent = new Entity();;
+		Entity* button_ent = new Entity();
 		
 		//create animation component
 		IAnimatable* animation = new IAnimatable;

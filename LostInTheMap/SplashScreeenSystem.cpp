@@ -63,7 +63,7 @@ void SplashScreenSystem::update_space(Space& space, int dt)
 		break;
 	case splash_state::appearing:
 		elapsed_stage_time += dt;
-		cur_alpha =static_cast<int>(elapsed_stage_time / (float)total_stage_time * 255);
+		cur_alpha = static_cast<int>(elapsed_stage_time / (float)total_stage_time * 255);
 		if (elapsed_stage_time >= total_stage_time)
 		{
 			state = splash_state::full;
