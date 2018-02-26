@@ -5,6 +5,7 @@ int MainMenuSystem::mouse_down_listener_id;
 int MainMenuSystem::mouse_up_listener_id;
 
 std::vector<void(*)()> MainMenuSystem::exit_listeners;
+Entity* MainMenuSystem::mouse;
 
 void MainMenuSystem::init(Space & space, MenuLayout layout, func_reg lmb_down_reg, func_reg lmb_up_reg, func_rem deregister_callback)
 {
@@ -77,17 +78,48 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 	}
 #pragma endregion
 
+#pragma region mouse
+	Entity* mouse = new Entity();
+	Transform* m_transform = new Transform();
+	m_transform->isActive = true;
+	m_transform->position = { 1,1,0,0 };
+	m_transform->type = ComponentType::Location;
+	m_transform->owner = mouse;
+	m_transform->isActive = true;
+	
+
+	IDrawable* m_draw_comp = new IDrawable();
+	m_draw_comp->sprite = asset_controller::load_texture("assets/graphics/ui/mouse.png");
+	m_draw_comp->type = ComponentType::Drawable;
+	m_draw_comp->layer = IDrawable::layers::foreground;
+	m_draw_comp->owner = mouse;
+	m_draw_comp->isActive = true;
+
+	m_draw_comp->draw_rect = asset_controller::get_texture_size(m_draw_comp->sprite);
+	m_draw_comp->draw_rect.x = 0;
+	m_draw_comp->draw_rect.y = 0;
+	m_transform->position.w = m_draw_comp->draw_rect.w;
+	m_transform->position.h = m_draw_comp->draw_rect.h;
+
+	mouse->transform = m_transform;
+	mouse->add_component(m_draw_comp);
+
+	MainMenuSystem::mouse = mouse;
+
+	space.objects.push_back(mouse);
+#pragma endregion
+
 	add_space_to_render_queue(space);
 	space.initialised = true;
 }
 
 void MainMenuSystem::update_space(Space & space, int dt)
 {
-
-
-
-
-
+	IDrawable* dc = static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable));
+	mouse->transform->position.x = input_system::mouse.x;
+	mouse->transform->position.y = input_system::mouse.y;
+	dc->draw_rect.x = input_system::mouse.x;
+	dc->draw_rect.y = input_system::mouse.y;
 }
 
 void MainMenuSystem::destroy_space(Space & space)

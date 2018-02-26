@@ -3,6 +3,7 @@
 #include "Space.h"
 #include "MenuLayout.h"
 #include "asset_controller.h"
+#include "input_system.h"
 
 #include "EventTypes.h"
 
@@ -24,6 +25,8 @@ private:
 	static Space exit_confirm_dialog;
 
 	static std::vector<void(*)()> exit_listeners;
+
+	static Entity* mouse;
 public:
 	//use this for initialisation
 	static void init(Space& space, MenuLayout layout, func_reg, func_reg, func_rem);

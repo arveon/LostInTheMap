@@ -49,4 +49,18 @@ public:
 		}
 	}
 
+	Component* get_component(ComponentType type)
+	{
+		for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); it++)
+		{
+			Component* temp = *it;
+			if (temp->type == type)
+			{
+				return *it;
+			}
+		}
+
+
+	}
+
 };

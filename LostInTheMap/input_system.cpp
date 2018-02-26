@@ -1,5 +1,7 @@
 #include "input_system.h"
 
+input_system::Mouse input_system::mouse;
+
 int input_system::register_event_callback(HardInputEventType type, SDL_manager::callback callback)
 {
 	int id = 0;
@@ -48,6 +50,13 @@ bool input_system::remove_event_callback(HardInputEventType type, int id)
 	}
 
 	return result;
+}
+
+void input_system::update_input()
+{
+	SDL_manager::update_input(); 
+	SDL_manager::trigger_input_listeners();
+	SDL_manager::get_mouse_position(&mouse.x, &mouse.y);
 }
 
 input_system::input_system()

@@ -6,10 +6,18 @@
 class input_system
 {
 public:
+	struct Mouse
+	{
+		int x;
+		int y;
+	};
+
+	static Mouse mouse;
+
 	static int register_event_callback(HardInputEventType, SDL_manager::callback);
 	static bool remove_event_callback(HardInputEventType, int);
 
-	static void update_input() { SDL_manager::update_input(); SDL_manager::trigger_input_listeners(); };
+	static void update_input();
 
 	input_system();
 	~input_system();
