@@ -22,7 +22,7 @@ void SplashScreenSystem::init_space(Space& space)
 	transform->position = asset_controller::get_texture_size(draw->sprite);
 	transform->position.x = 0;
 	transform->position.y = 0;
-	transform->type = ComponentType::Location;
+	transform->type = ComponentType::Transf;
 
 	draw->draw_rect.x = 0;
 	draw->draw_rect.y = 0;

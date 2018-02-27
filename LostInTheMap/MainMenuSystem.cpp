@@ -22,13 +22,14 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 	//initialising background
 #pragma region background
 	Entity* background = new Entity();
+	background->type = entity_type::background;
 	Transform* background_transf = new Transform;
 	background_transf->position.x = 0;
 	background_transf->position.y = 0;
 	SDL_manager::get_window_rect(&background_transf->position.w, &background_transf->position.h);
 	background_transf->isActive = true;
 	background_transf->owner = background;
-	background_transf->type = ComponentType::Location;
+	background_transf->type = ComponentType::Transf;
 
 	IDrawable* background_draw_component = new IDrawable;
 	background_draw_component->sprite = asset_controller::load_texture(layout.background_path.c_str());
@@ -47,6 +48,7 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 	{
 		Button button = layout.buttons.at(i);
 		Entity* button_ent = new Entity();
+		button_ent->type = entity_type::ui_element;
 		
 		//create animation component
 		IAnimatable* animation = new IAnimatable;
@@ -64,7 +66,7 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 		button_transf->isActive = true;
 		button_transf->position = { button.position.x, button.position.y, animation->src_rect.w, animation->src_rect.h };
 		button_transf->owner = button_ent;
-		button_transf->type = ComponentType::Location;
+		button_transf->type = ComponentType::Transf;
 		button_ent->transform = button_transf;
 
 		IDrawable* drawable = new IDrawable;
@@ -80,10 +82,11 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 
 #pragma region mouse
 	Entity* mouse = new Entity();
+	mouse->type = entity_type::mouse;
 	Transform* m_transform = new Transform();
 	m_transform->isActive = true;
 	m_transform->position = { 1,1,0,0 };
-	m_transform->type = ComponentType::Location;
+	m_transform->type = ComponentType::Transf;
 	m_transform->owner = mouse;
 	m_transform->isActive = true;
 	
@@ -120,6 +123,16 @@ void MainMenuSystem::update_space(Space & space, int dt)
 	mouse->transform->position.y = input_system::mouse.y;
 	dc->draw_rect.x = input_system::mouse.x;
 	dc->draw_rect.y = input_system::mouse.y;
+
+	for (int i = 0; i < space.objects.size(); i++)
+	{
+		if (space.objects.at(i)->type == entity_type::ui_element)
+		{
+			Transform* temp = static_cast<Transform*>(find_component_on_object(space.objects.at(i), ComponentType::Transf));
+			if (sdl_utils::is_point_in_rect({ mouse->transform->position.x, mouse->transform->position.y }, temp->position))
+				std::cout << "mouse within button" << std::endl;
+		}
+	}
 }
 
 void MainMenuSystem::destroy_space(Space & space)

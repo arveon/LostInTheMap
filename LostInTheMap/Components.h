@@ -13,7 +13,7 @@ enum ComponentType
 	Drawable,
 	Fighting,
 	Living,
-	Location,
+	Transf,
 	Movement,
 	Talking
 };

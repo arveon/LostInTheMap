@@ -5,6 +5,8 @@
 #include "asset_controller.h"
 #include "input_system.h"
 
+#include "sdl_utils.h"
+
 #include "EventTypes.h"
 
 #include <iostream>

@@ -2,16 +2,25 @@
 #include <vector>
 #include "Components.h"
 
+enum entity_type
+{
+	background,
+	ui_element,
+	mouse
+
+};
+
 class Entity
 {
 public:
 	Transform* transform;
 	std::vector<Component*> components;
+	entity_type type;
 
 	void add_component(Component* cmp)
 	{
 
-		if (cmp->type == ComponentType::Location && transform == nullptr)
+		if (cmp->type == ComponentType::Transf && transform == nullptr)
 		{
 			transform = static_cast<Transform*>(cmp);
 			transform->owner = this;

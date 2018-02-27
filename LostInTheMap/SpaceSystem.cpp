@@ -3,6 +3,9 @@
 Component* SpaceSystem::find_component_on_object(Entity *ent, ComponentType type)
 {
 	Component* required_comp = nullptr;
+
+	if (type == ComponentType::Transf)
+		return ent->transform;
 	for (std::vector<Component*>::iterator c_it = ent->components.begin(); c_it != ent->components.end(); c_it++)
 	{
 		if ((*c_it)->type == type)
