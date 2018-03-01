@@ -137,6 +137,7 @@
     <ClInclude Include="SpaceSystem.h" />
     <ClInclude Include="SplashScreeenSystem.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="ui_element_control_system.h" />
     <ClInclude Include="xml_system.h" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +151,7 @@
     <ClCompile Include="sdl_utils.cpp" />
     <ClCompile Include="SpaceSystem.cpp" />
     <ClCompile Include="SplashScreeenSystem.cpp" />
+    <ClCompile Include="ui_element_control_system.cpp" />
     <ClCompile Include="xml_system.cpp" />
   </ItemGroup>
   <ItemGroup>

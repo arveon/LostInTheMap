@@ -15,7 +15,9 @@ enum ComponentType
 	Living,
 	Transf,
 	Movement,
-	Talking
+	Talking,
+	Mouse,
+	UIElement
 };
 
 class Entity;
@@ -40,6 +42,7 @@ public:
 	//int cur_x_sprite, cur_y_sprite;
 	int time_elapsed;
 	int total_sprite_required_time = 100;
+	bool sprite_changed;
 	IAnimatable() : Component() {  }
 	void ReceiveMessage(void* message) {}
 
@@ -152,7 +155,6 @@ public:
 	ITalkable() : Component() {  }
 };
 
-
 enum InteractionState 
 {
 	none,
@@ -164,4 +166,34 @@ class IMouseInteractable : public Component
 {
 public:
 	InteractionState state;
+};
+
+class IComposite : public Component
+{
+public:
+	std::string name;
+	std::vector<Entity*> dependencies;
+	void ReceiveMessage(void* message) {}
+};
+
+enum UI_Element_Type
+{
+	button,
+	slider_slide,
+	slider_slab
+};
+class IUIElement : public Component
+{
+public:
+	UI_Element_Type element_type;
+	std::string name;
+	void ReceiveMessage(void* message) {}
+};
+
+class IMouse : public Component
+{
+public:
+	Entity * cur_target;
+	Entity * down_target;
+	void ReceiveMessage(void* message) {}
 };

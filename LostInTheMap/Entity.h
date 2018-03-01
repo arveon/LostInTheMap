@@ -60,16 +60,17 @@ public:
 
 	Component* get_component(ComponentType type)
 	{
+		Component* result = nullptr;
 		for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); it++)
 		{
 			Component* temp = *it;
 			if (temp->type == type)
 			{
-				return *it;
+				result = *it;
+				break;
 			}
 		}
-
-
+		return result;
 	}
 
 };

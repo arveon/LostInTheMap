@@ -25,6 +25,12 @@
     <Filter Include="Header Files\structs">
       <UniqueIdentifier>{255f878f-b3e7-43de-8d6e-4b76f9b23d70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\systems\ui_element_systems">
+      <UniqueIdentifier>{cc09dad7-d0cc-4d91-a8ef-455003359dcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems\ui_element_systems">
+      <UniqueIdentifier>{9eaa9140-2d81-4564-add5-07b84e402a51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -75,6 +81,9 @@
     <ClInclude Include="sdl_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ui_element_control_system.h">
+      <Filter>Header Files\systems\ui_element_systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -109,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="SpaceSystem.cpp">
       <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_element_control_system.cpp">
+      <Filter>Source Files\systems\ui_element_systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
