@@ -9,25 +9,17 @@ void SplashScreenSystem::init_space(Space& space)
 {
 	if (space.initialised)
 		return;
-	Entity* splash_screen = new Entity();
+	Entity* splash_screen = new Entity(entity_type::background);
 	const char* path = "assets/graphics/bg/splash.png";
 
-	Transform* transform = new Transform();
-	IDrawable* draw = new IDrawable();
+	Transform* transform = new Transform(splash_screen);
+	IDrawable* draw = new IDrawable(splash_screen, IDrawable::layers::background);
 	draw->sprite = asset_controller::load_texture(path);
-	draw->type = ComponentType::Drawable;
-	draw->layer = IDrawable::layers::ui;
 
-	transform->isActive = true;
 	transform->position = asset_controller::get_texture_size(draw->sprite);
-	transform->position.x = 0;
-	transform->position.y = 0;
-	transform->type = ComponentType::Transf;
 
-	draw->draw_rect.x = 0;
-	draw->draw_rect.y = 0;
-	draw->draw_rect.w = transform->position.w;
-	draw->draw_rect.h = transform->position.h;
+
+	draw->draw_rect = { 0,0,transform->position.w,transform->position.h };
 	asset_controller::set_texture_alpha(draw->sprite, 0);
 
 	splash_screen->add_component(transform);
@@ -44,8 +36,6 @@ void SplashScreenSystem::destroy_space(Space& space)
 	space.objects.clear();
 	space.initialised = false;
 }
-
-
 
 void SplashScreenSystem::update_space(Space& space, int dt)
 {

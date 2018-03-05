@@ -29,9 +29,8 @@ public:
 	ComponentType type;
 
 	Entity* owner;
-	virtual void ReceiveMessage(void* message) = 0;
 	virtual ~Component() {};
-	Component() {};
+	Component(Entity* owner) { this->owner = owner; }
 };
 
 class IAnimatable : public Component
@@ -43,8 +42,14 @@ public:
 	int time_elapsed;
 	int total_sprite_required_time = 100;
 	bool sprite_changed;
-	IAnimatable() : Component() {  }
-	void ReceiveMessage(void* message) {}
+	IAnimatable(Entity* owner) : Component(owner) 
+	{  
+		src_rect = { 0,0,1,1 };
+		sprite_changed = false;
+		time_elapsed = 0;
+		type = ComponentType::Animated;
+		isActive = true;
+	}
 
 	~IAnimatable() {}
 };
@@ -54,7 +59,6 @@ class ICollidable : public Component
 public:
 	SDL_Rect collision_rect;
 	bool collidable = true;
-	void ReceiveMessage(void* message) {}
 };
 
 class IDescriptable : public Component
@@ -64,8 +68,11 @@ public:
 	SDL_Texture* rendered_text;
 	std::string text;
 	SDL_Rect box_draw_rect;
-	IDescriptable() : Component() {  }
-	void ReceiveMessage(void* message) {}
+	IDescriptable(Entity* owner) : Component(owner)
+	{
+		type = ComponentType::Description;
+		isActive = true;
+	}
 };
 
 class IDrawable : public Component
@@ -82,8 +89,12 @@ public:
 	layers layer;
 	SDL_Texture* sprite;
 	SDL_Rect draw_rect;
-	void ReceiveMessage(void* message) {}
-	IDrawable() : Component() {  }
+	IDrawable(Entity* owner, layers layer) : Component(owner)
+	{
+		this->layer = layer;
+		type = ComponentType::Drawable;
+		isActive = true;
+	}
 
 	~IDrawable()
 	{
@@ -110,26 +121,38 @@ class IFightable : public Component
 {
 public:
 	unit army[6]; //can be up to 6 different units in army
-	void ReceiveMessage(void* message) {}
-	IFightable() : Component() {  }
+	IFightable(Entity* owner) : Component(owner)
+	{
+		type = ComponentType::Fighting;
+		isActive = true;
+	}
 };
 
 class ILiving : public Component
 {
 public:
 	int cur_health;
-	int health_max;
+	int max_health;
 	bool is_dead;
-	void ReceiveMessage(void* message) {}
-	ILiving() : Component() {  }
+	ILiving(Entity* owner, int max_health) : Component(owner)
+	{
+		cur_health = max_health;
+		type = ComponentType::Living;
+		isActive = true;
+	}
 };
 
 class Transform : public Component
 {
 public:
 	SDL_Rect position;
-	void ReceiveMessage(void* message) {}
-	Transform() : Component() {  }
+	Transform(Entity* owner, int x = 0, int y = 0) : Component(owner)
+	{
+		position.x = x;
+		position.y = y;
+		type = ComponentType::Transf;
+		isActive = true;
+	}
 };
 
 struct tile
@@ -143,16 +166,22 @@ public:
 	float speed;
 	bool allowed_movement;
 	std::vector<tile> path;
-	void ReceiveMessage(void* message) {}
-	IMovable() : Component() {  }
+	IMovable(Entity* owner) : Component(owner)
+	{
+		type = ComponentType::Movement;
+		isActive = true;
+	}
 };
 
 class ITalkable : public Component
 {
 public:
 	std::vector<std::string> lines;
-	void ReceiveMessage(void* message) {}
-	ITalkable() : Component() {  }
+	ITalkable(Entity* owner) : Component(owner)
+	{
+		ComponentType::Talking;
+		isActive = true;
+	}
 };
 
 enum InteractionState 
@@ -173,7 +202,6 @@ class IComposite : public Component
 public:
 	std::string name;
 	std::vector<Entity*> dependencies;
-	void ReceiveMessage(void* message) {}
 };
 
 enum UI_Element_Type
@@ -187,7 +215,11 @@ class IUIElement : public Component
 public:
 	UI_Element_Type element_type;
 	std::string name;
-	void ReceiveMessage(void* message) {}
+	IUIElement(Entity* owner) : Component(owner)
+	{
+		type = ComponentType::UIElement;
+		isActive = true;
+	}
 };
 
 class IMouse : public Component
@@ -195,5 +227,27 @@ class IMouse : public Component
 public:
 	Entity * cur_target;
 	Entity * down_target;
-	void ReceiveMessage(void* message) {}
+	IMouse(Entity* owner) : Component(owner) 
+	{
+		type = ComponentType::Mouse;
+		isActive = true;
+		cur_target = nullptr;
+		down_target = nullptr;
+	}
+};
+
+class ISlider : public Component
+{
+public:
+	Entity * slide;
+	Entity * slab;
+	int value;
+	ISlider(Entity* owner, Entity* slide, Entity* slab, int value) : Component(owner)
+	{
+		isActive = true;
+		this->slide = slide;
+		this->slab = slab;
+		this->value = value;
+	}
+
 };

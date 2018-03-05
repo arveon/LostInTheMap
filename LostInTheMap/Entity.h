@@ -17,6 +17,11 @@ public:
 	std::vector<Component*> components;
 	entity_type type;
 
+	Entity(entity_type type)
+	{
+		this->type = type;
+	}
+
 	void add_component(Component* cmp)
 	{
 

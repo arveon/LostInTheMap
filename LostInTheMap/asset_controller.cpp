@@ -19,7 +19,7 @@ SDL_Texture * asset_controller::load_texture(const char * path)
 
 SDL_Rect asset_controller::get_texture_size(SDL_Texture * texture)
 {
-	SDL_Rect rect;
+	SDL_Rect rect = {0,0,0,0};
 	SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 	return rect;
 }

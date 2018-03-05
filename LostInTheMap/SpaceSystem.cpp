@@ -30,7 +30,7 @@ void SpaceSystem::add_space_to_render_queue(Space& space)
 
 void SpaceSystem::apply_animation_sprite_changes(Space& space)
 {
-	for (int i = 0; i < space.objects.size(); i++)
+	for (unsigned int i = 0; i < space.objects.size(); i++)
 	{
 		IAnimatable* ac = static_cast<IAnimatable*>(find_component_on_object(space.objects.at(i), ComponentType::Animated));
 		if (!ac)

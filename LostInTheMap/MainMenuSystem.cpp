@@ -5,6 +5,9 @@ int MainMenuSystem::mouse_down_listener_id;
 int MainMenuSystem::mouse_up_listener_id;
 
 std::vector<void(*)()> MainMenuSystem::exit_listeners;
+std::vector<void(*)()> MainMenuSystem::start_listeners;
+std::vector<void(*)()> MainMenuSystem::load_listeners;
+std::vector<void(*)()> MainMenuSystem::settings_listeners;
 Entity* MainMenuSystem::mouse;
 
 void MainMenuSystem::init(Space & space, MenuLayout layout, func_reg lmb_down_reg, func_reg lmb_up_reg, func_rem deregister_callback)
@@ -13,7 +16,6 @@ void MainMenuSystem::init(Space & space, MenuLayout layout, func_reg lmb_down_re
 	mouse_down_listener_id = lmb_down_reg(&mouse_down_listener);
 	mouse_up_listener_id = lmb_up_reg(&mouse_up_listener);
 
-
 	init_space(space, layout);
 }
 
@@ -21,22 +23,13 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 {
 	//initialising background
 #pragma region background
-	Entity* background = new Entity();
-	background->type = entity_type::background;
-	Transform* background_transf = new Transform;
-	background_transf->position.x = 0;
-	background_transf->position.y = 0;
+	Entity* background = new Entity(entity_type::background);
+	Transform* background_transf = new Transform(background);
 	SDL_manager::get_window_rect(&background_transf->position.w, &background_transf->position.h);
-	background_transf->isActive = true;
-	background_transf->owner = background;
-	background_transf->type = ComponentType::Transf;
 
-	IDrawable* background_draw_component = new IDrawable;
+	IDrawable* background_draw_component = new IDrawable(background, IDrawable::layers::background);
 	background_draw_component->sprite = asset_controller::load_texture(layout.background_path.c_str());
 	background_draw_component->draw_rect = background_transf->position;
-	background_draw_component->isActive = true;
-	background_draw_component->owner = background;
-	background_draw_component->type = ComponentType::Drawable;
 
 	background->transform = background_transf;
 	background->add_component(background_draw_component);
@@ -46,79 +39,49 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 #pragma region initialise all buttons
 	for (unsigned int i = 0; i < layout.buttons.size(); i++)
 	{
-		Button button = layout.buttons.at(i);
-		Entity* button_ent = new Entity();
-		button_ent->type = entity_type::ui_element;
-		
-		//create animation component
-		IAnimatable* animation = new IAnimatable;
-		animation->spritesheet = asset_controller::create_ui_text_button_spritesheet(button.name, UI_text_type::main_menu_button_main);
-		SDL_Rect temp = asset_controller::get_texture_size(animation->spritesheet);
-		animation->src_rect.w = temp.w / 5;
-		animation->src_rect.h = temp.h;
-		animation->src_rect.x = 0;
-		animation->src_rect.y = 0;
-		animation->owner = button_ent;
-		animation->type = ComponentType::Animated;
-		animation->sprite_changed = false;
-		button_ent->add_component(animation);
+		ui_element_config button = layout.buttons.at(i);
+		Entity* element = new Entity(entity_type::ui_element);
 
-		Transform* button_transf = new Transform;
-		button_transf->isActive = true;
-		button_transf->position = { button.position.x, button.position.y, animation->src_rect.w, animation->src_rect.h };
-		button_transf->owner = button_ent;
-		button_transf->type = ComponentType::Transf;
-		button_ent->transform = button_transf;
+		if (button.type == UI_Element_Type::button)
+		{
+			//create animation component
+			IAnimatable* animation = new IAnimatable(element);
+			animation->spritesheet = asset_controller::create_ui_text_button_spritesheet(button.name, UI_text_type::main_menu_button_main);
+			SDL_Rect temp = asset_controller::get_texture_size(animation->spritesheet);
+			animation->src_rect = { 0,0, temp.w / 5, temp.h };
+			element->add_component(animation);
 
-		IDrawable* drawable = new IDrawable;
-		drawable->sprite = asset_controller::get_sprite_from_spritesheet(animation->spritesheet, animation->src_rect);
-		drawable->draw_rect = button_transf->position;
-		drawable->owner = button_ent;
-		drawable->type = ComponentType::Drawable;
-		drawable->layer = IDrawable::layers::surface;
-		button_ent->add_component(drawable);
+			Transform* button_transf = new Transform(element);
+			button_transf->position = { button.position.x, button.position.y, animation->src_rect.w, animation->src_rect.h };
+			element->transform = button_transf;
 
-		IUIElement* uic = new IUIElement;
-		uic->owner = button_ent;
-		uic->type = ComponentType::UIElement;
-		uic->element_type = UI_Element_Type::button;
-		uic->name = button.name;
-		button_ent->add_component(uic);
+			IDrawable* drawable = new IDrawable(element, IDrawable::layers::surface);
+			drawable->sprite = asset_controller::get_sprite_from_spritesheet(animation->spritesheet, animation->src_rect);
+			drawable->draw_rect = button_transf->position;
+			element->add_component(drawable);
 
-		space.objects.push_back(button_ent);
+			IUIElement* uic = new IUIElement(element);
+			uic->element_type = UI_Element_Type::button;
+			uic->name = button.name;
+			element->add_component(uic);
+
+
+			space.objects.push_back(element);
+		}
 	}
 #pragma endregion
 
 #pragma region mouse
-	Entity* mouse = new Entity();
-	mouse->type = entity_type::mouse;
-	Transform* m_transform = new Transform();
-	m_transform->isActive = true;
-	m_transform->position = { 1,1,0,0 };
-	m_transform->type = ComponentType::Transf;
-	m_transform->owner = mouse;
-	m_transform->isActive = true;
-	
+	Entity* mouse = new Entity(entity_type::mouse);
+	Transform* m_transform = new Transform(mouse);
+	m_transform->position = { 0,0,1,1 };
 
-	IDrawable* m_draw_comp = new IDrawable();
+	IDrawable* m_draw_comp = new IDrawable(mouse, IDrawable::layers::foreground);
 	m_draw_comp->sprite = asset_controller::load_texture("assets/graphics/ui/mouse.png");
-	m_draw_comp->type = ComponentType::Drawable;
-	m_draw_comp->layer = IDrawable::layers::foreground;
-	m_draw_comp->owner = mouse;
-	m_draw_comp->isActive = true;
 
 	m_draw_comp->draw_rect = asset_controller::get_texture_size(m_draw_comp->sprite);
-	m_draw_comp->draw_rect.x = 0;
-	m_draw_comp->draw_rect.y = 0;
-	m_transform->position.w = m_draw_comp->draw_rect.w;
-	m_transform->position.h = m_draw_comp->draw_rect.h;
 
-	IMouse* mc = new IMouse();
-	mc->owner = mouse;
-	mc->isActive = true;
-	mc->cur_target = nullptr;
-	mc->down_target = nullptr;
-	mc->type = ComponentType::Mouse;
+	IMouse* mc = new IMouse(mouse);
 
 	mouse->transform = m_transform;
 	mouse->add_component(m_draw_comp);

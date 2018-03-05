@@ -25,6 +25,7 @@ public:
 
 	static WindowConfig load_config_file();
 	static MenuLayout load_menu_layout();
+	static MenuLayout load_settings_layout();
 	xml_system();
 	~xml_system();
 

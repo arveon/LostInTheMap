@@ -28,6 +28,9 @@ private:
 	static Space exit_confirm_dialog;
 
 	static std::vector<void(*)()> exit_listeners;
+	static std::vector<void(*)()> start_listeners;
+	static std::vector<void(*)()> load_listeners;
+	static std::vector<void(*)()> settings_listeners;
 
 	static Entity* mouse;
 public:
@@ -53,6 +56,18 @@ public:
 		else
 			return false;
 	};
+
+	static int register_start_listener(void(*listener)()) { start_listeners.push_back(listener); return (start_listeners.size() - 1); }
+	static bool deregister_start_listener(int listener_id)
+	{
+		if (listener_id <= (static_cast<int>(start_listeners.size()) - 1))
+		{
+			start_listeners.erase(start_listeners.begin() + listener_id); return true;
+		}
+		else
+			return false;
+	};
+
 
 	static void mouse_target_changed(Entity* new_target);
 	static void mouse_clicked_on_entity();

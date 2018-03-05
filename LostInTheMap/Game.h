@@ -48,6 +48,7 @@ public:
 	void finish();
 	static void window_close_handler() { running = false; };
 	static void splash_elapsed_handler();
+	static void start_handler() {};
 
 	//function will be passed to initialise function that would allow them to register mouseclick callback methods
 	static int register_mousedown_listener(void(*cb)())

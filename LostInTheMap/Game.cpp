@@ -66,8 +66,13 @@ void Game::game_loop()
 				MenuLayout layout = xml_system::load_menu_layout();
 				MainMenuSystem::init(main_menu_space, layout, &register_mousedown_listener, &register_mouseup_listener, &deregister_event_listener);
 				MainMenuSystem::register_exit_listener(&window_close_handler);
+				MainMenuSystem::register_start_listener(&start_handler);
 			}
 			MainMenuSystem::update_space(main_menu_space, time.get_delta_time());
+
+			break;
+		case game_state::loading:
+
 
 			break;
 		case game_state::pause_menu:
