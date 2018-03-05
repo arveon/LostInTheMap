@@ -25,18 +25,30 @@
     <Filter Include="Header Files\structs">
       <UniqueIdentifier>{255f878f-b3e7-43de-8d6e-4b76f9b23d70}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\systems\ui_element_systems">
-      <UniqueIdentifier>{cc09dad7-d0cc-4d91-a8ef-455003359dcd}</UniqueIdentifier>
+    <Filter Include="Header Files\systems\utility_systems">
+      <UniqueIdentifier>{cd4d612c-5a3c-47b0-84de-104e2c4a3a5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\systems\ui_element_systems">
-      <UniqueIdentifier>{9eaa9140-2d81-4564-add5-07b84e402a51}</UniqueIdentifier>
+    <Filter Include="Header Files\systems\core_systems">
+      <UniqueIdentifier>{a13a8531-e99a-44ee-887e-29cd17bd0fad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\systems\menu_systems">
+      <UniqueIdentifier>{d3ee49e1-e16e-4cc0-bd9a-4233b1672cdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems\core_systems">
+      <UniqueIdentifier>{86c3abd9-29b3-455e-a255-f390316c9936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems\utility_systems">
+      <UniqueIdentifier>{557b36fc-4028-48f6-93de-0c8b7c74f41a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems\menu_systems">
+      <UniqueIdentifier>{7584a161-3531-4546-9b0e-fef3c4ae740a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems\gameplay_systems">
+      <UniqueIdentifier>{358dde53-0364-42ac-a63e-376a7283483a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SDL_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EventTypes.h">
@@ -48,44 +60,44 @@
     <ClInclude Include="Space.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
-    <ClInclude Include="SpaceSystem.h">
-      <Filter>Header Files\systems</Filter>
-    </ClInclude>
     <ClInclude Include="Components.h">
       <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="SplashScreeenSystem.h">
-      <Filter>Header Files\systems</Filter>
-    </ClInclude>
-    <ClInclude Include="asset_controller.h">
-      <Filter>Header Files\systems</Filter>
-    </ClInclude>
-    <ClInclude Include="render_system.h">
-      <Filter>Header Files\systems</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="xml_system.h">
-      <Filter>Header Files\systems</Filter>
-    </ClInclude>
     <ClInclude Include="MenuLayout.h">
       <Filter>Header Files\structs</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenuSystem.h">
-      <Filter>Header Files\systems</Filter>
-    </ClInclude>
-    <ClInclude Include="input_system.h">
-      <Filter>Header Files\systems</Filter>
     </ClInclude>
     <ClInclude Include="sdl_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ui_element_control_system.h">
-      <Filter>Header Files\systems\ui_element_systems</Filter>
-    </ClInclude>
     <ClInclude Include="level_loading_system.h">
       <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="asset_controller.h">
+      <Filter>Header Files\systems\utility_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="input_system.h">
+      <Filter>Header Files\systems\core_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuSystem.h">
+      <Filter>Header Files\systems\menu_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="render_system.h">
+      <Filter>Header Files\systems\core_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceSystem.h">
+      <Filter>Header Files\systems\core_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashScreeenSystem.h">
+      <Filter>Header Files\systems\menu_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="xml_system.h">
+      <Filter>Header Files\systems\utility_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_manager.h">
+      <Filter>Header Files\systems\core_systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,38 +107,35 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SDL_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SplashScreeenSystem.cpp">
-      <Filter>Source Files\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="asset_controller.cpp">
-      <Filter>Source Files\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="render_system.cpp">
-      <Filter>Source Files\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="xml_system.cpp">
-      <Filter>Source Files\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="MainMenuSystem.cpp">
-      <Filter>Source Files\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="input_system.cpp">
-      <Filter>Source Files\systems</Filter>
-    </ClCompile>
     <ClCompile Include="sdl_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpaceSystem.cpp">
-      <Filter>Source Files\systems</Filter>
+    <ClCompile Include="asset_controller.cpp">
+      <Filter>Source Files\systems\utility_systems</Filter>
     </ClCompile>
-    <ClCompile Include="ui_element_control_system.cpp">
-      <Filter>Source Files\systems\ui_element_systems</Filter>
+    <ClCompile Include="MainMenuSystem.cpp">
+      <Filter>Source Files\systems\menu_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="input_system.cpp">
+      <Filter>Source Files\systems\core_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="render_system.cpp">
+      <Filter>Source Files\systems\core_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScreeenSystem.cpp">
+      <Filter>Source Files\systems\menu_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceSystem.cpp">
+      <Filter>Source Files\systems\core_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="xml_system.cpp">
+      <Filter>Source Files\systems\utility_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SDL_manager.cpp">
+      <Filter>Source Files\systems\core_systems</Filter>
     </ClCompile>
     <ClCompile Include="level_loading_system.cpp">
-      <Filter>Source Files\systems</Filter>
+      <Filter>Source Files\systems\menu_systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

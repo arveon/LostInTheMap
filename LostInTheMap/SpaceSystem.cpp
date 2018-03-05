@@ -50,6 +50,7 @@ void SpaceSystem::apply_animation_sprite_changes(Space& space)
 	}
 }
 
+//function clears all memory allocated for entities inside space and their components
 void SpaceSystem::destroy_space(Space& space)
 {
 	for (int i = static_cast<int>(space.objects.size()-1); i >= 0; i--)
@@ -57,6 +58,7 @@ void SpaceSystem::destroy_space(Space& space)
 		Entity* temp = space.objects.at(i);
 		for (unsigned int j = 0; j < temp->components.size(); j++)
 		{
+			//remove textures from all of the components
 			Component* temp_tc = temp->components.at(j);
 			if (temp_tc->type == ComponentType::Drawable)
 			{
