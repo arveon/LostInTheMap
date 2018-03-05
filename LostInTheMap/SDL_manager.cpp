@@ -130,7 +130,6 @@ void SDL_manager::trigger_input_listeners()
 		}
 		events.pop_back();
 	}
-
 }
 
 void SDL_manager::render_sprite(SDL_Texture * texture, SDL_Rect dest)

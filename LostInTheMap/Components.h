@@ -102,8 +102,7 @@ public:
 
 	~IDrawable()
 	{
-		std::cout << "component_destroyed" << std::endl;
-		asset_controller::destroy_texture(sprite);
+		//asset_controller::destroy_texture(sprite);
 	}
 };
 

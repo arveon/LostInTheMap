@@ -3,3 +3,11 @@
 <button text="Load game" x="20" y="200"/>	
 <button text="Exit" x="20" y="250"/>
 </mainmenu>
+
+<settings background="assets/graphics/bg/menu_bg.png">
+<button text="Apply" x="120" y="600"/>
+<button text="Back" x="320" y="600"/>
+<slider text="Master volume" x="10" y="100" value="1"/>
+<slider text="Music volume" x="10" y="160" value="1"/>
+<slider text="Sounds volume" x="10" y="220" value="1"/>
+</settings>	

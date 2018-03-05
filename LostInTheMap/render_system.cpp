@@ -106,7 +106,7 @@ bool render_system::remove_from_queue(int id, IDrawable::layers layer)
 		id = ui.size() - 1;
 		break;
 	}
-	return id;
+	return true;
 
 
 }

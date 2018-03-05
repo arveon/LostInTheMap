@@ -133,11 +133,10 @@ void MainMenuSystem::update_space(Space & space, int dt)
 
 void MainMenuSystem::destroy_space(Space & space)
 {
-	space.objects.clear();
-	space.initialised = false;
-
 	dereg_listener(HardInputEventType::left_mouse_down, mouse_down_listener_id);
 	dereg_listener(HardInputEventType::left_mouse_up, mouse_up_listener_id);
+	
+	SpaceSystem::destroy_space(space);
 }
 
 void MainMenuSystem::mouse_target_changed(Entity* new_target)
@@ -218,13 +217,16 @@ void MainMenuSystem::mouse_clicked_on_entity()
 				f();
 			}
 		}
+		else if (ui->name == "New game")
+		{
+			for (unsigned int i = 0; i < start_listeners.size(); i++)
+			{
+				void(*f)() = start_listeners.at(i);
+				f();
+			}
+		}
 		break;
 	}
-}
-
-void MainMenuSystem::update_composite_entity(IComposite* comp_entity)
-{
-
 }
 
 MainMenuSystem::MainMenuSystem()

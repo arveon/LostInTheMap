@@ -52,17 +52,24 @@ void SpaceSystem::apply_animation_sprite_changes(Space& space)
 
 void SpaceSystem::destroy_space(Space& space)
 {
-	for (unsigned int i = 0; i < space.objects.size(); i++)
+	for (int i = static_cast<int>(space.objects.size()-1); i >= 0; i--)
 	{
 		Entity* temp = space.objects.at(i);
 		for (unsigned int j = 0; j < temp->components.size(); j++)
 		{
-			if (temp->components.at(i)->type == ComponentType::Drawable)
+			Component* temp_tc = temp->components.at(j);
+			if (temp_tc->type == ComponentType::Drawable)
 			{
-				IDrawable* temp_c = static_cast<IDrawable*>(temp->components.at(i));
+				IDrawable* temp_c = static_cast<IDrawable*>(temp_tc);
 				render_system::remove_from_queue(temp_c->id, temp_c->layer);
+				asset_controller::destroy_texture(temp_c->sprite);
 			}
-			delete temp->components.at(j);
+			if (temp_tc->type == ComponentType::Animated)
+			{
+				IAnimatable* temp_c = static_cast<IAnimatable*>(temp_tc);
+				asset_controller::destroy_texture(temp_c->spritesheet);
+			}
+			delete temp_tc;
 		}
 		delete temp->transform;
 		delete temp;

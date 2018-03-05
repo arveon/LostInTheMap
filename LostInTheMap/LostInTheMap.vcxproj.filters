@@ -31,9 +31,6 @@
     <Filter Include="Source Files\systems\ui_element_systems">
       <UniqueIdentifier>{9eaa9140-2d81-4564-add5-07b84e402a51}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\components\ui">
-      <UniqueIdentifier>{ec9cfa18-bff0-4429-8951-683f21e7f734}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
