@@ -9,7 +9,7 @@ private:
 	Uint32 run_time;
 
 public:
-	void init() { run_time = SDL_GetTicks(); }
+	void init() { run_time = SDL_GetTicks(); elapsed_time = 0; }
 	void update() 
 	{
 		elapsed_time = SDL_GetTicks() - run_time;

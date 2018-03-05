@@ -5,24 +5,29 @@ std::vector<IDrawable*> render_system::foreground;
 std::vector<IDrawable*> render_system::surface;
 std::vector<IDrawable*> render_system::ui;
 
-void render_system::add_object_to_queue(IDrawable * obj)
+int render_system::add_object_to_queue(IDrawable * obj)
 {
+	int id = -1;
 	switch (obj->layer)
 	{
 	case IDrawable::layers::background:
 		background.push_back(obj);
+		id = background.size()-1;
 		break;
 	case IDrawable::layers::surface:
 		surface.push_back(obj);
+		id = surface.size()-1;
 		break;
 	case IDrawable::layers::foreground:
 		foreground.push_back(obj);
+		id = foreground.size()-1;
 		break;
 	case IDrawable::layers::ui:
 		ui.push_back(obj);
+		id = ui.size() - 1;
 		break;
 	}
-
+	return id;
 }
 
 void render_system::flush_queues()
@@ -78,6 +83,32 @@ void render_system::render_queues()
 	}
 
 	SDL_manager::end_render();
+}
+
+bool render_system::remove_from_queue(int id, IDrawable::layers layer)
+{
+	switch (layer)
+	{
+	case IDrawable::layers::background:
+		background.erase(background.begin() + id);
+		id = background.size() - 1;
+		break;
+	case IDrawable::layers::surface:
+		surface.erase(surface.begin() + id);
+		id = surface.size() - 1;
+		break;
+	case IDrawable::layers::foreground:
+		foreground.erase(foreground.begin() + id);
+		id = foreground.size() - 1;
+		break;
+	case IDrawable::layers::ui:
+		ui.erase(ui.begin() + id);
+		id = ui.size() - 1;
+		break;
+	}
+	return id;
+
+
 }
 
 render_system::render_system()

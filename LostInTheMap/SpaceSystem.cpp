@@ -21,10 +21,10 @@ void SpaceSystem::add_space_to_render_queue(Space& space)
 {
 	for (std::vector<Entity*>::iterator it = space.objects.begin(); it != space.objects.end(); it++)
 	{
-		Component* comp = find_component_on_object(*it, ComponentType::Drawable);
+		IDrawable* comp = static_cast<IDrawable*>(find_component_on_object(*it, ComponentType::Drawable));
 
 		if (comp)
-			render_system::add_object_to_queue(static_cast<IDrawable*>(comp));
+			comp->id = render_system::add_object_to_queue(comp);
 	}
 }//function will add all of the drawable components of objects in spaces to render manager
 
@@ -48,4 +48,26 @@ void SpaceSystem::apply_animation_sprite_changes(Space& space)
 		ac->sprite_changed = false;
 
 	}
+}
+
+void SpaceSystem::destroy_space(Space& space)
+{
+	for (unsigned int i = 0; i < space.objects.size(); i++)
+	{
+		Entity* temp = space.objects.at(i);
+		for (unsigned int j = 0; j < temp->components.size(); j++)
+		{
+			if (temp->components.at(i)->type == ComponentType::Drawable)
+			{
+				IDrawable* temp_c = static_cast<IDrawable*>(temp->components.at(i));
+				render_system::remove_from_queue(temp_c->id, temp_c->layer);
+			}
+			delete temp->components.at(j);
+		}
+		delete temp->transform;
+		delete temp;
+	}
+
+	space.objects.clear();
+	space.initialised = false;
 }

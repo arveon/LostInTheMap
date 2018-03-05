@@ -13,10 +13,11 @@ private:
 	static std::vector<IDrawable*> ui;
 
 public:
-	static void add_object_to_queue(IDrawable* obj);
+	static int add_object_to_queue(IDrawable* obj);
 	static void flush_queues();
 	static void sort_queues();
 	static void render_queues();
+	static bool remove_from_queue(int id, IDrawable::layers layer);
 
 	render_system();
 	~render_system();

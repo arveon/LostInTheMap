@@ -31,14 +31,13 @@ void SplashScreenSystem::init_space(Space& space)
 	//for(std::vector<Entity*>::iterator it = )
 }
 
-void SplashScreenSystem::destroy_space(Space& space)
-{
-	space.objects.clear();
-	space.initialised = false;
-}
+
 
 void SplashScreenSystem::update_space(Space& space, int dt)
 {
+	if (!space.initialised)
+		return;
+
 	IDrawable* comp = static_cast<IDrawable*>(find_component_on_object(*(space.objects.begin()), ComponentType::Drawable));
 	
 	switch (state)

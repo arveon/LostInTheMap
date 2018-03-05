@@ -31,8 +31,6 @@ public:
 	static void init_space(Space& space);
 	static void register_splash_elapsed_listener(void(*callback)()) { listeners.push_back(callback); }
 	static void update_space(Space& space, int dt);
-	
-	static void destroy_space(Space& space);
 
 	static void left_mouse_down_event();
 	static void left_mouse_up_event();

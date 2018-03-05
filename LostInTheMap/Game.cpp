@@ -17,7 +17,7 @@ void Game::init()
 
 	input_system::register_event_callback(HardInputEventType::window_close, &Game::window_close_handler);
 	Game::running = true;
-	state = game_state::main_menu;
+	state = game_state::splash;
 	time.init();
 }
 
@@ -38,7 +38,6 @@ void Game::splash_elapsed_handler()
 	{
 		SplashScreenSystem::destroy_space(splash_screen_space);
 	}
-	
 	state = game_state::main_menu;
 	
 }

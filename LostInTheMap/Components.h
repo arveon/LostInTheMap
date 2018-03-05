@@ -4,6 +4,8 @@
 #include <vector>
 
 #include <iostream>
+#include "asset_controller.h"
+
 
 enum ComponentType
 {
@@ -86,11 +88,13 @@ public:
 		ui
 	};
 
+	int id;
 	layers layer;
 	SDL_Texture* sprite;
 	SDL_Rect draw_rect;
 	IDrawable(Entity* owner, layers layer) : Component(owner)
 	{
+		id = 0;
 		this->layer = layer;
 		type = ComponentType::Drawable;
 		isActive = true;
@@ -99,6 +103,7 @@ public:
 	~IDrawable()
 	{
 		std::cout << "component_destroyed" << std::endl;
+		asset_controller::destroy_texture(sprite);
 	}
 };
 
