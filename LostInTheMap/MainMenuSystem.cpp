@@ -171,6 +171,9 @@ void MainMenuSystem::mouse_target_changed(Entity* new_target)
 void MainMenuSystem::mouse_down_listener()
 {
 	IMouse* mouse = static_cast<IMouse*>(MainMenuSystem::mouse->get_component(ComponentType::Mouse));
+	if (!mouse->cur_target)
+		return;
+
 	mouse->down_target = mouse->cur_target;
 	IUIElement* target = static_cast<IUIElement*>(mouse->down_target->get_component(ComponentType::UIElement));
 	IAnimatable * ac;

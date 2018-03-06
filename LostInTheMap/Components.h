@@ -212,7 +212,9 @@ enum UI_Element_Type
 {
 	button,
 	slider_slide,
-	slider_slab
+	slider_slab,
+	text,
+	loading_bar
 };
 class IUIElement : public Component
 {

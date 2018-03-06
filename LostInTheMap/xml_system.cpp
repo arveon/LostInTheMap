@@ -38,32 +38,7 @@ xml_system::WindowConfig xml_system::load_config_file()
 	return cfg;
 }
 
-MenuLayout xml_system::load_menu_layout()
-{
-	MenuLayout layout;
-	
-	rapidxml::file<> file("config/menus.xml");
-	rapidxml::xml_document<> doc;
-	doc.parse<0>(file.data());
-
-	rapidxml::xml_node<>* cur_node = doc.first_node("mainmenu");
-	layout.background_path = cur_node->first_attribute("background")->value();
-
-	cur_node = cur_node->first_node("button");
-	while (cur_node != NULL)
-	{
-		SDL_Point position = { std::stoi(cur_node->first_attribute("x")->value()), std::stoi(cur_node->first_attribute("y")->value()) };
-		std::string text = cur_node->first_attribute("text")->value();
-
-		layout.buttons.push_back({text, position});
-		cur_node = cur_node->next_sibling();
-	}
-
-	doc.clear();
-	return layout;
-}
-
-MenuLayout xml_system::load_settings_layout()
+MenuLayout xml_system::load_interface_layout(std::string name)
 {
 	MenuLayout layout;
 
@@ -71,20 +46,31 @@ MenuLayout xml_system::load_settings_layout()
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(file.data());
 
-	rapidxml::xml_node<>* cur_node = doc.first_node("settings");
+	rapidxml::xml_node<>* cur_node = doc.first_node(name.c_str());
 	layout.background_path = cur_node->first_attribute("background")->value();
-
-	cur_node = cur_node->next_sibling();
+	cur_node = cur_node->first_node();
+	//cur_node = cur_node->next_sibling();
 	while (cur_node != NULL)
 	{
 		ui_element_config elem;
-		if (cur_node->name() == "slider")
+		std::string name = cur_node->name();
+		//std::strcmp(name, "slider")
+		
+		if (name.compare("slider") == 0)
 		{
-			elem = Slider(std::stoi(cur_node->first_attribute("value")->value()));	
+			elem = Slider(std::stoi(cur_node->first_attribute("value")->value()));
 		}
-		else if(cur_node->name() == "button")
+		else if (name.compare("button") == 0)
 		{
 			elem = Button();
+		}
+		else if (name.compare("text") == 0)
+		{
+			elem = Text();
+		}
+		else if (name.compare("bar") == 0)
+		{
+			elem = Bar();
 		}
 
 		elem.name = cur_node->first_attribute("text")->value();

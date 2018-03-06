@@ -24,8 +24,7 @@ public:
 	} WindowConfig;
 
 	static WindowConfig load_config_file();
-	static MenuLayout load_menu_layout();
-	static MenuLayout load_settings_layout();
+	static MenuLayout load_interface_layout(std::string name);
 	xml_system();
 	~xml_system();
 

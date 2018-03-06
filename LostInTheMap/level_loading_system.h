@@ -1,6 +1,7 @@
 #pragma once
 #include "Space.h"
 #include "SpaceSystem.h"
+#include "MenuLayout.h"
 
 class level_loading_system : public SpaceSystem
 {
@@ -23,11 +24,16 @@ private:
 		loading_misc,
 		done
 	};
+
+	int t_total_time = 1000;
+	int t_elapsed_time = 0;
+	
+	int loading_progress = 0;
 public:
 	
 	static void load_new_game();
 
-	static void init_space(Space& space);
+	static void init_space(MenuLayout layout, Space& space);
 	static void update_space(Space& space, Space& level_space);
 	
 

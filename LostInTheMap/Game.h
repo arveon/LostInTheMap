@@ -5,6 +5,7 @@
 #include "asset_controller.h"
 #include "SplashScreeenSystem.h"
 #include "MainMenuSystem.h"
+#include "level_loading_system.h"
 #include "EventTypes.h"
 #include "Time.h"
 #include "Components.h"

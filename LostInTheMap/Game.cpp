@@ -71,7 +71,7 @@ void Game::game_loop()
 		case game_state::main_menu:
 			if (!main_menu_space.initialised)
 			{
-				MenuLayout layout = xml_system::load_menu_layout();
+				MenuLayout layout = xml_system::load_interface_layout("mainmenu");
 				MainMenuSystem::init(main_menu_space, layout, &register_mousedown_listener, &register_mouseup_listener, &deregister_event_listener);
 				MainMenuSystem::register_exit_listener(&window_close_handler);
 				MainMenuSystem::register_start_listener(&start_handler);
@@ -80,8 +80,12 @@ void Game::game_loop()
 
 			break;
 		case game_state::loading:
-
-
+			if (!loading_space.initialised)
+			{
+				MenuLayout layout = xml_system::load_interface_layout("loading");
+				level_loading_system::init_space(layout,loading_space);
+			}
+			level_loading_system::update_space(loading_space, game_space);
 			break;
 		case game_state::pause_menu:
 			

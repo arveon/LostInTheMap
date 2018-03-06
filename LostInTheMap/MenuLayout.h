@@ -18,6 +18,14 @@ struct Slider : ui_element_config
 	int value = 0;
 	Slider(int val) { value = val; type = UI_Element_Type::slider_slab; }
 };
+struct Text : ui_element_config
+{
+	Text() { type = UI_Element_Type::text; }
+};
+struct Bar : ui_element_config
+{
+	Bar() { type = UI_Element_Type::loading_bar; }
+};
 
 
 
