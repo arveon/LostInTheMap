@@ -72,6 +72,8 @@ public:
 	static void mouse_target_changed(Entity* new_target);
 	static void mouse_clicked_on_entity();
 	static void update_composite_entity(IComposite* composite_entity);
+
+	static void remove_listeners();
 	
 
 	MainMenuSystem();

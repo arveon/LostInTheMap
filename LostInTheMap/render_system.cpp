@@ -5,6 +5,8 @@ std::vector<IDrawable*> render_system::foreground;
 std::vector<IDrawable*> render_system::surface;
 std::vector<IDrawable*> render_system::ui;
 
+std::vector<SDL_Texture*> render_system::test;
+
 int render_system::add_object_to_queue(IDrawable * obj)
 {
 	int id = -1;
@@ -27,6 +29,7 @@ int render_system::add_object_to_queue(IDrawable * obj)
 		id = ui.size() - 1;
 		break;
 	}
+	test.push_back(obj->sprite);
 	return id;
 }
 
@@ -110,6 +113,8 @@ bool render_system::remove_from_queue(int id, IDrawable::layers layer)
 
 
 }
+
+
 
 render_system::render_system()
 {

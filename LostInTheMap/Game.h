@@ -39,6 +39,7 @@ private:
 	static Space game_space;
 	static Space pause_menu_space;
 	static Space loading_space;
+
 public:
 	Game();
 	~Game();
@@ -47,7 +48,8 @@ public:
 	void init();
 	void init_splash();
 	void finish();
-	static void window_close_handler() { running = false; };
+	static void window_close_handler() { running = false; }
+	static void loading_done_handler();
 	static void splash_elapsed_handler();
 	static void start_handler();
 

@@ -232,6 +232,14 @@ void MainMenuSystem::mouse_clicked_on_entity()
 	}
 }
 
+void MainMenuSystem::remove_listeners()
+{
+	exit_listeners.clear();
+	start_listeners.clear();
+	load_listeners.clear();
+	settings_listeners.clear();
+}
+
 MainMenuSystem::MainMenuSystem()
 {
 }

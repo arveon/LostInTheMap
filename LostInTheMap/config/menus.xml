@@ -12,8 +12,9 @@
 <slider text="Sounds volume" x="10" y="220" value="1"/>
 </settings>	
 
-<loading background="assets/graphics/bg/loading.png">
+<loading background="assets/graphics/bg/loading_bg_1.png">
+	<bar text="Bar" x="250" y="370"/>
+</loading>
+
 <text text="Status" x="250" y="350"/>
 <text text="Progress" x="450" y="350"/>
-<bar text="Bar" x="250" y="370"/>
-</loading>

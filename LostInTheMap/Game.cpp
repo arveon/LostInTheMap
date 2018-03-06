@@ -8,6 +8,7 @@ Space Game::game_space;
 Space Game::pause_menu_space;
 Space Game::loading_space;
 
+
 void Game::init()
 {
 	xml_system::WindowConfig cfg = xml_system::load_config_file();
@@ -32,6 +33,17 @@ void Game::finish()
 
 }
 
+void Game::loading_done_handler()
+{
+	if (state == game_state::loading)
+	{
+		level_loading_system::destroy_space(loading_space);
+		level_loading_system::remove_listeners();
+	}
+	state = game_state::main_menu;
+
+}
+
 void Game::splash_elapsed_handler()
 {
 	if (state == game_state::splash)
@@ -46,7 +58,10 @@ void Game::start_handler()
 {
 	if (state == game_state::main_menu)
 	{
+		//render_system::report_not_null_textures();
 		MainMenuSystem::destroy_space(main_menu_space);
+		MainMenuSystem::remove_listeners();
+		//render_system::report_not_null_textures();
 	}
 	state = game_state::loading;
 }
@@ -84,8 +99,10 @@ void Game::game_loop()
 			{
 				MenuLayout layout = xml_system::load_interface_layout("loading");
 				level_loading_system::init_space(layout,loading_space);
+				level_loading_system::register_loading_done_listener(&loading_done_handler);
+				
 			}
-			level_loading_system::update_space(loading_space, game_space);
+			level_loading_system::update_space(loading_space, game_space, time.get_delta_time());
 			break;
 		case game_state::pause_menu:
 			

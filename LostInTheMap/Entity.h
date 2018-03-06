@@ -16,10 +16,12 @@ public:
 	Transform* transform;
 	std::vector<Component*> components;
 	entity_type type;
+	std::string name;
 
-	Entity(entity_type type)
+	Entity(entity_type type, std::string name="no_name")
 	{
 		this->type = type;
+		this->name = name;
 	}
 
 	void add_component(Component* cmp)
