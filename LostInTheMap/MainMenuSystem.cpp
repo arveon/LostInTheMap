@@ -21,6 +21,7 @@ void MainMenuSystem::init(Space & space, MenuLayout layout, func_reg lmb_down_re
 
 void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 {
+	
 	//initialising background
 #pragma region background
 	Entity* background = new Entity(entity_type::background);
@@ -35,7 +36,7 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 	background->add_component(background_draw_component);
 	space.objects.push_back(background);
 #pragma endregion
-
+	
 #pragma region initialise all buttons
 	for (unsigned int i = 0; i < layout.buttons.size(); i++)
 	{
@@ -93,6 +94,7 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 #pragma endregion
 
 	add_space_to_render_queue(space);
+	
 	space.initialised = true;
 }
 

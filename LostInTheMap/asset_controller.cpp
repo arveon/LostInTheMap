@@ -38,7 +38,7 @@ SDL_Texture * asset_controller::create_ui_text_button_spritesheet(std::string te
 	//load appropriate font depending on what text is used for
 	SDL_Texture* result = nullptr;
 
-	TTF_Font * font;
+	TTF_Font * font = nullptr;
 	std::vector<SDL_Texture*> sprites;
 
 	switch (type)
@@ -80,6 +80,14 @@ SDL_Texture * asset_controller::create_ui_text_button_spritesheet(std::string te
 		result = SDL_manager::get_spritesheet_from_sprites(sprites);
 		break;
 	}
+
+	for (int i = 0; i < sprites.size(); i++)
+	{
+		destroy_texture(sprites.at(i));
+	}
+
+	if(font != nullptr)
+		TTF_CloseFont(font);
 	return result;
 }
 

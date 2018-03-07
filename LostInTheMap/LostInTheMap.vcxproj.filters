@@ -72,9 +72,6 @@
     <ClInclude Include="sdl_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="level_loading_system.h">
-      <Filter>Header Files\systems</Filter>
-    </ClInclude>
     <ClInclude Include="asset_controller.h">
       <Filter>Header Files\systems\utility_systems</Filter>
     </ClInclude>
@@ -98,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="SDL_manager.h">
       <Filter>Header Files\systems\core_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="level_loading_system.h">
+      <Filter>Header Files\systems\menu_systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
