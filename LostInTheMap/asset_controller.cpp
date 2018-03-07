@@ -81,7 +81,7 @@ SDL_Texture * asset_controller::create_ui_text_button_spritesheet(std::string te
 		break;
 	}
 
-	for (int i = 0; i < sprites.size(); i++)
+	for (unsigned int i = 0; i < sprites.size(); i++)
 	{
 		destroy_texture(sprites.at(i));
 	}

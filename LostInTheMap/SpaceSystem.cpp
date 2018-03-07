@@ -89,7 +89,8 @@ Entity* SpaceSystem::find_entity_by_name(Space& space, std::string name)
 	for(unsigned int i = 0; i < space.objects.size(); i++)
 	{
 		Entity* temp = space.objects.at(i);
-		result = (temp->name.compare(name.c_str()) == 0) ? nullptr : temp;
+		if (temp->name.compare(name.c_str()) == 0)
+			result = temp;
 	}
 
 	return result;

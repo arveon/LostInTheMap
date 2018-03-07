@@ -93,7 +93,6 @@ void Game::game_loop()
 				
 			}
 			MainMenuSystem::update_space(main_menu_space, time.get_delta_time());
-			start_handler();
 			break;
 		case game_state::loading:
 			if (!loading_space.initialised)

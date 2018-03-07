@@ -63,12 +63,20 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 			Transform* fill_transf = new Transform(fill);
 			fill->transform = fill_transf;
 
+			IAnimatable* fill_anim = new IAnimatable(fill);
+			fill_anim->spritesheet = asset_controller::load_texture("assets/graphics/ui/load_fill.png");
+			SDL_Rect temp = asset_controller::get_texture_size(fill_anim->spritesheet);
+			fill_anim->src_rect = { 0,0,1,temp.h };
+			fill->add_component(fill_anim);
+
 			IDrawable* fill_drawable = new IDrawable(fill, IDrawable::layers::foreground);
-			fill_drawable->sprite = asset_controller::load_texture("assets/graphics/ui/load_fill.png");
-			fill_drawable->draw_rect = asset_controller::get_texture_size(fill_drawable->sprite);
+			fill_drawable->draw_rect = fill_anim->src_rect;
+			fill_drawable->sprite = asset_controller::get_sprite_from_spritesheet(fill_anim->spritesheet, fill_anim->src_rect);
 			fill_drawable->draw_rect.x = elm.position.x;
 			fill_drawable->draw_rect.y = elm.position.y;
 			fill->add_component(fill_drawable);
+
+			
 
 			fill_transf->position = { elm.position.x, elm.position.y, fill_drawable->draw_rect.w, fill_drawable->draw_rect.h };
 			space.objects.push_back(fill);
@@ -92,6 +100,30 @@ void level_loading_system::update_space(Space & space, Space & level_space, int 
 
 		loading_done();
 	}
+	loading_progress = (float)t_elapsed_time / (float)t_total_time * 100;
+	Entity* fill = SpaceSystem::find_entity_by_name(space,"fill");
+	if (!fill)
+		return;
+
+	IDrawable* draw = static_cast<IDrawable*>(fill->get_component(ComponentType::Drawable));
+	IAnimatable* anim = static_cast<IAnimatable*>(fill->get_component(ComponentType::Animated));
+	//get whole spritesheet width
+	SDL_Rect ss_size = asset_controller::get_texture_size(anim->spritesheet);
+
+	//calculate desired width
+	int d_w = ss_size.w * loading_progress / 100;
+
+	//make src_rect.w equal to that width
+	anim->src_rect.w = d_w;
+
+	//make draw_rect.w equal to that width
+	draw->draw_rect.w = d_w;
+
+	//remove old sprite
+	asset_controller::destroy_texture(draw->sprite);
+
+	//update sprite to new sprite
+	draw->sprite = asset_controller::get_sprite_from_spritesheet(anim->spritesheet, anim->src_rect);
 }
 
 void level_loading_system::loading_done()
