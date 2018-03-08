@@ -203,6 +203,8 @@ void level_loading_system::load_game_components(Space & game_space)
 	{
 	case loading_state::loading_terrain:
 	{
+		int w, h;
+		int** map_tile_ids = xml_system::load_map_tiles(levels::test, &w, &h);
 		//Entity * terrain = new Entity(entity_type::tilemap, "terrain");
 		//map_system::init_terrain_map();
 	}
@@ -224,7 +226,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::loading_terrain_textures:
 	{
-
+		asset_controller::load_terrain_textures();
 	}
 		break;
 	case loading_state::loading_character_textures:

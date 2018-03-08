@@ -2,6 +2,7 @@
 
 
 SDL_Renderer* asset_controller::renderer;
+std::vector<SDL_Texture*> asset_controller::terrain_textures;
 
 asset_controller::asset_controller()
 {
@@ -121,6 +122,15 @@ SDL_Texture* asset_controller::get_texture_from_text(std::string text, UI_text_t
 	if (font != nullptr)
 		TTF_CloseFont(font);
 	return result;
+}
+
+void asset_controller::load_terrain_textures()
+{
+	//TODO: write logic to load all textures from the appropriate spritesheet
+}
+
+void asset_controller::destroy_terrain_textures()
+{
 }
 
 SDL_Texture * asset_controller::get_sprite_from_spritesheet(SDL_Texture * spritesheet, SDL_Rect src_rect)

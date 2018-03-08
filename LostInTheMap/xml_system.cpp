@@ -85,6 +85,20 @@ MenuLayout xml_system::load_interface_layout(std::string name)
 	return layout;
 }
 
+int ** xml_system::load_map_tiles(levels level, int* width, int* height)
+{
+	int** tilemap = nullptr;
+	rapidxml::file<> file("Levels/test/test.xml");
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(file.data());
+	
+	*width = std::stoi(doc.first_node("tilemap")->first_attribute("tileswide")->value());
+	*height = std::stoi(doc.first_node("tilemap")->first_attribute("tileshigh")->value());
+
+
+	return tilemap;
+}
+
 std::vector<xml_system::LoadingState> xml_system::get_loading_states()
 {
 	std::vector<xml_system::LoadingState> states;

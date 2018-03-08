@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "SDL_manager.h"
 
@@ -19,6 +20,8 @@ enum UI_text_type
 //class will have functionality of loading/unloading visual and audio assets
 class asset_controller
 {
+private:
+	static std::vector<SDL_Texture*> terrain_textures;
 public:
 	static SDL_Renderer * renderer;
 	asset_controller();
@@ -33,5 +36,8 @@ public:
 	static SDL_Texture* create_ui_text_button_spritesheet(std::string text, UI_text_type type);
 	static SDL_Texture* get_sprite_from_spritesheet(SDL_Texture* spritesheet, SDL_Rect src_rect);
 	static SDL_Texture* get_texture_from_text(std::string text, UI_text_type type);
+
+	static void load_terrain_textures();
+	static void destroy_terrain_textures();
 };
 

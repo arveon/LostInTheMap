@@ -3,7 +3,7 @@
 
 #include "Entity.h"
 
-enum levels
+typedef enum 
 {
 	test,
 	pyramid,
@@ -11,7 +11,7 @@ enum levels
 	caves,
 	desert,
 	zakra_village
-};
+}levels;
 
 
 class map_system

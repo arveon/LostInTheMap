@@ -7,6 +7,8 @@
 #include <rapidxml\rapidxml.hpp>
 #include <rapidxml\rapidxml_utils.hpp>
 
+#include "map_system.h"
+
 #include "Components.h"
 #include "MenuLayout.h"
 
@@ -31,6 +33,7 @@ public:
 
 	static WindowConfig load_config_file();
 	static MenuLayout load_interface_layout(std::string name);
+	static int** load_map_tiles(levels level, int* width, int* height);
 	static std::vector<LoadingState> get_loading_states();
 	xml_system();
 	~xml_system();
