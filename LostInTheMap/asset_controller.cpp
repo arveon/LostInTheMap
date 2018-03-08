@@ -34,7 +34,6 @@ void asset_controller::set_texture_alpha(SDL_Texture * texture, int alpha)
 
 SDL_Texture * asset_controller::create_ui_text_button_spritesheet(std::string text, UI_text_type type)
 {
-	//TODO: finish this method for all the cases of type
 	//load appropriate font depending on what text is used for
 	SDL_Texture* result = nullptr;
 
@@ -87,6 +86,39 @@ SDL_Texture * asset_controller::create_ui_text_button_spritesheet(std::string te
 	}
 
 	if(font != nullptr)
+		TTF_CloseFont(font);
+	return result;
+}
+
+SDL_Texture* asset_controller::get_texture_from_text(std::string text, UI_text_type type)
+{
+	//load appropriate font depending on what text is used for
+	SDL_Texture* result = nullptr;
+
+	TTF_Font * font = nullptr;
+	std::vector<SDL_Texture*> sprites;
+
+	switch (type)
+	{
+	case UI_text_type::main_menu_button_main:
+		font = SDL_manager::load_font("assets/fonts/Inked_Out.ttf", 16, { 0,0,0 });
+		result = SDL_manager::get_texture_from_text(text.c_str(), { 0,0,0 }, font);
+		break;
+	case UI_text_type::main_menu_secondary_button:
+		font = SDL_manager::load_font("assets/fonts/Inked_Out.ttf", 12, { 0,0,0 });
+		result = SDL_manager::get_texture_from_text(text.c_str(), { 0,0,0 }, font);
+		break;
+	case UI_text_type::main_menu_text:
+		font = SDL_manager::load_font("assets/fonts/Inked_Out.ttf", 10, { 0,0,0 });
+		result = SDL_manager::get_texture_from_text(text.c_str(), { 0,0,0 }, font);
+		break;
+	case UI_text_type::game_dialog:
+		font = SDL_manager::load_font("assets/fonts/LinLibertine.ttf", 10, { 0,0,0 });
+		result = SDL_manager::get_texture_from_text(text.c_str(), { 0,0,0 }, font);
+		break;
+	}
+
+	if (font != nullptr)
 		TTF_CloseFont(font);
 	return result;
 }

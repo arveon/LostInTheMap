@@ -4,6 +4,7 @@ int level_loading_system::t_elapsed_time;
 int level_loading_system::loading_progress;
 level_loading_system::loading_state level_loading_system::loading_stage;
 std::vector<void(*)()> level_loading_system::loading_done_listeners;
+std::vector<xml_system::LoadingState> level_loading_system::loading_states;
 
 
 
@@ -19,7 +20,8 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 	//temporary for testing
 	t_elapsed_time = 0;
 	loading_progress = 0;
-	loading_stage = loading_state::loading_misc;
+	loading_stage = loading_state::loading_terrain;
+	loading_states = xml_system::get_loading_states();
 
 	Entity* background = new Entity(entity_type::background);
 
@@ -27,7 +29,7 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 	IDrawable* bg_draw = new IDrawable(background, IDrawable::layers::background);
 	bg_draw->sprite = asset_controller::load_texture(layout.background_path.c_str());
 
-	SDL_manager::get_window_rect(&bg_transform->position.w, &bg_transform->position.h);
+	SDL_manager::get_window_size(&bg_transform->position.w, &bg_transform->position.h);
 	bg_draw->draw_rect = { 0,0,bg_transform->position.w,bg_transform->position.h };
 	//asset_controller::set_texture_alpha(draw->sprite, 0);
 
@@ -41,23 +43,25 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 	{
 		ui_element_config elm = layout.buttons.at(i);
 		Entity* element = new Entity(entity_type::ui_element);
+		element->name = elm.name;
+
+		Transform* element_transf = new Transform(element);
+		element->transform = element_transf;
+		element_transf->position.x = elm.position.x;
+		element_transf->position.y = elm.position.y;
+
+		IDrawable* element_dc = new IDrawable(element, IDrawable::layers::surface);
+		element->add_component(element_dc);
 
 		if (elm.type == UI_Element_Type::loading_bar)
 		{
-			//bar
-			Transform* bar_transf = new Transform(element);
-			element->transform = bar_transf;
-
-			IDrawable* drawable = new IDrawable(element, IDrawable::layers::surface);
-			drawable->sprite = asset_controller::load_texture("assets/graphics/ui/load_bar.png");
-			drawable->draw_rect = asset_controller::get_texture_size(drawable->sprite);
-			drawable->draw_rect = { elm.position.x, elm.position.y, drawable->draw_rect.w*2, drawable->draw_rect.h * 2 };
-			element->add_component(drawable);
-
-			bar_transf->position = {elm.position.x, elm.position.y, drawable->draw_rect.w, drawable->draw_rect.h};
+			element_dc->sprite = asset_controller::load_texture("assets/graphics/ui/load_bar.png");
+			element_dc->draw_rect = asset_controller::get_texture_size(element_dc->sprite);
+			element_dc->draw_rect = { elm.position.x, elm.position.y, element_dc->draw_rect.w*2, element_dc->draw_rect.h * 2 };
+			element_transf->position = {elm.position.x, elm.position.y, element_dc->draw_rect.w, element_dc->draw_rect.h};
 
 			Entity* fill = new Entity(entity_type::ui_element);
-			fill->name = "fill";
+			fill->name = "Fill";
 			//bar_fill
 			Transform* fill_transf = new Transform(fill);
 			fill->transform = fill_transf;
@@ -65,7 +69,7 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 			IAnimatable* fill_anim = new IAnimatable(fill);
 			fill_anim->spritesheet = asset_controller::load_texture("assets/graphics/ui/load_fill.png");
 			//SDL_Rect temp = asset_controller::get_texture_size(fill_anim->spritesheet);
-			fill_anim->src_rect = { 0,0,drawable->draw_rect.w,drawable->draw_rect.h };
+			fill_anim->src_rect = { 0,0,element_dc->draw_rect.w,element_dc->draw_rect.h };
 			fill->add_component(fill_anim);
 
 			IDrawable* fill_drawable = new IDrawable(fill, IDrawable::layers::foreground);
@@ -75,10 +79,24 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 			fill_drawable->draw_rect.y = elm.position.y;
 			fill->add_component(fill_drawable);
 
-			
-
 			fill_transf->position = { elm.position.x, elm.position.y, fill_drawable->draw_rect.w, fill_drawable->draw_rect.h };
 			space.objects.push_back(fill);
+		}
+		else if (elm.type == UI_Element_Type::text)
+		{
+			if (element->name.compare("Status") == 0)
+			{
+				element_dc->sprite = asset_controller::get_texture_from_text("Loading map", UI_text_type::main_menu_text);
+			}
+			else if (element->name.compare("Progress") == 0)
+			{
+				element_dc->sprite = asset_controller::get_texture_from_text("0%", UI_text_type::main_menu_text);
+			}
+
+			SDL_Rect temp = asset_controller::get_texture_size(element_dc->sprite);
+			element_dc->draw_rect = { element_transf->position.x, element_transf->position.y, temp.w, temp.h };
+
+
 		}
 
 		space.objects.push_back(element);
@@ -95,12 +113,33 @@ void level_loading_system::update_space(Space & space, Space & level_space, int 
 	if (t_elapsed_time >= t_total_time)
 	{
 		t_elapsed_time = 0;
-		loading_stage = loading_state::done;
-
-		loading_done();
+		int stage_id = static_cast<int>(loading_stage);
+		loading_stage = static_cast<loading_state>(++stage_id);
+		
+		if (loading_stage == loading_state::done)
+		{
+			loading_done();
+			return;
+		}
+		update_status_text(space, stage_id);
 	}
 	loading_progress = static_cast<int>((float)t_elapsed_time / (float)t_total_time * 100);
-	Entity* fill = SpaceSystem::find_entity_by_name(space,"fill");
+	
+	update_bar_fill(space);
+}
+
+void level_loading_system::loading_done()
+{
+	for (unsigned int i = 0; i < loading_done_listeners.size(); i++)
+	{
+		void(*listener)() = loading_done_listeners.at(i);
+		listener();
+	}
+}
+
+void level_loading_system::update_bar_fill(Space& space)
+{
+	Entity* fill = SpaceSystem::find_entity_by_name(space, "Fill");
 	if (!fill)
 		return;
 
@@ -114,7 +153,7 @@ void level_loading_system::update_space(Space & space, Space & level_space, int 
 	int d_w = tr->position.w * loading_progress / 100;
 
 	//make src_rect.w equal to that width
-	anim->src_rect.w = d_w/2;
+	anim->src_rect.w = d_w / 2;
 
 	//make draw_rect.w equal to that width
 	draw->draw_rect.w = d_w;
@@ -126,14 +165,32 @@ void level_loading_system::update_space(Space & space, Space & level_space, int 
 	draw->sprite = asset_controller::get_sprite_from_spritesheet(anim->spritesheet, anim->src_rect);
 }
 
-void level_loading_system::loading_done()
+void level_loading_system::update_status_text(Space & space, int stage_id)
 {
-	std::cout << "loading done" << std::endl;
-	for (unsigned int i = 0; i < loading_done_listeners.size(); i++)
-	{
-		void(*listener)() = loading_done_listeners.at(i);
-		listener();
-	}
+	Entity* status = SpaceSystem::find_entity_by_name(space, "Status");
+	if (!status)
+		return;
+
+	IDrawable* dc = static_cast<IDrawable*>(status->get_component(ComponentType::Drawable));
+	if (!dc)
+		return;
+
+	Transform* tc = static_cast<Transform*>(status->get_component(ComponentType::Transf));
+	if (!dc)
+		return;
+
+	//this bit ensures the text is always in the x middle of the screen
+	SDL_manager::get_window_size(&tc->position.x, nullptr);
+	tc->position.x /= 2;
+
+	dc->sprite = asset_controller::get_texture_from_text(loading_states.at(stage_id-1).name, UI_text_type::main_menu_text);
+	SDL_Rect temp = asset_controller::get_texture_size(dc->sprite);
+
+	tc->position.w = temp.w;
+	tc->position.h = temp.h;
+	tc->position.x -= temp.w / 2;
+
+	dc->draw_rect = tc->position;
 }
 
 

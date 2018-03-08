@@ -23,8 +23,15 @@ public:
 		bool fullscreen;
 	} WindowConfig;
 
+	typedef struct
+	{
+		std::string name;
+		int value;
+	} LoadingState;
+
 	static WindowConfig load_config_file();
 	static MenuLayout load_interface_layout(std::string name);
+	static std::vector<LoadingState> get_loading_states();
 	xml_system();
 	~xml_system();
 

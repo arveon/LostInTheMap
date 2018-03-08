@@ -86,7 +86,7 @@ public:
 	}
 	static void end_render() { SDL_RenderPresent(SDL_manager::renderer); }
 
-	static void get_window_rect(int* w, int* h) { SDL_GetWindowSize(SDL_manager::game_window, w, h); }
+	static void get_window_size(int* w, int* h) { SDL_GetWindowSize(SDL_manager::game_window, w, h); }
 	static SDL_Texture* get_sprite_from_spritesheet(SDL_Texture* texture, SDL_Rect src_rect);
 
 	static TTF_Font* load_font(const char* path, int size, SDL_Color color);

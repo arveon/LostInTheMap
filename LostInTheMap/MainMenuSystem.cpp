@@ -26,7 +26,7 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 #pragma region background
 	Entity* background = new Entity(entity_type::background);
 	Transform* background_transf = new Transform(background);
-	SDL_manager::get_window_rect(&background_transf->position.w, &background_transf->position.h);
+	SDL_manager::get_window_size(&background_transf->position.w, &background_transf->position.h);
 
 	IDrawable* background_draw_component = new IDrawable(background, IDrawable::layers::background);
 	background_draw_component->sprite = asset_controller::load_texture(layout.background_path.c_str());

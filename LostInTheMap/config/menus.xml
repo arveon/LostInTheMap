@@ -13,8 +13,9 @@
 </settings>	
 
 <loading background="assets/graphics/bg/loading_bg_1.png">
+	<text text="Status" x="300" y="550"/>
+	<text text="Progress" x="570" y="515"/>
 	<bar text="Bar" x="170" y="500"/>
 </loading>
 
-<text text="Status" x="250" y="350"/>
-<text text="Progress" x="450" y="350"/>
+

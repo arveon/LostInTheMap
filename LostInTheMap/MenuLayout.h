@@ -20,7 +20,7 @@ struct Slider : ui_element_config
 };
 struct Text : ui_element_config
 {
-	Text() { type = UI_Element_Type::text; }
+	Text() { this->type = UI_Element_Type::text; }
 };
 struct Bar : ui_element_config
 {

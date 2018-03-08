@@ -85,6 +85,26 @@ MenuLayout xml_system::load_interface_layout(std::string name)
 	return layout;
 }
 
+std::vector<xml_system::LoadingState> xml_system::get_loading_states()
+{
+	std::vector<xml_system::LoadingState> states;
+	
+	rapidxml::file<> file("config/loading_states.xml");
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(file.data());
+	
+	rapidxml::xml_node<>* cur_node = doc.first_node("state");
+	while (cur_node)
+	{
+		std::string name = cur_node->name();
+		if (name.compare("state") == 0)
+			states.push_back({ cur_node->first_attribute("text")->value(), std::stoi(cur_node->first_attribute("value")->value()) });
+		cur_node = cur_node->next_sibling();
+	}
+
+	return states;
+}
+
 xml_system::xml_system()
 {
 }

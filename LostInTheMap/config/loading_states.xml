@@ -1,0 +1,14 @@
+<state text="Loading terrain" value="0"/>
+<state text="Creating terrain collisions" value="10"/>
+<state text="Loading objects" value="15"/>
+<state text="Loading characters" value="25"/>
+<state text="Loading terrain textures" value="35"/>
+<state text="Loading character textures" value="45"/>
+<state text="Attaching terrain texures" value="55"/>
+<state text="Attaching character textures" value="60"/>
+<state text="Attaching other textures" value="65"/>
+<state text="Cleaning up tilesheet" value="70"/>
+<state text="Linking tiles" value="80"/>
+<state text="Initialising pathfindings" value="85"/>
+<state text="Loading misc" value="90"/>
+<state text="Done" value="100"/>

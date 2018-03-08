@@ -32,5 +32,6 @@ public:
 
 	static SDL_Texture* create_ui_text_button_spritesheet(std::string text, UI_text_type type);
 	static SDL_Texture* get_sprite_from_spritesheet(SDL_Texture* spritesheet, SDL_Rect src_rect);
+	static SDL_Texture* get_texture_from_text(std::string text, UI_text_type type);
 };
 
