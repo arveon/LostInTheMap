@@ -130,6 +130,7 @@
     <ClInclude Include="input_system.h" />
     <ClInclude Include="level_loading_system.h" />
     <ClInclude Include="MainMenuSystem.h" />
+    <ClInclude Include="map_system.h" />
     <ClInclude Include="MenuLayout.h" />
     <ClInclude Include="render_system.h" />
     <ClInclude Include="SDL_manager.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="level_loading_system.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenuSystem.cpp" />
+    <ClCompile Include="map_system.cpp" />
     <ClCompile Include="render_system.cpp" />
     <ClCompile Include="SDL_manager.cpp" />
     <ClCompile Include="sdl_utils.cpp" />

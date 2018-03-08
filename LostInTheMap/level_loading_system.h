@@ -3,6 +3,7 @@
 #include "SpaceSystem.h"
 #include "MenuLayout.h"
 #include "xml_system.h"
+#include "map_system.h"
 
 class level_loading_system : public SpaceSystem
 {
@@ -26,7 +27,7 @@ private:
 		done
 	};
 	
-	static const int t_total_time = 500;
+	static const int t_total_time = 100;
 	static int t_elapsed_time;
 	
 	static loading_state loading_stage;
@@ -39,6 +40,7 @@ private:
 
 	static void update_bar_fill(Space& space);
 	static void update_status_text(Space& space, int state_id);
+	static void load_game_components(Space& game_space);
 public:
 	
 	static void load_new_game();

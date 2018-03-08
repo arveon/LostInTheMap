@@ -46,6 +46,9 @@
     <Filter Include="Source Files\systems\gameplay_systems">
       <UniqueIdentifier>{358dde53-0364-42ac-a63e-376a7283483a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\systems\gameplay_systems">
+      <UniqueIdentifier>{6ac72640-cc07-47dd-9b8c-83484b3777d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -99,6 +102,9 @@
     <ClInclude Include="level_loading_system.h">
       <Filter>Header Files\systems\menu_systems</Filter>
     </ClInclude>
+    <ClInclude Include="map_system.h">
+      <Filter>Header Files\systems\gameplay_systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -136,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="level_loading_system.cpp">
       <Filter>Source Files\systems\menu_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="map_system.cpp">
+      <Filter>Source Files\systems\gameplay_systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

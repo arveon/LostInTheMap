@@ -6,8 +6,9 @@ enum entity_type
 {
 	background,
 	ui_element,
-	mouse
-
+	mouse,
+	tilemap,
+	game_object
 };
 
 class Entity
@@ -27,8 +28,10 @@ public:
 	void add_component(Component* cmp)
 	{
 
-		if (cmp->type == ComponentType::Transf && transform == nullptr)
+		if (cmp->type == ComponentType::Transf)
 		{
+			if (transform)
+				delete transform;
 			transform = static_cast<Transform*>(cmp);
 			transform->owner = this;
 			return;

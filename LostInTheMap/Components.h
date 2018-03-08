@@ -19,7 +19,8 @@ enum ComponentType
 	Movement,
 	Talking,
 	Mouse,
-	UIElement
+	UIElement,
+	Terrain
 };
 
 class Entity;
@@ -255,5 +256,21 @@ public:
 		this->slab = slab;
 		this->value = value;
 	}
+
+};
+
+class ITerrain : public Component
+{
+public:
+	Entity * * terrain_tiles;
+	int width;
+	int height;
+	ITerrain(Entity* owner) : Component(owner)
+	{
+		width = 0;
+		height = 0; 
+		terrain_tiles = nullptr;
+	}
+
 
 };

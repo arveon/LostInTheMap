@@ -19,10 +19,13 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 		return;
 	//temporary for testing
 	t_elapsed_time = 0;
-	loading_progress = 0;
+	
+	//general system initialisation
 	loading_stage = loading_state::loading_terrain;
 	loading_states = xml_system::get_loading_states();
+	loading_progress = 0;
 
+#pragma region initialise_background
 	Entity* background = new Entity(entity_type::background);
 
 	Transform* bg_transform = new Transform(background);
@@ -37,6 +40,7 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 	background->add_component(bg_draw);
 	space.objects.push_back(background);
 	space.initialised = true;
+#pragma endregion
 
 #pragma region initialise all other elements
 	for (unsigned int i = 0; i < layout.buttons.size(); i++)
@@ -103,19 +107,17 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 	}
 #pragma endregion
 
-	//level_loading_system::elapsed_stage_time = 0;
 	add_space_to_render_queue(space);
 }
 
 void level_loading_system::update_space(Space & space, Space & level_space, int dt)
 {
 	t_elapsed_time += dt;
+	int stage_id = static_cast<int>(loading_stage);
 	if (t_elapsed_time >= t_total_time)
 	{
 		t_elapsed_time = 0;
-		int stage_id = static_cast<int>(loading_stage);
 		loading_stage = static_cast<loading_state>(++stage_id);
-		
 		if (loading_stage == loading_state::done)
 		{
 			loading_done();
@@ -123,9 +125,10 @@ void level_loading_system::update_space(Space & space, Space & level_space, int 
 		}
 		update_status_text(space, stage_id);
 	}
-	loading_progress = static_cast<int>((float)t_elapsed_time / (float)t_total_time * 100);
+	loading_progress = (float)loading_states.at(stage_id).value;
 	
 	update_bar_fill(space);
+	load_game_components(level_space);
 }
 
 void level_loading_system::loading_done()
@@ -183,6 +186,7 @@ void level_loading_system::update_status_text(Space & space, int stage_id)
 	SDL_manager::get_window_size(&tc->position.x, nullptr);
 	tc->position.x /= 2;
 
+	asset_controller::destroy_texture(dc->sprite);
 	dc->sprite = asset_controller::get_texture_from_text(loading_states.at(stage_id-1).name, UI_text_type::main_menu_text);
 	SDL_Rect temp = asset_controller::get_texture_size(dc->sprite);
 
@@ -191,6 +195,102 @@ void level_loading_system::update_status_text(Space & space, int stage_id)
 	tc->position.x -= temp.w / 2;
 
 	dc->draw_rect = tc->position;
+}
+
+void level_loading_system::load_game_components(Space & game_space)
+{
+	switch (loading_stage)
+	{
+	case loading_state::loading_terrain:
+	{
+		//Entity * terrain = new Entity(entity_type::tilemap, "terrain");
+		//map_system::init_terrain_map();
+	}
+		break;
+	case loading_state::creating_terrain_collisions:
+	{
+
+	}
+		break;
+	case loading_state::loading_objects:
+	{
+
+	}
+		break;
+	case loading_state::loading_characters:
+	{
+
+	}
+		break;
+	case loading_state::loading_terrain_textures:
+	{
+
+	}
+		break;
+	case loading_state::loading_character_textures:
+	{
+
+	}
+		break;
+	case loading_state::loading_item_textures:
+	{
+
+	}
+		break;
+	case loading_state::attaching_terrain_textures:
+	{
+
+	}
+		break;
+	case loading_state::attaching_character_textures:
+	{
+
+	}
+		break;
+	case loading_state::attaching_object_textures:
+	{
+
+	}
+		break;
+	case loading_state::cleaning_up_tilesheet:
+	{
+
+	}
+		break;
+	case loading_state::linking_tiles:
+	{
+
+	}
+		break;
+	case loading_state::initialising_pathfinding:
+	{
+
+	}
+		break;
+	case loading_state::loading_misc:
+	{
+
+	}
+		break;
+	case loading_state::done:
+	{
+
+	}
+		break;
+
+
+
+
+
+
+
+
+
+	}
+
+
+
+
 }
 
 
