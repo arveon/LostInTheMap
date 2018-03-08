@@ -68,6 +68,9 @@ public:
 	Component* get_component(ComponentType type)
 	{
 		Component* result = nullptr;
+		if (type == ComponentType::Transf)
+			return this->transform;
+
 		for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); it++)
 		{
 			Component* temp = *it;

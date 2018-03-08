@@ -51,8 +51,7 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 			IDrawable* drawable = new IDrawable(element, IDrawable::layers::surface);
 			drawable->sprite = asset_controller::load_texture("assets/graphics/ui/load_bar.png");
 			drawable->draw_rect = asset_controller::get_texture_size(drawable->sprite);
-			drawable->draw_rect.x = elm.position.x;
-			drawable->draw_rect.y = elm.position.y;
+			drawable->draw_rect = { elm.position.x, elm.position.y, drawable->draw_rect.w*2, drawable->draw_rect.h * 2 };
 			element->add_component(drawable);
 
 			bar_transf->position = {elm.position.x, elm.position.y, drawable->draw_rect.w, drawable->draw_rect.h};
@@ -65,8 +64,8 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 
 			IAnimatable* fill_anim = new IAnimatable(fill);
 			fill_anim->spritesheet = asset_controller::load_texture("assets/graphics/ui/load_fill.png");
-			SDL_Rect temp = asset_controller::get_texture_size(fill_anim->spritesheet);
-			fill_anim->src_rect = { 0,0,1,temp.h };
+			//SDL_Rect temp = asset_controller::get_texture_size(fill_anim->spritesheet);
+			fill_anim->src_rect = { 0,0,drawable->draw_rect.w,drawable->draw_rect.h };
 			fill->add_component(fill_anim);
 
 			IDrawable* fill_drawable = new IDrawable(fill, IDrawable::layers::foreground);
@@ -100,21 +99,22 @@ void level_loading_system::update_space(Space & space, Space & level_space, int 
 
 		loading_done();
 	}
-	loading_progress = (float)t_elapsed_time / (float)t_total_time * 100;
+	loading_progress = static_cast<int>((float)t_elapsed_time / (float)t_total_time * 100);
 	Entity* fill = SpaceSystem::find_entity_by_name(space,"fill");
 	if (!fill)
 		return;
 
 	IDrawable* draw = static_cast<IDrawable*>(fill->get_component(ComponentType::Drawable));
 	IAnimatable* anim = static_cast<IAnimatable*>(fill->get_component(ComponentType::Animated));
+	Transform* tr = static_cast<Transform*>(fill->get_component(ComponentType::Transf));
 	//get whole spritesheet width
 	SDL_Rect ss_size = asset_controller::get_texture_size(anim->spritesheet);
 
 	//calculate desired width
-	int d_w = ss_size.w * loading_progress / 100;
+	int d_w = tr->position.w * loading_progress / 100;
 
 	//make src_rect.w equal to that width
-	anim->src_rect.w = d_w;
+	anim->src_rect.w = d_w/2;
 
 	//make draw_rect.w equal to that width
 	draw->draw_rect.w = d_w;

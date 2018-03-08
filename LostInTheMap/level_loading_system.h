@@ -25,7 +25,7 @@ private:
 		done
 	};
 	
-	static const int t_total_time = 1000;
+	static const int t_total_time = 2000;
 	static int t_elapsed_time;
 	
 	static loading_state loading_stage;

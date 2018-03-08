@@ -114,8 +114,8 @@ void MainMenuSystem::update_space(Space & space, int dt)
 		Entity* temp_e = space.objects.at(i);
 		if (temp_e->type == entity_type::ui_element)
 		{		
-			Transform* temp_t = static_cast<Transform*>(find_component_on_object(temp_e, ComponentType::Transf));
-			IMouse* mc = static_cast<IMouse*>(find_component_on_object(mouse, ComponentType::Mouse));
+			Transform* temp_t = static_cast<Transform*>(temp_e->get_component(ComponentType::Transf));
+			IMouse* mc = static_cast<IMouse*>(mouse->get_component(ComponentType::Mouse));
 			//IAnimatable* anim = static_cast<IAnimatable*>(find_component_on_object(space.objects.at(i), ComponentType::Animated));
 			if (sdl_utils::is_point_in_rect({ mouse->transform->position.x, mouse->transform->position.y }, temp_t->position))
 			{
@@ -129,7 +129,7 @@ void MainMenuSystem::update_space(Space & space, int dt)
 			
 		}
 	}
-	
+	//std::cout << dt << std::endl;
 	SpaceSystem::apply_animation_sprite_changes(space);
 }
 

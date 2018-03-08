@@ -16,8 +16,6 @@ public:
 	static void apply_animation_sprite_changes(Space& space);
 	static void destroy_space(Space& space);
 	
-
-	static Component* find_component_on_object(Entity*, ComponentType);
 	static Entity* find_entity_by_name(Space& space, std::string name);
 };
 

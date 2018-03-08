@@ -13,7 +13,7 @@
 </settings>	
 
 <loading background="assets/graphics/bg/loading_bg_1.png">
-	<bar text="Bar" x="250" y="370"/>
+	<bar text="Bar" x="170" y="500"/>
 </loading>
 
 <text text="Status" x="250" y="350"/>
