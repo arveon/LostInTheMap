@@ -1,9 +1,6 @@
 #include "map_system.h"
 
 
-
-
-
 void map_system::init_terrain_map(int ** tile_ids, levels level, Entity* tilemap)
 {
 	ITerrain* tc = static_cast<ITerrain*>(tilemap->get_component(ComponentType::Terrain));
@@ -50,6 +47,39 @@ void map_system::init_terrain_map(int ** tile_ids, levels level, Entity* tilemap
 		std::cout << std::endl;
 	}*/
 }
+
+//function adds collision components to entities in tilemap that are collidable
+void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
+{
+	ITerrain* tr = static_cast<ITerrain*>(tilemap->get_component(ComponentType::Terrain));
+	for (int i = 0; i < tr->height; i++)
+	{
+		for (int j = 0; j < tr->width; j++)
+		{
+			if (collision_map[i][j] == 1)
+			{
+				ICollidable* cc = new ICollidable(tr->terrain_tiles[i][j], tr->tile_width, tr->tile_width);
+				tr->terrain_tiles[i][j]->add_component(cc);
+			}
+		}
+	}
+
+	//display the collision map
+	for (int y = 0; y < tr->height; y++)
+	{
+		for (int x = 0; x < tr->width; x++)
+		{
+			ICollidable* dc = static_cast<ICollidable*>(tr->terrain_tiles[y][x]->get_component(ComponentType::Collision));
+			if (dc)
+				std::cout << "0";
+			else
+				std::cout << "1";
+			//std::cout <<  << " ";
+		}
+		std::cout << std::endl;
+	}
+}
+
 
 map_system::map_system()
 {

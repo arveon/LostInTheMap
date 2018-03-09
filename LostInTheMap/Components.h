@@ -60,8 +60,13 @@ public:
 class ICollidable : public Component
 {
 public:
-	SDL_Rect collision_rect;
+	SDL_Rect collision_rect;//relative to transform
 	bool collidable = true;
+	ICollidable(Entity* owner, int width, int height) : Component(owner)
+	{
+		type = ComponentType::Collision;
+		collision_rect = { 0,0,width,height };
+	}
 };
 
 class IDescriptable : public Component

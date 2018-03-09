@@ -123,6 +123,39 @@ int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* ti
 	return tilemap;
 }
 
+int** xml_system::load_map_collisions(levels level, int width, int height)
+{
+	int** tilemap = nullptr;
+
+	rapidxml::file<> file("Levels/test/test_map.xml");
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(file.data());
+
+	//initialise the tilemap to -1s as it will represent a tile with nothing
+	tilemap = new int*[height];
+	for (int i = 0; i < height; i++)
+	{
+		tilemap[i] = new int[width];
+		for (int j = 0; j < width; j++)
+			tilemap[i][j] = 0;
+	}
+
+	rapidxml::xml_node<>* cur_node = doc.first_node("tilemap")->first_node("layer")->next_sibling()->first_node("tile");
+	while (cur_node)
+	{
+		std::string type = cur_node->first_attribute("tile")->value();
+		if (type.compare("1"))
+		{
+			int x = std::stoi(cur_node->first_attribute("x")->value());
+			int y = std::stoi(cur_node->first_attribute("y")->value());
+			tilemap[y][x] = 1;
+		}
+		cur_node = cur_node->next_sibling();
+	}
+
+	return tilemap;
+}
+
 std::vector<xml_system::LoadingState> xml_system::get_loading_states()
 {
 	std::vector<xml_system::LoadingState> states;

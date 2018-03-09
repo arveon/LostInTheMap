@@ -211,11 +211,15 @@ void level_loading_system::load_game_components(Space & game_space)
 		tc->height = h;
 		terrain->add_component(tc);
 		map_system::init_terrain_map(map_tile_ids, levels::test, terrain);
+		game_space.objects.push_back(terrain);
 	}
 		break;
 	case loading_state::creating_terrain_collisions:
 	{
-
+		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
+		int** map_tile_collisions = xml_system::load_map_collisions(levels::test, terrain->width, terrain->height);
+		map_system::init_terrain_collisions(map_tile_collisions, tr);
 	}
 		break;
 	case loading_state::loading_objects:
