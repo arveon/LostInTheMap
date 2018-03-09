@@ -262,14 +262,16 @@ public:
 class ITerrain : public Component
 {
 public:
-	Entity * * terrain_tiles;
+	Entity*** terrain_tiles;
 	int width;
 	int height;
+	int tile_width;
 	ITerrain(Entity* owner) : Component(owner)
 	{
 		width = 0;
 		height = 0; 
 		terrain_tiles = nullptr;
+		type = ComponentType::Terrain;
 	}
 
 

@@ -85,16 +85,40 @@ MenuLayout xml_system::load_interface_layout(std::string name)
 	return layout;
 }
 
-int ** xml_system::load_map_tiles(levels level, int* width, int* height)
+int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* tilewidth)
 {
 	int** tilemap = nullptr;
+
 	rapidxml::file<> file("Levels/test/test.xml");
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(file.data());
-	
+
 	*width = std::stoi(doc.first_node("tilemap")->first_attribute("tileswide")->value());
 	*height = std::stoi(doc.first_node("tilemap")->first_attribute("tileshigh")->value());
+	*tilewidth = std::stoi(doc.first_node("tilemap")->first_attribute("tilewidth")->value());
 
+
+	//initialise the tilemap to -1s as it will represent a tile with nothing
+	tilemap = new int*[*height];
+	for (int i = 0; i < *height; i++)
+	{
+		tilemap[i] = new int[*width];
+		for (int j = 0; j < *width; j++)
+		{
+			tilemap[i][j] = -1;
+		}
+	}
+	
+	//loop through all nodes and get the tile values from them
+	rapidxml::xml_node<>* cur_node = doc.first_node("tilemap")->first_node("layer")->first_node("tile");
+	while (cur_node)
+	{
+		int x = std::stoi(cur_node->first_attribute("x")->value());
+		int y = std::stoi(cur_node->first_attribute("y")->value());
+
+		tilemap[y][x] = std::stoi(cur_node->first_attribute("tile")->value());
+		cur_node = cur_node->next_sibling();
+	}
 
 	return tilemap;
 }

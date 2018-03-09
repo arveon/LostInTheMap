@@ -203,10 +203,14 @@ void level_loading_system::load_game_components(Space & game_space)
 	{
 	case loading_state::loading_terrain:
 	{
-		int w, h;
-		int** map_tile_ids = xml_system::load_map_tiles(levels::test, &w, &h);
-		//Entity * terrain = new Entity(entity_type::tilemap, "terrain");
-		//map_system::init_terrain_map();
+		int w, h, tw;
+		int** map_tile_ids = xml_system::load_map_tiles(levels::test, &w, &h, &tw);
+		Entity * terrain = new Entity(entity_type::tilemap, "terrain");
+		ITerrain* tc = new ITerrain(terrain);
+		tc->width = w;
+		tc->height = h;
+		terrain->add_component(tc);
+		map_system::init_terrain_map(map_tile_ids, levels::test, terrain);
 	}
 		break;
 	case loading_state::creating_terrain_collisions:
