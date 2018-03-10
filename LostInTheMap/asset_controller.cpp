@@ -124,9 +124,28 @@ SDL_Texture* asset_controller::get_texture_from_text(std::string text, UI_text_t
 	return result;
 }
 
-void asset_controller::load_terrain_textures()
+void asset_controller::load_terrain_textures(std::string path, int tilewidth)
 {
 	//TODO: write logic to load all textures from the appropriate spritesheet
+	SDL_Texture* tex = load_texture(path.c_str());
+
+	//get number of tiles across and down in tilesheet
+	int w, h;
+	SDL_QueryTexture(tex, NULL, NULL, &w, &h);
+
+	int tileswide = w / tilewidth;
+	int tileshigh = h / tilewidth;
+
+	//crop out all individual textures from it
+	for (int i = 0; i < tileshigh; i++)
+	{
+		for (int j = 0; j < tileswide; j++)
+		{
+			terrain_textures.push_back(get_sprite_from_spritesheet(tex, {tilewidth*j, tilewidth*i, tilewidth, tilewidth}));
+		}
+	}
+
+	SDL_DestroyTexture(tex);
 }
 
 void asset_controller::destroy_terrain_textures()

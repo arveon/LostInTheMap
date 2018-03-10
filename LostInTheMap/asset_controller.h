@@ -37,7 +37,8 @@ public:
 	static SDL_Texture* get_sprite_from_spritesheet(SDL_Texture* spritesheet, SDL_Rect src_rect);
 	static SDL_Texture* get_texture_from_text(std::string text, UI_text_type type);
 
-	static void load_terrain_textures();
+	static void load_terrain_textures(std::string path, int tilewidth);
+	static SDL_Texture* get_terrain_texture(int id) { if (id < terrain_textures.size()) { return terrain_textures.at(id); } else { return nullptr; } }
 	static void destroy_terrain_textures();
 };
 

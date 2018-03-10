@@ -5,7 +5,7 @@ int level_loading_system::loading_progress;
 level_loading_system::loading_state level_loading_system::loading_stage;
 std::vector<void(*)()> level_loading_system::loading_done_listeners;
 std::vector<xml_system::LoadingState> level_loading_system::loading_states;
-
+levels level_loading_system::level_to_load;
 
 
 void level_loading_system::load_new_game()
@@ -22,6 +22,7 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 	
 	//general system initialisation
 	loading_stage = loading_state::loading_terrain;
+	level_to_load = levels::test;
 	loading_states = xml_system::get_loading_states();
 	loading_progress = 0;
 
@@ -209,6 +210,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		ITerrain* tc = new ITerrain(terrain);
 		tc->width = w;
 		tc->height = h;
+		tc->tile_width = tw;
 		terrain->add_component(tc);
 		map_system::init_terrain_map(map_tile_ids, levels::test, terrain);
 		game_space.objects.push_back(terrain);
@@ -218,13 +220,13 @@ void level_loading_system::load_game_components(Space & game_space)
 	{
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
 		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
-		int** map_tile_collisions = xml_system::load_map_collisions(levels::test, terrain->width, terrain->height);
+		int** map_tile_collisions = xml_system::load_map_collisions(level_to_load, terrain->width, terrain->height);
 		map_system::init_terrain_collisions(map_tile_collisions, tr);
 	}
 		break;
 	case loading_state::loading_objects:
 	{
-
+		
 	}
 		break;
 	case loading_state::loading_characters:
@@ -234,7 +236,17 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::loading_terrain_textures:
 	{
-		asset_controller::load_terrain_textures();
+		std::string level_name;
+		switch (level_to_load)
+		{
+		case levels::test:
+			level_name = "test";
+			break;
+		}
+		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
+
+		asset_controller::load_terrain_textures("assets/tilesets/" + level_name + ".png", terrain->tile_width);
 	}
 		break;
 	case loading_state::loading_character_textures:

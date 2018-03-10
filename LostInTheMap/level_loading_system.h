@@ -26,6 +26,8 @@ private:
 		loading_misc,
 		done
 	};
+
+	static levels level_to_load;
 	
 	static const int t_total_time = 100;
 	static int t_elapsed_time;
