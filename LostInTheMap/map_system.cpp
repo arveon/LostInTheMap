@@ -32,6 +32,8 @@ void map_system::init_terrain_map(int ** tile_ids, levels level, Entity* tilemap
 			Transform* transf_c = new Transform(tile);
 			tile->add_component(transf_c);
 			tc->terrain_tiles[y][x] = tile;
+			ITile* tlc = new ITile(tile, x, y, true);
+			tile->add_component(tlc);
 
 		}
 	}
@@ -58,8 +60,8 @@ void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 		{
 			if (collision_map[i][j] == 1)
 			{
-				ICollidable* cc = new ICollidable(tr->terrain_tiles[i][j], tr->tile_width, tr->tile_width);
-				tr->terrain_tiles[i][j]->add_component(cc);
+				ITile* tc = static_cast<ITile*>(tr->terrain_tiles[i][j]->get_component(ComponentType::Tile));
+				tc->is_traversible = false;
 			}
 		}
 	}
@@ -69,8 +71,8 @@ void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 	{
 		for (int x = 0; x < tr->width; x++)
 		{
-			ICollidable* dc = static_cast<ICollidable*>(tr->terrain_tiles[y][x]->get_component(ComponentType::Collision));
-			if (dc)
+			ITile* dc = static_cast<ITile*>(tr->terrain_tiles[y][x]->get_component(ComponentType::Tile));
+			if (dc->is_traversible)
 				std::cout << "0";
 			else
 				std::cout << "1";

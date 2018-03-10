@@ -261,7 +261,15 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::attaching_terrain_textures:
 	{
+		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
 
+		for (int i = 0; i < terrain->height; i++)
+			for (int j = 0; j < terrain->width; j++)
+			{
+				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Tile));
+				dc->sprite = asset_controller::get_terrain_texture(dc->id);
+			}
 	}
 		break;
 	case loading_state::attaching_character_textures:

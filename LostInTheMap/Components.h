@@ -20,7 +20,8 @@ enum ComponentType
 	Talking,
 	Mouse,
 	UIElement,
-	Terrain
+	Terrain,
+	Tile
 };
 
 class Entity;
@@ -277,6 +278,22 @@ public:
 		height = 0; 
 		terrain_tiles = nullptr;
 		type = ComponentType::Terrain;
+	}
+};
+
+class ITile : public Component
+{
+public:
+	std::vector<Entity*> neighbours;
+	int x, y;
+	bool is_traversible;
+
+	ITile(Entity* owner, int x, int y, bool traversible) : Component(owner)
+	{
+		this->x = x;
+		this->y = y;
+		is_traversible = traversible;
+		type = ComponentType::Tile;
 	}
 
 
