@@ -59,7 +59,7 @@ void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 		for (int j = 0; j < tr->width; j++)
 		{
 			Transform* transform = static_cast<Transform*>(tr->terrain_tiles[i][j]->get_component(ComponentType::Transf));
-			transform->position = {i*tr->tile_width, j*tr->tile_width, tr->tile_width, tr->tile_width};
+			transform->position = {j*tr->tile_width, i*tr->tile_width, tr->tile_width, tr->tile_width};
 
 			if (collision_map[i][j] == 1)
 			{

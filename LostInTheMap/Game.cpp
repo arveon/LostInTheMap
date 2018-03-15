@@ -40,7 +40,7 @@ void Game::loading_done_handler()
 		level_loading_system::destroy_space(loading_space);
 		level_loading_system::remove_listeners();
 	}
-	state = game_state::main_menu;
+	state = game_state::game_flow;
 
 }
 
@@ -108,7 +108,11 @@ void Game::game_loop()
 			
 			break;
 		case game_state::game_flow:
-			
+			if (!game_space.initialised)
+			{
+				game_flow_normal::init(game_space);
+			}
+			game_flow_normal::update_space(game_space, time.get_delta_time());
 			break;
 		case game_state::confirming_exit:
 			

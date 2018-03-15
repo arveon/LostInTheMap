@@ -269,8 +269,8 @@ void level_loading_system::load_game_components(Space & game_space)
 		for (int i = 0; i < terrain->height; i++)
 			for (int j = 0; j < terrain->width; j++)
 			{
-				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Terrain));
-				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Tile));
+				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Transf));
+				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
 				dc->sprite = asset_controller::get_terrain_texture(dc->id);
 				dc->draw_rect = camera_system::world_to_camera_space(tf->position);
 			}
@@ -359,8 +359,11 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::done:
 	{
-		//add all game objects to render queue
-
+		for (unsigned int i = 0; i < loading_done_listeners.size(); i++)
+		{
+			void(*a)() = loading_done_listeners.at(i);
+			a();
+		}
 	}
 		break;
 	}

@@ -6,6 +6,7 @@
 #include "SplashScreeenSystem.h"
 #include "MainMenuSystem.h"
 #include "level_loading_system.h"
+#include "game_flow_normal.h"
 #include "EventTypes.h"
 #include "Time.h"
 #include "Components.h"

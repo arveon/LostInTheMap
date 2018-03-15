@@ -89,7 +89,7 @@ int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* ti
 {
 	int** tilemap = nullptr;
 
-	rapidxml::file<> file("Levels/test/test.xml");
+	rapidxml::file<> file("Levels/test/test_map.xml");
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(file.data());
 
