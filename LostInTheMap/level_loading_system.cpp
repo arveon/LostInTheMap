@@ -204,6 +204,8 @@ void level_loading_system::load_game_components(Space & game_space)
 	{
 	case loading_state::loading_terrain:
 	{
+		camera_system::init_camera();
+
 		int w, h, tw;
 		int** map_tile_ids = xml_system::load_map_tiles(levels::test, &w, &h, &tw);
 		Entity * terrain = new Entity(entity_type::tilemap, "terrain");
@@ -267,8 +269,10 @@ void level_loading_system::load_game_components(Space & game_space)
 		for (int i = 0; i < terrain->height; i++)
 			for (int j = 0; j < terrain->width; j++)
 			{
+				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Terrain));
 				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Tile));
 				dc->sprite = asset_controller::get_terrain_texture(dc->id);
+				dc->draw_rect = camera_system::world_to_camera_space(tf->position);
 			}
 	}
 		break;
@@ -324,21 +328,41 @@ void level_loading_system::load_game_components(Space & game_space)
 	{
 
 	}
+	case loading_state::objects_camera_positions:
+	{
+		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
+
+		for (int i = 0; i < terrain->height; i++)
+			for (int j = 0; j < terrain->width; j++)
+			{
+				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Transf));
+				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
+				dc->draw_rect = camera_system::world_to_camera_space(tf->position);
+			}
+
+		for (int i = 0; i < game_space.objects.size(); i++)
+		{
+			Entity* e = game_space.objects.at(i);
+
+
+			Transform* tr = static_cast<Transform*>(e->get_component(ComponentType::Transf));
+			if (!tr)
+				continue;
+			IDrawable* dc = static_cast<IDrawable*>(e->get_component(ComponentType::Drawable));
+			if (!dc)
+				continue;
+
+			dc->draw_rect = camera_system::world_to_camera_space(tr->position);
+		}
+	}
 		break;
 	case loading_state::done:
 	{
+		//add all game objects to render queue
 
 	}
 		break;
-
-
-
-
-
-
-
-
-
 	}
 
 

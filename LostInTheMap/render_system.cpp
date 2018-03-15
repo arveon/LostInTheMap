@@ -1,11 +1,10 @@
 #include "render_system.h"
 
 std::vector<IDrawable*> render_system::background;
+std::vector<IDrawable*> render_system::terrain;
 std::vector<IDrawable*> render_system::foreground;
 std::vector<IDrawable*> render_system::surface;
 std::vector<IDrawable*> render_system::ui;
-
-std::vector<SDL_Texture*> render_system::test;
 
 int render_system::add_object_to_queue(IDrawable * obj)
 {
@@ -15,6 +14,10 @@ int render_system::add_object_to_queue(IDrawable * obj)
 	case IDrawable::layers::background:
 		background.push_back(obj);
 		id = background.size()-1;
+		break;
+	case IDrawable::layers::terrain:
+		terrain.push_back(obj);
+		id = terrain.size() - 1;
 		break;
 	case IDrawable::layers::surface:
 		surface.push_back(obj);
@@ -29,7 +32,6 @@ int render_system::add_object_to_queue(IDrawable * obj)
 		id = ui.size() - 1;
 		break;
 	}
-	test.push_back(obj->sprite);
 	return id;
 }
 
@@ -54,6 +56,17 @@ void render_system::render_queues()
 		for (std::vector<IDrawable*>::iterator it = background.begin(); it != background.end(); it++)
 		{
 			IDrawable* obj = *it;
+			SDL_manager::render_sprite(obj->sprite, obj->draw_rect);
+		}
+	}
+
+	if (terrain.size() > 0)
+	{
+		for (std::vector<IDrawable*>::iterator it = terrain.begin(); it != terrain.end(); it++)
+		{
+			IDrawable* obj = *it;
+			if (obj->draw_rect.x + obj->draw_rect.w < 0 || obj->draw_rect.y + obj->draw_rect.h < 0)
+				continue;
 			SDL_manager::render_sprite(obj->sprite, obj->draw_rect);
 		}
 	}

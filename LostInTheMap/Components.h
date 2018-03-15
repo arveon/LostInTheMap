@@ -90,6 +90,7 @@ public:
 	enum layers
 	{
 		background,
+		terrain,
 		surface,
 		foreground,
 		ui

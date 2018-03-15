@@ -123,10 +123,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="asset_controller.h" />
+    <ClInclude Include="camera_system.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventTypes.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="game_flow_normal.h" />
     <ClInclude Include="input_system.h" />
     <ClInclude Include="level_loading_system.h" />
     <ClInclude Include="MainMenuSystem.h" />
@@ -143,7 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="asset_controller.cpp" />
+    <ClCompile Include="camera_system.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="game_flow_normal.cpp" />
     <ClCompile Include="input_system.cpp" />
     <ClCompile Include="level_loading_system.cpp" />
     <ClCompile Include="Main.cpp" />

@@ -11,4 +11,5 @@
 <state text="Linking tiles" value="80"/>
 <state text="Initialising pathfindings" value="85"/>
 <state text="Loading misc" value="90"/>
+<state text="Initialising objects camera positions" value="95"/>
 <state text="Done" value="100"/>

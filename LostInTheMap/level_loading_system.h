@@ -4,6 +4,7 @@
 #include "MenuLayout.h"
 #include "xml_system.h"
 #include "map_system.h"
+#include "camera_system.h"
 
 class level_loading_system : public SpaceSystem
 {
@@ -24,6 +25,7 @@ private:
 		linking_tiles,
 		initialising_pathfinding,
 		loading_misc,
+		objects_camera_positions,
 		done
 	};
 
