@@ -3,6 +3,7 @@
 #include "render_system.h"
 #include "Components.h"
 #include "asset_controller.h"
+#include "input_system.h"
 
 class SpaceSystem
 {
@@ -17,5 +18,7 @@ public:
 	static void destroy_space(Space& space);
 	
 	static Entity* find_entity_by_name(Space& space, std::string name);
+	static Entity* create_mouse();
+	static void update_mouse(Entity* mouse);
 };
 

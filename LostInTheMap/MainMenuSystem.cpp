@@ -73,23 +73,7 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 #pragma endregion
 
 #pragma region mouse
-	Entity* mouse = new Entity(entity_type::mouse);
-	Transform* m_transform = new Transform(mouse);
-	m_transform->position = { 0,0,1,1 };
-
-	IDrawable* m_draw_comp = new IDrawable(mouse, IDrawable::layers::foreground);
-	m_draw_comp->sprite = asset_controller::load_texture("assets/graphics/ui/mouse.png");
-
-	m_draw_comp->draw_rect = asset_controller::get_texture_size(m_draw_comp->sprite);
-
-	IMouse* mc = new IMouse(mouse);
-
-	mouse->transform = m_transform;
-	mouse->add_component(m_draw_comp);
-	mouse->add_component(mc);
-
-	MainMenuSystem::mouse = mouse;
-
+	MainMenuSystem::mouse = SpaceSystem::create_mouse();
 	space.objects.push_back(mouse);
 #pragma endregion
 
@@ -101,11 +85,7 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 void MainMenuSystem::update_space(Space & space, int dt)
 {
 #pragma region update_mouse
-	IDrawable* dc = static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable));
-	mouse->transform->position.x = input_system::mouse.x;
-	mouse->transform->position.y = input_system::mouse.y;
-	dc->draw_rect.x = input_system::mouse.x;
-	dc->draw_rect.y = input_system::mouse.y;
+	SpaceSystem::update_mouse(MainMenuSystem::mouse);
 #pragma endregion
 
 	//check mouse collisions with other objects

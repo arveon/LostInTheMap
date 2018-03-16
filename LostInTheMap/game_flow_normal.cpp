@@ -1,5 +1,7 @@
 #include "game_flow_normal.h"
 
+Entity* game_flow_normal::mouse;
+
 void game_flow_normal::init(Space & game_space)
 {
 	for (unsigned int i = 0; i < game_space.objects.size(); i++)
@@ -10,7 +12,6 @@ void game_flow_normal::init(Space & game_space)
 		ITerrain* tr = static_cast<ITerrain*>(ent->get_component(ComponentType::Terrain));
 		if (tr)
 		{
-			
 			for (int i = 0; i < tr->height; i++)
 				for (int j = 0; j < tr->width; j++)
 				{
@@ -23,12 +24,15 @@ void game_flow_normal::init(Space & game_space)
 			continue;
 		render_system::add_object_to_queue(drawable);
 	}
+	game_flow_normal::mouse = SpaceSystem::create_mouse();
+	render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable)));
 
 	game_space.initialised = true;
 }
 
 void game_flow_normal::update_space(Space & space, int dt)
 {
+	update_mouse(game_flow_normal::mouse);
 }
 
 game_flow_normal::game_flow_normal()

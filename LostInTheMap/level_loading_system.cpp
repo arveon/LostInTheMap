@@ -341,7 +341,7 @@ void level_loading_system::load_game_components(Space & game_space)
 				dc->draw_rect = camera_system::world_to_camera_space(tf->position);
 			}
 
-		for (int i = 0; i < game_space.objects.size(); i++)
+		for (unsigned int i = 0; i < game_space.objects.size(); i++)
 		{
 			Entity* e = game_space.objects.at(i);
 

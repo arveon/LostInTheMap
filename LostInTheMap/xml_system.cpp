@@ -13,7 +13,6 @@ xml_system::WindowConfig xml_system::load_config_file()
 
 	while (cur_node != NULL)
 	{
-		std::cout << cur_node->name() << std::endl;
 		if (std::string(cur_node->name()) == "title")
 		{
 			cfg.title = cur_node->first_attribute("value")->value();
