@@ -14,6 +14,8 @@ private:
 	static float speed;
 
 	static bool snapped;
+
+	static float zoom;
 public:
 	static void init_camera();
 
@@ -22,7 +24,8 @@ public:
 	static void move_camera_to(SDL_Point destination);
 	static void set_camera_target(Entity* new_target) { target = new_target; }
 
-	static void get_camera_zoom(float* w_zoom, float* h_zoom);
+	static float get_camera_zoom() { return zoom; }
+	static void set_camera_zoom(float zoom);
 	static SDL_Rect get_camera_rect() { return camera_rect; }
 	
 	static void update_camera();

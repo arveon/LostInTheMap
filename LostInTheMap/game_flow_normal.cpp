@@ -29,6 +29,7 @@ void game_flow_normal::init(Space & game_space)
 	game_flow_normal::mouse = SpaceSystem::create_mouse();
 	render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable)));
 
+	camera_system::set_camera_zoom(2.f);
 	game_space.initialised = true;
 }
 

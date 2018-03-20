@@ -21,7 +21,7 @@ void MainMenuSystem::init(Space & space, MenuLayout layout, func_reg lmb_down_re
 
 void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 {
-	
+	camera_system::set_camera_zoom(1.f);
 	//initialising background
 #pragma region background
 	Entity* background = new Entity(entity_type::background);

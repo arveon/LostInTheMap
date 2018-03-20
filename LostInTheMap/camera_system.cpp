@@ -7,8 +7,11 @@ float camera_system::speed;
 Entity* camera_system::target;
 bool camera_system::snapped = true;
 
+float camera_system::zoom = 1.f;
+
 void camera_system::init_camera()
 {	
+	zoom = 1.f;
 	camera_rect = SDL_Rect{0,0,0,0};
 	SDL_manager::get_window_size(&camera_rect.w, &camera_rect.h);
 }
@@ -27,8 +30,8 @@ void camera_system::update_camera()
 	if (snapped)
 	{
 		Transform* tc = static_cast<Transform*>(target->get_component(ComponentType::Transf));
-		camera_rect.x = tc->position.x - camera_rect.w / 2;
-		camera_rect.y = tc->position.y - camera_rect.h / 2;
+		camera_rect.x = tc->position.x - camera_rect.w / 2 + tc->position.w / 2;
+		camera_rect.y = tc->position.y - camera_rect.h / 2 + tc->position.h / 2;
 	}
 	else
 	{
@@ -42,13 +45,14 @@ void camera_system::update_camera()
 	
 }
 
-void camera_system::get_camera_zoom(float* w_zoom, float* h_zoom)
+void camera_system::set_camera_zoom(float new_zoom)
 {
 	int window_w, window_h;
 	SDL_manager::get_window_size(&window_w, &window_h);
 
-	*w_zoom = (float)camera_rect.w / (float)window_w;
-	*h_zoom = (float)camera_rect.h / (float)window_h;
+	camera_rect.w = window_w / new_zoom;
+	camera_rect.h = window_h / new_zoom;
+	zoom = new_zoom;
 }
 
 camera_system::camera_system()

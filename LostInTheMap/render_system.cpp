@@ -50,8 +50,7 @@ void render_system::sort_queues()
 
 void render_system::render_queues()
 {
-	float zoom_x, zoom_y;
-	camera_system::get_camera_zoom(&zoom_x, &zoom_y);
+	float zoom = camera_system::get_camera_zoom();
 
 	SDL_Rect camera = camera_system::get_camera_rect();
 
@@ -62,9 +61,10 @@ void render_system::render_queues()
 		{
 			IDrawable* obj = *it;
 			SDL_Rect dr = obj->draw_rect;
-			dr.x -= camera.x;
-			dr.y -= camera.y;
-			SDL_manager::render_sprite(obj->sprite, dr);
+			dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
+			dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
+			dr.w = static_cast<int>(std::floor(dr.w * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
+			dr.h = static_cast<int>(std::floor(dr.h * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
 			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
 				continue;
 			
@@ -78,9 +78,10 @@ void render_system::render_queues()
 		{
 			IDrawable* obj = *it;
 			SDL_Rect dr = obj->draw_rect;
-			dr.x -= camera.x;
-			dr.y -= camera.y;
-			SDL_manager::render_sprite(obj->sprite, dr);
+			dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
+			dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
+			dr.w = static_cast<int>(std::floor(dr.w * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
+			dr.h = static_cast<int>(std::floor(dr.h * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
 			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
 				continue;
 			
@@ -94,9 +95,10 @@ void render_system::render_queues()
 		{
 			IDrawable* obj = *it;
 			SDL_Rect dr = obj->draw_rect;
-			dr.x -= camera.x;
-			dr.y -= camera.y;
-			SDL_manager::render_sprite(obj->sprite, dr);
+			dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
+			dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
+			dr.w = static_cast<int>(std::floor(dr.w * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
+			dr.h = static_cast<int>(std::floor(dr.h * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
 			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
 				continue;
 
@@ -110,9 +112,7 @@ void render_system::render_queues()
 		{
 			IDrawable* obj = *it;
 			SDL_Rect dr = obj->draw_rect;
-			dr.x -= camera.x;
-			dr.y -= camera.y;
-			SDL_manager::render_sprite(obj->sprite, dr);
+			
 			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
 				continue;
 
@@ -126,9 +126,6 @@ void render_system::render_queues()
 		{
 			IDrawable* obj = *it;
 			SDL_Rect dr = obj->draw_rect;
-			dr.x -= camera.x;
-			dr.y -= camera.y;
-			SDL_manager::render_sprite(obj->sprite, dr);
 			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
 				continue;
 
