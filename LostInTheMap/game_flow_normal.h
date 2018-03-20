@@ -2,6 +2,7 @@
 #include "Space.h"
 #include "SpaceSystem.h"
 #include "render_system.h"
+#include "camera_system.h"
 class game_flow_normal : SpaceSystem
 {
 private:

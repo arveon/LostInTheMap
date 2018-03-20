@@ -21,7 +21,8 @@ enum ComponentType
 	Mouse,
 	UIElement,
 	Terrain,
-	Tile
+	Tile,
+	Character
 };
 
 class Entity;
@@ -35,6 +36,44 @@ public:
 	Entity* owner;
 	virtual ~Component() {};
 	Component(Entity* owner) { this->owner = owner; }
+};
+
+class Transform : public Component
+{
+public:
+	SDL_Rect position;
+	Transform(Entity* owner, int x = 0, int y = 0) : Component(owner)
+	{
+		position.x = x;
+		position.y = y;
+		type = ComponentType::Transf;
+		isActive = true;
+	}
+};
+
+class IDrawable : public Component
+{
+public:
+	enum layers
+	{
+		background,
+		terrain,
+		surface,
+		foreground,
+		ui
+	};
+
+	int id;
+	layers layer;
+	SDL_Texture* sprite;
+	SDL_Rect draw_rect;
+	IDrawable(Entity* owner, layers layer) : Component(owner)
+	{
+		id = 0;
+		this->layer = layer;
+		type = ComponentType::Drawable;
+		isActive = true;
+	}
 };
 
 class IAnimatable : public Component
@@ -70,47 +109,107 @@ public:
 	}
 };
 
-class IDescriptable : public Component
+
+
+enum InteractionState
+{
+	none,
+	hover,
+	pressed,
+	blocked
+};
+class IMouseInteractable : public Component
 {
 public:
-	SDL_Texture * box_background;
-	SDL_Texture* rendered_text;
-	std::string text;
-	SDL_Rect box_draw_rect;
-	IDescriptable(Entity* owner) : Component(owner)
+	InteractionState state;
+};
+
+enum UI_Element_Type
+{
+	button,
+	slider_slide,
+	slider_slab,
+	text,
+	loading_bar
+};
+class IUIElement : public Component
+{
+public:
+	UI_Element_Type element_type;
+	std::string name;
+	IUIElement(Entity* owner) : Component(owner)
 	{
-		type = ComponentType::Description;
+		type = ComponentType::UIElement;
 		isActive = true;
 	}
 };
 
-class IDrawable : public Component
+class IMouse : public Component
 {
 public:
-	enum layers
+	Entity * cur_target;
+	Entity * down_target;
+	IMouse(Entity* owner) : Component(owner)
 	{
-		background,
-		terrain,
-		surface,
-		foreground,
-		ui
-	};
-
-	int id;
-	layers layer;
-	SDL_Texture* sprite;
-	SDL_Rect draw_rect;
-	IDrawable(Entity* owner, layers layer) : Component(owner)
-	{
-		id = 0;
-		this->layer = layer;
-		type = ComponentType::Drawable;
+		type = ComponentType::Mouse;
 		isActive = true;
+		cur_target = nullptr;
+		down_target = nullptr;
 	}
+};
 
-	~IDrawable()
+class ITerrain : public Component
+{
+public:
+	Entity * ** terrain_tiles;
+	int width;
+	int height;
+	int tile_width;
+	ITerrain(Entity* owner) : Component(owner)
 	{
-		//asset_controller::destroy_texture(sprite);
+		width = 0;
+		height = 0;
+		terrain_tiles = nullptr;
+		type = ComponentType::Terrain;
+	}
+};
+
+class ITile : public Component
+{
+public:
+	std::vector<Entity*> neighbours;
+	int x, y;
+	bool is_traversible;
+
+	ITile(Entity* owner, int x, int y, bool traversible) : Component(owner)
+	{
+		this->x = x;
+		this->y = y;
+		is_traversible = traversible;
+		type = ComponentType::Tile;
+	}
+};
+
+enum character_type
+{
+	h_giovanni,
+	h_zaji,
+	zakra_spearman,
+	juji_spearman,
+	juji_friendly_1,
+	juji_friendly_2,
+	h_zurshi,
+};
+class ICharacter : public Component
+{
+public:
+	character_type c_type;
+
+	ICharacter(Entity* owner, character_type type) : Component(owner)
+	{
+		c_type = type;
+		this->type = ComponentType::Character;
+		
 	}
 };
 
@@ -154,18 +253,21 @@ public:
 	}
 };
 
-class Transform : public Component
+
+class IDescriptable : public Component
 {
 public:
-	SDL_Rect position;
-	Transform(Entity* owner, int x = 0, int y = 0) : Component(owner)
+	SDL_Texture * box_background;
+	SDL_Texture* rendered_text;
+	std::string text;
+	SDL_Rect box_draw_rect;
+	IDescriptable(Entity* owner) : Component(owner)
 	{
-		position.x = x;
-		position.y = y;
-		type = ComponentType::Transf;
+		type = ComponentType::Description;
 		isActive = true;
 	}
 };
+
 
 struct tile
 {
@@ -196,18 +298,7 @@ public:
 	}
 };
 
-enum InteractionState 
-{
-	none,
-	hover,
-	pressed,
-	blocked
-};
-class IMouseInteractable : public Component
-{
-public:
-	InteractionState state;
-};
+
 
 class IComposite : public Component
 {
@@ -216,39 +307,7 @@ public:
 	std::vector<Entity*> dependencies;
 };
 
-enum UI_Element_Type
-{
-	button,
-	slider_slide,
-	slider_slab,
-	text,
-	loading_bar
-};
-class IUIElement : public Component
-{
-public:
-	UI_Element_Type element_type;
-	std::string name;
-	IUIElement(Entity* owner) : Component(owner)
-	{
-		type = ComponentType::UIElement;
-		isActive = true;
-	}
-};
 
-class IMouse : public Component
-{
-public:
-	Entity * cur_target;
-	Entity * down_target;
-	IMouse(Entity* owner) : Component(owner) 
-	{
-		type = ComponentType::Mouse;
-		isActive = true;
-		cur_target = nullptr;
-		down_target = nullptr;
-	}
-};
 
 class ISlider : public Component
 {
@@ -263,39 +322,5 @@ public:
 		this->slab = slab;
 		this->value = value;
 	}
-
-};
-
-class ITerrain : public Component
-{
-public:
-	Entity*** terrain_tiles;
-	int width;
-	int height;
-	int tile_width;
-	ITerrain(Entity* owner) : Component(owner)
-	{
-		width = 0;
-		height = 0; 
-		terrain_tiles = nullptr;
-		type = ComponentType::Terrain;
-	}
-};
-
-class ITile : public Component
-{
-public:
-	std::vector<Entity*> neighbours;
-	int x, y;
-	bool is_traversible;
-
-	ITile(Entity* owner, int x, int y, bool traversible) : Component(owner)
-	{
-		this->x = x;
-		this->y = y;
-		is_traversible = traversible;
-		type = ComponentType::Tile;
-	}
-
 
 };

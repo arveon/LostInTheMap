@@ -8,7 +8,7 @@ void game_flow_normal::init(Space & game_space)
 	for (unsigned int i = 0; i < game_space.objects.size(); i++)
 	{
 		Entity* ent = game_space.objects.at(i);
-		IDrawable* drawable = static_cast<IDrawable*>(ent->get_component(ComponentType::Transf));
+		IDrawable* drawable = static_cast<IDrawable*>(ent->get_component(ComponentType::Drawable));
 		
 		//if an object is terrain, loop through all of its tiles and add them to queue
 		ITerrain* tr = static_cast<ITerrain*>(ent->get_component(ComponentType::Terrain));
@@ -35,6 +35,7 @@ void game_flow_normal::init(Space & game_space)
 void game_flow_normal::update_space(Space & space, int dt)
 {
 	update_mouse(game_flow_normal::mouse);
+	camera_system::update_camera();
 }
 
 game_flow_normal::game_flow_normal()

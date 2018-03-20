@@ -1,12 +1,15 @@
 #pragma once
 #include "Entity.h"
 #include "SDL_manager.h"
+#include "camera_system.h"
 
 #include <vector>
 
 class render_system
 {
 private:
+	static float scaling_w;
+	static float scaling_h;
 	static std::vector<IDrawable*> background;//bg
 	static std::vector<IDrawable*> terrain;
 	static std::vector<IDrawable*> surface;//characters, items, other game objects

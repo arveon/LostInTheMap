@@ -50,13 +50,25 @@ void render_system::sort_queues()
 
 void render_system::render_queues()
 {
+	float zoom_x, zoom_y;
+	camera_system::get_camera_zoom(&zoom_x, &zoom_y);
+
+	SDL_Rect camera = camera_system::get_camera_rect();
+
 	SDL_manager::start_render();
 	if (background.size() > 0)
 	{
 		for (std::vector<IDrawable*>::iterator it = background.begin(); it != background.end(); it++)
 		{
 			IDrawable* obj = *it;
-			SDL_manager::render_sprite(obj->sprite, obj->draw_rect);
+			SDL_Rect dr = obj->draw_rect;
+			dr.x -= camera.x;
+			dr.y -= camera.y;
+			SDL_manager::render_sprite(obj->sprite, dr);
+			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
+				continue;
+			
+			SDL_manager::render_sprite(obj->sprite, dr);
 		}
 	}
 
@@ -65,9 +77,14 @@ void render_system::render_queues()
 		for (std::vector<IDrawable*>::iterator it = terrain.begin(); it != terrain.end(); it++)
 		{
 			IDrawable* obj = *it;
-			if (obj->draw_rect.x + obj->draw_rect.w < 0 || obj->draw_rect.y + obj->draw_rect.h < 0)
+			SDL_Rect dr = obj->draw_rect;
+			dr.x -= camera.x;
+			dr.y -= camera.y;
+			SDL_manager::render_sprite(obj->sprite, dr);
+			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
 				continue;
-			SDL_manager::render_sprite(obj->sprite, obj->draw_rect);
+			
+			SDL_manager::render_sprite(obj->sprite, dr);
 		}
 	}
 
@@ -76,7 +93,14 @@ void render_system::render_queues()
 		for (std::vector<IDrawable*>::iterator it = surface.begin(); it != surface.end(); it++)
 		{
 			IDrawable* obj = *it;
-			SDL_manager::render_sprite(obj->sprite, obj->draw_rect);
+			SDL_Rect dr = obj->draw_rect;
+			dr.x -= camera.x;
+			dr.y -= camera.y;
+			SDL_manager::render_sprite(obj->sprite, dr);
+			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
+				continue;
+
+			SDL_manager::render_sprite(obj->sprite, dr);
 		}
 	}
 
@@ -85,7 +109,14 @@ void render_system::render_queues()
 		for (std::vector<IDrawable*>::iterator it = foreground.begin(); it != foreground.end(); it++)
 		{
 			IDrawable* obj = *it;
-			SDL_manager::render_sprite(obj->sprite, obj->draw_rect);
+			SDL_Rect dr = obj->draw_rect;
+			dr.x -= camera.x;
+			dr.y -= camera.y;
+			SDL_manager::render_sprite(obj->sprite, dr);
+			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
+				continue;
+
+			SDL_manager::render_sprite(obj->sprite, dr);
 		}
 	}
 
@@ -94,7 +125,14 @@ void render_system::render_queues()
 		for (std::vector<IDrawable*>::iterator it = ui.begin(); it != ui.end(); it++)
 		{
 			IDrawable* obj = *it;
-			SDL_manager::render_sprite(obj->sprite, obj->draw_rect);
+			SDL_Rect dr = obj->draw_rect;
+			dr.x -= camera.x;
+			dr.y -= camera.y;
+			SDL_manager::render_sprite(obj->sprite, dr);
+			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
+				continue;
+
+			SDL_manager::render_sprite(obj->sprite, dr);
 		}
 	}
 

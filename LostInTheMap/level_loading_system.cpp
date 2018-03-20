@@ -236,7 +236,9 @@ void level_loading_system::load_game_components(Space & game_space)
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
 		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
 		int** characters = xml_system::load_characters(level_to_load, terrain->width, terrain->height);
-		std::vector<Entity*> chars = character_system::init_characters(characters, terrain->width, terrain->height, terrain);
+		std::vector<Entity*> temp = character_system::init_characters(characters, terrain->width, terrain->height, terrain);
+		for (unsigned int i = 0; i < temp.size(); i++)
+			game_space.objects.push_back(temp.at(i));
 
 	}
 		break;
@@ -256,11 +258,6 @@ void level_loading_system::load_game_components(Space & game_space)
 		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
 
 		asset_controller::load_terrain_textures("assets/tilesets/" + level_name + ".png", terrain->tile_width);
-	}
-		break;
-	case loading_state::loading_character_textures:
-	{
-
 	}
 		break;
 	case loading_state::loading_item_textures:
@@ -285,7 +282,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::attaching_character_textures:
 	{
-
+		character_system::attach_textures_to_characters();
 	}
 		break;
 	case loading_state::attaching_object_textures:
@@ -361,6 +358,8 @@ void level_loading_system::load_game_components(Space & game_space)
 
 			dc->draw_rect = camera_system::world_to_camera_space(tr->position);
 		}
+
+		camera_system::set_camera_target(SpaceSystem::find_entity_by_name(game_space, "player"));
 	}
 		break;
 	case loading_state::done:
