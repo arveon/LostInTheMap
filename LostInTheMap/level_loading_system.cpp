@@ -13,7 +13,7 @@ void level_loading_system::load_new_game()
 
 }
 
-void level_loading_system::init_space(MenuLayout layout, Space & space)
+void level_loading_system::init_space(MenuLayout layout, Space & space, levels to_load)
 {
 	if (space.initialised)
 		return;
@@ -22,7 +22,7 @@ void level_loading_system::init_space(MenuLayout layout, Space & space)
 	
 	//general system initialisation
 	loading_stage = loading_state::loading_terrain;
-	level_to_load = levels::test;
+	level_to_load = to_load;
 	loading_states = xml_system::get_loading_states();
 	loading_progress = 0;
 
@@ -207,14 +207,14 @@ void level_loading_system::load_game_components(Space & game_space)
 		camera_system::init_camera();
 
 		int w, h, tw;
-		int** map_tile_ids = xml_system::load_map_tiles(levels::test, &w, &h, &tw);
+		int** map_tile_ids = xml_system::load_map_tiles(level_to_load, &w, &h, &tw);
 		Entity * terrain = new Entity(entity_type::tilemap, "terrain");
 		ITerrain* tc = new ITerrain(terrain);
 		tc->width = w;
 		tc->height = h;
 		tc->tile_width = tw;
 		terrain->add_component(tc);
-		map_system::init_terrain_map(map_tile_ids, levels::test, terrain);
+		map_system::init_terrain_map(map_tile_ids, level_to_load, terrain);
 		game_space.objects.push_back(terrain);
 	}
 		break;
@@ -243,6 +243,9 @@ void level_loading_system::load_game_components(Space & game_space)
 		{
 		case levels::test:
 			level_name = "test";
+			break;
+		case levels::pyramid:
+			level_name = "pyramid";
 			break;
 		}
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
@@ -344,7 +347,6 @@ void level_loading_system::load_game_components(Space & game_space)
 		for (unsigned int i = 0; i < game_space.objects.size(); i++)
 		{
 			Entity* e = game_space.objects.at(i);
-
 
 			Transform* tr = static_cast<Transform*>(e->get_component(ComponentType::Transf));
 			if (!tr)

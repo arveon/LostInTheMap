@@ -24,6 +24,9 @@ private:
 	static std::vector<SDL_Texture*> terrain_textures;
 public:
 	static SDL_Renderer * renderer;
+
+	static float tile_scaling;
+
 	asset_controller();
 	~asset_controller();
 

@@ -98,7 +98,7 @@ void Game::game_loop()
 			if (!loading_space.initialised)
 			{
 				MenuLayout layout = xml_system::load_interface_layout("loading");
-				level_loading_system::init_space(layout,loading_space);
+				level_loading_system::init_space(layout,loading_space, levels::pyramid);
 				level_loading_system::register_loading_done_listener(&loading_done_handler);
 				
 			}

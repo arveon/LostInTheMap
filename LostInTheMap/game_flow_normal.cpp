@@ -4,11 +4,13 @@ Entity* game_flow_normal::mouse;
 
 void game_flow_normal::init(Space & game_space)
 {
+	//add all of the objects in game space to render queue
 	for (unsigned int i = 0; i < game_space.objects.size(); i++)
 	{
 		Entity* ent = game_space.objects.at(i);
 		IDrawable* drawable = static_cast<IDrawable*>(ent->get_component(ComponentType::Transf));
 		
+		//if an object is terrain, loop through all of its tiles and add them to queue
 		ITerrain* tr = static_cast<ITerrain*>(ent->get_component(ComponentType::Terrain));
 		if (tr)
 		{

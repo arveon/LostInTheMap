@@ -39,6 +39,7 @@ private:
 public:
 	static SDL_Renderer * renderer;
 	
+	
 	SDL_manager();
 	~SDL_manager();
 

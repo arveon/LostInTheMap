@@ -49,7 +49,7 @@ public:
 	
 	static void load_new_game();
 
-	static void init_space(MenuLayout layout, Space& space);
+	static void init_space(MenuLayout layout, Space& space, levels to_load);
 	static void update_space(Space& space, Space& level_space, int dt);
 	
 	static int register_loading_done_listener(void(*listener)()) { loading_done_listeners.push_back(listener); return (loading_done_listeners.size() - 1); }

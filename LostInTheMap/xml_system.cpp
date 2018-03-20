@@ -88,7 +88,19 @@ int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* ti
 {
 	int** tilemap = nullptr;
 
-	rapidxml::file<> file("Levels/test/test_map.xml");
+	std::string path = "map.xml";
+	switch (level)
+	{
+	case levels::test:
+		path = "Levels/tests/" + path;
+		break;
+	case levels::pyramid:
+		path = "Levels/pyramid/" + path;
+		break;
+
+	}
+
+	rapidxml::file<> file(path.c_str());
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(file.data());
 
@@ -125,8 +137,19 @@ int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* ti
 int** xml_system::load_map_collisions(levels level, int width, int height)
 {
 	int** tilemap = nullptr;
+	std::string path = "map.xml";
+	switch (level)
+	{
+	case levels::test:
+		path = "Levels/tests/"+path;
+		break;
+	case levels::pyramid:
+		path = "Levels/pyramid/" + path;
+		break;
 
-	rapidxml::file<> file("Levels/test/test_map.xml");
+	}
+
+	rapidxml::file<> file(path.c_str());
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(file.data());
 

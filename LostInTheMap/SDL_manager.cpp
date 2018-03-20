@@ -9,6 +9,7 @@ SDL_manager::mouse SDL_manager::mouse_state;
 std::vector<HardInputEventType> SDL_manager::events;
 SDL_Renderer* SDL_manager::renderer;
 
+
 bool SDL_manager::initialised;
 
 SDL_manager::SDL_manager()

@@ -4,6 +4,9 @@
 SDL_Renderer* asset_controller::renderer;
 std::vector<SDL_Texture*> asset_controller::terrain_textures;
 
+float asset_controller::tile_scaling = 2.f;
+
+
 asset_controller::asset_controller()
 {
 }
@@ -126,7 +129,6 @@ SDL_Texture* asset_controller::get_texture_from_text(std::string text, UI_text_t
 
 void asset_controller::load_terrain_textures(std::string path, int tilewidth)
 {
-	//TODO: write logic to load all textures from the appropriate spritesheet
 	SDL_Texture* tex = load_texture(path.c_str());
 
 	//get number of tiles across and down in tilesheet
