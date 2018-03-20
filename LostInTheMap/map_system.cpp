@@ -90,7 +90,6 @@ void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 	}
 }
 
-
 map_system::map_system()
 {
 }

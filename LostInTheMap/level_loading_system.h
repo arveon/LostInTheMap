@@ -5,6 +5,7 @@
 #include "xml_system.h"
 #include "map_system.h"
 #include "camera_system.h"
+#include "character_system.h"
 
 class level_loading_system : public SpaceSystem
 {

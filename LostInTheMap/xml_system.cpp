@@ -84,6 +84,9 @@ MenuLayout xml_system::load_interface_layout(std::string name)
 	return layout;
 }
 
+//TODO: add layer system to load methods switch(cur_tile->name()) case "terrain" - load tiles, etc 
+
+
 int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* tilewidth)
 {
 	int** tilemap = nullptr;
@@ -176,6 +179,50 @@ int** xml_system::load_map_collisions(levels level, int width, int height)
 	}
 
 	return tilemap;
+}
+
+int** xml_system::load_characters(levels level, int width, int height)
+{
+	int** result;
+	//initialise the tilemap to -1s as it will represent a tile with nothing
+	result = new int*[height];
+	for (int i = 0; i < height; i++)
+	{
+		result[i] = new int[width];
+		for (int j = 0; j < width; j++)
+		{
+			result[i][j] = -1;
+		}
+	}
+
+	std::string path = "map.xml";
+	switch (level)
+	{
+	case levels::test:
+		path = "Levels/tests/" + path;
+		break;
+	case levels::pyramid:
+		path = "Levels/pyramid/" + path;
+		break;
+	}
+
+	rapidxml::file<> file(path.c_str());
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(file.data());
+
+	rapidxml::xml_node<>* cur_node = doc.first_node("tilemap")->first_node("layer")->next_sibling()->next_sibling()->first_node("tile");
+	while (cur_node)
+	{
+		int id = std::stoi(cur_node->first_attribute("tile")->value());
+		
+		int x = std::stoi(cur_node->first_attribute("x")->value());
+		int y = std::stoi(cur_node->first_attribute("y")->value());
+		result[y][x] = id;
+		cur_node = cur_node->next_sibling("tile");
+	}
+
+
+	return result;
 }
 
 std::vector<xml_system::LoadingState> xml_system::get_loading_states()

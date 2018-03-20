@@ -111,6 +111,9 @@
     <ClInclude Include="game_flow_normal.h">
       <Filter>Header Files\systems\gameplay_systems</Filter>
     </ClInclude>
+    <ClInclude Include="character_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="game_flow_normal.cpp">
       <Filter>Source Files\systems\gameplay_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="character_system.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

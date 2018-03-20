@@ -1,5 +1,5 @@
 <tilemap tileswide="50" tileshigh="50" tilewidth="32" tileheight="32">
-  <layer number="2" name="Layer 0">
+  <layer number="2" name="terrain">
     <tile x="0" y="0" tile="-1" rot="0" flipX="false"/>
     <tile x="1" y="0" tile="-1" rot="0" flipX="false"/>
     <tile x="2" y="0" tile="-1" rot="0" flipX="false"/>
@@ -2501,7 +2501,7 @@
     <tile x="48" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="49" y="49" tile="-1" rot="0" flipX="false"/>
   </layer>
-  <layer number="1" name="Layer 1">
+  <layer number="1" name="collision">
     <tile x="0" y="0" tile="-1" rot="0" flipX="false"/>
     <tile x="1" y="0" tile="-1" rot="0" flipX="false"/>
     <tile x="2" y="0" tile="-1" rot="0" flipX="false"/>
@@ -5003,7 +5003,7 @@
     <tile x="48" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="49" y="49" tile="-1" rot="0" flipX="false"/>
   </layer>
-  <layer number="0" name="Layer 2">
+  <layer number="0" name="characters">
     <tile x="0" y="0" tile="-1" rot="0" flipX="false"/>
     <tile x="1" y="0" tile="-1" rot="0" flipX="false"/>
     <tile x="2" y="0" tile="-1" rot="0" flipX="false"/>

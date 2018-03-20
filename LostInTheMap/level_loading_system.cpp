@@ -233,6 +233,10 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::loading_characters:
 	{
+		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
+		int** characters = xml_system::load_characters(level_to_load, terrain->width, terrain->height);
+		std::vector<Entity*> chars = character_system::init_characters(characters, terrain->width, terrain->height, terrain);
 
 	}
 		break;
