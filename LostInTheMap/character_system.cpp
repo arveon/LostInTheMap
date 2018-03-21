@@ -4,12 +4,10 @@ std::vector<Entity*> character_system::characters;
 
 std::vector<Entity*> character_system::init_characters(int ** charact, int width, int height, ITerrain* tr)
 {
-	std::cout << "char map" << std::endl;
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
 		{
-			std::cout << charact[i][j];
 			if (charact[i][j] != -1)
 			{
 				Entity* ent = new Entity(entity_type::game_object);
@@ -52,7 +50,6 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 			
 
 		}
-		std::cout << std::endl;
 	}
 	return characters;
 }
@@ -78,6 +75,10 @@ void character_system::attach_textures_to_characters()
 
 			dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
 			dc->draw_rect = tc->position;
+			/*dc->draw_rect.w *= 4;
+			dc->draw_rect.h *= 4;*/
+			tc->position.w = 50;
+			tc->position.h = 48;
 
 			break;
 		}

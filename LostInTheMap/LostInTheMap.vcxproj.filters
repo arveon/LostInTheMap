@@ -112,7 +112,7 @@
       <Filter>Header Files\systems\gameplay_systems</Filter>
     </ClInclude>
     <ClInclude Include="character_system.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\systems\utility_systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,7 +162,7 @@
       <Filter>Source Files\systems\gameplay_systems</Filter>
     </ClCompile>
     <ClCompile Include="character_system.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\systems\utility_systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
