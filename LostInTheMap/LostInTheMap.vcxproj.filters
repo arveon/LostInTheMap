@@ -114,6 +114,9 @@
     <ClInclude Include="character_system.h">
       <Filter>Header Files\systems\utility_systems</Filter>
     </ClInclude>
+    <ClInclude Include="mouse_system.h">
+      <Filter>Header Files\systems\menu_systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -162,6 +165,9 @@
       <Filter>Source Files\systems\gameplay_systems</Filter>
     </ClCompile>
     <ClCompile Include="character_system.cpp">
+      <Filter>Source Files\systems\utility_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="mouse_system.cpp">
       <Filter>Source Files\systems\utility_systems</Filter>
     </ClCompile>
   </ItemGroup>

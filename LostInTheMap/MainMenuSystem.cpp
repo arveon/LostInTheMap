@@ -73,7 +73,7 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 #pragma endregion
 
 #pragma region mouse
-	MainMenuSystem::mouse = SpaceSystem::create_mouse();
+	MainMenuSystem::mouse = mouse_system::create_mouse();
 	space.objects.push_back(mouse);
 #pragma endregion
 
@@ -85,7 +85,7 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 void MainMenuSystem::update_space(Space & space, int dt)
 {
 #pragma region update_mouse
-	SpaceSystem::update_mouse(MainMenuSystem::mouse);
+	mouse_system::update_mouse(MainMenuSystem::mouse);
 #pragma endregion
 
 	//check mouse collisions with other objects

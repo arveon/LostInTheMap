@@ -77,31 +77,4 @@ Entity* SpaceSystem::find_entity_by_name(Space& space, std::string name)
 	return result;
 }
 
-Entity* SpaceSystem::create_mouse()
-{
-	Entity* mouse = new Entity(entity_type::mouse);
-	Transform* m_transform = new Transform(mouse);
-	m_transform->position = { 0,0,1,1 };
 
-	IDrawable* m_draw_comp = new IDrawable(mouse, IDrawable::layers::foreground);
-	m_draw_comp->sprite = asset_controller::load_texture("assets/graphics/ui/mouse.png");
-
-	m_draw_comp->draw_rect = asset_controller::get_texture_size(m_draw_comp->sprite);
-
-	IMouse* mc = new IMouse(mouse);
-
-	mouse->transform = m_transform;
-	mouse->add_component(m_draw_comp);
-	mouse->add_component(mc);
-
-	return mouse;
-}
-
-void SpaceSystem::update_mouse(Entity* mouse)
-{
-	IDrawable* dc = static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable));
-	mouse->transform->position.x = input_system::mouse.x;
-	mouse->transform->position.y = input_system::mouse.y;
-	dc->draw_rect.x = input_system::mouse.x;
-	dc->draw_rect.y = input_system::mouse.y;
-}
