@@ -66,6 +66,12 @@ void Game::start_handler()
 	state = game_state::loading;
 }
 
+void Game::exit_game_flow()
+{
+	deregister_event_listener(HardInputEventType::left_mouse_down, game_flow_normal::mouse_down_listener_id);
+	deregister_event_listener(HardInputEventType::left_mouse_up, game_flow_normal::mouse_up_listener_id);
+}
+
 void Game::game_loop()
 {
 	while (Game::running)
@@ -111,8 +117,11 @@ void Game::game_loop()
 			if (!game_space.initialised)
 			{
 				game_flow_normal::init(game_space);
+				game_flow_normal::mouse_down_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_down, game_flow_normal::mouse_down_event);
+				game_flow_normal::mouse_up_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_up, game_flow_normal::mouse_up_event);
 			}
 			game_flow_normal::update_space(game_space, time.get_delta_time());
+			
 			break;
 		case game_state::confirming_exit:
 			

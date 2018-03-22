@@ -23,7 +23,6 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 					static_cast<int>(tr->tile_width),
 					static_cast<int>(tr->tile_width)
 				};
-				//transf_c->position.y -= transf_c->position.h;
 
 
 				IAnimatable* ac = new IAnimatable(ent);//character sprite size 64x64
@@ -48,6 +47,7 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 				
 
 				IMoving* mc = new IMoving(ent, j, i);
+				ent->add_component(mc);
 
 				characters.push_back(ent);
 			}
@@ -79,8 +79,6 @@ void character_system::attach_textures_to_characters()
 
 			dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
 			dc->draw_rect = tc->position;
-			/*dc->draw_rect.w *= 4;
-			dc->draw_rect.h *= 4;*/
 			tc->position.w = 50;
 			tc->position.h = 48;
 

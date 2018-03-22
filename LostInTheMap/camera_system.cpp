@@ -20,7 +20,16 @@ SDL_Rect camera_system::world_to_camera_space(SDL_Rect world_rect)
 {
 	SDL_Rect result;
 
-	result = { world_rect.x - camera_rect.x ,  world_rect.y - camera_rect.y, world_rect.w, world_rect.h };
+	result = { world_rect.x - camera_rect.x ,  world_rect.y - camera_rect.y, static_cast<int>(world_rect.w*zoom), static_cast<int>(world_rect.h*zoom) };
+
+	return result;
+}
+
+SDL_Point camera_system::screen_to_world_space(SDL_Point position)
+{
+	SDL_Point result = {0,0};
+	//required to position/zoom to get position to camera coordinates from screen coordinates
+	result = { camera_rect.x + static_cast<int>(position.x/(float)zoom), camera_rect.y + static_cast<int>(position.y / (float)zoom) };
 
 	return result;
 }

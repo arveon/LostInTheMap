@@ -34,11 +34,11 @@ void SpaceSystem::apply_animation_sprite_changes(Space& space)
 //function clears all memory allocated for entities inside space and their components
 void SpaceSystem::destroy_space(Space& space)
 {
-	for (int i = static_cast<int>(space.objects.size()-1); i >= 0; i--)
+	for (int i = static_cast<int>(space.objects.size() - 1); i >= 0; i--)
 	{
 		Entity* temp = space.objects.at(i);
 
-		for (int j = static_cast<int>(temp->components.size()-1); j >= 0; j--)
+		for (int j = static_cast<int>(temp->components.size() - 1); j >= 0; j--)
 		{
 			//remove textures from all of the components
 			Component* temp_tc = temp->components.at(j);
@@ -67,7 +67,7 @@ void SpaceSystem::destroy_space(Space& space)
 Entity* SpaceSystem::find_entity_by_name(Space& space, std::string name)
 {
 	Entity* result = nullptr;
-	for(unsigned int i = 0; i < space.objects.size(); i++)
+	for (unsigned int i = 0; i < space.objects.size(); i++)
 	{
 		Entity* temp = space.objects.at(i);
 		if (temp->name.compare(name.c_str()) == 0)
@@ -76,5 +76,6 @@ Entity* SpaceSystem::find_entity_by_name(Space& space, std::string name)
 
 	return result;
 }
+
 
 

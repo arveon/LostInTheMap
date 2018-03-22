@@ -53,6 +53,7 @@ public:
 	static void loading_done_handler();
 	static void splash_elapsed_handler();
 	static void start_handler();
+	static void exit_game_flow();
 
 	//function will be passed to initialise function that would allow them to register mouseclick callback methods
 	static int register_mousedown_listener(void(*cb)())

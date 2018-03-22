@@ -20,6 +20,7 @@ public:
 	static void init_camera();
 
 	static SDL_Rect world_to_camera_space(SDL_Rect world_rect);
+	static SDL_Point screen_to_world_space(SDL_Point position);
 
 	static void move_camera_to(SDL_Point destination);
 	static void set_camera_target(Entity* new_target) { target = new_target; }
@@ -31,5 +32,11 @@ public:
 	static void update_camera();
 	camera_system();
 	~camera_system();
+
+	static void print_camera_position() 
+	{ 
+		std::cout << camera_rect.x << " " << camera_rect.y << std::endl; 
+		//std::cout << (camera_rect.x + 192) / 32.f << " " << (camera_rect.y + 160) / 32.f << std::endl;
+	}
 };
 

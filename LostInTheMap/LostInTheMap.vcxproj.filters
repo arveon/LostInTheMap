@@ -120,6 +120,9 @@
     <ClInclude Include="lee_pathfinder.h">
       <Filter>Header Files\systems\utility_systems</Filter>
     </ClInclude>
+    <ClInclude Include="geometry_utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -175,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="lee_pathfinder.cpp">
       <Filter>Source Files\systems\utility_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="geometry_utilities.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -219,7 +219,7 @@ class IMoving : public Component
 {
 public:
 	lee_pathfinder pathfinder;
-	SDL_Point destination;
+	SDL_Point final_destination;
 	SDL_Point origin;
 
 	bool path_calculated;

@@ -48,7 +48,7 @@ void mouse_system::change_mouse_icon(mouse_icons icon, IAnimatable* anim_compone
 		break;
 	case mouse_icons::walking:
 		anim_component->src_rect.x = 16;
-		draw_component->draw_rect.w = draw_component->draw_rect.h = 32;
+		draw_component->draw_rect.w = draw_component->draw_rect.h = 16;
 		anim_component->sprite_changed = true;
 		break;
 	}
