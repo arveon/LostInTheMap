@@ -169,13 +169,20 @@ int** xml_system::load_map_collisions(levels level, int width, int height)
 	while (cur_node)
 	{
 		std::string type = cur_node->first_attribute("tile")->value();
-		if (type.compare("1"))
+		if (type.compare("0") == 0)
 		{
 			int x = std::stoi(cur_node->first_attribute("x")->value());
 			int y = std::stoi(cur_node->first_attribute("y")->value());
 			tilemap[y][x] = 1;
 		}
 		cur_node = cur_node->next_sibling();
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+			std::cout << tilemap[i][j];
+		std::cout << std::endl;
 	}
 
 	return tilemap;

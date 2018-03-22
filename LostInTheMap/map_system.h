@@ -21,6 +21,7 @@ private:
 public:
 	static void init_terrain_map(int** tile_ids, levels level, Entity* tilemap);
 	static void init_terrain_collisions(int** collision_map, Entity* tilemap);
+	static int** get_pathfinding_map(ITerrain* tilemap);
 	map_system();
 	~map_system();
 };

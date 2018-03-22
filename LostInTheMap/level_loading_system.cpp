@@ -273,6 +273,8 @@ void level_loading_system::load_game_components(Space & game_space)
 		for (int i = 0; i < terrain->height; i++)
 			for (int j = 0; j < terrain->width; j++)
 			{
+				if (!terrain->terrain_tiles[i][j])
+					continue;
 				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Transf));
 				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
 				dc->sprite = asset_controller::get_terrain_texture(dc->id);
@@ -297,12 +299,14 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::linking_tiles:
 	{
-		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
+		/*Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
 		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
 		
 		for (int i = 0; i < terrain->height; i++)
 			for (int j = 0; j < terrain->width; j++)
 			{
+				if (!terrain->terrain_tiles[i][j])
+					continue;
 				ITile* tc = static_cast<ITile*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Tile));
 				if (i > 0)
 					tc->neighbours.push_back(terrain->terrain_tiles[i - 1][j]);
@@ -320,12 +324,15 @@ void level_loading_system::load_game_components(Space & game_space)
 					tc->neighbours.push_back(terrain->terrain_tiles[i + 1][j - 1]);
 				if (i < terrain->width - 1 && j < terrain->height - 1)
 					tc->neighbours.push_back(terrain->terrain_tiles[i + 1][j + 1]);
-			}
+			}*/
 	}
 		break;
 	case loading_state::initialising_pathfinding:
 	{
+		Entity* tilemap = SpaceSystem::find_entity_by_name(game_space, "terrain");
+		ITerrain* terrain = static_cast<ITerrain*>(tilemap->get_component(ComponentType::Terrain));
 
+		lee_pathfinder::init_pathfinder(map_system::get_pathfinding_map(terrain),terrain->width, terrain->height);
 	}
 		break;
 	case loading_state::loading_misc:
@@ -340,6 +347,8 @@ void level_loading_system::load_game_components(Space & game_space)
 		for (int i = 0; i < terrain->height; i++)
 			for (int j = 0; j < terrain->width; j++)
 			{
+				if (!terrain->terrain_tiles[i][j])
+					continue;
 				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Transf));
 				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
 				dc->draw_rect = camera_system::world_to_camera_space(tf->position);

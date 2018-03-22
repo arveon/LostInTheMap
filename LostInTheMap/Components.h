@@ -6,6 +6,8 @@
 #include <iostream>
 #include "asset_controller.h"
 
+#include "lee_pathfinder.h"
+
 
 enum ComponentType
 {
@@ -213,6 +215,25 @@ public:
 	}
 };
 
+class IMoving : public Component
+{
+public:
+	lee_pathfinder pathfinder;
+	SDL_Point destination;
+	SDL_Point origin;
+
+	bool path_calculated;
+	std::vector<SDL_Point> path;
+
+	IMoving(Entity* owner, int owner_t_x, int owner_t_y) : Component(owner)
+	{
+		origin = { owner_t_x, owner_t_y };
+		path_calculated = false;
+		this->type = ComponentType::Movement;
+	}
+
+};
+
 
 enum unit_type
 {
@@ -264,25 +285,6 @@ public:
 	IDescriptable(Entity* owner) : Component(owner)
 	{
 		type = ComponentType::Description;
-		isActive = true;
-	}
-};
-
-
-struct tile
-{
-	int x, y;
-};
-
-class IMovable : public Component
-{
-public:
-	float speed;
-	bool allowed_movement;
-	std::vector<tile> path;
-	IMovable(Entity* owner) : Component(owner)
-	{
-		type = ComponentType::Movement;
 		isActive = true;
 	}
 };

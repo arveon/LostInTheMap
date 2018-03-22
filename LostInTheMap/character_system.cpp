@@ -23,6 +23,8 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 					static_cast<int>(tr->tile_width),
 					static_cast<int>(tr->tile_width)
 				};
+				//transf_c->position.y -= transf_c->position.h;
+
 
 				IAnimatable* ac = new IAnimatable(ent);//character sprite size 64x64
 				ac->src_rect.w = ac->src_rect.h = static_cast<int>(64);
@@ -41,9 +43,11 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 					break;
 				}
 				
-				
 				ICharacter* cc = new ICharacter(ent, character_type::h_giovanni);
 				ent->add_component(cc);
+				
+
+				IMoving* mc = new IMoving(ent, j, i);
 
 				characters.push_back(ent);
 			}

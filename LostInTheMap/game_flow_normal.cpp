@@ -17,6 +17,8 @@ void game_flow_normal::init(Space & game_space)
 			for (int i = 0; i < tr->height; i++)
 				for (int j = 0; j < tr->width; j++)
 				{
+					if (!tr->terrain_tiles[i][j])
+						continue;
 					IDrawable* dc = static_cast<IDrawable*>(tr->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
 					render_system::add_object_to_queue(dc);
 				}
