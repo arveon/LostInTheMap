@@ -8,10 +8,12 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 	{
 		for (int j = 0; j < width; j++)
 		{
+			//if there is a character in this tile initialise an object for it
 			if (charact[i][j] != -1)
 			{
 				Entity* ent = new Entity(entity_type::game_object);
 
+				//create all required components for the character
 				IDrawable* dc = new IDrawable(ent, IDrawable::layers::surface);
 				ent->add_component(dc);
 				dc->id  = charact[i][j];
@@ -24,11 +26,11 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 					static_cast<int>(tr->tile_width)
 				};
 
-
 				IAnimatable* ac = new IAnimatable(ent);//character sprite size 64x64
 				ac->src_rect.w = ac->src_rect.h = static_cast<int>(64);
 				ent->add_component(ac);
 
+				//set name and character type depending on what's stored in field
 				character_type type;
 				switch (charact[i][j])
 				{
@@ -44,10 +46,10 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 				
 				ICharacter* cc = new ICharacter(ent, character_type::h_giovanni);
 				ent->add_component(cc);
-				
 
 				IMoving* mc = new IMoving(ent, j, i);
 				ent->add_component(mc);
+				
 
 				characters.push_back(ent);
 			}

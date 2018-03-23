@@ -226,6 +226,14 @@ void level_loading_system::load_game_components(Space & game_space)
 		map_system::init_terrain_collisions(map_tile_collisions, tr);
 	}
 		break;
+	case loading_state::initialising_pathfinding:
+	{
+		Entity* tilemap = SpaceSystem::find_entity_by_name(game_space, "terrain");
+		ITerrain* terrain = static_cast<ITerrain*>(tilemap->get_component(ComponentType::Terrain));
+
+		lee_pathfinder::init_pathfinder(map_system::get_pathfinding_map(terrain), terrain->width, terrain->height);
+	}
+	break;
 	case loading_state::loading_objects:
 	{
 		
@@ -295,44 +303,6 @@ void level_loading_system::load_game_components(Space & game_space)
 	case loading_state::cleaning_up_tilesheet:
 	{
 
-	}
-		break;
-	case loading_state::linking_tiles:
-	{
-		/*Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
-		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
-		
-		for (int i = 0; i < terrain->height; i++)
-			for (int j = 0; j < terrain->width; j++)
-			{
-				if (!terrain->terrain_tiles[i][j])
-					continue;
-				ITile* tc = static_cast<ITile*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Tile));
-				if (i > 0)
-					tc->neighbours.push_back(terrain->terrain_tiles[i - 1][j]);
-				if (j > 0)
-					tc->neighbours.push_back(terrain->terrain_tiles[i][j - 1]);
-				if (i < terrain->width - 1)
-					tc->neighbours.push_back(terrain->terrain_tiles[i + 1][j]);
-				if (j < terrain->height - 1)
-					tc->neighbours.push_back(terrain->terrain_tiles[i][j + 1]);
-				if (i > 0 && j > 0)
-					tc->neighbours.push_back(terrain->terrain_tiles[i - 1][j - 1]);
-				if (i > 0 && j < terrain->height - 1)
-					tc->neighbours.push_back(terrain->terrain_tiles[i - 1][j + 1]);
-				if (i < terrain->width - 1 && j > 0)
-					tc->neighbours.push_back(terrain->terrain_tiles[i + 1][j - 1]);
-				if (i < terrain->width - 1 && j < terrain->height - 1)
-					tc->neighbours.push_back(terrain->terrain_tiles[i + 1][j + 1]);
-			}*/
-	}
-		break;
-	case loading_state::initialising_pathfinding:
-	{
-		Entity* tilemap = SpaceSystem::find_entity_by_name(game_space, "terrain");
-		ITerrain* terrain = static_cast<ITerrain*>(tilemap->get_component(ComponentType::Terrain));
-
-		lee_pathfinder::init_pathfinder(map_system::get_pathfinding_map(terrain),terrain->width, terrain->height);
 	}
 		break;
 	case loading_state::loading_misc:

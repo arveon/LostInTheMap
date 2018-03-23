@@ -228,6 +228,7 @@ public:
 	IMoving(Entity* owner, int owner_t_x, int owner_t_y) : Component(owner)
 	{
 		origin = { owner_t_x, owner_t_y };
+		pathfinder.set_origin({ owner_t_x, owner_t_y });
 		path_calculated = false;
 		this->type = ComponentType::Movement;
 	}

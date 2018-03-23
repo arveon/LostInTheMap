@@ -8,23 +8,30 @@ class lee_pathfinder
 private:
 	SDL_Point origin;
 	SDL_Point destination;//tile coordinates (in tile numbers, not in world space)
+	static int width;
+	static int height;
 public:
 	struct pathfinding_tile
 	{
+		SDL_Point position;
 		bool is_traversible;
-		bool checked;
+		int pathfinding_value;
 		std::vector<pathfinding_tile*> neighbours;
 	};
-	int width;
-	int height;	
-
 	static pathfinding_tile*** map;
 
+	std::vector<SDL_Point> get_path();
+	void reset_pathfinder();
 public:
 	static void init_pathfinder(int** map, int width, int height);
 	void set_destination(SDL_Point destination) { if (destination.x > 0 && destination.x < width && destination.y > 0 && destination.y < height) this->destination = destination; };
-	std::vector<SDL_Point> get_path_to(SDL_Point destination) { return std::vector<SDL_Point>(); }
-	std::vector<SDL_Point> get_path() { return std::vector<SDL_Point>(); }
+	void set_origin(SDL_Point origin) 
+	{ 
+		if (origin.x >= 0 && origin.x < lee_pathfinder::width && origin.y >= 0 && origin.y < lee_pathfinder::height) 
+			this->origin = origin; 
+	};
+	std::vector<SDL_Point> get_path_to(SDL_Point destination);
+	
 
 	lee_pathfinder();
 	~lee_pathfinder();

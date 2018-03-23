@@ -14,6 +14,7 @@ private:
 	{
 		loading_terrain,
 		creating_terrain_collisions,
+		initialising_pathfinding,
 		loading_objects,
 		loading_characters,
 		loading_terrain_textures,
@@ -23,8 +24,6 @@ private:
 		attaching_character_textures,
 		attaching_object_textures,
 		cleaning_up_tilesheet,//?
-		linking_tiles,
-		initialising_pathfinding,
 		loading_misc,
 		objects_camera_positions,
 		done

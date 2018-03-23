@@ -178,13 +178,6 @@ int** xml_system::load_map_collisions(levels level, int width, int height)
 		cur_node = cur_node->next_sibling();
 	}
 
-	for (int i = 0; i < height; i++)
-	{
-		for (int j = 0; j < width; j++)
-			std::cout << tilemap[i][j];
-		std::cout << std::endl;
-	}
-
 	return tilemap;
 }
 

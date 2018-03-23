@@ -48,7 +48,6 @@ void game_flow_normal::update_space(Space & space, int dt)
 	camera_system::update_camera();
 	SpaceSystem::apply_animation_sprite_changes(space);
 
-
 	//handle mouse events
 	if (lmb_down_event)
 	{
@@ -80,7 +79,7 @@ void game_flow_normal::update_space(Space & space, int dt)
 			mc->final_destination = { tr->position.x + tr->position.w / 2, tr->position.y + tr->position.h / 2 };//set destination to center of tile
 			mc->pathfinder.set_destination({ t_x, t_y });//set pathfinders destination as well
 														 //tell pathfinder to calculate path
-			mc->path = mc->pathfinder.get_path();
+			mc->path = mc->pathfinder.get_path_to({t_x, t_y});
 
 			//check if point overlaps with any of the objects
 			Entity* target = game_flow_normal::get_object_at_point(space, mouse_pos.x, mouse_pos.y);
