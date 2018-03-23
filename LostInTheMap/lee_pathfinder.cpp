@@ -70,8 +70,11 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 {
 	std::vector<SDL_Point> path;
 	
-	//mark field from startpoint until endpoint reached
+	//check if destination is a passable tile
+	if (!map[destination.y][destination.x]->is_traversible)
+		return path;
 
+	//mark field from startpoint until endpoint reached
 	//get tiles of first generation
 	std::vector<pathfinding_tile*> cur_generation = lee_pathfinder::map[origin.y][origin.x]->neighbours;
 	bool destination_reached = false;
@@ -116,30 +119,62 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 			generation_number++;
 		}
 	}
-	
-	//display pathfinding values for debug
 
-	for (int i = 0; i < lee_pathfinder::height; i++)
-	{
-		for (int j = 0; j < lee_pathfinder::width; j++)
-		{
-			if (i == origin.y && j == origin.x)
-			{
-				std::cout << "R ";
-				continue;
-			}
-			if(lee_pathfinder::map[i][j]->pathfinding_value > 9)
-				std::cout << lee_pathfinder::map[i][j]->pathfinding_value << "";
-			else
-				std::cout << lee_pathfinder::map[i][j]->pathfinding_value << " ";
-		}
-		std::cout << std::endl;
-	}
+	//if all available tiles marked but destination not reached, means there is no available path
+	if (!destination_reached)
+		return path;
+
+#pragma region debug_print
+	
+	////display pathfinding values for debug
+	//for (int i = 0; i < lee_pathfinder::height; i++)
+	//{
+	//	for (int j = 0; j < lee_pathfinder::width; j++)
+	//	{
+	//		if (i == origin.y && j == origin.x)
+	//		{
+	//			std::cout << "R ";
+	//			continue;
+	//		}
+	//		if(lee_pathfinder::map[i][j]->pathfinding_value > 9)
+	//			std::cout << lee_pathfinder::map[i][j]->pathfinding_value << "";
+	//		else
+	//			std::cout << lee_pathfinder::map[i][j]->pathfinding_value << " ";
+	//	}
+	//	std::cout << std::endl;
+	//}
+#pragma endregion
 
 	//track back one step at a time and push results to path
-
-
-
+	bool start_reached = false;
+	pathfinding_tile* cur_tile = lee_pathfinder::map[destination.y][destination.x];
+	while (!start_reached)
+	{
+		//if start reached, break out
+		if (cur_tile->position.x == origin.x && cur_tile->position.y == origin.y)
+		{
+			start_reached = true;
+			break;
+		}
+		path.push_back({cur_tile->position.x, cur_tile->position.y});
+		
+		//loop through all neighbours, find a tile that has pathfinding value cur_tile->pathfinding_value -1
+		for (int i = 0; i < cur_tile->neighbours.size(); i++)
+		{
+			if (cur_tile->neighbours.at(i)->position.x == origin.x &&
+				cur_tile->neighbours.at(i)->position.y == origin.y)
+			{
+				cur_tile = cur_tile->neighbours.at(i);
+				break;
+			}
+			if (cur_tile->neighbours.at(i)->pathfinding_value < cur_tile->pathfinding_value && cur_tile->neighbours.at(i)->pathfinding_value > 0)
+			{
+				cur_tile = cur_tile->neighbours.at(i);
+				break;
+			}
+		}
+	}
+	
 	reset_pathfinder();
 
 	return path;
