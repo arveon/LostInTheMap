@@ -113,21 +113,11 @@ void level_loading_system::init_space(MenuLayout layout, Space & space, levels t
 
 void level_loading_system::update_space(Space & space, Space & level_space, int dt)
 {
-	t_elapsed_time += dt;
-	int stage_id = static_cast<int>(loading_stage);
-	if (t_elapsed_time >= t_total_time)
+	if (loading_stage == loading_state::done)
 	{
-		t_elapsed_time = 0;
-		loading_stage = static_cast<loading_state>(++stage_id);
-		if (loading_stage == loading_state::done)
-		{
-			loading_done();
-			return;
-		}
-		update_status_text(space, stage_id);
+		loading_done();
+		return;
 	}
-	loading_progress = (float)loading_states.at(stage_id).value;
-	
 	update_bar_fill(space);
 	load_game_components(level_space);
 }
@@ -352,8 +342,20 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	}
 
-
-
+	int stage_id = static_cast<int>(loading_stage);
+	int max_stage = static_cast<int>(loading_state::done);
+	if (stage_id + 1 < max_stage)
+	{
+		loading_stage = static_cast<loading_state>(++stage_id);
+		loading_progress = (float)loading_states.at(stage_id).value;
+	}
+	else
+	{
+		loading_progress = (float)loading_states.at(max_stage-1).value;
+		loading_stage = loading_state::done;
+		stage_id = max_stage;
+	}
+	update_status_text(game_space, stage_id);
 
 }
 
