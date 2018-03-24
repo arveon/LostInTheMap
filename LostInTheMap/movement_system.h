@@ -11,7 +11,7 @@ private:
 	static float tps;
 
 public:
-	static void move_characters_tick(Space& game_space, int dt, int tilewidth);
+	static void move_characters_tick(Space& game_space, int dt, ITerrain* tr);
 	movement_system();
 	~movement_system();
 };

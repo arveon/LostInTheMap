@@ -4,8 +4,9 @@ int movement_system::millis_per_tile = 500;
 int movement_system::elapsed_walking = 0;
 float movement_system::tps = .5f;
 
-void movement_system::move_characters_tick(Space& game_space, int dt, int tilewidth)
+void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* tr)
 {
+	int tilewidth = tr->tile_width;
 	for (unsigned int i = 0; i < game_space.objects.size(); i++)
 	{
 		//get moving component to see if entity is movable
@@ -27,8 +28,9 @@ void movement_system::move_characters_tick(Space& game_space, int dt, int tilewi
 			elapsed_walking = 0;
 			//update position
 			SDL_Point p= mc->path.back();
-			tc->position.x = p.x * tilewidth;
-			tc->position.y = p.y * tilewidth;
+			IDrawable* tile_dc = static_cast<IDrawable*>(tr->terrain_tiles[p.y][p.x]->get_component(ComponentType::Drawable));
+			tc->position.x = p.x * tilewidth - dc->sprite_origin.x + tile_dc->sprite_origin.x;
+			tc->position.y = p.y * tilewidth - dc->sprite_origin.y + tile_dc->sprite_origin.y;
 			dc->draw_rect.x = tc->position.x;
 			dc->draw_rect.y = tc->position.y;
 

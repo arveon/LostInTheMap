@@ -276,7 +276,9 @@ void level_loading_system::load_game_components(Space & game_space)
 				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Transf));
 				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
 				dc->sprite = asset_controller::get_terrain_texture(dc->id);
-				dc->draw_rect = camera_system::world_to_camera_space(tf->position);
+				dc->draw_rect = camera_system::world_to_camera_space(tf->position, dc->draw_rect);
+				dc->draw_rect.w = dc->draw_rect.h = terrain->tile_width;
+				dc->sprite_origin = { terrain->tile_width / 2, terrain->tile_width };
 			}
 	}
 		break;
@@ -311,7 +313,7 @@ void level_loading_system::load_game_components(Space & game_space)
 					continue;
 				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Transf));
 				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
-				dc->draw_rect = camera_system::world_to_camera_space(tf->position);
+				dc->draw_rect = camera_system::world_to_camera_space(tf->position, dc->draw_rect);
 			}
 
 		for (unsigned int i = 0; i < game_space.objects.size(); i++)
@@ -325,7 +327,7 @@ void level_loading_system::load_game_components(Space & game_space)
 			if (!dc)
 				continue;
 
-			dc->draw_rect = camera_system::world_to_camera_space(tr->position);
+			dc->draw_rect = camera_system::world_to_camera_space(tr->position, dc->draw_rect);
 		}
 
 		camera_system::set_camera_target(SpaceSystem::find_entity_by_name(game_space, "player"));

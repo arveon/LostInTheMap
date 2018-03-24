@@ -19,7 +19,7 @@ private:
 public:
 	static void init_camera();
 
-	static SDL_Rect world_to_camera_space(SDL_Rect world_rect);
+	static SDL_Rect world_to_camera_space(SDL_Rect world_rect, SDL_Rect draw_rect);
 	static SDL_Point screen_to_world_space(SDL_Point position);
 
 	static void move_camera_to(SDL_Point destination);

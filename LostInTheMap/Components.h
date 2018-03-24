@@ -44,6 +44,7 @@ class Transform : public Component
 {
 public:
 	SDL_Rect position;
+	
 	Transform(Entity* owner, int x = 0, int y = 0) : Component(owner)
 	{
 		position.x = x;
@@ -69,9 +70,11 @@ public:
 	layers layer;
 	SDL_Texture* sprite;
 	SDL_Rect draw_rect;
+	SDL_Point sprite_origin;
 	IDrawable(Entity* owner, layers layer) : Component(owner)
 	{
 		id = 0;
+		sprite_origin = { 0,0 };
 		this->layer = layer;
 		type = ComponentType::Drawable;
 		isActive = true;

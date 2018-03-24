@@ -48,7 +48,10 @@ void game_flow_normal::update_space(Space & space, int dt)
 	mouse_system::update_mouse(game_flow_normal::mouse);
 	camera_system::update_camera();
 	SpaceSystem::apply_animation_sprite_changes(space);
-	movement_system::move_characters_tick(space, dt, map_system::get_tile_width());
+	
+	Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
+	ITerrain* tr = static_cast<ITerrain*>(terrain->get_component(ComponentType::Terrain));
+	movement_system::move_characters_tick(space, dt, tr);
 
 	//handle mouse events
 	if (lmb_down_event)

@@ -81,9 +81,10 @@ void character_system::attach_textures_to_characters()
 
 			dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
 			dc->draw_rect = tc->position;
-			tc->position.w = 50;
-			tc->position.h = 48;
-
+			dc->draw_rect.w = 50;
+			dc->draw_rect.h = 48;
+			dc->sprite_origin = {dc->draw_rect.w/2, dc->draw_rect.h};
+			//tc->position.w 
 			break;
 		}
 		

@@ -8,6 +8,8 @@ std::vector<IDrawable*> render_system::ui;
 
 int render_system::add_object_to_queue(IDrawable * obj)
 {
+	if (obj->owner->name.compare("player") == 0)
+		std::cout << "a" << std::endl;
 	int id = -1;
 	switch (obj->layer)
 	{

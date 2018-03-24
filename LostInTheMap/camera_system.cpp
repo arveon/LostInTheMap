@@ -16,11 +16,11 @@ void camera_system::init_camera()
 	SDL_manager::get_window_size(&camera_rect.w, &camera_rect.h);
 }
 
-SDL_Rect camera_system::world_to_camera_space(SDL_Rect world_rect)
+SDL_Rect camera_system::world_to_camera_space(SDL_Rect world_rect, SDL_Rect draw_rect)
 {
 	SDL_Rect result;
 
-	result = { world_rect.x - camera_rect.x ,  world_rect.y - camera_rect.y, static_cast<int>(world_rect.w*zoom), static_cast<int>(world_rect.h*zoom) };
+	result = { world_rect.x - camera_rect.x ,  world_rect.y - camera_rect.y, static_cast<int>(draw_rect.w*zoom), static_cast<int>(draw_rect.h*zoom) };
 
 	return result;
 }
