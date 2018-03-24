@@ -9,7 +9,7 @@ private:
 	static std::vector<Entity*> characters;
 public:
 	static std::vector<Entity*> init_characters(int** collision_map, int width, int height, ITerrain* tr);
-	static void attach_textures_to_characters();
+	static void attach_textures_to_characters(SDL_Point tile_origin);
 	character_system();
 	~character_system();
 };

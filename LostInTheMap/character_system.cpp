@@ -60,7 +60,7 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 	return characters;
 }
 
-void character_system::attach_textures_to_characters()
+void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 {
 	for (unsigned int i = 0; i < characters.size(); i++)
 	{
@@ -84,6 +84,10 @@ void character_system::attach_textures_to_characters()
 			dc->draw_rect.w = 50;
 			dc->draw_rect.h = 48;
 			dc->sprite_origin = {dc->draw_rect.w/2, dc->draw_rect.h};
+
+			//align sprite with its tile origin
+			tc->position.x = tc->position.x - dc->sprite_origin.x + tile_origin.x;
+			tc->position.y = tc->position.y - dc->sprite_origin.y + tile_origin.y;
 			//tc->position.w 
 			break;
 		}

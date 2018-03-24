@@ -284,7 +284,24 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::attaching_character_textures:
 	{
-		character_system::attach_textures_to_characters();
+		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
+
+		SDL_Point origin;
+		for (int i = 0; i < terrain->height; i++)
+			for (int j = 0; j < terrain->width; j++)
+			{
+				if (!terrain->terrain_tiles[i][j])
+					continue;
+				else
+				{
+					IDrawable* tt = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
+					if (!tt)
+						continue;
+					origin = tt->sprite_origin;
+				}
+			}
+		character_system::attach_textures_to_characters(origin);
 	}
 		break;
 	case loading_state::attaching_object_textures:
