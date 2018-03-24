@@ -1,6 +1,6 @@
 #include "map_system.h"
 
-
+int map_system::tile_width;
 void map_system::init_terrain_map(int ** tile_ids, levels level, Entity* tilemap)
 {
 	ITerrain* tc = static_cast<ITerrain*>(tilemap->get_component(ComponentType::Terrain));
@@ -8,6 +8,7 @@ void map_system::init_terrain_map(int ** tile_ids, levels level, Entity* tilemap
 	int w = tc->width;
 	int h = tc->height;
 	int t_w = tc->tile_width;
+	map_system::tile_width = tc->tile_width;
 
 	//initialise all possible tiles in the map to a nullptr
 	tc->terrain_tiles = new Entity**[h];

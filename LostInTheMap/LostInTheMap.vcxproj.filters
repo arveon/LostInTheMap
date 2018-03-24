@@ -123,6 +123,9 @@
     <ClInclude Include="geometry_utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="movement_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -180,6 +183,9 @@
       <Filter>Source Files\systems\utility_systems</Filter>
     </ClCompile>
     <ClCompile Include="geometry_utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="movement_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

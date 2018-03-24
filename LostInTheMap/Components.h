@@ -220,14 +220,14 @@ class IMoving : public Component
 public:
 	lee_pathfinder pathfinder;
 	SDL_Point final_destination;
-	SDL_Point origin;
+	//SDL_Point origin;
 
 	bool path_calculated;
 	std::vector<SDL_Point> path;
 
 	IMoving(Entity* owner, int owner_t_x, int owner_t_y) : Component(owner)
 	{
-		origin = { owner_t_x, owner_t_y };
+		//origin = { owner_t_x, owner_t_y };
 		pathfinder.set_origin({ owner_t_x, owner_t_y });
 		path_calculated = false;
 		this->type = ComponentType::Movement;

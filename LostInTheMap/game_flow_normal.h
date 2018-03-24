@@ -4,6 +4,8 @@
 #include "render_system.h"
 #include "camera_system.h"
 #include "mouse_system.h"
+#include "movement_system.h"
+#include "map_system.h"
 
 #include "geometry_utilities.h"
 class game_flow_normal : SpaceSystem

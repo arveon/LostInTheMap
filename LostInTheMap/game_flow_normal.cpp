@@ -44,9 +44,11 @@ void game_flow_normal::init(Space & game_space)
 
 void game_flow_normal::update_space(Space & space, int dt)
 {
+	static int tw = 0;
 	mouse_system::update_mouse(game_flow_normal::mouse);
 	camera_system::update_camera();
 	SpaceSystem::apply_animation_sprite_changes(space);
+	movement_system::move_characters_tick(space, dt, map_system::get_tile_width());
 
 	//handle mouse events
 	if (lmb_down_event)
