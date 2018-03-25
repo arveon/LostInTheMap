@@ -77,5 +77,23 @@ Entity* SpaceSystem::find_entity_by_name(Space& space, std::string name)
 	return result;
 }
 
+void SpaceSystem::update_draw_rects(Space & space)
+{
+	for (unsigned int i = 0; i < space.objects.size(); i++)
+	{
+		Transform* tf = static_cast<Transform*>(space.objects.at(i)->get_component(ComponentType::Transf));
+		IDrawable* dc = static_cast<IDrawable*>(space.objects.at(i)->get_component(ComponentType::Drawable));
+
+		if (!tf || !dc)
+			continue;
+
+		dc->draw_rect.x = tf->position.x;
+		dc->draw_rect.y = tf->position.y;
+
+	}
+
+
+}
+
 
 

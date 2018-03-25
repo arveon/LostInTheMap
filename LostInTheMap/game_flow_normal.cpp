@@ -103,6 +103,8 @@ void game_flow_normal::update_space(Space & space, int dt)
 	{
 		lmb_up_event = false;//clear event flag
 	}
+
+	SpaceSystem::update_draw_rects(space);
 }
 
 Entity* game_flow_normal::get_object_at_point(Space& space, int x, int y)

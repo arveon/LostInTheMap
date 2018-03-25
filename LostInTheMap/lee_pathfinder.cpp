@@ -45,13 +45,25 @@ void lee_pathfinder::init_pathfinder(int ** map, int width, int height)
 			if (j < height - 1)
 				tile->neighbours.push_back(lee_pathfinder::map[i][j + 1]);
 			if (i > 0 && j > 0)
-				tile->neighbours.push_back(lee_pathfinder::map[i - 1][j - 1]);
+			{
+				//if(lee_pathfinder::map[i-1][j]->is_traversible)
+					tile->neighbours.push_back(lee_pathfinder::map[i - 1][j - 1]);
+			}
 			if (i > 0 && j < height - 1)
-				tile->neighbours.push_back(lee_pathfinder::map[i - 1][j + 1]);
+			{
+				//if (lee_pathfinder::map[i - 1][j]->is_traversible)
+					tile->neighbours.push_back(lee_pathfinder::map[i - 1][j + 1]);
+			}
 			if (i < width - 1 && j > 0)
-				tile->neighbours.push_back(lee_pathfinder::map[i + 1][j - 1]);
+			{
+				//if (lee_pathfinder::map[i + 1][j]->is_traversible)
+					tile->neighbours.push_back(lee_pathfinder::map[i + 1][j - 1]);
+			}
 			if (i < width - 1 && j < height - 1)
-				tile->neighbours.push_back(lee_pathfinder::map[i + 1][j + 1]);
+			{
+				//if (lee_pathfinder::map[i + 1][j]->is_traversible)
+					tile->neighbours.push_back(lee_pathfinder::map[i + 1][j + 1]);
+			}
 		}
 }
 
