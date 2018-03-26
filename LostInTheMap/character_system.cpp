@@ -16,7 +16,7 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 				//create all required components for the character
 				IDrawable* dc = new IDrawable(ent, IDrawable::layers::surface);
 				ent->add_component(dc);
-				dc->id  = charact[i][j];
+				dc->id = charact[i][j];
 				Transform* transf_c = new Transform(ent);
 				ent->add_component(transf_c);
 				transf_c->position = {
@@ -43,11 +43,12 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 					type = character_type::zakra_spearman;
 					break;
 				}
-				
+
 				ICharacter* cc = new ICharacter(ent, character_type::h_giovanni);
 				ent->add_component(cc);
 
 				IMoving* mc = new IMoving(ent, j, i);
+				mc->final_destination = { -1,-1 };
 				ent->add_component(mc);
 				
 

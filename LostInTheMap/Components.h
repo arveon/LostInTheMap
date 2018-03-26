@@ -223,6 +223,7 @@ class IMoving : public Component
 public:
 	lee_pathfinder pathfinder;
 	SDL_Point final_destination;
+	bool destination_reached;
 	//SDL_Point origin;
 
 	bool path_calculated;
@@ -233,6 +234,7 @@ public:
 		//origin = { owner_t_x, owner_t_y };
 		pathfinder.set_origin({ owner_t_x, owner_t_y });
 		path_calculated = false;
+		destination_reached = true;
 		this->type = ComponentType::Movement;
 	}
 

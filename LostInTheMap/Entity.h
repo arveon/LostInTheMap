@@ -86,4 +86,27 @@ public:
 		return result;
 	}
 
+	SDL_Point get_origin_in_world()
+	{
+		SDL_Point result;
+		Transform* tf = this->transform;
+		IDrawable* dc = static_cast<IDrawable*>(this->get_component(ComponentType::Drawable));
+
+		if (!tf || !dc)
+			return { 0,0 };
+
+		result.x = tf->position.x + dc->sprite_origin.x;
+		result.y = tf->position.y + dc->sprite_origin.y;
+		return result;
+	}
+
+	SDL_Point get_sprite_origin()
+	{
+		SDL_Point result;
+		IDrawable* dc = static_cast<IDrawable*>(this->get_component(ComponentType::Drawable));
+		if (!dc)
+			return { 0,0 };
+		return dc->sprite_origin;
+	}
+
 };

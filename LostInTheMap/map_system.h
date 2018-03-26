@@ -24,6 +24,8 @@ public:
 	static void init_terrain_collisions(int** collision_map, Entity* tilemap);
 	static int** get_pathfinding_map(ITerrain* tilemap);
 
+	static SDL_Point world_to_tilemap_ids(SDL_Point world_coords, ITerrain* tilemap);
+
 	static int get_tile_width() { return tile_width; }
 	map_system();
 	~map_system();

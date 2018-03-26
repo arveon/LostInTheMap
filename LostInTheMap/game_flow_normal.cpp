@@ -63,38 +63,54 @@ void game_flow_normal::update_space(Space & space, int dt)
 		//get mouse world space
 		mouse_pos = camera_system::screen_to_world_space(mouse_pos);
 		
-		//get player
-		Entity* player = SpaceSystem::find_entity_by_name(space, "player");
 
 		//see if the tilemap tile exists
 		Entity* trn = SpaceSystem::find_entity_by_name(space, "terrain");
 		ITerrain* tc = static_cast<ITerrain*>(trn->get_component(ComponentType::Terrain));
 		if (!tc)
 			return;
-		int t_x = 0, t_y = 0;
-		t_x = std::floor(mouse_pos.x / tc->tile_width);
-		t_y = std::floor(mouse_pos.y / tc->tile_width);
 
-		Entity* tile = tc->terrain_tiles[t_y][t_x];
+		SDL_Point t_ids = map_system::world_to_tilemap_ids(mouse_pos, tc);
+
+		Entity* tile = tc->terrain_tiles[t_ids.y][t_ids.x];
 		//set players destination to tile if tile exists
 		if (tile != nullptr)
 		{
-			Transform* tr = static_cast<Transform*>(tile->get_component(ComponentType::Transf));
+			//get player transform and move component
+			Entity* player = SpaceSystem::find_entity_by_name(space, "player");
 			IMoving* mc = static_cast<IMoving*>(player->get_component(ComponentType::Movement));
-			mc->final_destination = { tr->position.x + tr->position.w / 2, tr->position.y + tr->position.h / 2 };//set destination to center of tile
-			mc->pathfinder.set_destination({ t_x, t_y });//set pathfinders destination as well
-														 //tell pathfinder to calculate path
-			mc->path = mc->pathfinder.get_path_to({t_x, t_y});
 
-			//check if point overlaps with any of the objects
-			Entity* target = game_flow_normal::get_object_at_point(space, mouse_pos.x, mouse_pos.y);
-			if (target != nullptr)
+			Transform* tr = static_cast<Transform*>(tile->get_component(ComponentType::Transf));
+			IDrawable* dc = static_cast<IDrawable*>(tile->get_component(ComponentType::Drawable));
+			
+			mc->pathfinder.set_destination({ t_ids.x, t_ids .y});//set pathfinders destination as well
+			//calculate and get path from pathfinder
+			mc->path = mc->pathfinder.get_path_to({ t_ids.x, t_ids.y});
+			
+			SDL_Point player_ids = map_system::world_to_tilemap_ids(player->get_origin_in_world(), tc);
+			if (!mc->path.empty())
 			{
-				//if it does, remove last node of path (will finish moving one tile before the object)
-				if(!mc->path.empty())
+				//set destination mouse click position
+				SDL_Point player_sp_or = player->get_sprite_origin();
+				mc->final_destination = { mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
+				mc->destination_reached = false;
+				//check if point overlaps with any of the objects
+				Entity* target = game_flow_normal::get_object_at_point(space, mouse_pos.x, mouse_pos.y);
+				if (target != nullptr)
+				{
+					//if it does, remove last node of path (will finish moving one tile before the object)
+					mc->final_destination = { tr->position.x, tr->position.y };
 					mc->path.pop_back();
+				}
 			}
-				
+			else if (tile == tc->terrain_tiles[player_ids.y][player_ids.x])
+			{
+				SDL_Point player_sp_or = player->get_sprite_origin();
+				mc->final_destination = {mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
+				mc->destination_reached = false;
+			}
+			if (mc->path.size() != 0 || (mc->final_destination.x != tr->position.x && mc->final_destination.y != tr->position.y))
+				mc->destination_reached = false;
 		}
 			
 		lmb_down_event = false;//clear event flag

@@ -131,6 +131,14 @@ int ** map_system::get_pathfinding_map(ITerrain * tilemap)
 	return map;
 }
 
+SDL_Point map_system::world_to_tilemap_ids(SDL_Point world_coords, ITerrain* tilemap)
+{
+	SDL_Point result;
+	result.x = std::floor(world_coords.x / tilemap->tile_width);
+	result.y = std::floor(world_coords.y / tilemap->tile_width);
+	return result;
+}
+
 map_system::map_system()
 {
 }

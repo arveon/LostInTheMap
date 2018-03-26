@@ -278,7 +278,7 @@ void level_loading_system::load_game_components(Space & game_space)
 				dc->sprite = asset_controller::get_terrain_texture(dc->id);
 				dc->draw_rect = camera_system::world_to_camera_space(tf->position, dc->draw_rect);
 				dc->draw_rect.w = dc->draw_rect.h = terrain->tile_width;
-				dc->sprite_origin = { terrain->tile_width / 2, terrain->tile_width };
+				dc->sprite_origin = { terrain->tile_width / 2, terrain->tile_width/2 };
 			}
 	}
 		break;
