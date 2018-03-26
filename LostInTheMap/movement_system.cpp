@@ -6,6 +6,8 @@ float movement_system::tps = .1f;
 
 void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* tr)
 {
+	//FOR DEBUGGING
+	dt = 1;
 	if (dt > 20)
 		return;
 	int tilewidth = tr->tile_width;
@@ -52,7 +54,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 			delta_x = cur_dest.x - tc->position.x;
 			delta_y = cur_dest.y - tc->position.y;
 
-			float angle = (float)std::atan2(delta_y, delta_x);
+			double angle = (double)std::atan2(delta_y, delta_x);
 			float a = std::cos(angle);
 			float b = std::sin(angle);
 			float shift_x = a * movement_system::tps*dt;
@@ -65,24 +67,37 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 			shift_buffer_y += shift_y;
 			if (shift_buffer_x > 1.f || shift_buffer_x < -1.f)
 			{
-				tc->position.x += std::round(shift_buffer_x);
-				shift_buffer_x = 0;
-				/*if (shift_buffer_x > 0)
-					shift_buffer_x -= 1.f;
+				//since floor rounds negative values down towards negative (-0.5 to -1) and ceil rounds them up towards positive (-0.5 to 0)
+				//without this if statement speed is larger towards negative 
+				if(shift_buffer_x > 0)
+					tc->position.x += std::floor(shift_buffer_x);
 				else
-					shift_buffer_x += 1.f;*/
+					tc->position.x += std::ceil(shift_buffer_x);
+				//reset shift buffer
+				if (shift_buffer_x > 0)
+				{
+					
+					shift_buffer_x -= 1.f;
+				}
+				else
+				{
+					//tc->position.x -= std::ceil(shift_buffer_x);
+					shift_buffer_x += 1.f;
+				}
 			}
 
 			if (shift_buffer_y > 1.f || shift_buffer_y < -1.f)
 			{
-				tc->position.y += std::round(shift_buffer_y);
-				shift_buffer_y = 0;
-				/*if (shift_buffer_y > 0)
+				if(shift_buffer_y > 0)
+					tc->position.y += std::floor(shift_buffer_y);
+				else
+					tc->position.y += std::ceil(shift_buffer_y);
+				//reset shift buffer
+				if (shift_buffer_y > 0)
 					shift_buffer_y -= 1.f;
 				else
-					shift_buffer_y += 1.f;*/
+					shift_buffer_y += 1.f;
 			}
-
 
 			if (tc->position.x == cur_dest.x && tc->position.y == cur_dest.y)
 			{
