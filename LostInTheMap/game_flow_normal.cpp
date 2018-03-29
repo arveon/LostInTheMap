@@ -107,6 +107,8 @@ void game_flow_normal::handle_mouse_events(Space& space)
 				mc->destination_reached = false;
 				//check if point overlaps with any of the objects
 				Entity* target = game_flow_normal::get_object_at_point(space, mouse_pos.x, mouse_pos.y);
+				
+				//breaks everything
 				//if (target != nullptr)
 				//{
 				//	//if it does, remove last node of path (will finish moving one tile before the object)
@@ -177,6 +179,7 @@ game_flow_normal::~game_flow_normal()
 SDL_Point game_flow_normal::resolve_collisions(ICollidable* character_collision, IMoving* mc, ITerrain* tc)
 {
 	bool dest_altered = false;
+	SDL_Point required_delta = { 0,0 };
 	
 	//take into account collision rectangle
 	//calculate collision rectangle for final destination
@@ -186,57 +189,46 @@ SDL_Point game_flow_normal::resolve_collisions(ICollidable* character_collision,
 	//check if it intersects with any non-traversible tiles on X axis
 
 	//LEFT
-	SDL_Point tl = map_system::world_to_tilemap_ids({ desired_rect.x, desired_rect.y }, tc);
-	SDL_Point bl = map_system::world_to_tilemap_ids({ desired_rect.x, desired_rect.y + desired_rect.h }, tc);
-	Entity* left_top = tc->terrain_tiles[tl.y][tl.x];
-	Entity* left_bottom = tc->terrain_tiles[bl.y][bl.x];
+	SDL_Point tl = map_system::world_to_tilemap_ids({ desired_rect.x + desired_rect.w/2, desired_rect.y + desired_rect.h/2 }, tc);
+	//SDL_Point bl = map_system::world_to_tilemap_ids({ desired_rect.x, desired_rect.y + desired_rect.h }, tc);
+	Entity* left_top = tc->terrain_tiles[tl.y][tl.x - 1];
+	//Entity* left_bottom = tc->terrain_tiles[bl.y][bl.x];
 
-	ITile* ltt = static_cast<ITile*>(left_top->get_component(ComponentType::Tile));
+	ITile* ltt = nullptr;
+	if(left_top)
+		ltt = static_cast<ITile*>(left_top->get_component(ComponentType::Tile));
+	bool ltttrav = false;
+	if (ltt)
+		ltttrav = ltt->is_traversible;
 
-	if (!ltt->is_traversible || !ltt)
+	if (left_top && !ltttrav)
 	{
 		Transform* tile_transf = static_cast<Transform*>(left_top->get_component(ComponentType::Transf));
-		desired_rect.x = (tile_transf->position.x + tile_transf->position.w) - desired_rect.x;
+		if(geometry_utilities::has_intersection(desired_rect, tile_transf->position))
+			required_delta.x = (tile_transf->position.x + tile_transf->position.w) - desired_rect.x;
 		dest_altered = true;
 	}
-	else
+	
+	//RIGHT
+	SDL_Point tr = map_system::world_to_tilemap_ids({ desired_rect.x + desired_rect.w / 2, desired_rect.y + desired_rect.h / 2 }, tc);
+	//SDL_Point bl = map_system::world_to_tilemap_ids({ desired_rect.x, desired_rect.y + desired_rect.h }, tc);
+	Entity* right_top = tc->terrain_tiles[tr.y][tr.x + 1];
+	//Entity* left_bottom = tc->terrain_tiles[bl.y][bl.x];
+
+	ITile* rtt = nullptr;
+	if (right_top)
+		rtt = static_cast<ITile*>(right_top->get_component(ComponentType::Tile));
+	bool rtttrav = false;
+	if (rtt)
+		rtttrav = rtt->is_traversible;
+
+	if (right_top && !rtttrav)
 	{
-		ITile* blt = static_cast<ITile*>(left_bottom->get_component(ComponentType::Tile));
-		if (!blt->is_traversible || !blt)
-		{
-			Transform* tile_transf = static_cast<Transform*>(left_bottom->get_component(ComponentType::Transf));
-			desired_rect.x = (tile_transf->position.x + tile_transf->position.w + desired_rect.w / 2) - desired_rect.x;
-			dest_altered = true;
-		}
+		Transform* tile_transf = static_cast<Transform*>(right_top->get_component(ComponentType::Transf));
+		if (geometry_utilities::has_intersection(desired_rect, tile_transf->position))
+			required_delta.x = tile_transf->position.x - (desired_rect.x + desired_rect.w);
+		dest_altered = true;
 	}
 
-	////RIGHT
-	//SDL_Point tr = map_system::world_to_tilemap_ids({ desired_rect.x, desired_rect.y }, tc);
-	//SDL_Point br = map_system::world_to_tilemap_ids({ desired_rect.x, desired_rect.y + desired_rect.h }, tc);
-	//Entity* right_top = tc->terrain_tiles[tr.y][tr.x];
-	//Entity* right_bottom = tc->terrain_tiles[br.y][br.x];
-
-	//ITile* rtt = static_cast<ITile*>(right_top->get_component(ComponentType::Tile));
-
-	//if (!rtt->is_traversible || !rtt)
-	//{
-	//	Transform* tile_transf = static_cast<Transform*>(right_top->get_component(ComponentType::Transf));
-	//	desired_rect.x = tile_transf->position.x - desired_rect.w / 2;
-	//	dest_altered = true;
-	//}
-	//else
-	//{
-	//	ITile* brt = static_cast<ITile*>(right_bottom->get_component(ComponentType::Tile));
-	//	if (!brt->is_traversible || !brt)
-	//	{
-	//		Transform* tile_transf = static_cast<Transform*>(right_bottom->get_component(ComponentType::Transf));
-	//		desired_rect.x = tile_transf->position.x - desired_rect.w / 2;
-	//		dest_altered = true;
-	//	}
-	//}
-
-	if (dest_altered)
-		return { desired_rect.x, desired_rect.y };
-	else
-		return {0,0};
+	return required_delta;
 }
