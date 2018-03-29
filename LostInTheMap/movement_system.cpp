@@ -14,9 +14,10 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 		Entity* character = game_space.objects.at(i);
 		//get moving component to see if entity is movable
 		IMoving* mc = static_cast<IMoving*>(character->get_component(ComponentType::Movement));
+		ICollidable* cc = static_cast<ICollidable*>(character->get_component(ComponentType::Collision));
 
 		//if not moving, skip
-		if (!mc)
+		if (!mc || !cc)
 			continue;
 
 		Transform* tc = static_cast<Transform*>(character->get_component(ComponentType::Transf));
@@ -51,11 +52,10 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 			cur_dest.x = mc->final_destination.x;
 			cur_dest.y = mc->final_destination.y;
 
-
+			//if destination reached
 			SDL_Point char_origin = character->get_origin_in_world();
 			if (tc->position.x == mc->final_destination.x && tc->position.y == mc->final_destination.y)
 			{
-				
 				tc->position.x = mc->final_destination.x;
 				tc->position.y = mc->final_destination.y;
 				mc->destination_reached = true;

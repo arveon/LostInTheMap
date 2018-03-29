@@ -37,9 +37,10 @@ void game_flow_normal::init(Space & game_space)
 	render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable)));
 	
 	camera_system::set_camera_zoom(2.f);
-	mouse_system::change_mouse_icon(mouse_system::mouse_icons::walking, static_cast<IAnimatable*>(mouse->get_component(ComponentType::Animated)), static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable)));
+	//mouse_system::change_mouse_icon(mouse_system::mouse_icons::walking, static_cast<IAnimatable*>(mouse->get_component(ComponentType::Animated)), static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable)));
 	game_space.initialised = true;
 	game_flow_normal::lmb_down_event = false;
+
 }
 
 void game_flow_normal::update_space(Space & space, int dt)
@@ -101,18 +102,17 @@ void game_flow_normal::handle_mouse_events(Space& space)
 				//set destination mouse click position
 				SDL_Point player_sp_or = player->get_sprite_origin();
 				mc->final_destination = { mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
+				SDL_Point desired_point = game_flow_normal::resolve_collisions(colc, mc, tc);
+				mc->final_destination.x += desired_point.x;
 				mc->destination_reached = false;
 				//check if point overlaps with any of the objects
 				Entity* target = game_flow_normal::get_object_at_point(space, mouse_pos.x, mouse_pos.y);
-				if (target != nullptr)
-				{
-					//if it does, remove last node of path (will finish moving one tile before the object)
-					mc->final_destination = { tr->position.x, tr->position.y };
-					SDL_Point desired_point = game_flow_normal::resolve_collisions(colc, mc, tc);
-					mc->final_destination.x = desired_point.x + player_sp_or.x;
-					
-					mc->path.pop_back();
-				}
+				//if (target != nullptr)
+				//{
+				//	//if it does, remove last node of path (will finish moving one tile before the object)
+				//	mc->final_destination = { tr->position.x, tr->position.y };
+				//	mc->path.pop_back();
+				//}
 			}
 			else if (tile == tc->terrain_tiles[player_ids.y][player_ids.x] && tilec->is_traversible)
 			{
@@ -120,15 +120,7 @@ void game_flow_normal::handle_mouse_events(Space& space)
 				mc->final_destination = { mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
 
 				SDL_Point desired_point = game_flow_normal::resolve_collisions(colc, mc, tc);
-				if(desired_point.x != mc->final_destination.x)
-					mc->final_destination.x = desired_point.x + player_sp_or.x;
-
-				//move destination point accordingly
-
-				//check if it intersects with any non-traversible tiles
-
-				//move destination point accordingly
-
+				mc->final_destination.x += desired_point.x;
 				
 				mc->destination_reached = false;
 			}
@@ -201,25 +193,50 @@ SDL_Point game_flow_normal::resolve_collisions(ICollidable* character_collision,
 
 	ITile* ltt = static_cast<ITile*>(left_top->get_component(ComponentType::Tile));
 
-	if (!ltt->is_traversible)
+	if (!ltt->is_traversible || !ltt)
 	{
 		Transform* tile_transf = static_cast<Transform*>(left_top->get_component(ComponentType::Transf));
-		desired_rect.x = tile_transf->position.x + tile_transf->position.w - desired_rect.w*2;
+		desired_rect.x = (tile_transf->position.x + tile_transf->position.w) - desired_rect.x;
 		dest_altered = true;
 	}
 	else
 	{
 		ITile* blt = static_cast<ITile*>(left_bottom->get_component(ComponentType::Tile));
-		if (!blt->is_traversible)
+		if (!blt->is_traversible || !blt)
 		{
 			Transform* tile_transf = static_cast<Transform*>(left_bottom->get_component(ComponentType::Transf));
-			desired_rect.x = tile_transf->position.x + tile_transf->position.w - desired_rect.w;
+			desired_rect.x = (tile_transf->position.x + tile_transf->position.w + desired_rect.w / 2) - desired_rect.x;
 			dest_altered = true;
 		}
 	}
 
+	////RIGHT
+	//SDL_Point tr = map_system::world_to_tilemap_ids({ desired_rect.x, desired_rect.y }, tc);
+	//SDL_Point br = map_system::world_to_tilemap_ids({ desired_rect.x, desired_rect.y + desired_rect.h }, tc);
+	//Entity* right_top = tc->terrain_tiles[tr.y][tr.x];
+	//Entity* right_bottom = tc->terrain_tiles[br.y][br.x];
+
+	//ITile* rtt = static_cast<ITile*>(right_top->get_component(ComponentType::Tile));
+
+	//if (!rtt->is_traversible || !rtt)
+	//{
+	//	Transform* tile_transf = static_cast<Transform*>(right_top->get_component(ComponentType::Transf));
+	//	desired_rect.x = tile_transf->position.x - desired_rect.w / 2;
+	//	dest_altered = true;
+	//}
+	//else
+	//{
+	//	ITile* brt = static_cast<ITile*>(right_bottom->get_component(ComponentType::Tile));
+	//	if (!brt->is_traversible || !brt)
+	//	{
+	//		Transform* tile_transf = static_cast<Transform*>(right_bottom->get_component(ComponentType::Transf));
+	//		desired_rect.x = tile_transf->position.x - desired_rect.w / 2;
+	//		dest_altered = true;
+	//	}
+	//}
+
 	if (dest_altered)
 		return { desired_rect.x, desired_rect.y };
 	else
-		return mc->final_destination;
+		return {0,0};
 }
