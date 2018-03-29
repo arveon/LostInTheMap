@@ -86,7 +86,8 @@ void game_flow_normal::update_space(Space & space, int dt)
 			mc->pathfinder.set_destination({ t_ids.x, t_ids .y});//set pathfinders destination as well
 			//calculate and get path from pathfinder
 			mc->path = mc->pathfinder.get_path_to({ t_ids.x, t_ids.y});
-			
+			ITile* tilec = static_cast<ITile*>(tile->get_component(ComponentType::Tile));
+
 			SDL_Point player_ids = map_system::world_to_tilemap_ids(player->get_origin_in_world(), tc);
 			if (!mc->path.empty())
 			{
@@ -103,14 +104,14 @@ void game_flow_normal::update_space(Space & space, int dt)
 					mc->path.pop_back();
 				}
 			}
-			else if (tile == tc->terrain_tiles[player_ids.y][player_ids.x])
+			else if (tile == tc->terrain_tiles[player_ids.y][player_ids.x] && tilec->is_traversible)
 			{
 				SDL_Point player_sp_or = player->get_sprite_origin();
 				mc->final_destination = {mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
 				mc->destination_reached = false;
 			}
-			if (mc->path.size() != 0 || (mc->final_destination.x != tr->position.x && mc->final_destination.y != tr->position.y))
-				mc->destination_reached = false;
+			//if (mc->path.size() != 0 || (mc->final_destination.x != tr->position.x && mc->final_destination.y != tr->position.y))
+				//mc->destination_reached = false;
 		}
 			
 		lmb_down_event = false;//clear event flag
