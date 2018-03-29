@@ -20,6 +20,7 @@ public:
 	static int mouse_down_listener_id;
 	static void init(Space& game_space);
 	static void update_space(Space& space, int dt);
+	static void handle_mouse_events(Space& space);
 	
 
 	static void mouse_down_event();

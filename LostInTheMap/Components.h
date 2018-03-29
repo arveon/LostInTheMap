@@ -105,9 +105,9 @@ public:
 class ICollidable : public Component
 {
 public:
-	SDL_Rect collision_rect;//relative to transform
+	SDL_Rect collision_rect;//relative to transform?
 	bool collidable = true;
-	ICollidable(Entity* owner, int width, int height) : Component(owner)
+	ICollidable(Entity* owner, int width = 0, int height = 0) : Component(owner)
 	{
 		type = ComponentType::Collision;
 		collision_rect = { 0,0,width,height };

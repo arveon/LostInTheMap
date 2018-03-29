@@ -26,6 +26,11 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 					static_cast<int>(tr->tile_width)
 				};
 
+				ICollidable* colc = new ICollidable(ent);
+				colc->collidable = true;
+				colc->collision_rect = { 0,0,tr->tile_width,tr->tile_width };
+				ent->add_component(colc);
+
 				IAnimatable* ac = new IAnimatable(ent);//character sprite size 64x64
 				ac->src_rect.w = ac->src_rect.h = static_cast<int>(64);
 				ent->add_component(ac);
@@ -50,11 +55,10 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 				IMoving* mc = new IMoving(ent, j, i);
 				mc->final_destination = { -1,-1 };
 				ent->add_component(mc);
-				
 
 				characters.push_back(ent);
 			}
-			
+
 
 		}
 	}
@@ -71,28 +75,35 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		Transform* tc = static_cast<Transform*>(charact->get_component(ComponentType::Transf));
 		IDrawable* dc = static_cast<IDrawable*>(charact->get_component(ComponentType::Drawable));
 		ICharacter* cc = static_cast<ICharacter*>(charact->get_component(ComponentType::Character));
-		
+		ICollidable* colc = static_cast<ICollidable*>(charact->get_component(ComponentType::Collision));
+
 		switch (cc->c_type)
 		{
 		case character_type::h_giovanni:
 			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/giovanni.png");
-			SDL_Rect r = asset_controller::get_texture_size(ac->spritesheet);
-			//tc->position.y -= r.h;
-			ac->src_rect = {0,0, r.w, r.h};
-
-			dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
-			dc->draw_rect = tc->position;
-			dc->draw_rect.w = 50;
-			dc->draw_rect.h = 48;
-			dc->sprite_origin = {dc->draw_rect.w/2, dc->draw_rect.h};
-
-			//align sprite with its tile origin
-			tc->position.x = tc->position.x - dc->sprite_origin.x + tile_origin.x;
-			tc->position.y = tc->position.y - dc->sprite_origin.y + tile_origin.y;
 			//tc->position.w 
 			break;
 		}
-		
+
+		SDL_Rect r = asset_controller::get_texture_size(ac->spritesheet);
+		//tc->position.y -= r.h;
+		ac->src_rect = { 0,0, r.w, r.h };
+
+		dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
+		dc->draw_rect = tc->position;
+		dc->draw_rect.w = 50;
+		dc->draw_rect.h = 48;
+		dc->sprite_origin = { dc->draw_rect.w / 2, dc->draw_rect.h };
+
+		//align sprite with its tile origin
+		tc->position.x = tc->position.x - dc->sprite_origin.x + tile_origin.x;
+		tc->position.y = tc->position.y - dc->sprite_origin.y + tile_origin.y;
+
+		colc->collision_rect.w = dc->draw_rect.w / 2;
+		colc->collision_rect.h = 10;
+		colc->collision_rect.x = dc->sprite_origin.x - colc->collision_rect.w / 2;
+		colc->collision_rect.y = dc->sprite_origin.y - colc->collision_rect.h;
+
 	}
 }
 

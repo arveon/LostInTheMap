@@ -53,16 +53,22 @@ void game_flow_normal::update_space(Space & space, int dt)
 	ITerrain* tr = static_cast<ITerrain*>(terrain->get_component(ComponentType::Terrain));
 	movement_system::move_characters_tick(space, dt, tr);
 
+	game_flow_normal::handle_mouse_events(space);
+	SpaceSystem::update_draw_rects(space);
+}
+
+void game_flow_normal::handle_mouse_events(Space& space)
+{
 	//handle mouse events
 	if (lmb_down_event)
 	{
 		IMouse* ms = static_cast<IMouse*>(game_flow_normal::mouse->get_component(ComponentType::Mouse));
-		
+
 		//get mouse screen space
 		SDL_Point mouse_pos = { input_system::mouse.x, input_system::mouse.y };
 		//get mouse world space
 		mouse_pos = camera_system::screen_to_world_space(mouse_pos);
-		
+
 
 		//see if the tilemap tile exists
 		Entity* trn = SpaceSystem::find_entity_by_name(space, "terrain");
@@ -82,10 +88,10 @@ void game_flow_normal::update_space(Space & space, int dt)
 
 			Transform* tr = static_cast<Transform*>(tile->get_component(ComponentType::Transf));
 			IDrawable* dc = static_cast<IDrawable*>(tile->get_component(ComponentType::Drawable));
-			
-			mc->pathfinder.set_destination({ t_ids.x, t_ids .y});//set pathfinders destination as well
-			//calculate and get path from pathfinder
-			mc->path = mc->pathfinder.get_path_to({ t_ids.x, t_ids.y});
+
+			mc->pathfinder.set_destination({ t_ids.x, t_ids.y });//set pathfinders destination as well
+																 //calculate and get path from pathfinder
+			mc->path = mc->pathfinder.get_path_to({ t_ids.x, t_ids.y });
 			ITile* tilec = static_cast<ITile*>(tile->get_component(ComponentType::Tile));
 
 			SDL_Point player_ids = map_system::world_to_tilemap_ids(player->get_origin_in_world(), tc);
@@ -107,21 +113,17 @@ void game_flow_normal::update_space(Space & space, int dt)
 			else if (tile == tc->terrain_tiles[player_ids.y][player_ids.x] && tilec->is_traversible)
 			{
 				SDL_Point player_sp_or = player->get_sprite_origin();
-				mc->final_destination = {mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
+				mc->final_destination = { mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
 				mc->destination_reached = false;
 			}
-			//if (mc->path.size() != 0 || (mc->final_destination.x != tr->position.x && mc->final_destination.y != tr->position.y))
-				//mc->destination_reached = false;
 		}
-			
+
 		lmb_down_event = false;//clear event flag
 	}
 	if (lmb_up_event)
 	{
 		lmb_up_event = false;//clear event flag
 	}
-
-	SpaceSystem::update_draw_rects(space);
 }
 
 Entity* game_flow_normal::get_object_at_point(Space& space, int x, int y)
