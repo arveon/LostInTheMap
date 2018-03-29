@@ -126,6 +126,9 @@
     <ClInclude Include="movement_system.h">
       <Filter>Header Files\systems\gameplay_systems</Filter>
     </ClInclude>
+    <ClInclude Include="collision_system.h">
+      <Filter>Header Files\systems\utility_systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -187,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="movement_system.cpp">
       <Filter>Source Files\systems\gameplay_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="collision_system.cpp">
+      <Filter>Source Files\systems\utility_systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

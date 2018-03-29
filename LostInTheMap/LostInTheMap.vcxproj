@@ -125,6 +125,7 @@
     <ClInclude Include="asset_controller.h" />
     <ClInclude Include="camera_system.h" />
     <ClInclude Include="character_system.h" />
+    <ClInclude Include="collision_system.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventTypes.h" />
@@ -152,6 +153,7 @@
     <ClCompile Include="asset_controller.cpp" />
     <ClCompile Include="camera_system.cpp" />
     <ClCompile Include="character_system.cpp" />
+    <ClCompile Include="collision_system.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="game_flow_normal.cpp" />
     <ClCompile Include="geometry_utilities.cpp" />

@@ -85,6 +85,7 @@ void game_flow_normal::handle_mouse_events(Space& space)
 			//get player transform and move component
 			Entity* player = SpaceSystem::find_entity_by_name(space, "player");
 			IMoving* mc = static_cast<IMoving*>(player->get_component(ComponentType::Movement));
+			ICollidable* colc = static_cast<ICollidable*>(player->get_component(ComponentType::Collision));
 
 			Transform* tr = static_cast<Transform*>(tile->get_component(ComponentType::Transf));
 			IDrawable* dc = static_cast<IDrawable*>(tile->get_component(ComponentType::Drawable));
@@ -107,6 +108,9 @@ void game_flow_normal::handle_mouse_events(Space& space)
 				{
 					//if it does, remove last node of path (will finish moving one tile before the object)
 					mc->final_destination = { tr->position.x, tr->position.y };
+					SDL_Rect desired_rect = game_flow_normal::resolve_collisions(colc, mc, tc);
+					mc->final_destination.x = desired_rect.x - player_sp_or.x;
+					
 					mc->path.pop_back();
 				}
 			}
@@ -114,6 +118,17 @@ void game_flow_normal::handle_mouse_events(Space& space)
 			{
 				SDL_Point player_sp_or = player->get_sprite_origin();
 				mc->final_destination = { mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
+
+				SDL_Rect desired_rect = game_flow_normal::resolve_collisions(colc, mc, tc);
+				mc->final_destination.x = desired_rect.x - player_sp_or.x;
+
+				//move destination point accordingly
+
+				//check if it intersects with any non-traversible tiles
+
+				//move destination point accordingly
+
+				
 				mc->destination_reached = false;
 			}
 		}
@@ -164,4 +179,39 @@ game_flow_normal::game_flow_normal()
 
 game_flow_normal::~game_flow_normal()
 {
+}
+
+SDL_Rect game_flow_normal::resolve_collisions(ICollidable* character_collision, IMoving* mc, ITerrain* tc)
+{
+
+	//take into account collision rectangle
+	//calculate collision rectangle for final destination
+	SDL_Rect desired_rect = character_collision->collision_rect;
+	desired_rect.x += mc->final_destination.x;
+	desired_rect.y += mc->final_destination.y;
+	//check if it intersects with any non-traversible tiles on X axis
+
+	//LEFT
+	SDL_Point tl = map_system::world_to_tilemap_ids({ desired_rect.x, desired_rect.y }, tc);
+	SDL_Point bl = map_system::world_to_tilemap_ids({ desired_rect.x, desired_rect.y + desired_rect.h }, tc);
+	Entity* left_top = tc->terrain_tiles[tl.y][tl.x];
+	Entity* left_bottom = tc->terrain_tiles[bl.y][bl.x];
+	ITile* ltt = static_cast<ITile*>(left_top->get_component(ComponentType::Tile));
+
+	if (!ltt->is_traversible)
+	{
+		Transform* tile_transf = static_cast<Transform*>(left_top->get_component(ComponentType::Transf));
+		desired_rect.x = tile_transf->position.x + tile_transf->position.w + desired_rect.w / 2;
+	}
+	else
+	{
+		ITile* blt = static_cast<ITile*>(left_bottom->get_component(ComponentType::Tile));
+		if (!blt->is_traversible)
+		{
+			Transform* tile_transf = static_cast<Transform*>(left_bottom->get_component(ComponentType::Transf));
+			desired_rect.x = tile_transf->position.x + tile_transf->position.w + desired_rect.w / 2;
+		}
+	}
+
+	return desired_rect;
 }

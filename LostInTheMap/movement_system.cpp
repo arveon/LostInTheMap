@@ -46,8 +46,12 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				mc->pathfinder.set_origin({ mc->path.back().x, mc->path.back().y });
 				mc->path.pop_back();
 			}
+			
+			//check for collisions and resolve them in cur_dest
 			cur_dest.x = mc->final_destination.x;
 			cur_dest.y = mc->final_destination.y;
+
+
 			SDL_Point char_origin = character->get_origin_in_world();
 			if (tc->position.x == mc->final_destination.x && tc->position.y == mc->final_destination.y)
 			{
