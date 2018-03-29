@@ -28,7 +28,7 @@ public:
 	game_flow_normal();
 	~game_flow_normal();
 
-	static SDL_Rect resolve_collisions(ICollidable* character_collision, IMoving* mc, ITerrain* tc);
+	static SDL_Point resolve_collisions(ICollidable* character_collision, IMoving* mc, ITerrain* tc);
 
 	static Entity* get_object_at_point(Space& space, int x, int y);
 };

@@ -128,9 +128,6 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 					if (!temp->neighbours.at(j)->is_traversible || temp->neighbours.at(j)->pathfinding_value != 0)
 						continue;
 					next_generation.push_back(temp->neighbours.at(j));
-					if (temp->neighbours.at(j)->position.x == 27 && temp->neighbours.at(j)->position.y == 27)
-						std::cout << "asd" << std::endl;
-
 				}
 			}
 			
