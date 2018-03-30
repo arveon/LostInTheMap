@@ -103,7 +103,6 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		colc->collision_rect.h = 10;
 		colc->collision_rect.x = dc->sprite_origin.x - colc->collision_rect.w / 2;
 		colc->collision_rect.y = dc->sprite_origin.y - colc->collision_rect.h;
-
 	}
 }
 
