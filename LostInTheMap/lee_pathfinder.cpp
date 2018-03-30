@@ -90,59 +90,55 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 	//get tiles of first generation
 	std::vector<pathfinding_tile*> cur_generation = lee_pathfinder::map[origin.y][origin.x]->neighbours;
 	bool destination_reached = false;
-	int generation_number = 0;
+	int generation_number = 1;
+
+	//mark the first generation
+	for (unsigned int i = 0; i < cur_generation.size(); i++)
+	{
+		pathfinding_tile* temp = cur_generation.at(i);
+		if (!temp->is_traversible)
+			continue;
+
+		temp->pathfinding_value = generation_number;
+	}
+
 	while (cur_generation.size() != 0 && !destination_reached)
 	{
 		generation_number++;
 		std::vector<pathfinding_tile*> next_generation;
+		//loop through whole current generation (should all be marked)
 		for (unsigned int i = 0; i < cur_generation.size(); i++)
 		{
 			pathfinding_tile* temp = cur_generation.at(i);
-			//if tile isn't traversible, don't do anything with it
-			if (!temp->is_traversible)
-				continue;
-
-			//mark tile with its generation number
-			temp->pathfinding_value = generation_number;
-
-			//stop if tile marked is destination
-			if (temp->position.x == destination.x && temp->position.y == destination.y)
+			//loop through all of the current generation tile's neighbours, mark all of them and add them to next generation
+			for (unsigned int j = 0; j < temp->neighbours.size(); j++)
 			{
-				destination_reached = true;
-				//temp->pathfinding_value++;
-				break;
-			}
-		}
-
-		if (!destination_reached)
-		{
-			//need the second loop to split marking and assembling next generation (HAS TO BE MARKED FIRST as it could add tiles that will be marked later in THIS generation to NEXT generation)
-			for (unsigned int i = 0; i < cur_generation.size(); i++)
-			{
-				pathfinding_tile* temp = cur_generation.at(i);
-				if (!temp->is_traversible)
+				pathfinding_tile* temp_next = temp->neighbours.at(j);
+				if (!temp_next->is_traversible)
 					continue;
-				//add all unmarked neighbours of this tile to next generation
-				for (unsigned int j = 0; j < temp->neighbours.size(); j++)
+
+				if (temp_next->pathfinding_value == 0)
 				{
-					if (!temp->neighbours.at(j)->is_traversible || temp->neighbours.at(j)->pathfinding_value != 0)
-						continue;
-					next_generation.push_back(temp->neighbours.at(j));
+					temp_next->pathfinding_value = generation_number;
+					next_generation.push_back(temp_next);
 				}
+
+				if (temp_next->position.x == destination.x && temp_next->position.y == destination.y)
+				{
+					destination_reached = true;
+					break;
+				}
+				
 			}
-			
-			cur_generation.clear();
-			cur_generation = next_generation;
-			
 		}
+		cur_generation.clear();
+		cur_generation = next_generation;
 	}
 
-	//if all available tiles marked but destination not reached, means there is no available path
-	if (!destination_reached)
-		return path;
+	
 
 #pragma region debug_print
-	
+	/*
 	//display pathfinding values for debug
 	for (int i = 0; i < lee_pathfinder::height; i++)
 	{
@@ -165,7 +161,12 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 		}
 		std::cout << std::endl;
 	}
+	*/
 #pragma endregion
+
+	//if all available tiles marked but destination not reached, means there is no available path
+	if (!destination_reached)
+		return path;
 
 	//track back one step at a time and push results to path
 	bool start_reached = false;
