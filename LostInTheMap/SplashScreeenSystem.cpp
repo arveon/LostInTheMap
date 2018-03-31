@@ -39,7 +39,7 @@ void SplashScreenSystem::update_space(Space& space, int dt)
 		return;
 
 	Entity* first = *(space.objects.begin());
-	IDrawable* comp = static_cast<IDrawable*>(first->get_component(ComponentType::Drawable));
+	IDrawable* comp = static_cast<IDrawable*>(first->get_component(Component::ComponentType::Drawable));
 	
 	switch (state)
 	{

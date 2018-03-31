@@ -2,21 +2,21 @@
 
 std::vector<Entity*> character_system::characters;
 
-std::vector<Entity*> character_system::init_characters(int ** charact, int width, int height, ITerrain* tr)
+std::vector<Entity*> character_system::init_characters(Character** charact, int width, int height, ITerrain* tr)
 {
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
 		{
 			//if there is a character in this tile initialise an object for it
-			if (charact[i][j] != -1)
+			if (charact[i][j].value != -1)
 			{
 				Entity* ent = new Entity(entity_type::game_object);
 
 				//create all required components for the character
 				IDrawable* dc = new IDrawable(ent, IDrawable::layers::surface);
 				ent->add_component(dc);
-				dc->id = charact[i][j];
+				dc->id = charact[i][j].value;
 				Transform* transf_c = new Transform(ent);
 				ent->add_component(transf_c);
 				transf_c->position = {
@@ -37,7 +37,7 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 
 				//set name and character type depending on what's stored in field
 				character_type type;
-				switch (charact[i][j])
+				switch (charact[i][j].value)
 				{
 				case 1:
 					ent->name = "player";
@@ -71,11 +71,11 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 	{
 		Entity* charact = characters.at(i);
 
-		IAnimatable* ac = static_cast<IAnimatable*>(charact->get_component(ComponentType::Animated));
-		Transform* tc = static_cast<Transform*>(charact->get_component(ComponentType::Transf));
-		IDrawable* dc = static_cast<IDrawable*>(charact->get_component(ComponentType::Drawable));
-		ICharacter* cc = static_cast<ICharacter*>(charact->get_component(ComponentType::Character));
-		ICollidable* colc = static_cast<ICollidable*>(charact->get_component(ComponentType::Collision));
+		IAnimatable* ac = static_cast<IAnimatable*>(charact->get_component(Component::ComponentType::Animated));
+		Transform* tc = static_cast<Transform*>(charact->get_component(Component::ComponentType::Transf));
+		IDrawable* dc = static_cast<IDrawable*>(charact->get_component(Component::ComponentType::Drawable));
+		ICharacter* cc = static_cast<ICharacter*>(charact->get_component(Component::ComponentType::Character));
+		ICollidable* colc = static_cast<ICollidable*>(charact->get_component(Component::ComponentType::Collision));
 
 		switch (cc->c_type)
 		{

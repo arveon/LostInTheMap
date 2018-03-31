@@ -8,30 +8,33 @@
 
 #include "lee_pathfinder.h"
 
-
-enum ComponentType
+typedef struct
 {
-	Animated,
-	Collision,
-	Description,
-	Drawable,
-	Fighting,
-	Living,
-	Transf,
-	Movement,
-	Talking,
-	Mouse,
-	UIElement,
-	Terrain,
-	Tile,
-	Character
-};
+	int value;
+	std::string type;
+} Character;
 
 class Entity;
-
 class Component
 {
 public:
+	enum ComponentType
+	{
+		Animated,
+		Collision,
+		Description,
+		Drawable,
+		Fighting,
+		Living,
+		Transf,
+		Movement,
+		Talking,
+		Mouse,
+		UIElement,
+		Terrain,
+		Tile,
+		Character
+	};
 	bool isActive;
 	ComponentType type;
 

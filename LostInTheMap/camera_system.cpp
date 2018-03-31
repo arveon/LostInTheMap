@@ -38,7 +38,7 @@ void camera_system::update_camera()
 {
 	if (snapped)
 	{
-		Transform* tc = static_cast<Transform*>(target->get_component(ComponentType::Transf));
+		Transform* tc = static_cast<Transform*>(target->get_component(Component::ComponentType::Transf));
 		camera_rect.x = tc->position.x - camera_rect.w / 2 + tc->position.w / 2;
 		camera_rect.y = tc->position.y - camera_rect.h / 2 + tc->position.h / 2;
 	}

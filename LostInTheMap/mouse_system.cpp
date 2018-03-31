@@ -29,7 +29,7 @@ Entity* mouse_system::create_mouse()
 
 void mouse_system::update_mouse(Entity* mouse)
 {
-	IDrawable* dc = static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable));
+	IDrawable* dc = static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable));
 	mouse->transform->position.x = input_system::mouse.x;
 	mouse->transform->position.y = input_system::mouse.y;
 	dc->draw_rect.x = input_system::mouse.x;

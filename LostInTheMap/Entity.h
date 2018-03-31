@@ -28,7 +28,7 @@ public:
 	void add_component(Component* cmp)
 	{
 
-		if (cmp->type == ComponentType::Transf)
+		if (cmp->type == Component::ComponentType::Transf)
 		{
 			if (transform)
 				delete transform;
@@ -55,7 +55,7 @@ public:
 		}
 	}
 
-	void remove_component(ComponentType type)
+	void remove_component(Component::ComponentType type)
 	{
 		for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); it++)
 		{
@@ -68,10 +68,10 @@ public:
 		}
 	}
 
-	Component* get_component(ComponentType type)
+	Component* get_component(Component::ComponentType type)
 	{
 		Component* result = nullptr;
-		if (type == ComponentType::Transf)
+		if (type == Component::ComponentType::Transf)
 			return this->transform;
 
 		for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); it++)
@@ -90,7 +90,7 @@ public:
 	{
 		SDL_Point result;
 		Transform* tf = this->transform;
-		IDrawable* dc = static_cast<IDrawable*>(this->get_component(ComponentType::Drawable));
+		IDrawable* dc = static_cast<IDrawable*>(this->get_component(Component::ComponentType::Drawable));
 
 		if (!tf || !dc)
 			return { 0,0 };
@@ -103,7 +103,7 @@ public:
 	SDL_Point get_sprite_origin()
 	{
 		SDL_Point result;
-		IDrawable* dc = static_cast<IDrawable*>(this->get_component(ComponentType::Drawable));
+		IDrawable* dc = static_cast<IDrawable*>(this->get_component(Component::ComponentType::Drawable));
 		if (!dc)
 			return { 0,0 };
 		return dc->sprite_origin;

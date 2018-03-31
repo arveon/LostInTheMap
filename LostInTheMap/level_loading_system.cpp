@@ -137,9 +137,9 @@ void level_loading_system::update_bar_fill(Space& space)
 	if (!fill)
 		return;
 
-	IDrawable* draw = static_cast<IDrawable*>(fill->get_component(ComponentType::Drawable));
-	IAnimatable* anim = static_cast<IAnimatable*>(fill->get_component(ComponentType::Animated));
-	Transform* tr = static_cast<Transform*>(fill->get_component(ComponentType::Transf));
+	IDrawable* draw = static_cast<IDrawable*>(fill->get_component(Component::ComponentType::Drawable));
+	IAnimatable* anim = static_cast<IAnimatable*>(fill->get_component(Component::ComponentType::Animated));
+	Transform* tr = static_cast<Transform*>(fill->get_component(Component::ComponentType::Transf));
 	//get whole spritesheet width
 	SDL_Rect ss_size = asset_controller::get_texture_size(anim->spritesheet);
 
@@ -165,11 +165,11 @@ void level_loading_system::update_status_text(Space & space, int stage_id)
 	if (!status)
 		return;
 
-	IDrawable* dc = static_cast<IDrawable*>(status->get_component(ComponentType::Drawable));
+	IDrawable* dc = static_cast<IDrawable*>(status->get_component(Component::ComponentType::Drawable));
 	if (!dc)
 		return;
 
-	Transform* tc = static_cast<Transform*>(status->get_component(ComponentType::Transf));
+	Transform* tc = static_cast<Transform*>(status->get_component(Component::ComponentType::Transf));
 	if (!dc)
 		return;
 
@@ -211,7 +211,7 @@ void level_loading_system::load_game_components(Space & game_space)
 	case loading_state::creating_terrain_collisions:
 	{
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
-		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
 		int** map_tile_collisions = xml_system::load_map_collisions(level_to_load, terrain->width, terrain->height);
 		map_system::init_terrain_collisions(map_tile_collisions, tr);
 	}
@@ -219,7 +219,7 @@ void level_loading_system::load_game_components(Space & game_space)
 	case loading_state::initialising_pathfinding:
 	{
 		Entity* tilemap = SpaceSystem::find_entity_by_name(game_space, "terrain");
-		ITerrain* terrain = static_cast<ITerrain*>(tilemap->get_component(ComponentType::Terrain));
+		ITerrain* terrain = static_cast<ITerrain*>(tilemap->get_component(Component::ComponentType::Terrain));
 
 		lee_pathfinder::init_pathfinder(map_system::get_pathfinding_map(terrain), terrain->width, terrain->height);
 	}
@@ -232,8 +232,8 @@ void level_loading_system::load_game_components(Space & game_space)
 	case loading_state::loading_characters:
 	{
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
-		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
-		int** characters = xml_system::load_characters(level_to_load, terrain->width, terrain->height);
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
+		Character** characters = xml_system::load_characters(level_to_load, terrain->width, terrain->height);
 		std::vector<Entity*> temp = character_system::init_characters(characters, terrain->width, terrain->height, terrain);
 		for (unsigned int i = 0; i < temp.size(); i++)
 			game_space.objects.push_back(temp.at(i));
@@ -253,7 +253,7 @@ void level_loading_system::load_game_components(Space & game_space)
 			break;
 		}
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
-		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
 
 		asset_controller::load_terrain_textures("assets/tilesets/" + level_name + ".png", terrain->tile_width);
 	}
@@ -266,15 +266,15 @@ void level_loading_system::load_game_components(Space & game_space)
 	case loading_state::attaching_terrain_textures:
 	{
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
-		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
 
 		for (int i = 0; i < terrain->height; i++)
 			for (int j = 0; j < terrain->width; j++)
 			{
 				if (!terrain->terrain_tiles[i][j])
 					continue;
-				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Transf));
-				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
+				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(Component::ComponentType::Transf));
+				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable));
 				dc->sprite = asset_controller::get_terrain_texture(dc->id);
 				dc->draw_rect = camera_system::world_to_camera_space(tf->position, dc->draw_rect);
 				dc->draw_rect.w = dc->draw_rect.h = terrain->tile_width;
@@ -285,7 +285,7 @@ void level_loading_system::load_game_components(Space & game_space)
 	case loading_state::attaching_character_textures:
 	{
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
-		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
 
 		SDL_Point origin;
 		for (int i = 0; i < terrain->height; i++)
@@ -295,7 +295,7 @@ void level_loading_system::load_game_components(Space & game_space)
 					continue;
 				else
 				{
-					IDrawable* tt = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
+					IDrawable* tt = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable));
 					if (!tt)
 						continue;
 					origin = tt->sprite_origin;
@@ -321,15 +321,15 @@ void level_loading_system::load_game_components(Space & game_space)
 	case loading_state::objects_camera_positions:
 	{
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
-		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(ComponentType::Terrain));
+		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
 
 		for (int i = 0; i < terrain->height; i++)
 			for (int j = 0; j < terrain->width; j++)
 			{
 				if (!terrain->terrain_tiles[i][j])
 					continue;
-				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Transf));
-				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
+				Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(Component::ComponentType::Transf));
+				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable));
 				dc->draw_rect = camera_system::world_to_camera_space(tf->position, dc->draw_rect);
 			}
 
@@ -337,10 +337,10 @@ void level_loading_system::load_game_components(Space & game_space)
 		{
 			Entity* e = game_space.objects.at(i);
 
-			Transform* tr = static_cast<Transform*>(e->get_component(ComponentType::Transf));
+			Transform* tr = static_cast<Transform*>(e->get_component(Component::ComponentType::Transf));
 			if (!tr)
 				continue;
-			IDrawable* dc = static_cast<IDrawable*>(e->get_component(ComponentType::Drawable));
+			IDrawable* dc = static_cast<IDrawable*>(e->get_component(Component::ComponentType::Drawable));
 			if (!dc)
 				continue;
 

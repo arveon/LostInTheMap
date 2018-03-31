@@ -12,10 +12,10 @@ void game_flow_normal::init(Space & game_space)
 	for (unsigned int i = 0; i < game_space.objects.size(); i++)
 	{
 		Entity* ent = game_space.objects.at(i);
-		IDrawable* drawable = static_cast<IDrawable*>(ent->get_component(ComponentType::Drawable));
+		IDrawable* drawable = static_cast<IDrawable*>(ent->get_component(Component::ComponentType::Drawable));
 
 		//if an object is terrain, loop through all of its tiles and add them to queue
-		ITerrain* tr = static_cast<ITerrain*>(ent->get_component(ComponentType::Terrain));
+		ITerrain* tr = static_cast<ITerrain*>(ent->get_component(Component::ComponentType::Terrain));
 		if (tr)
 		{
 			for (int i = 0; i < tr->height; i++)
@@ -23,7 +23,7 @@ void game_flow_normal::init(Space & game_space)
 				{
 					if (!tr->terrain_tiles[i][j])
 						continue;
-					IDrawable* dc = static_cast<IDrawable*>(tr->terrain_tiles[i][j]->get_component(ComponentType::Drawable));
+					IDrawable* dc = static_cast<IDrawable*>(tr->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable));
 					render_system::add_object_to_queue(dc);
 				}
 		}
@@ -34,7 +34,7 @@ void game_flow_normal::init(Space & game_space)
 	}
 	game_flow_normal::mouse = mouse_system::create_mouse();
 	game_space.objects.push_back(mouse);
-	render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable)));
+	render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
 
 	camera_system::set_camera_zoom(2.f);
 	//mouse_system::change_mouse_icon(mouse_system::mouse_icons::walking, static_cast<IAnimatable*>(mouse->get_component(ComponentType::Animated)), static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable)));
@@ -51,7 +51,7 @@ void game_flow_normal::update_space(Space & space, int dt)
 	SpaceSystem::apply_animation_sprite_changes(space);
 
 	Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
-	ITerrain* tr = static_cast<ITerrain*>(terrain->get_component(ComponentType::Terrain));
+	ITerrain* tr = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
 	movement_system::move_characters_tick(space, dt, tr);
 
 	game_flow_normal::handle_mouse_events(space);
@@ -63,7 +63,7 @@ void game_flow_normal::handle_mouse_events(Space& space)
 	//handle mouse events
 	if (lmb_down_event)
 	{
-		IMouse* ms = static_cast<IMouse*>(game_flow_normal::mouse->get_component(ComponentType::Mouse));
+		IMouse* ms = static_cast<IMouse*>(game_flow_normal::mouse->get_component(Component::ComponentType::Mouse));
 
 		//get mouse screen space
 		SDL_Point mouse_pos = { input_system::mouse.x, input_system::mouse.y };
@@ -73,7 +73,7 @@ void game_flow_normal::handle_mouse_events(Space& space)
 
 		//see if the tilemap tile exists
 		Entity* trn = SpaceSystem::find_entity_by_name(space, "terrain");
-		ITerrain* tc = static_cast<ITerrain*>(trn->get_component(ComponentType::Terrain));
+		ITerrain* tc = static_cast<ITerrain*>(trn->get_component(Component::ComponentType::Terrain));
 		if (!tc)
 			return;
 
@@ -85,16 +85,16 @@ void game_flow_normal::handle_mouse_events(Space& space)
 		{
 			//get player transform and move component
 			Entity* player = SpaceSystem::find_entity_by_name(space, "player");
-			IMoving* mc = static_cast<IMoving*>(player->get_component(ComponentType::Movement));
-			ICollidable* colc = static_cast<ICollidable*>(player->get_component(ComponentType::Collision));
+			IMoving* mc = static_cast<IMoving*>(player->get_component(Component::ComponentType::Movement));
+			ICollidable* colc = static_cast<ICollidable*>(player->get_component(Component::ComponentType::Collision));
 
-			Transform* tr = static_cast<Transform*>(tile->get_component(ComponentType::Transf));
-			IDrawable* dc = static_cast<IDrawable*>(tile->get_component(ComponentType::Drawable));
+			Transform* tr = static_cast<Transform*>(tile->get_component(Component::ComponentType::Transf));
+			IDrawable* dc = static_cast<IDrawable*>(tile->get_component(Component::ComponentType::Drawable));
 
 			mc->pathfinder.set_destination({ t_ids.x, t_ids.y });//set pathfinders destination as well
 																 //calculate and get path from pathfinder
 			mc->path = mc->pathfinder.get_path_to({ t_ids.x, t_ids.y });
-			ITile* tilec = static_cast<ITile*>(tile->get_component(ComponentType::Tile));
+			ITile* tilec = static_cast<ITile*>(tile->get_component(Component::ComponentType::Tile));
 
 			SDL_Point player_ids = map_system::world_to_tilemap_ids(player->get_origin_in_world(), tc);
 			if (!mc->path.empty())
@@ -145,7 +145,7 @@ Entity* game_flow_normal::get_object_at_point(Space& space, int x, int y)
 	for (unsigned int i = 0; i < space.objects.size(); i++)
 	{
 		Entity* temp = space.objects.at(i);
-		Transform* tf = static_cast<Transform*>(temp->get_component(ComponentType::Transf));
+		Transform* tf = static_cast<Transform*>(temp->get_component(Component::ComponentType::Transf));
 		if (!tf)
 			continue;
 		SDL_Rect rect = tf->position;
@@ -198,14 +198,14 @@ SDL_Point game_flow_normal::resolve_collisions(ICollidable* character_collision,
 
 	ITile* ltt = nullptr;
 	if (left_top)
-		ltt = static_cast<ITile*>(left_top->get_component(ComponentType::Tile));
+		ltt = static_cast<ITile*>(left_top->get_component(Component::ComponentType::Tile));
 	bool ltttrav = false;
 	if (ltt)
 		ltttrav = ltt->is_traversible;
 
 	if (left_top && !ltttrav)
 	{
-		Transform* tile_transf = static_cast<Transform*>(left_top->get_component(ComponentType::Transf));
+		Transform* tile_transf = static_cast<Transform*>(left_top->get_component(Component::ComponentType::Transf));
 		if (geometry_utilities::has_intersection(desired_rect, tile_transf->position))
 		{
 			required_delta.x = (tile_transf->position.x + tile_transf->position.w) - desired_rect.x;
@@ -221,14 +221,14 @@ SDL_Point game_flow_normal::resolve_collisions(ICollidable* character_collision,
 
 		ITile* rtt = nullptr;
 		if (right_top)
-			rtt = static_cast<ITile*>(right_top->get_component(ComponentType::Tile));
+			rtt = static_cast<ITile*>(right_top->get_component(Component::ComponentType::Tile));
 		bool rtttrav = false;
 		if (rtt)
 			rtttrav = rtt->is_traversible;
 
 		if (right_top && !rtttrav)
 		{
-			Transform* tile_transf = static_cast<Transform*>(right_top->get_component(ComponentType::Transf));
+			Transform* tile_transf = static_cast<Transform*>(right_top->get_component(Component::ComponentType::Transf));
 			if (geometry_utilities::has_intersection(desired_rect, tile_transf->position))
 			{
 				required_delta.x = tile_transf->position.x - (desired_rect.x + desired_rect.w);
@@ -243,14 +243,14 @@ SDL_Point game_flow_normal::resolve_collisions(ICollidable* character_collision,
 	//get whether top tile is traversible or not
 	ITile* top_tilec = nullptr;
 	if (top)
-		top_tilec = static_cast<ITile*>(top->get_component(ComponentType::Tile));
+		top_tilec = static_cast<ITile*>(top->get_component(Component::ComponentType::Tile));
 	bool top_trav = false;
 	if (top_tilec)
 		top_trav = top_tilec->is_traversible;
 
 	if (top && !top_trav)
 	{
-		Transform* tile_transf = static_cast<Transform*>(top->get_component(ComponentType::Transf));
+		Transform* tile_transf = static_cast<Transform*>(top->get_component(Component::ComponentType::Transf));
 		if (geometry_utilities::has_intersection(desired_rect, tile_transf->position))
 		{
 			required_delta.y = (tile_transf->position.y + tile_transf->position.h) - desired_rect.y;
@@ -266,14 +266,14 @@ SDL_Point game_flow_normal::resolve_collisions(ICollidable* character_collision,
 																	  //get whether top tile is traversible or not
 		ITile* bottom_tilec = nullptr;
 		if (bottom)
-			bottom_tilec = static_cast<ITile*>(bottom->get_component(ComponentType::Tile));
+			bottom_tilec = static_cast<ITile*>(bottom->get_component(Component::ComponentType::Tile));
 		bool bottom_trav = false;
 		if (bottom_tilec)
 			bottom_trav = bottom_tilec->is_traversible;
 
 		if (bottom && !bottom_trav)
 		{
-			Transform* tile_transf = static_cast<Transform*>(bottom->get_component(ComponentType::Transf));
+			Transform* tile_transf = static_cast<Transform*>(bottom->get_component(Component::ComponentType::Transf));
 			if (geometry_utilities::has_intersection(desired_rect, tile_transf->position))
 			{
 				required_delta.y = tile_transf->position.y - (desired_rect.y + desired_rect.h);

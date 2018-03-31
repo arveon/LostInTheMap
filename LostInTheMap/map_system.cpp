@@ -3,7 +3,7 @@
 int map_system::tile_width;
 void map_system::init_terrain_map(int ** tile_ids, levels level, Entity* tilemap)
 {
-	ITerrain* tc = static_cast<ITerrain*>(tilemap->get_component(ComponentType::Terrain));
+	ITerrain* tc = static_cast<ITerrain*>(tilemap->get_component(Component::ComponentType::Terrain));
 
 	int w = tc->width;
 	int h = tc->height;
@@ -60,14 +60,14 @@ void map_system::init_terrain_map(int ** tile_ids, levels level, Entity* tilemap
 //function adds collision components to entities in tilemap that are collidable
 void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 {
-	ITerrain* tr = static_cast<ITerrain*>(tilemap->get_component(ComponentType::Terrain));
+	ITerrain* tr = static_cast<ITerrain*>(tilemap->get_component(Component::ComponentType::Terrain));
 	for (int i = 0; i < tr->height; i++)
 	{
 		for (int j = 0; j < tr->width; j++)
 		{
 			if (tr->terrain_tiles[i][j] == nullptr)
 				continue;
-			Transform* transform = static_cast<Transform*>(tr->terrain_tiles[i][j]->get_component(ComponentType::Transf));
+			Transform* transform = static_cast<Transform*>(tr->terrain_tiles[i][j]->get_component(Component::ComponentType::Transf));
 			transform->position = {
 				static_cast<int>(j*tr->tile_width), 
 				static_cast<int>(i*tr->tile_width), 
@@ -75,7 +75,7 @@ void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 				static_cast<int>(tr->tile_width) 
 			};
 
-			ITile* tc = static_cast<ITile*>(tr->terrain_tiles[i][j]->get_component(ComponentType::Tile));
+			ITile* tc = static_cast<ITile*>(tr->terrain_tiles[i][j]->get_component(Component::ComponentType::Tile));
 			if (collision_map[i][j] == 1)
 				tc->is_traversible = false;
 			else
@@ -93,7 +93,7 @@ void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 				//std::cout << "1";
 				continue;
 			}
-			ITile* dc = static_cast<ITile*>(tr->terrain_tiles[y][x]->get_component(ComponentType::Tile));
+			ITile* dc = static_cast<ITile*>(tr->terrain_tiles[y][x]->get_component(Component::ComponentType::Tile));
 			/*if (dc->is_traversible)
 				std::cout << "0";
 			else
@@ -121,7 +121,7 @@ int ** map_system::get_pathfinding_map(ITerrain * tilemap)
 				map[i][j] = 1;
 				continue;
 			}
-			ITile* tile = static_cast<ITile*>(tilemap->terrain_tiles[i][j]->get_component(ComponentType::Tile));
+			ITile* tile = static_cast<ITile*>(tilemap->terrain_tiles[i][j]->get_component(Component::ComponentType::Tile));
 			if (tile->is_traversible)
 				map[i][j] = 0;
 			else

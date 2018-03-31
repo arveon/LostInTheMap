@@ -94,8 +94,8 @@ void MainMenuSystem::update_space(Space & space, int dt)
 		Entity* temp_e = space.objects.at(i);
 		if (temp_e->type == entity_type::ui_element)
 		{		
-			Transform* temp_t = static_cast<Transform*>(temp_e->get_component(ComponentType::Transf));
-			IMouse* mc = static_cast<IMouse*>(mouse->get_component(ComponentType::Mouse));
+			Transform* temp_t = static_cast<Transform*>(temp_e->get_component(Component::ComponentType::Transf));
+			IMouse* mc = static_cast<IMouse*>(mouse->get_component(Component::ComponentType::Mouse));
 			//IAnimatable* anim = static_cast<IAnimatable*>(find_component_on_object(space.objects.at(i), ComponentType::Animated));
 			if (sdl_utils::is_point_in_rect({ mouse->transform->position.x, mouse->transform->position.y }, temp_t->position))
 			{
@@ -123,12 +123,12 @@ void MainMenuSystem::destroy_space(Space & space)
 
 void MainMenuSystem::mouse_target_changed(Entity* new_target)
 {
-	IMouse* mouse = static_cast<IMouse*>(MainMenuSystem::mouse->get_component(ComponentType::Mouse));
+	IMouse* mouse = static_cast<IMouse*>(MainMenuSystem::mouse->get_component(Component::ComponentType::Mouse));
 	
 	//if mouse had a target before, update it and remove the reference to it from mouse
 	if (mouse->cur_target != nullptr)
 	{
-		IAnimatable* ac_old = static_cast<IAnimatable*>(mouse->cur_target->get_component(ComponentType::Animated));
+		IAnimatable* ac_old = static_cast<IAnimatable*>(mouse->cur_target->get_component(Component::ComponentType::Animated));
 		if (ac_old->src_rect.x != 0)
 		{
 			ac_old->src_rect.x = 0;
@@ -140,7 +140,7 @@ void MainMenuSystem::mouse_target_changed(Entity* new_target)
 	//update new target and add reference to it to mouse
 	if (new_target != nullptr)
 	{
-		IAnimatable* ac_new = static_cast<IAnimatable*>(new_target->get_component(ComponentType::Animated));
+		IAnimatable* ac_new = static_cast<IAnimatable*>(new_target->get_component(Component::ComponentType::Animated));
 		if (new_target != nullptr)
 		{
 			ac_new->src_rect.x = ac_new->src_rect.w;
@@ -152,17 +152,17 @@ void MainMenuSystem::mouse_target_changed(Entity* new_target)
 
 void MainMenuSystem::mouse_down_listener()
 {
-	IMouse* mouse = static_cast<IMouse*>(MainMenuSystem::mouse->get_component(ComponentType::Mouse));
+	IMouse* mouse = static_cast<IMouse*>(MainMenuSystem::mouse->get_component(Component::ComponentType::Mouse));
 	if (!mouse->cur_target)
 		return;
 
 	mouse->down_target = mouse->cur_target;
-	IUIElement* target = static_cast<IUIElement*>(mouse->down_target->get_component(ComponentType::UIElement));
+	IUIElement* target = static_cast<IUIElement*>(mouse->down_target->get_component(Component::ComponentType::UIElement));
 	IAnimatable * ac;
 	switch (target->element_type)
 	{
 	case UI_Element_Type::button:
-		ac = static_cast<IAnimatable*>(mouse->cur_target->get_component(ComponentType::Animated));
+		ac = static_cast<IAnimatable*>(mouse->cur_target->get_component(Component::ComponentType::Animated));
 		ac->src_rect.x = ac->src_rect.w * 2;
 		ac->sprite_changed = true;
 		break;
@@ -175,7 +175,7 @@ void MainMenuSystem::mouse_down_listener()
 
 void MainMenuSystem::mouse_up_listener()
 {
-	IMouse* mouse = static_cast<IMouse*>(MainMenuSystem::mouse->get_component(ComponentType::Mouse));
+	IMouse* mouse = static_cast<IMouse*>(MainMenuSystem::mouse->get_component(Component::ComponentType::Mouse));
 	if (mouse->cur_target = mouse->down_target)
 	{
 		mouse->down_target = nullptr;
@@ -185,10 +185,10 @@ void MainMenuSystem::mouse_up_listener()
 
 void MainMenuSystem::mouse_clicked_on_entity()
 {
-	IMouse* mouse = static_cast<IMouse*>(MainMenuSystem::mouse->get_component(ComponentType::Mouse));
+	IMouse* mouse = static_cast<IMouse*>(MainMenuSystem::mouse->get_component(Component::ComponentType::Mouse));
 	Entity* clicked = mouse->cur_target;
-	IUIElement* ui = static_cast<IUIElement*>(clicked->get_component(ComponentType::UIElement));
-	IAnimatable * ac = static_cast<IAnimatable*>(clicked->get_component(ComponentType::Animated));
+	IUIElement* ui = static_cast<IUIElement*>(clicked->get_component(Component::ComponentType::UIElement));
+	IAnimatable * ac = static_cast<IAnimatable*>(clicked->get_component(Component::ComponentType::Animated));
 	switch (ui->element_type)
 	{
 	case UI_Element_Type::button:

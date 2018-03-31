@@ -181,17 +181,18 @@ int** xml_system::load_map_collisions(levels level, int width, int height)
 	return tilemap;
 }
 
-int** xml_system::load_characters(levels level, int width, int height)
+Character** xml_system::load_characters(levels level, int width, int height)
 {
-	int** result;
+	Character** result;
 	//initialise the tilemap to -1s as it will represent a tile with nothing
-	result = new int*[height];
+	result = new Character*[height];
 	for (int i = 0; i < height; i++)
 	{
-		result[i] = new int[width];
+		result[i] = new Character[width];
 		for (int j = 0; j < width; j++)
 		{
-			result[i][j] = -1;
+			Character ch;
+			result[i][j] = ch;
 		}
 	}
 
@@ -217,7 +218,12 @@ int** xml_system::load_characters(levels level, int width, int height)
 		
 		int x = std::stoi(cur_node->first_attribute("x")->value());
 		int y = std::stoi(cur_node->first_attribute("y")->value());
-		result[y][x] = id;
+		result[y][x].value = id;
+		rapidxml::xml_attribute<char>* attr= cur_node->first_attribute("type");
+		if (attr != nullptr)
+			result[y][x].type = attr->value();
+		else
+			result[y][x].type = "";
 		cur_node = cur_node->next_sibling("tile");
 	}
 

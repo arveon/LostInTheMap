@@ -5,7 +5,7 @@ void SpaceSystem::add_space_to_render_queue(Space& space)
 	for (std::vector<Entity*>::iterator it = space.objects.begin(); it != space.objects.end(); it++)
 	{
 		Entity* temp = *it;
-		IDrawable* comp = static_cast<IDrawable*>(temp->get_component(ComponentType::Drawable));
+		IDrawable* comp = static_cast<IDrawable*>(temp->get_component(Component::ComponentType::Drawable));
 
 		if (comp)
 			comp->id = render_system::add_object_to_queue(comp);
@@ -16,11 +16,11 @@ void SpaceSystem::apply_animation_sprite_changes(Space& space)
 {
 	for (unsigned int i = 0; i < space.objects.size(); i++)
 	{
-		IAnimatable* ac = static_cast<IAnimatable*>(space.objects.at(i)->get_component(ComponentType::Animated));
+		IAnimatable* ac = static_cast<IAnimatable*>(space.objects.at(i)->get_component(Component::ComponentType::Animated));
 		if (!ac || !ac->sprite_changed)
 			continue;
 
-		IDrawable* dc = static_cast<IDrawable*>(space.objects.at(i)->get_component(ComponentType::Drawable));
+		IDrawable* dc = static_cast<IDrawable*>(space.objects.at(i)->get_component(Component::ComponentType::Drawable));
 		if (!dc)
 			continue;
 
@@ -42,13 +42,13 @@ void SpaceSystem::destroy_space(Space& space)
 		{
 			//remove textures from all of the components
 			Component* temp_tc = temp->components.at(j);
-			if (temp_tc->type == ComponentType::Drawable)
+			if (temp_tc->type == Component::ComponentType::Drawable)
 			{
 				IDrawable* temp_c = static_cast<IDrawable*>(temp_tc);
 				render_system::remove_from_queue(temp_c->id, temp_c->layer);
 				asset_controller::destroy_texture(temp_c->sprite);
 			}
-			if (temp_tc->type == ComponentType::Animated)
+			if (temp_tc->type == Component::ComponentType::Animated)
 			{
 				IAnimatable* temp_c = static_cast<IAnimatable*>(temp_tc);
 				asset_controller::destroy_texture(temp_c->spritesheet);
@@ -81,8 +81,8 @@ void SpaceSystem::update_draw_rects(Space & space)
 {
 	for (unsigned int i = 0; i < space.objects.size(); i++)
 	{
-		Transform* tf = static_cast<Transform*>(space.objects.at(i)->get_component(ComponentType::Transf));
-		IDrawable* dc = static_cast<IDrawable*>(space.objects.at(i)->get_component(ComponentType::Drawable));
+		Transform* tf = static_cast<Transform*>(space.objects.at(i)->get_component(Component::ComponentType::Transf));
+		IDrawable* dc = static_cast<IDrawable*>(space.objects.at(i)->get_component(Component::ComponentType::Drawable));
 
 		if (!tf || !dc)
 			continue;

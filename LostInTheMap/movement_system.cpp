@@ -13,15 +13,15 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 	{
 		Entity* character = game_space.objects.at(i);
 		//get moving component to see if entity is movable
-		IMoving* mc = static_cast<IMoving*>(character->get_component(ComponentType::Movement));
-		ICollidable* cc = static_cast<ICollidable*>(character->get_component(ComponentType::Collision));
+		IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
+		ICollidable* cc = static_cast<ICollidable*>(character->get_component(Component::ComponentType::Collision));
 
 		//if not moving, skip
 		if (!mc || !cc)
 			continue;
 
-		Transform* tc = static_cast<Transform*>(character->get_component(ComponentType::Transf));
-		IDrawable* dc = static_cast<IDrawable*>(character->get_component(ComponentType::Drawable));
+		Transform* tc = static_cast<Transform*>(character->get_component(Component::ComponentType::Transf));
+		IDrawable* dc = static_cast<IDrawable*>(character->get_component(Component::ComponentType::Drawable));
 		
 		if (mc->destination_reached)//if destination tile reached (or not moving at all)
 			continue;
@@ -30,7 +30,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 		if (mc->path.size() > 1)
 		{
 			cur_dest = mc->path.back();
-			IDrawable* tile_dc = static_cast<IDrawable*>(tr->terrain_tiles[cur_dest.y][cur_dest.x]->get_component(ComponentType::Drawable));
+			IDrawable* tile_dc = static_cast<IDrawable*>(tr->terrain_tiles[cur_dest.y][cur_dest.x]->get_component(Component::ComponentType::Drawable));
 			cur_dest.x = cur_dest.x * tilewidth - dc->sprite_origin.x + tile_dc->sprite_origin.x;
 			cur_dest.y = cur_dest.y * tilewidth - dc->sprite_origin.y + tile_dc->sprite_origin.y;
 

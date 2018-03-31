@@ -35,7 +35,7 @@ public:
 	static MenuLayout load_interface_layout(std::string name);
 	static int** load_map_tiles(levels level, int* width, int* height, int* tilewidth);
 	static int** load_map_collisions(levels level, int width, int height);
-	static int** load_characters(levels level, int width, int height);
+	static Character** load_characters(levels level, int width, int height);
 	static std::vector<LoadingState> get_loading_states();
 
 	xml_system();
