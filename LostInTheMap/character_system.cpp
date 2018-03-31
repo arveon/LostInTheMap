@@ -49,7 +49,7 @@ std::vector<Entity*> character_system::init_characters(int ** charact, int width
 					break;
 				}
 
-				ICharacter* cc = new ICharacter(ent, character_type::h_giovanni);
+				ICharacter* cc = new ICharacter(ent, type);
 				ent->add_component(cc);
 
 				IMoving* mc = new IMoving(ent, j, i);
@@ -82,6 +82,9 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		case character_type::h_giovanni:
 			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/giovanni.png");
 			//tc->position.w 
+			break;
+		case character_type::zakra_spearman:
+			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/zakra_spearman.png");
 			break;
 		}
 
