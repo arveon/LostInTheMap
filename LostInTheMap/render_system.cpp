@@ -69,10 +69,7 @@ void render_system::sort_queues()
 				surface.at(i+1) = dr1;
 				swapped = true;
 			}
-
 		}
-
-
 	}
 }
 

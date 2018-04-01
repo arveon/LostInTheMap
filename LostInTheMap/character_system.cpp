@@ -37,16 +37,25 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 
 				//set name and character type depending on what's stored in field
 				character_type type;
-				switch (charact[i][j].value)
+				if (charact[i][j].type.compare("zakra_spearman") == 0)
 				{
-				case 1:
+					ent->name = "spearman";
+					type = character_type::zakra_spearman;
+				}
+				else if (charact[i][j].type.compare("player") == 0)
+				{
 					ent->name = "player";
 					type = character_type::h_giovanni;
-					break;
-				default:
+				}
+				else if (charact[i][j].type.compare("zaji") == 0)
+				{
+					ent->name = "zaji";
+					type = character_type::h_zaji;
+				}
+				else
+				{
 					ent->name = "Unnamed";
 					type = character_type::zakra_spearman;
-					break;
 				}
 
 				ICharacter* cc = new ICharacter(ent, type);
@@ -88,9 +97,13 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 			break;
 		case character_type::zakra_spearman:
 			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/zakra_spearman.png");
-			
 			dc->draw_rect.w = 64;
 			dc->draw_rect.h = 64;
+			break;
+		case character_type::h_zaji:
+			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/za'ji.png");
+			dc->draw_rect.w = 50;
+			dc->draw_rect.h = 48;
 			break;
 		default:
 			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/default.png");
