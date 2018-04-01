@@ -47,7 +47,33 @@ void render_system::flush_queues()
 
 void render_system::sort_queues()
 {
+	//only need to sort the surface queue
+	if (surface.size() <= 0)
+		return;
+	bool swapped = true;
+	while (swapped)
+	{
+		swapped = false;
 
+		for (unsigned int i = 0; i < surface.size() - 1; i++)
+		{
+			IDrawable* dr1 = surface.at(i);
+			IDrawable* dr2 = surface.at(i + 1);
+
+			int first_y = dr1->draw_rect.y + dr1->sprite_origin.y;
+			int second_y = dr2->draw_rect.y + dr2->sprite_origin.y;
+
+			if (first_y > second_y)
+			{
+				surface.at(i) = dr2;
+				surface.at(i+1) = dr1;
+				swapped = true;
+			}
+
+		}
+
+
+	}
 }
 
 void render_system::render_queues()

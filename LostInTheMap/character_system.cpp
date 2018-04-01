@@ -77,25 +77,27 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		ICharacter* cc = static_cast<ICharacter*>(charact->get_component(Component::ComponentType::Character));
 		ICollidable* colc = static_cast<ICollidable*>(charact->get_component(Component::ComponentType::Collision));
 
+		dc->draw_rect = tc->position;
+
 		switch (cc->c_type)
 		{
 		case character_type::h_giovanni:
 			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/giovanni.png");
-			//tc->position.w 
+			dc->draw_rect.w = 50;
+			dc->draw_rect.h = 48;
 			break;
 		case character_type::zakra_spearman:
 			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/zakra_spearman.png");
+			
+			dc->draw_rect.w = 64;
+			dc->draw_rect.h = 64;
 			break;
+		default:
+			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/default.png");
+			dc->draw_rect.w = 50;
+			dc->draw_rect.h = 48;
 		}
 
-		SDL_Rect r = asset_controller::get_texture_size(ac->spritesheet);
-		//tc->position.y -= r.h;
-		ac->src_rect = { 0,0, r.w, r.h };
-
-		dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
-		dc->draw_rect = tc->position;
-		dc->draw_rect.w = 50;
-		dc->draw_rect.h = 48;
 		dc->sprite_origin = { dc->draw_rect.w / 2, dc->draw_rect.h };
 
 		//align sprite with its tile origin
@@ -106,6 +108,12 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		colc->collision_rect.h = 10;
 		colc->collision_rect.x = dc->sprite_origin.x - colc->collision_rect.w / 2;
 		colc->collision_rect.y = dc->sprite_origin.y - colc->collision_rect.h;
+
+		//set sprite
+		SDL_Rect r = asset_controller::get_texture_size(ac->spritesheet);
+		ac->src_rect = { 0,0, r.w, r.h };
+		dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
+		
 	}
 }
 

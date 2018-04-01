@@ -129,6 +129,7 @@ void Game::game_loop()
 		}
 
 		time.update();
+		render_system::sort_queues();
 		render_system::render_queues();
 	}
 }
