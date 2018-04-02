@@ -23,7 +23,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 		Transform* tc = static_cast<Transform*>(character->get_component(Component::ComponentType::Transf));
 		IDrawable* dc = static_cast<IDrawable*>(character->get_component(Component::ComponentType::Drawable));
 		
-		if (mc->destination_reached)//if destination tile reached (or not moving at all)
+		if (mc->destination_reached && mc->path.size() == 0)//if destination tile reached (or not moving at all)
 			continue;
 
 		SDL_Point cur_dest;
