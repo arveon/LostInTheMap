@@ -27,12 +27,13 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 			continue;
 
 		SDL_Point cur_dest;
+		//if next tile is not last destination
 		if (mc->path.size() > 1)
 		{
 			cur_dest = mc->path.back();
 			IDrawable* tile_dc = static_cast<IDrawable*>(tr->terrain_tiles[cur_dest.y][cur_dest.x]->get_component(Component::ComponentType::Drawable));
-			cur_dest.x = cur_dest.x * tilewidth - dc->sprite_origin.x + tile_dc->sprite_origin.x;
-			cur_dest.y = cur_dest.y * tilewidth - dc->sprite_origin.y + tile_dc->sprite_origin.y;
+			cur_dest.x = cur_dest.x * tilewidth;
+			cur_dest.y = cur_dest.y * tilewidth;
 
 			if (tc->position.x == cur_dest.x && tc->position.y == cur_dest.y)
 			{

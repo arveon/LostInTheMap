@@ -18,6 +18,7 @@ void lee_pathfinder::init_pathfinder(int ** map, int width, int height)
 			lee_pathfinder::map[i][j] = new pathfinding_tile;
 			lee_pathfinder::map[i][j]->pathfinding_value = 0;
 			lee_pathfinder::map[i][j]->position = {j, i};
+			lee_pathfinder::map[i][j]->is_obstructed = false;
 			if (map[i][j] == 1)
 				lee_pathfinder::map[i][j]->is_traversible = false;
 			else
@@ -96,7 +97,7 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 	for (unsigned int i = 0; i < cur_generation.size(); i++)
 	{
 		pathfinding_tile* temp = cur_generation.at(i);
-		if (!temp->is_traversible)
+		if (!temp->is_traversible || temp->is_obstructed)
 			continue;
 
 		temp->pathfinding_value = generation_number;
@@ -114,7 +115,7 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 			for (unsigned int j = 0; j < temp->neighbours.size(); j++)
 			{
 				pathfinding_tile* temp_next = temp->neighbours.at(j);
-				if (!temp_next->is_traversible)
+				if (!temp_next->is_traversible || temp_next->is_obstructed)
 					continue;
 
 				if (temp_next->pathfinding_value == 0)
@@ -138,7 +139,7 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 	
 
 #pragma region debug_print
-	/*
+	
 	//display pathfinding values for debug
 	for (int i = 0; i < lee_pathfinder::height; i++)
 	{
@@ -156,12 +157,14 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 				else
 					std::cout << lee_pathfinder::map[i][j]->pathfinding_value << " ";
 			}
-			else
+			else if (!lee_pathfinder::map[i][j]->is_traversible)
 				std::cout << "| ";
+			else if (lee_pathfinder::map[i][j]->is_obstructed)
+				std::cout << "i ";
 		}
 		std::cout << std::endl;
 	}
-	*/
+	
 #pragma endregion
 
 	//if all available tiles marked but destination not reached, means there is no available path
@@ -201,6 +204,16 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 	reset_pathfinder();
 
 	return path;
+}
+
+void lee_pathfinder::reset_obstructed()
+{
+	for (int i = 0; i < lee_pathfinder::height; i++)
+		for (int j = 0; j < lee_pathfinder::width; j++)
+		{
+			lee_pathfinder::map[i][j]->pathfinding_value = 0;
+			lee_pathfinder::map[i][j]->is_obstructed = false;
+		}
 }
 
 void lee_pathfinder::reset_pathfinder()

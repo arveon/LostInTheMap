@@ -21,6 +21,7 @@ public:
 	static void init(Space& game_space);
 	static void update_space(Space& space, int dt);
 	static void handle_mouse_events(Space& space);
+	static void update_pathfinder(Space& space);
 	
 
 	static void mouse_down_event();

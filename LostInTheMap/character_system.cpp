@@ -114,16 +114,11 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		//set tile origin
 		dc->sprite_origin = { dc->draw_rect.w / 2, dc->draw_rect.h };		
 		
-		//align sprite with its tile origin
-		//tc->position.x = tc->position.x + tile_origin.x - dc->sprite_origin.x/2;
-		//tc->position.y = tc->position.y + tile_origin.y - dc->draw_rect.h/2;
-		
-
 		//set up collision rect
 		colc->collision_rect.w = 25;
 		colc->collision_rect.h = 10;
-		colc->collision_rect.x = dc->sprite_origin.x - colc->collision_rect.w / 2;
-		colc->collision_rect.y = dc->sprite_origin.y - colc->collision_rect.h;
+		colc->collision_rect.x = tc->origin.x - colc->collision_rect.w / 2;
+		colc->collision_rect.y = tc->origin.y - colc->collision_rect.h;
 
 		//set sprite
 		SDL_Rect r = asset_controller::get_texture_size(ac->spritesheet);

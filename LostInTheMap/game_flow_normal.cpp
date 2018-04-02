@@ -56,6 +56,7 @@ void game_flow_normal::update_space(Space & space, int dt)
 
 	game_flow_normal::handle_mouse_events(space);
 	SpaceSystem::update_draw_rects(space);
+	game_flow_normal::update_pathfinder(space);
 }
 
 void game_flow_normal::handle_mouse_events(Space& space)
@@ -121,7 +122,7 @@ void game_flow_normal::handle_mouse_events(Space& space)
 			else if (tile == tc->terrain_tiles[player_ids.y][player_ids.x] && tilec->is_traversible)
 			{
 				SDL_Point player_sp_or = player->get_object_origin();
-				mc->final_destination = { mouse_pos.x - player_sp_or.x/2, mouse_pos.y - player_sp_or.y };
+				mc->final_destination = { mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
 
 				SDL_Point desired_point = game_flow_normal::resolve_collisions(colc, mc, tc);
 				mc->final_destination.x += desired_point.x;
@@ -166,6 +167,28 @@ Entity* game_flow_normal::get_object_at_point(Space& space, int x, int y)
 	}
 
 	return ent;
+}
+
+void game_flow_normal::update_pathfinder(Space& space)
+{
+	lee_pathfinder::reset_obstructed();
+	
+	Entity* tr = SpaceSystem::find_entity_by_name(space, "terrain");
+	if (!tr)
+		return;
+	ITerrain* trc = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
+	//set obstructed tiles in pathfinder
+	for (unsigned int i = 0; i < space.objects.size(); i++)
+	{
+		Entity* ent = space.objects.at(i);
+
+		SDL_Point t = ent->get_collision_origin_in_world();
+		if (t.x == -1 && t.y == -1)
+			continue;
+
+		t = map_system::world_to_tilemap_ids(t, trc);
+		lee_pathfinder::set_obstructed(t.x, t.y);
+	}
 }
 
 void game_flow_normal::mouse_down_event()

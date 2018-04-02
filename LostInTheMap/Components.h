@@ -226,6 +226,7 @@ class IMoving : public Component
 {
 public:
 	lee_pathfinder pathfinder;
+	//destination for transform (top left pixel)
 	SDL_Point final_destination;
 	bool destination_reached;
 	//SDL_Point origin;

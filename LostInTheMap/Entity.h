@@ -14,12 +14,12 @@ enum entity_type
 class Entity
 {
 public:
-	Transform* transform;
+	Transform * transform;
 	std::vector<Component*> components;
 	entity_type type;
 	std::string name;
 
-	Entity(entity_type type, std::string name="no_name")
+	Entity(entity_type type, std::string name = "no_name")
 	{
 		this->type = type;
 		this->name = name;
@@ -68,6 +68,7 @@ public:
 		}
 	}
 
+	//returns requested component or nullptr
 	Component* get_component(Component::ComponentType type)
 	{
 		Component* result = nullptr;
@@ -86,6 +87,7 @@ public:
 		return result;
 	}
 
+	//gets objects origin in world or {-1,-1} if transform is missing
 	SDL_Point get_origin_in_world()
 	{
 		SDL_Point result;
@@ -93,29 +95,46 @@ public:
 		IDrawable* dc = static_cast<IDrawable*>(this->get_component(Component::ComponentType::Drawable));
 
 		if (!tf || !dc)
-			return { 0,0 };
+			return { -1,-1 };
 
-		result.x = tf->position.x + dc->sprite_origin.x;
-		result.y = tf->position.y + dc->sprite_origin.y;
+		result.x = tf->position.x + tf->origin.x;
+		result.y = tf->position.y + tf->origin.y;
 		return result;
 	}
 
+	//gets sprite origin in local sprite coordinates or {-1,-1} if no transform found
 	SDL_Point get_sprite_origin()
 	{
 		SDL_Point result;
 		IDrawable* dc = static_cast<IDrawable*>(this->get_component(Component::ComponentType::Drawable));
 		if (!dc)
-			return { 0,0 };
+			return { -1,-1 };
 		return dc->sprite_origin;
 	}
 
+	//gets transform origin in local transform coordinate system or {-1,-1} if no transform found
 	SDL_Point get_object_origin()
 	{
 		SDL_Point result;
 		Transform* tc = static_cast<Transform*>(this->get_component(Component::ComponentType::Transf));
 		if (!tc)
-			return { 0,0 };
+			return { -1,-1 };
 		return tc->origin;
+	}
+
+	//gets collision origin in world coordinate system or {-1,-1} if no collider found
+	SDL_Point get_collision_origin_in_world()
+	{
+		SDL_Point result;
+		Transform* tf = this->transform;
+		ICollidable* cc = static_cast<ICollidable*>(this->get_component(Component::ComponentType::Collision));
+
+		if (!tf || !cc)
+			return { -1,-1 };
+
+		result.x = tf->position.x + cc->collision_rect.x + cc->collision_rect.w/2;
+		result.y = tf->position.y + cc->collision_rect.y + cc->collision_rect.h/2;
+		return result;
 	}
 
 };
