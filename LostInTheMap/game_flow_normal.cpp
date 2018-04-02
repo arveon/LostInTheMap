@@ -100,7 +100,7 @@ void game_flow_normal::handle_mouse_events(Space& space)
 			if (!mc->path.empty())
 			{
 				//set destination mouse click position
-				SDL_Point player_sp_or = player->get_sprite_origin();
+				SDL_Point player_sp_or = player->get_object_origin();
 				mc->final_destination = { mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
 				SDL_Point desired_point = game_flow_normal::resolve_collisions(colc, mc, tc);
 				mc->final_destination.x += desired_point.x;
@@ -108,19 +108,20 @@ void game_flow_normal::handle_mouse_events(Space& space)
 				mc->destination_reached = false;
 				//check if point overlaps with any of the objects
 				Entity* target = game_flow_normal::get_object_at_point(space, mouse_pos.x, mouse_pos.y);
-
-				//breaks everything
-				//if (target != nullptr)
-				//{
-				//	//if it does, remove last node of path (will finish moving one tile before the object)
-				//	mc->final_destination = { tr->position.x, tr->position.y };
-				//	mc->path.pop_back();
-				//}
+				ITile* t_test = nullptr;
+				if(target)
+					 t_test = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));
+				if (!t_test && target)
+				{
+					mc->destination_reached = true;
+					mc->path.pop_back();
+				}
+				
 			}
 			else if (tile == tc->terrain_tiles[player_ids.y][player_ids.x] && tilec->is_traversible)
 			{
-				SDL_Point player_sp_or = player->get_sprite_origin();
-				mc->final_destination = { mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
+				SDL_Point player_sp_or = player->get_object_origin();
+				mc->final_destination = { mouse_pos.x - player_sp_or.x/2, mouse_pos.y - player_sp_or.y };
 
 				SDL_Point desired_point = game_flow_normal::resolve_collisions(colc, mc, tc);
 				mc->final_destination.x += desired_point.x;
@@ -154,6 +155,14 @@ Entity* game_flow_normal::get_object_at_point(Space& space, int x, int y)
 			ent = temp;
 			break;
 		}
+	}
+	if (!ent)
+	{
+		Entity* terr = SpaceSystem::find_entity_by_name(space, "terrain");
+		ITerrain* tc = static_cast<ITerrain*>(terr->get_component(Component::ComponentType::Terrain));
+
+		SDL_Point ids = map_system::world_to_tilemap_ids({ x, y }, tc);
+		ent = tc->terrain_tiles[ids.y][ids.x];
 	}
 
 	return ent;

@@ -25,6 +25,7 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 					static_cast<int>(tr->tile_width),
 					static_cast<int>(tr->tile_width)
 				};
+				transf_c->origin = {transf_c->position.w/2, transf_c->position.h};
 
 				ICollidable* colc = new ICollidable(ent);
 				colc->collidable = true;
@@ -67,8 +68,6 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 
 				characters.push_back(ent);
 			}
-
-
 		}
 	}
 	return characters;
@@ -88,6 +87,7 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 
 		dc->draw_rect = tc->position;
 
+		//init texture and draw rect size
 		switch (cc->c_type)
 		{
 		case character_type::h_giovanni:
@@ -111,12 +111,15 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 			dc->draw_rect.h = 48;
 		}
 
-		dc->sprite_origin = { dc->draw_rect.w / 2, dc->draw_rect.h };
-
+		//set tile origin
+		dc->sprite_origin = { dc->draw_rect.w / 2, dc->draw_rect.h };		
+		
 		//align sprite with its tile origin
-		tc->position.x = tc->position.x - dc->sprite_origin.x + tile_origin.x;
-		tc->position.y = tc->position.y - dc->sprite_origin.y + tile_origin.y;
+		//tc->position.x = tc->position.x + tile_origin.x - dc->sprite_origin.x/2;
+		//tc->position.y = tc->position.y + tile_origin.y - dc->draw_rect.h/2;
+		
 
+		//set up collision rect
 		colc->collision_rect.w = 25;
 		colc->collision_rect.h = 10;
 		colc->collision_rect.x = dc->sprite_origin.x - colc->collision_rect.w / 2;
@@ -126,7 +129,6 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		SDL_Rect r = asset_controller::get_texture_size(ac->spritesheet);
 		ac->src_rect = { 0,0, r.w, r.h };
 		dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
-		
 	}
 }
 

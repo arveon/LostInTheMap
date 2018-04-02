@@ -84,11 +84,15 @@ void SpaceSystem::update_draw_rects(Space & space)
 		Transform* tf = static_cast<Transform*>(space.objects.at(i)->get_component(Component::ComponentType::Transf));
 		IDrawable* dc = static_cast<IDrawable*>(space.objects.at(i)->get_component(Component::ComponentType::Drawable));
 
-		if (!tf || !dc)
+		IMouse* mc = static_cast<IMouse*>(space.objects.at(i)->get_component(Component::ComponentType::Mouse));
+		if (!tf || !dc || mc)
 			continue;
 
-		dc->draw_rect.x = tf->position.x;
-		dc->draw_rect.y = tf->position.y;
+		int delta_x = (dc->draw_rect.w - tf->position.w) / 2;
+		int delta_y = (dc->draw_rect.h - tf->position.h);
+
+		dc->draw_rect.x = tf->position.x - delta_x;
+		dc->draw_rect.y = tf->position.y - delta_y;
 
 	}
 

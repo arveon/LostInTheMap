@@ -109,4 +109,13 @@ public:
 		return dc->sprite_origin;
 	}
 
+	SDL_Point get_object_origin()
+	{
+		SDL_Point result;
+		Transform* tc = static_cast<Transform*>(this->get_component(Component::ComponentType::Transf));
+		if (!tc)
+			return { 0,0 };
+		return tc->origin;
+	}
+
 };

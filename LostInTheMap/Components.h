@@ -47,8 +47,9 @@ class Transform : public Component
 {
 public:
 	SDL_Rect position;
+	SDL_Point origin;
 	
-	Transform(Entity* owner, int x = 0, int y = 0) : Component(owner)
+	Transform(Entity* owner, int x = 0, int y = 0, SDL_Point origin = {0,0}) : Component(owner)
 	{
 		position.x = x;
 		position.y = y;
