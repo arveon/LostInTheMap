@@ -36,9 +36,19 @@ void mouse_system::update_mouse(Entity* mouse)
 	dc->draw_rect.y = input_system::mouse.y;
 }
 
+SDL_Point mouse_system::get_mouse_in_world(Entity * mouse)
+{
+	IMouse* ms = static_cast<IMouse*>(mouse->get_component(Component::ComponentType::Mouse));
+	//get mouse screen space
+	SDL_Point mouse_pos = { input_system::mouse.x, input_system::mouse.y };
+	//get mouse world space
+	mouse_pos = camera_system::screen_to_world_space(mouse_pos);
+
+	return mouse_pos;
+}
+
 void mouse_system::change_mouse_icon(mouse_icons icon, IAnimatable* anim_component, IDrawable* draw_component)
 {
-	
 	switch (icon)
 	{
 	case mouse_icons::normal:
@@ -53,6 +63,11 @@ void mouse_system::change_mouse_icon(mouse_icons icon, IAnimatable* anim_compone
 		break;
 	}
 
+
+}
+
+void mouse_system::update_mouse_hover(Space& space, Entity* mouse)
+{
 
 }
 

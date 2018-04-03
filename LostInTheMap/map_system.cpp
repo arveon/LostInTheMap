@@ -139,6 +139,24 @@ SDL_Point map_system::world_to_tilemap_ids(SDL_Point world_coords, ITerrain* til
 	return result;
 }
 
+Entity* map_system::get_tile_at(Entity* terrain, SDL_Point world_coords)
+{
+	Entity* tile = nullptr;
+	if (!terrain)
+		return tile;
+
+	//see if the tilemap tile exists
+	ITerrain* tc = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
+	if (!tc)
+		return tile;
+
+	SDL_Point t_ids = map_system::world_to_tilemap_ids(world_coords, tc);
+
+	tile = tc->terrain_tiles[t_ids.y][t_ids.x];
+
+	return tile;
+}
+
 map_system::map_system()
 {
 }

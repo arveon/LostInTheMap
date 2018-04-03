@@ -6,6 +6,8 @@
 #include "mouse_system.h"
 #include "movement_system.h"
 #include "map_system.h"
+#include "player_system.h"
+#include "character_system.h"
 
 #include "geometry_utilities.h"
 class game_flow_normal : SpaceSystem
@@ -20,17 +22,13 @@ public:
 	static int mouse_down_listener_id;
 	static void init(Space& game_space);
 	static void update_space(Space& space, int dt);
-	static void handle_mouse_events(Space& space);
+	static void handle_mouse_clicks(Space& space);
 	static void update_pathfinder(Space& space);
-	
 
 	static void mouse_down_event();
 	static void mouse_up_event();
 	game_flow_normal();
 	~game_flow_normal();
-
-	static SDL_Point resolve_collisions(ICollidable* character_collision, IMoving* mc, ITerrain* tc);
-
 	static Entity* get_object_at_point(Space& space, int x, int y);
 };
 

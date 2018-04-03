@@ -127,6 +127,30 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 	}
 }
 
+void character_system::set_destination(ITerrain* terrain, Entity* character, SDL_Point mouse_pos)
+{
+	IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
+	ICollidable* colc = static_cast<ICollidable*>(character->get_component(Component::ComponentType::Collision));
+
+	//set pathfinder dest to tile_id
+	Entity* tile = map_system::get_tile_at(terrain->owner, mouse_pos);
+	ITile* tile_c = static_cast<ITile*>(tile->get_component(Component::ComponentType::Tile));
+
+	////set pathfinders destination to tile
+	//mc->pathfinder.set_destination({ tile_c->x, tile_c->y });
+	////calculate and get path from pathfinder
+	//mc->path = mc->pathfinder.get_path_to({ tile_c->x, tile_c->y });
+
+	//set destination mouse click position
+	SDL_Point player_sp_or = character->get_object_origin();
+	mc->final_destination = { mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
+	SDL_Point desired_point = collision_system::resolve_collisions(colc, mc, terrain);
+	mc->final_destination.x += desired_point.x;
+	mc->final_destination.y += desired_point.y;
+	mc->destination_reached = false;
+
+}
+
 character_system::character_system()
 {
 }

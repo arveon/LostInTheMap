@@ -187,7 +187,7 @@ class ITile : public Component
 {
 public:
 	std::vector<Entity*> neighbours;
-	int x, y;
+	int x, y;//grid coordinates of tile
 	bool is_traversible;
 
 	ITile(Entity* owner, int x, int y, bool traversible) : Component(owner)

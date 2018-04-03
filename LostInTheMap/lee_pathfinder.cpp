@@ -115,7 +115,7 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 			for (unsigned int j = 0; j < temp->neighbours.size(); j++)
 			{
 				pathfinding_tile* temp_next = temp->neighbours.at(j);
-				if (!temp_next->is_traversible || temp_next->is_obstructed)
+				if (!temp_next->is_traversible)
 					continue;
 
 				if (temp_next->pathfinding_value == 0)
