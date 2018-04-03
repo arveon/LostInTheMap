@@ -77,6 +77,35 @@ Entity* SpaceSystem::find_entity_by_name(Space& space, std::string name)
 	return result;
 }
 
+Entity* SpaceSystem::get_object_at_point(Space& space, int x, int y)
+{
+	Entity* ent = nullptr;
+
+	for (unsigned int i = 0; i < space.objects.size(); i++)
+	{
+		Entity* temp = space.objects.at(i);
+		Transform* tf = static_cast<Transform*>(temp->get_component(Component::ComponentType::Transf));
+		if (!tf)
+			continue;
+		SDL_Rect rect = tf->position;
+		if (geometry_utilities::is_point_in_rect(x, y, rect))
+		{
+			ent = temp;
+			break;
+		}
+	}
+	if (!ent)
+	{
+		Entity* terr = SpaceSystem::find_entity_by_name(space, "terrain");
+		ITerrain* tc = static_cast<ITerrain*>(terr->get_component(Component::ComponentType::Terrain));
+
+		SDL_Point ids = map_system::world_to_tilemap_ids({ x, y }, tc);
+		ent = tc->terrain_tiles[ids.y][ids.x];
+	}
+
+	return ent;
+}
+
 void SpaceSystem::update_draw_rects(Space & space)
 {
 	for (unsigned int i = 0; i < space.objects.size(); i++)

@@ -29,6 +29,5 @@ public:
 	static void mouse_up_event();
 	game_flow_normal();
 	~game_flow_normal();
-	static Entity* get_object_at_point(Space& space, int x, int y);
 };
 

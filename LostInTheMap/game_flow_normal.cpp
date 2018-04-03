@@ -73,6 +73,7 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 	{
 		SDL_Point mouse_pos = mouse_system::get_mouse_in_world(game_flow_normal::mouse);
 
+		//check if there is a tile
 		Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
 		ITerrain* tc = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
 		if (!tc)
@@ -84,36 +85,9 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 		{
 			ITile* tilec = static_cast<ITile*>(tile->get_component(Component::ComponentType::Tile));
 
-			//get player move and collision components
+			//get player and set his destination to mouse click position
 			Entity* player = SpaceSystem::find_entity_by_name(space, "player");
-			IMoving* mc = static_cast<IMoving*>(player->get_component(Component::ComponentType::Movement));
-
-			//set pathfinders destination to tile
-			mc->pathfinder.set_destination({ tilec->x, tilec->y });
-			//calculate and get path from pathfinder
-			mc->path = mc->pathfinder.get_path_to({ tilec->x, tilec->y });
-
-			SDL_Point player_ids = player_system::get_player_ids(tc);
-			if (!mc->path.empty())
-			{
-				character_system::set_destination(tc, player, mouse_pos);
-
-				//check if point overlaps with any of the objects
-				Entity* target = game_flow_normal::get_object_at_point(space, mouse_pos.x, mouse_pos.y);
-				ITile* t_test = nullptr;
-				if(target)
-					 t_test = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));
-				if (!t_test && target)
-				{
-					mc->destination_reached = true;
-					mc->path.pop_back();
-				}
-				
-			}
-			else if (tile == tc->terrain_tiles[player_ids.y][player_ids.x] && tilec->is_traversible)
-			{
-				character_system::set_destination(tc, player, mouse_pos);
-			}
+			character_system::set_final_destination(tc, player, mouse_pos, space);
 		}
 
 		lmb_down_event = false;//clear event flag
@@ -122,35 +96,6 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 	{
 		lmb_up_event = false;//clear event flag
 	}
-}
-
-Entity* game_flow_normal::get_object_at_point(Space& space, int x, int y)
-{
-	Entity* ent = nullptr;
-
-	for (unsigned int i = 0; i < space.objects.size(); i++)
-	{
-		Entity* temp = space.objects.at(i);
-		Transform* tf = static_cast<Transform*>(temp->get_component(Component::ComponentType::Transf));
-		if (!tf)
-			continue;
-		SDL_Rect rect = tf->position;
-		if (geometry_utilities::is_point_in_rect(x, y, rect))
-		{
-			ent = temp;
-			break;
-		}
-	}
-	if (!ent)
-	{
-		Entity* terr = SpaceSystem::find_entity_by_name(space, "terrain");
-		ITerrain* tc = static_cast<ITerrain*>(terr->get_component(Component::ComponentType::Terrain));
-
-		SDL_Point ids = map_system::world_to_tilemap_ids({ x, y }, tc);
-		ent = tc->terrain_tiles[ids.y][ids.x];
-	}
-
-	return ent;
 }
 
 void game_flow_normal::update_pathfinder(Space& space)

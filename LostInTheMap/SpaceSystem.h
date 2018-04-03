@@ -4,6 +4,9 @@
 #include "Components.h"
 #include "asset_controller.h"
 #include "input_system.h"
+#include "geometry_utilities.h"
+
+#include "map_system.h"
 
 class SpaceSystem
 {
@@ -18,6 +21,8 @@ public:
 	static void destroy_space(Space& space);
 	
 	static Entity* find_entity_by_name(Space& space, std::string name);	
+	static Entity* get_object_at_point(Space& space, int x, int y);
+
 	static void update_draw_rects(Space& space);
 };
 

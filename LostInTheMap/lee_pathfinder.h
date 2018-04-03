@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 class lee_pathfinder
 {

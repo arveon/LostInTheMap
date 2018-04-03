@@ -1,7 +1,5 @@
 #include "movement_system.h"
 
-int movement_system::millis_per_tile = 500;
-int movement_system::elapsed_walking = 0;
 float movement_system::tps = .1f;
 
 void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* tr)
@@ -37,7 +35,8 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 
 			if (tc->position.x == cur_dest.x && tc->position.y == cur_dest.y)
 			{
-				mc->pathfinder.set_origin({ mc->path.back().x, mc->path.back().y });
+				SDL_Point ori = mc->path.back();
+				mc->pathfinder.set_origin({ ori.x, ori.y });
 				mc->path.pop_back();
 			}
 		}
@@ -45,7 +44,8 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 		{//if still need to move within the tile
 			if (!mc->path.empty())
 			{
-				mc->pathfinder.set_origin({ mc->path.back().x, mc->path.back().y });
+				SDL_Point ori = mc->path.back();
+				mc->pathfinder.set_origin({ ori.x, ori.y });
 				mc->path.pop_back();
 			}
 			
