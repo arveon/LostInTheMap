@@ -37,7 +37,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 			{
 				SDL_Point ori = mc->path.back();
 				mc->pathfinder.set_origin({ ori.x, ori.y });
-				//mc->path.pop_back();
+				mc->path.pop_back();
 				mc->path = mc->pathfinder.get_path();
 			}
 		}
@@ -47,7 +47,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 			{
 				SDL_Point ori = mc->path.back();
 				mc->pathfinder.set_origin({ ori.x, ori.y });
-				//mc->path.pop_back();
+				mc->path.pop_back();
 				mc->path = mc->pathfinder.get_path();
 			}
 			

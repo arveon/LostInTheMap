@@ -36,6 +36,10 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 				ac->src_rect.w = ac->src_rect.h = static_cast<int>(64);
 				ent->add_component(ac);
 
+				IMoving* mc = new IMoving(ent, j, i);
+				mc->final_destination = { -1,-1 };
+				ent->add_component(mc);
+
 				//set name and character type depending on what's stored in field
 				character_type type;
 				if (charact[i][j].type.compare("zakra_spearman") == 0)
@@ -47,6 +51,7 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 				{
 					ent->name = "player";
 					type = character_type::h_giovanni;
+					mc->pathfinder.is_player = true;
 				}
 				else if (charact[i][j].type.compare("zaji") == 0)
 				{
@@ -61,10 +66,6 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 
 				ICharacter* cc = new ICharacter(ent, type);
 				ent->add_component(cc);
-
-				IMoving* mc = new IMoving(ent, j, i);
-				mc->final_destination = { -1,-1 };
-				ent->add_component(mc);
 
 				characters.push_back(ent);
 			}

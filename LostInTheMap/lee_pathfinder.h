@@ -26,6 +26,8 @@ public:
 	std::vector<SDL_Point> get_path();
 	void reset_pathfinder();
 public:
+	bool is_player = false;
+
 	static void init_pathfinder(int** map, int width, int height);
 	void set_destination(SDL_Point destination) 
 	{ 
