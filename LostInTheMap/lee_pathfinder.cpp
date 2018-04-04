@@ -150,30 +150,30 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 
 #pragma region debug_print
 	
-	//display pathfinding values for debug
-	for (int i = 0; i < lee_pathfinder::height; i++)
-	{
-		for (int j = 0; j < lee_pathfinder::width; j++)
-		{
-			if (i == origin.y && j == origin.x)
-			{
-				std::cout << "R ";
-				continue;
-			}
-			if (lee_pathfinder::map[i][j]->is_traversible)
-			{
-				if (lee_pathfinder::map[i][j]->pathfinding_value > 9)
-					std::cout << lee_pathfinder::map[i][j]->pathfinding_value << "";
-				else
-					std::cout << lee_pathfinder::map[i][j]->pathfinding_value << " ";
-			}
-			else if (!lee_pathfinder::map[i][j]->is_traversible)
-				std::cout << "| ";
-			else if (lee_pathfinder::map[i][j]->is_obstructed)
-				std::cout << "i ";
-		}
-		std::cout << std::endl;
-	}
+	////display pathfinding values for debug
+	//for (int i = 0; i < lee_pathfinder::height; i++)
+	//{
+	//	for (int j = 0; j < lee_pathfinder::width; j++)
+	//	{
+	//		if (i == origin.y && j == origin.x)
+	//		{
+	//			std::cout << "R ";
+	//			continue;
+	//		}
+	//		if (lee_pathfinder::map[i][j]->is_traversible)
+	//		{
+	//			if (lee_pathfinder::map[i][j]->pathfinding_value > 9)
+	//				std::cout << lee_pathfinder::map[i][j]->pathfinding_value << "";
+	//			else
+	//				std::cout << lee_pathfinder::map[i][j]->pathfinding_value << " ";
+	//		}
+	//		else if (!lee_pathfinder::map[i][j]->is_traversible)
+	//			std::cout << "| ";
+	//		else if (lee_pathfinder::map[i][j]->is_obstructed)
+	//			std::cout << "i ";
+	//	}
+	//	std::cout << std::endl;
+	//}
 	
 #pragma endregion
 
