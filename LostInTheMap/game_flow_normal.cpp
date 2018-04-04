@@ -38,8 +38,16 @@ void game_flow_normal::init(Space & game_space)
 	game_space.objects.push_back(mouse);
 	render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
 
+	//initialise camera
+	Entity* terrain = SpaceSystem::find_entity_by_name(game_space, "terrain");
+	ITerrain* tc = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
+	//camera_system::init_camera(tc->tile_width);
 	camera_system::set_camera_zoom(2.f);
-	//mouse_system::change_mouse_icon(mouse_system::mouse_icons::walking, static_cast<IAnimatable*>(mouse->get_component(ComponentType::Animated)), static_cast<IDrawable*>(mouse->get_component(ComponentType::Drawable)));
+
+	SDL_Rect camera_rect_ids = camera_system::get_camera_rect_ids(tc->tile_width);
+	lee_pathfinder::set_camera_position(camera_rect_ids.x, camera_rect_ids.y);
+	lee_pathfinder::set_camera_dimensions(camera_rect_ids.w, camera_rect_ids.h);
+	mouse_system::change_mouse_icon(mouse_system::mouse_icons::walking, static_cast<IAnimatable*>(mouse->get_component(Component::ComponentType::Animated)), static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
 
 	//init player system
 	player_system::set_player(SpaceSystem::find_entity_by_name(game_space, "player"));
@@ -64,6 +72,7 @@ void game_flow_normal::update_space(Space & space, int dt)
 	game_flow_normal::handle_mouse_clicks(space);
 	SpaceSystem::update_draw_rects(space);
 	game_flow_normal::update_pathfinder(space);
+
 }
 
 void game_flow_normal::handle_mouse_clicks(Space& space)
@@ -118,6 +127,11 @@ void game_flow_normal::update_pathfinder(Space& space)
 		t = map_system::world_to_tilemap_ids(t, trc);
 		lee_pathfinder::set_obstructed(t.x, t.y);
 	}
+
+	//set camera inside pathfinder
+	SDL_Rect camera_rect_ids = camera_system::get_camera_rect_ids(trc->tile_width);
+	lee_pathfinder::set_camera_position(camera_rect_ids.x, camera_rect_ids.y);
+	lee_pathfinder::set_camera_dimensions(camera_rect_ids.w, camera_rect_ids.h);
 }
 
 void game_flow_normal::mouse_down_event()

@@ -9,11 +9,20 @@ bool camera_system::snapped = true;
 
 float camera_system::zoom = 1.f;
 
-void camera_system::init_camera()
+int camera_system::gridwidth;
+int camera_system::gridheight;
+int camera_system::tilewidth;
+
+void camera_system::init_camera(int tilewidth, Entity* target)
 {	
+	camera_system::target = target;
 	zoom = 1.f;
 	camera_rect = SDL_Rect{0,0,0,0};
 	SDL_manager::get_window_size(&camera_rect.w, &camera_rect.h);
+
+	gridwidth = camera_rect.w / tilewidth;
+	gridheight = camera_rect.h / tilewidth;
+	camera_system::tilewidth = tilewidth;
 }
 
 SDL_Rect camera_system::world_to_camera_space(SDL_Rect world_rect, SDL_Rect draw_rect)
@@ -61,7 +70,18 @@ void camera_system::set_camera_zoom(float new_zoom)
 
 	camera_rect.w = window_w / new_zoom;
 	camera_rect.h = window_h / new_zoom;
+
 	zoom = new_zoom;
+}
+
+SDL_Rect camera_system::get_camera_rect_ids(int tilewidth)
+{
+	SDL_Rect ids;
+	ids.x = std::ceil(camera_system::camera_rect.x / tilewidth);
+	ids.y = std::ceil(camera_system::camera_rect.y / tilewidth);
+	ids.w = std::ceil(camera_system::camera_rect.w / tilewidth);
+	ids.h = std::ceil(camera_system::camera_rect.h / tilewidth);
+	return ids;
 }
 
 camera_system::camera_system()

@@ -194,7 +194,7 @@ void level_loading_system::load_game_components(Space & game_space)
 	{
 	case loading_state::loading_terrain:
 	{
-		camera_system::init_camera();
+		
 
 		int w, h, tw;
 		int** map_tile_ids = xml_system::load_map_tiles(level_to_load, &w, &h, &tw);
@@ -206,6 +206,8 @@ void level_loading_system::load_game_components(Space & game_space)
 		terrain->add_component(tc);
 		map_system::init_terrain_map(map_tile_ids, level_to_load, terrain);
 		game_space.objects.push_back(terrain);
+
+		camera_system::init_camera(tw);
 	}
 		break;
 	case loading_state::creating_terrain_collisions:

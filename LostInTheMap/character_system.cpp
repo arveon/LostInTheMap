@@ -25,7 +25,7 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 					static_cast<int>(tr->tile_width),
 					static_cast<int>(tr->tile_width)
 				};
-				transf_c->origin = {transf_c->position.w/2, transf_c->position.h};
+				transf_c->origin = {transf_c->position.w/2, transf_c->position.h-1};
 
 				ICollidable* colc = new ICollidable(ent);
 				colc->collidable = true;
@@ -137,12 +137,13 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	ITile* tile_c = static_cast<ITile*>(tile->get_component(Component::ComponentType::Tile));
 	Transform* tile_t = static_cast<Transform*>(tile->get_component(Component::ComponentType::Transf));
 
+	SDL_Point char_ids = character_system::get_character_ids(character, terrain);
+	mc->pathfinder.set_origin(char_ids);
 	//set pathfinders destination to tile
 	mc->pathfinder.set_destination({ tile_c->x, tile_c->y });
 	//calculate and get path from pathfinder
 	mc->path = mc->pathfinder.get_path_to({ tile_c->x, tile_c->y });
-
-	SDL_Point char_ids = character_system::get_character_ids(character, terrain);
+	
 	if (!mc->path.empty())
 	{//if moving between tiles
 		//set destination mouse click position

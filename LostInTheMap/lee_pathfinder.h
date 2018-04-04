@@ -11,6 +11,7 @@ private:
 	SDL_Point destination;//tile coordinates (in tile numbers, not in world space)
 	static int width;
 	static int height;
+	static SDL_Rect camera;
 public:
 	struct pathfinding_tile
 	{
@@ -44,6 +45,9 @@ public:
 		if(y < height && y >= 0 && x < width && x >= 0)
 			lee_pathfinder::map[y][x]->is_obstructed = true; 
 	};
+
+	static void set_camera_position(int x, int y) { camera.x = x; camera.y = y; }
+	static void set_camera_dimensions(int w, int h) { camera.w = w; camera.h = h; }
 
 	lee_pathfinder();
 	~lee_pathfinder();

@@ -3,6 +3,7 @@
 lee_pathfinder::pathfinding_tile*** lee_pathfinder::map;
 int lee_pathfinder::width;
 int lee_pathfinder::height;
+SDL_Rect lee_pathfinder::camera;
 
 void lee_pathfinder::init_pathfinder(int ** map, int width, int height)
 {
@@ -97,6 +98,10 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 	for (unsigned int i = 0; i < cur_generation.size(); i++)
 	{
 		pathfinding_tile* temp = cur_generation.at(i);
+		if (temp->position.x < camera.x || temp->position.x > camera.x + camera.w)
+			if (temp->position.y < camera.y || temp->position.y > camera.y > camera.h)
+				continue;
+
 		if (!temp->is_traversible || temp->is_obstructed)
 			continue;
 
@@ -115,11 +120,16 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 			for (unsigned int j = 0; j < temp->neighbours.size(); j++)
 			{
 				pathfinding_tile* temp_next = temp->neighbours.at(j);
+				
+
 				if (!temp_next->is_traversible)
 					continue;
 
 				if (temp_next->pathfinding_value == 0)
 				{
+					if (temp_next->position.x < camera.x || temp_next->position.x > camera.x + camera.w || 
+						temp_next->position.y < camera.y || temp_next->position.y > camera.y > camera.h)
+							continue;
 					temp_next->pathfinding_value = generation_number;
 					next_generation.push_back(temp_next);
 				}

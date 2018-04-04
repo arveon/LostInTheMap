@@ -15,9 +15,13 @@ private:
 
 	static bool snapped;
 
+	static int gridwidth;
+	static int gridheight;
+	static int tilewidth;
+
 	static float zoom;
 public:
-	static void init_camera();
+	static void init_camera(int tilewidth, Entity* target = nullptr);
 
 	static SDL_Rect world_to_camera_space(SDL_Rect world_rect, SDL_Rect draw_rect);
 	static SDL_Point screen_to_world_space(SDL_Point position);
@@ -28,6 +32,8 @@ public:
 	static float get_camera_zoom() { return zoom; }
 	static void set_camera_zoom(float zoom);
 	static SDL_Rect get_camera_rect() { return camera_rect; }
+
+	static SDL_Rect get_camera_rect_ids(int tilewidth);
 	
 	static void update_camera();
 	camera_system();
