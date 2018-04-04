@@ -116,13 +116,13 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 		for (unsigned int i = 0; i < cur_generation.size(); i++)
 		{
 			pathfinding_tile* temp = cur_generation.at(i);
+
 			//loop through all of the current generation tile's neighbours, mark all of them and add them to next generation
 			for (unsigned int j = 0; j < temp->neighbours.size(); j++)
 			{
 				pathfinding_tile* temp_next = temp->neighbours.at(j);
-				
 
-				if (!temp_next->is_traversible)
+				if (!temp_next->is_traversible || temp_next->is_obstructed)
 					continue;
 
 				if (temp_next->pathfinding_value == 0)
