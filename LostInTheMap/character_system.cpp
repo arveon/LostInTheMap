@@ -132,6 +132,7 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 {
 	IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
 	ICollidable* colc = static_cast<ICollidable*>(character->get_component(Component::ComponentType::Collision));
+	Transform* tra = static_cast<Transform*>(character->get_component(Component::ComponentType::Transf));
 
 	//set pathfinder dest to tile_id
 	Entity* tile = map_system::get_tile_at(terrain->owner, mouse_pos);
@@ -167,7 +168,7 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 			ITile* temp_c = static_cast<ITile*>(temp_tile->get_component(Component::ComponentType::Tile));
 			Transform* temp_t = static_cast<Transform*>(temp_tile->get_component(Component::ComponentType::Transf));
 
-			mc->final_destination = { temp_c->x * terrain->tile_width + temp_t->origin.x, temp_c->y * terrain->tile_width + temp_t->origin.y };
+			mc->final_destination = { temp_c->x * terrain->tile_width + temp_t->origin.x - tra->origin.x, temp_c->y * terrain->tile_width + temp_t->origin.y - tra->origin.y };
 			
 		}
 		else

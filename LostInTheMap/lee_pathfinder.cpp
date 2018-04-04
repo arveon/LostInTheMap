@@ -147,6 +147,12 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 			}
 		}
 		
+		if (temp->position.x == destination.x && temp->position.y == destination.y)
+		{
+			destination_reached = true;
+			break;
+		}
+
 		if (!temp->is_traversible || temp->is_obstructed)
 		{
 			//cur_generation.erase(std::find(cur_generation.begin(), cur_generation.end(), temp));
@@ -163,10 +169,12 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 		//loop through whole current generation (should all be marked)
 		for (unsigned int i = 0; i < cur_generation.size(); i++)
 		{
+			if (destination_reached)
+				break;
 			pathfinding_tile* temp = cur_generation.at(i);
 			std::vector<pathfinding_tile*> generation = temp->neighbours;
 
-			if (temp->is_obstructed)
+			if (temp->is_obstructed || !temp->is_traversible)
 				continue;
 
 			if (temp->pathfinding_value == 0)
@@ -178,9 +186,9 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 			//loop through all of the current generation tile's neighbours, mark all of them and add them to next generation
 			for (unsigned int j = 0; j < generation.size(); j++)
 			{
-				pathfinding_tile* temp_next = temp->neighbours.at(j);
+				pathfinding_tile* temp_next = generation.at(j);
 
-				if (!temp_next->is_traversible || temp_next->is_obstructed)
+				if (!temp_next->is_traversible)
 					continue;
 
 				if (temp_next->pathfinding_value == 0)
@@ -250,30 +258,30 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 
 #pragma region debug_print
 	
-	////display pathfinding values for debug
-	//for (int i = 0; i < lee_pathfinder::height; i++)
-	//{
-	//	for (int j = 0; j < lee_pathfinder::width; j++)
-	//	{
-	//		if (i == origin.y && j == origin.x)
-	//		{
-	//			std::cout << "R ";
-	//			continue;
-	//		}
-	//		if (lee_pathfinder::map[i][j]->is_traversible)
-	//		{
-	//			if (lee_pathfinder::map[i][j]->pathfinding_value > 9)
-	//				std::cout << lee_pathfinder::map[i][j]->pathfinding_value << "";
-	//			else
-	//				std::cout << lee_pathfinder::map[i][j]->pathfinding_value << " ";
-	//		}
-	//		else if (!lee_pathfinder::map[i][j]->is_traversible)
-	//			std::cout << "| ";
-	//		else if (lee_pathfinder::map[i][j]->is_obstructed)
-	//			std::cout << "i ";
-	//	}
-	//	std::cout << std::endl;
-	//}
+	//display pathfinding values for debug
+	for (int i = 0; i < lee_pathfinder::height; i++)
+	{
+		for (int j = 0; j < lee_pathfinder::width; j++)
+		{
+			if (i == origin.y && j == origin.x)
+			{
+				std::cout << "R ";
+				continue;
+			}
+			if (lee_pathfinder::map[i][j]->is_traversible)
+			{
+				if (lee_pathfinder::map[i][j]->pathfinding_value > 9)
+					std::cout << lee_pathfinder::map[i][j]->pathfinding_value << "";
+				else
+					std::cout << lee_pathfinder::map[i][j]->pathfinding_value << " ";
+			}
+			else if (!lee_pathfinder::map[i][j]->is_traversible)
+				std::cout << "| ";
+			else if (lee_pathfinder::map[i][j]->is_obstructed)
+				std::cout << "i ";
+		}
+		std::cout << std::endl;
+	}
 	
 #pragma endregion
 
@@ -306,7 +314,7 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 				cur_tile = cur_tile->neighbours.at(i);
 				break;
 			}
-			if (cur_tile->neighbours.at(i)->pathfinding_value < cur_tile->pathfinding_value && cur_tile->neighbours.at(i)->pathfinding_value > 0)
+			if (cur_tile->neighbours.at(i)->pathfinding_value == cur_tile->pathfinding_value - 1 && cur_tile->neighbours.at(i)->pathfinding_value > 0 && !cur_tile->neighbours.at(i)->is_obstructed)
 			{
 				cur_tile = cur_tile->neighbours.at(i);
 				break;

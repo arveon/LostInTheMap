@@ -74,7 +74,8 @@ void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 				static_cast<int>(tr->tile_width), 
 				static_cast<int>(tr->tile_width) 
 			};
-
+			transform->origin.x = transform->position.w / 2;
+			transform->origin.y = transform->position.h / 2;
 			ITile* tc = static_cast<ITile*>(tr->terrain_tiles[i][j]->get_component(Component::ComponentType::Tile));
 			if (collision_map[i][j] == 1)
 				tc->is_traversible = false;

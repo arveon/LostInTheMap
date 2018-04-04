@@ -20,7 +20,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 
 		Transform* tc = static_cast<Transform*>(character->get_component(Component::ComponentType::Transf));
 		IDrawable* dc = static_cast<IDrawable*>(character->get_component(Component::ComponentType::Drawable));
-		
+
 		if (mc->destination_reached && mc->path.size() == 0)//if destination tile reached (or not moving at all)
 			continue;
 
@@ -29,16 +29,16 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 		if (mc->path.size() > 1)
 		{
 			cur_dest = mc->path.back();
-			IDrawable* tile_dc = static_cast<IDrawable*>(tr->terrain_tiles[cur_dest.y][cur_dest.x]->get_component(Component::ComponentType::Drawable));
-			cur_dest.x = cur_dest.x * tilewidth;
-			cur_dest.y = cur_dest.y * tilewidth;
+			Transform* tile_t = static_cast<Transform*>(tr->terrain_tiles[cur_dest.y][cur_dest.x]->get_component(Component::ComponentType::Transf));
+			cur_dest.x = cur_dest.x * tilewidth + tile_t->origin.x - tc->origin.x;
+			cur_dest.y = cur_dest.y * tilewidth + tile_t->origin.y - tc->origin.y;
 
 			if (tc->position.x == cur_dest.x && tc->position.y == cur_dest.y)
 			{
 				SDL_Point ori = mc->path.back();
 				mc->pathfinder.set_origin({ ori.x, ori.y });
 				mc->path.pop_back();
-				mc->path = mc->pathfinder.get_path();
+//				mc->path = mc->pathfinder.get_path();
 			}
 		}
 		else
@@ -48,7 +48,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				SDL_Point ori = mc->path.back();
 				mc->pathfinder.set_origin({ ori.x, ori.y });
 				mc->path.pop_back();
-				mc->path = mc->pathfinder.get_path();
+				//mc->path = mc->pathfinder.get_path();
 			}
 			
 			//check for collisions and resolve them in cur_dest
