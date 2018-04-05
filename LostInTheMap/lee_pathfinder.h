@@ -25,6 +25,8 @@ public:
 
 	std::vector<SDL_Point> get_path();
 	void reset_pathfinder();
+	void print_pathfinding_values();
+	std::vector<SDL_Point> track_back();
 public:
 	bool is_player = false;
 

@@ -106,46 +106,38 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 		//this block makes sure that character won't be able to cut through other objects diagonally (much like what's done with walls when adding neighbours)
 		//TOP RIGHT
 		if (temp->position.x > lee_pathfinder::map[origin.y][origin.x]->position.x && temp->position.y < lee_pathfinder::map[origin.y][origin.x]->position.y)
-		{
 			if (lee_pathfinder::map[origin.y - 1][origin.x]->is_obstructed || lee_pathfinder::map[origin.y][origin.x + 1]->is_obstructed)
 			{
 				i--;
 				cur_generation.erase(std::find(cur_generation.begin(), cur_generation.end(), temp));
 				continue;
 			}
-		}
 		//TOP LEFT
 		if (temp->position.x < lee_pathfinder::map[origin.y][origin.x]->position.x && temp->position.y < lee_pathfinder::map[origin.y][origin.x]->position.y)
-		{
 			if (lee_pathfinder::map[origin.y - 1][origin.x]->is_obstructed || lee_pathfinder::map[origin.y][origin.x - 1]->is_obstructed)
 			{
 				i--;
 				cur_generation.erase(std::find(cur_generation.begin(), cur_generation.end(), temp));
 				continue;
 			}
-		}
 
 		//BOTTOM LEFT
 		if (temp->position.x < lee_pathfinder::map[origin.y][origin.x]->position.x && temp->position.y > lee_pathfinder::map[origin.y][origin.x]->position.y)
-		{
 			if (lee_pathfinder::map[origin.y + 1][origin.x]->is_obstructed || lee_pathfinder::map[origin.y][origin.x - 1]->is_obstructed)
 			{
 				i--;
 				cur_generation.erase(std::find(cur_generation.begin(), cur_generation.end(), temp));
 				continue;
 			}
-		}
 
 		//BOTTOM RIGHT
 		if (temp->position.x > lee_pathfinder::map[origin.y][origin.x]->position.x && temp->position.y > lee_pathfinder::map[origin.y][origin.x]->position.y)
-		{
 			if (lee_pathfinder::map[origin.y + 1][origin.x]->is_obstructed || lee_pathfinder::map[origin.y][origin.x + 1]->is_obstructed)
 			{
 				i--;
 				cur_generation.erase(std::find(cur_generation.begin(), cur_generation.end(), temp));
 				continue;
 			}
-		}
 		
 		if (temp->position.x == destination.x && temp->position.y == destination.y)
 		{
@@ -201,42 +193,26 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 					//this block makes sure that character won't be able to cut through other objects diagonally (much like what's done with walls when adding neighbours)
 					//TOP RIGHT
 					if (temp_next->position.x > temp->position.x && temp_next->position.y < temp->position.y)
-					{
-						if (lee_pathfinder::map[temp->position.y - 1][temp->position.x]->is_obstructed || lee_pathfinder::map[temp->position.y][temp->position .x + 1]->is_obstructed)
-						{
-							//generation.erase(std::find(generation.begin(), generation.end(), temp_next));
+						if (lee_pathfinder::map[temp->position.y - 1][temp->position.x]->is_obstructed || 
+							lee_pathfinder::map[temp->position.y][temp->position .x + 1]->is_obstructed)
 							continue;
-						}
-					}
 					//TOP LEFT
 					if (temp_next->position.x < temp->position.x && temp_next->position.y < temp->position.y)
-					{
-						if (lee_pathfinder::map[temp->position.y - 1][temp->position.x]->is_obstructed || lee_pathfinder::map[temp->position.y][temp->position.x - 1]->is_obstructed)
-						{
-							//generation.erase(std::find(generation.begin(), generation.end(), temp_next));
+						if (lee_pathfinder::map[temp->position.y - 1][temp->position.x]->is_obstructed || 
+							lee_pathfinder::map[temp->position.y][temp->position.x - 1]->is_obstructed)
 							continue;
-						}
-					}
 
 					//BOTTOM LEFT
 					if (temp_next->position.x < temp->position.x && temp_next->position.y > temp->position.y)
-					{
-						if (lee_pathfinder::map[temp->position.y + 1][temp->position.x]->is_obstructed || lee_pathfinder::map[temp->position.y][temp->position.x - 1]->is_obstructed)
-						{
-							//generation.erase(std::find(generation.begin(), generation.end(), temp_next));
+						if (lee_pathfinder::map[temp->position.y + 1][temp->position.x]->is_obstructed || 
+							lee_pathfinder::map[temp->position.y][temp->position.x - 1]->is_obstructed)
 							continue;
-						}
-					}
 
 					//BOTTOM RIGHT
 					if (temp_next->position.x > temp->position.x && temp_next->position.y > temp->position.y)
-					{
-						if (lee_pathfinder::map[temp->position.y + 1][temp->position.x]->is_obstructed || lee_pathfinder::map[temp->position.y][temp->position.x + 1]->is_obstructed)
-						{
-							//generation.erase(std::find(generation.begin(), generation.end(), temp_next));
+						if (lee_pathfinder::map[temp->position.y + 1][temp->position.x]->is_obstructed || 
+							lee_pathfinder::map[temp->position.y][temp->position.x + 1]->is_obstructed)
 							continue;
-						}
-					}
 
 					temp_next->pathfinding_value = generation_number;
 					next_generation.push_back(temp_next);
@@ -254,10 +230,38 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 		cur_generation = next_generation;
 	}
 
-	
+	//if all available tiles marked but destination not reached, means there is no available path
+	if (!destination_reached)
+	{
+		reset_pathfinder();
+		return path;
+	}
 
-#pragma region debug_print
-	
+	print_pathfinding_values();
+	path = track_back();
+
+	return path;
+}
+
+void lee_pathfinder::reset_obstructed()
+{
+	for (int i = 0; i < lee_pathfinder::height; i++)
+		for (int j = 0; j < lee_pathfinder::width; j++)
+		{
+			lee_pathfinder::map[i][j]->pathfinding_value = 0;
+			lee_pathfinder::map[i][j]->is_obstructed = false;
+		}
+}
+
+void lee_pathfinder::reset_pathfinder()
+{
+	for (int i = 0; i < lee_pathfinder::height; i++)
+		for (int j = 0; j < lee_pathfinder::width; j++)
+			lee_pathfinder::map[i][j]->pathfinding_value = 0;
+}
+
+void lee_pathfinder::print_pathfinding_values()
+{
 	//display pathfinding values for debug
 	for (int i = 0; i < lee_pathfinder::height; i++)
 	{
@@ -282,16 +286,11 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 		}
 		std::cout << std::endl;
 	}
-	
-#pragma endregion
+}
 
-	//if all available tiles marked but destination not reached, means there is no available path
-	if (!destination_reached)
-	{
-		reset_pathfinder();
-		return path;
-	}
-
+std::vector<SDL_Point> lee_pathfinder::track_back()
+{
+	std::vector<SDL_Point> path;
 	//track back one step at a time and push results to path
 	bool start_reached = false;
 	pathfinding_tile* cur_tile = lee_pathfinder::map[destination.y][destination.x];
@@ -303,8 +302,8 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 			start_reached = true;
 			break;
 		}
-		path.push_back({cur_tile->position.x, cur_tile->position.y});
-		
+		path.push_back({ cur_tile->position.x, cur_tile->position.y });
+
 		//loop through all neighbours, find a tile that has pathfinding value cur_tile->pathfinding_value -1
 		for (int i = 0; i < cur_tile->neighbours.size(); i++)
 		{
@@ -321,27 +320,8 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 			}
 		}
 	}
-	
-	
 
 	return path;
-}
-
-void lee_pathfinder::reset_obstructed()
-{
-	for (int i = 0; i < lee_pathfinder::height; i++)
-		for (int j = 0; j < lee_pathfinder::width; j++)
-		{
-			lee_pathfinder::map[i][j]->pathfinding_value = 0;
-			lee_pathfinder::map[i][j]->is_obstructed = false;
-		}
-}
-
-void lee_pathfinder::reset_pathfinder()
-{
-	for (int i = 0; i < lee_pathfinder::height; i++)
-		for (int j = 0; j < lee_pathfinder::width; j++)
-			lee_pathfinder::map[i][j]->pathfinding_value = 0;
 }
 
 lee_pathfinder::lee_pathfinder()
