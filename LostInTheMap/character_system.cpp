@@ -42,9 +42,11 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 
 				//set name and character type depending on what's stored in field
 				character_type type;
+				bool is_friendly = true;
 				if (charact[i][j].type.compare("zakra_spearman") == 0)
 				{
 					ent->name = "spearman";
+					is_friendly = false;
 					type = character_type::zakra_spearman;
 				}
 				else if (charact[i][j].type.compare("player") == 0)
@@ -64,7 +66,7 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 					type = character_type::zakra_spearman;
 				}
 
-				ICharacter* cc = new ICharacter(ent, type);
+				ICharacter* cc = new ICharacter(ent, type, is_friendly);
 				ent->add_component(cc);
 
 				characters.push_back(ent);

@@ -15,14 +15,17 @@ public:
 		talk,
 		blocked
 	};
-
+	
 	static void change_mouse_icon(mouse_icons icon, IAnimatable* anim_component, IDrawable* draw_component);
 	static Entity* create_mouse();
-	static void update_mouse(Entity* mouse);
+	static void update_mouse(Entity* mouse, Space& space);
 	static SDL_Point get_mouse_in_world(Entity* mouse);
 
 	static void update_mouse_hover(Space& space, Entity* mouse);
 	mouse_system();
 	~mouse_system();
+
+private:
+	static mouse_icons cur_icon;
 };
 

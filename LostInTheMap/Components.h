@@ -213,9 +213,10 @@ class ICharacter : public Component
 {
 public:
 	character_type c_type;
-
-	ICharacter(Entity* owner, character_type type) : Component(owner)
+	bool is_friendly;
+	ICharacter(Entity* owner, character_type type, bool is_friendly) : Component(owner)
 	{
+		this->is_friendly = is_friendly;
 		c_type = type;
 		this->type = ComponentType::Character;
 		

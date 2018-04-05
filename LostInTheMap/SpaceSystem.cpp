@@ -84,6 +84,8 @@ Entity* SpaceSystem::get_object_at_point(Space& space, int x, int y)
 	for (unsigned int i = 0; i < space.objects.size(); i++)
 	{
 		Entity* temp = space.objects.at(i);
+		if (temp->name.compare("mouse") == 0 || temp->name.compare("player") == 0)
+			continue;
 		Transform* tf = static_cast<Transform*>(temp->get_component(Component::ComponentType::Transf));
 		if (!tf)
 			continue;
