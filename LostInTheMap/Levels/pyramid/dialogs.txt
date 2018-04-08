@@ -1,0 +1,57 @@
+Level1
+
+Level start dialog:
+Supervisor: Come on, Giovanni, don't be afraid to step in, old ruins don't bite!
+Giovanni: Ruins don't, but all these rats probably do! Do I have to stay here?
+Supervisor: Cut this talk, youngling, we've got work to do.
+Supervisor: You are to explore these halls. Report any findings to me directly!
+
+
+A1:
+- I wonder what's behind that door...
+
+A2:
+- Hi Gio, haven't seen you in a while? How are things?
+- Doing great actually! That's my first actual excavation... It's so exciting to be here!
+
+A3:
+- Gosh, this whole excavation is a sinking ship, look at all these rats!
+- Yeah, popped out of their holes as soon as we dug this place out...
+
+A4:
+-Did you find anything yet? I bet there's a pile of gold hidden somewhere in these chambers...
+
+
+Lever end dialog:
+Supervisor: Now now, be careful don't step on anything precious!
+A1: Wow, a hidden chamber! Everything is exactly like in the movies!
+A2: I wonder if there is any treasure in there...
+Supervisor: Stop this talk right now! Anything you find in there is to be brought to me!
+
+When entered room:
+A1: Wow, that is a letdown! No hidden treasure...
+A2: Is this a map? On a pedestal? 
+A3: Why would anyone build a room to store a single piece of paper in it...
+Supervisor: Silence, it might be...
+
+
+If player tries to talk to supervisor after taking gold
+Supervisor: Giovanni! Yes you, stop right there! What's that in your pocket?
+Giovanni: Me? It's just a few gold coins I found in one of the rooms.
+Supervisor: Hand them to me immediately, I need to record them!
+
+LEVEL SCRIPT:
+explosion
+fade in
+giovanni at spawn point, hole in the wall
+level start dialog
+supervisor goes to a corner
+explore
+find and pull lever
+camera shakes, rumbling sound
+enter the main room again 
+camera shifts to door which is now open
+lever end dialog
+characters walk into the room
+when entered room dialog
+map floats up and screen fades white

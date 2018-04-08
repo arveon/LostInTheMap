@@ -18,11 +18,13 @@ public:
 	std::vector<Component*> components;
 	entity_type type;
 	std::string name;
+	bool is_active;
 
 	Entity(entity_type type, std::string name = "no_name")
 	{
 		this->type = type;
 		this->name = name;
+		is_active = true;
 	}
 
 	void add_component(Component* cmp)

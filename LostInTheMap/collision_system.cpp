@@ -8,13 +8,16 @@ SDL_Point collision_system::resolve_collisions(ICollidable* character_collision,
 	bool dest_altered_y = false;
 	SDL_Point required_delta = { 0,0 };
 
+	if (!character_collision->isActive)
+		return required_delta;
+
 	//take into account collision rectangle
 	//calculate collision rectangle for final destination
 	SDL_Rect desired_rect = character_collision->collision_rect;
+	
 	desired_rect.x += mc->final_destination.x;
 	desired_rect.y += mc->final_destination.y;
 	//check if it intersects with any non-traversible tiles on X axis
-
 
 	//LEFT
 	SDL_Point tile_id = map_system::world_to_tilemap_ids({ desired_rect.x + desired_rect.w / 2, desired_rect.y + desired_rect.h / 2 }, tc);

@@ -1,0 +1,45 @@
+Level start: 
+juji villager
+G-They must be somewhere in the area...
+JV-I have a potion that relieves the mind, we could use it to lift Ba'zo's curse from anyone we come across.
+G-A good idea, they might help us in the fight!
+
+
+ZZ-Zakra zombie
+ZZ1-I thank thee Na'Hum! I thought I was doomed to be Ba'zo's mindless slave forever!
+
+
+ZZ2-The shaman is too strong, we can't defeat it!
+G-Calm down, we can do it, it's many of us and only one of him.
+ZZ2-I will help you, it's the least I can do for my saviors...
+
+ZZ3-Ba'zo wanted to be a D'ho, but we rejected him. This was his way of getting what he wanted.
+G-I guess some people will stop at nothing to achieve what they want...
+
+ZZ4-Poor Za'ji... Never knew his father... They took him away as soon as Zar'do got posessed...
+G-Jo'si is not his real father?
+ZZ4-No, he is his savior. It was the only corageous thing he did in his life, poor guy is afraid of everything!
+
+ZZ5-So the prophecy is true... A Na'hum ending the war between our tribes... Who would have thought...
+
+
+Before final fight:
+
+B-You do not stand a chance in this fight! Surrender while you still can and I will grant you a quick death!
+G-I doubt the people who suffered because of you would agree to step back. So it'll be a fight. One fight that you will not be able to win...
+
+After defeated if Za'Ji dies:
+Z1-Oh no, what have we done! How did this happen?!
+Z2-Za'Ji... Ba'zo, may your soul never find rest and wander this realm forever, you murderer!
+JV-I suppose one can never escape his fate...
+G-I am sorry this happened...
+Z3-It is not your fault. We should bury him in our best tradition... As for you, Na'hum, your work here is done. Take the final piece of map from this cursed shaman's body and leave...
+G-Farewell...
+
+After defeated if Za'Ji lives:
+Z1-Hooray! Our brothers should be free of the curse now!
+JV-Does it mean our tribes can live peacefully?
+Z2-Of course! We would never fight you by our own will. It is said you didn't know it.
+JV-We never knew what happened. We should have helped you long ago, but we let our pride blind us. This will never happen again and I hope our tribes will always live in peace from now on!
+Z3-As for you, Na'hum, your work here is done. Thank you for everything you have done for us. You can take the last piece of map and leave.
+G-Farewell...

@@ -85,6 +85,8 @@ void render_system::render_queues()
 		for (std::vector<IDrawable*>::iterator it = background.begin(); it != background.end(); it++)
 		{
 			IDrawable* obj = *it;
+			if (!obj->isActive)
+				continue;
 			SDL_Rect dr = obj->draw_rect;
 			dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
 			dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
@@ -102,6 +104,8 @@ void render_system::render_queues()
 		for (std::vector<IDrawable*>::iterator it = terrain.begin(); it != terrain.end(); it++)
 		{
 			IDrawable* obj = *it;
+			if (!obj->isActive)
+				continue;
 			SDL_Rect dr = obj->draw_rect;
 			dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
 			dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
@@ -119,6 +123,8 @@ void render_system::render_queues()
 		for (std::vector<IDrawable*>::iterator it = surface.begin(); it != surface.end(); it++)
 		{
 			IDrawable* obj = *it;
+			if (!obj->isActive)
+				continue;
 			SDL_Rect dr = obj->draw_rect;
 			dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
 			dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
@@ -136,6 +142,8 @@ void render_system::render_queues()
 		for (std::vector<IDrawable*>::iterator it = foreground.begin(); it != foreground.end(); it++)
 		{
 			IDrawable* obj = *it;
+			if (!obj->isActive)
+				continue;
 			SDL_Rect dr = obj->draw_rect;
 			
 			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)

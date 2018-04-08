@@ -1,0 +1,76 @@
+Level start:
+In Ju'ji village with the leader
+-You have achieved much in the short time you have been with us. However you are yet to challenge your final foe.
+-Who is my final foe?
+-Zar'don. He traded his soul in to Death for immense power in return a long time ago. You are to challenge him.
+-And how am I supposed to defeat him if he is allpowerful?
+-You are to because he is not. You have some followers who are ready to fight on your side. He always fights alone as he is too proud to ask for help.
+-So we just overpower him with our numbers?
+-Be careful though, Zar'don is a dangerous foe. Don't underestimate him! Time for you to go...
+
+V1:
+-Thank you for saving my family, Na'Hum!
+
+V2:
+-If you, my Da wouldn't be with me now! Bless you!
+
+V3:
+-You seem to good to be true, Na'Hum. Are you an illusion?
+
+V4:
+-Are all the legends just lies invented when scared of the unknown?
+
+
+Zak'ra village:
+
+ZV1:
+-You made a big mistake when you came here, Na'Hum!
+
+ZV2:
+-Leave here, it is not your war!
+
+ZV3:
+-You would already be dead if not for Zar'don.
+
+ZV4:
+-Go away to your lands, foreigner and never return!
+
+
+Zar'don:
+-Ha,ha,ha. And you are to challenge me? Your hands are weak, mind is fragile and skin is pale. I won't fight you!
+-You could just give me the piece of map you have and we'll part our ways.
+-The Cursed Map? Is that what you're after? And I am to hand you a relic we've been holding on to for generations?
+-Yes, you don't really need it for anything, do you?
+-Leave on your own accord or I will get you thrown out of my village!
+
+Ju'ji:
+-Let's leave. I know what we can do!
+-Huh?
+-We'll make a potion that will make you strong! Stronger than him! He will surely accept your challenge when you're strong...
+-Sounds like a plan. What do we need for the potion?
+-Hmmm... let me think... So the old man said something like "Mill Yen root and dead tree bark. Make a snake's tail broth. Mix and drink and you shall gain immense power."
+-Just need to find the ingredients then.
+
+When all ingredients are collected:
+-Got everything, what now?
+-Just need to find an alchemy table in here and make the potion
+-Let's do this.
+
+When potion ready:
+-Am I to drink that? It stinks...
+-It will make you stronger, remember?
+-Still... *sips potion* Oh, It's not actually that bad! Time to go face Zar'don.
+
+When Zar'don defeated:
+Z-What... What happened? Where am I?
+ZJ-You were defeated! Ha! Not so strong after all!
+Z-Strong? Za'Ji?! I am so glad to see you, my son...
+ZJ-I'm not your son! Jo'si is my Da!
+Z-Jo'si? Why did he let you come here? You shouldn't be here! Ba'zo, don't you dare to touch him!
+B-Say good night Zar'do, your time has come to an end. As for you Za'ji, I have got plans for you. Come with me!
+ZJ-Neve... 
+*gets posessed* and they both run away
+
+Z-Follow them! Don't let him take my son's mind!
+G-We will try.
+-As for you, Na'hum, he has a piece of the map that will help you get back home!

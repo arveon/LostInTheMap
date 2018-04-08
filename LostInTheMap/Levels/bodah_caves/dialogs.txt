@@ -1,0 +1,53 @@
+Level start in the village:
+(Gio and Village leader)
+-So what's next?
+-There are two other map parts that I know of, both belong to people from the cursed Zak'ra tribe.
+-Where would I find them?
+-Slow your zebras, I suspect they will not part with their parts so easily.
+-Why not? It's just a piece of paper after all...
+-They are a vicious ruthless tribe. 
+It is said that Death once walked in into the hut their D'ho was sleeping in and he traded in his spirit and the whole tribe to rule it forever.
+Ever since then they began attacking us without no reason. The war has been going for years now and it is said that one day a Na'Hum will come and end it.
+-Are you saying I'm to end your war? Why me? I don't have anything to do with it!
+-It is just a twist of fate. You are to go to the caves behind the snakes den. You will find Zur'shi the right hand of Zak'ra D'ho. He has a piece of map. Don't expect warm welcome.
+
+
+V1:
+-You killed all the snakes! Bravo!
+
+V2:
+-How did you find the courage to fight facetails? A mere sight of them makes me shiver!
+
+V3:
+-Are you to stop the Cursed War? I hope you will succeed!
+
+V4:
+-Our myths are certainly wrong about Na'hum people. You don't seem all that bad...
+
+
+Za'Ji:
+-Oh, hello again. I see you are heading to the caves. I'll go with you!
+-Isn't it too dangerous? Aren't these Zak'ra people in there?
+-It's dangerous, but I'm not afraid! Friends of my Da are held in there. We need to help them!
+
+Zak'ra at the entrance:
+-Intruder! Kill him!
+
+C1:
+-I escaped, but got lost. Thanks for saving me! I shall help you with the others.
+
+C2:
+-Phew, I thought I was done for! There's more of us in the caves!
+
+C3:
+-This Zak'ra scum will pay for what they did to me!
+
+C4:
+-That was close! My friend is somewhere in this cave, please save him!
+
+C5:
+-Thank you, kind stranger, I see you've saved all of us now. Let's end our captor now!
+
+
+Za'Ji:
+-We've done it! Let's go tell everyone about it!

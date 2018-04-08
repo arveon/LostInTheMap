@@ -1,0 +1,72 @@
+Level2
+
+Level begin:
+Leader: Just like it was foretold! A Na'hum appearing from thin air!
+Giovanni: Sorry, what? Who are you?
+Leader: Don't you worry, my child, we know where you come from. I am Ji'do a D'ho of this village.
+Giovanni: A who?
+Leader: *gasp* A D'ho, I am a mere guide for my people. I make sure everyone in here is happy.
+Giovanni: Where am I? I was just at the excavation site a second ago...
+Leader: How interesting... This is a village of the Ju'ji tribe. It was foretold that one of your kind will come and bring salvation to us!
+Giovanni: Salvation? What kind of salvation are we talking about? I want to get back to where I was!
+Leader: Now now, it is said that you will only be able to return to your kin after you re-assemble the Map of the Lands.
+Giovanni: Ok, let's get this over with as soon as possible, where can I find the parts of the map?
+Leader: I have one of them, and I will reward you with it in return for helping the village.
+Giovanni: If you insist... How can I help your village?
+Leader: There is a den of snakes right behind this village. You are to clear it and I will grant you the map. Talk to a guard at the other end of the village, he will tell you more.
+
+V1:
+-Wow, where did you come from?
+
+V2:
+-What is this you wearing? Is it even comfortable?
+
+V3:
+-Why is your skin so pale? Are you a Na'Hum?
+-Uhm... What is a Na'Hum?
+-Did you just fall from the moon? It's an ancient of weird lands where the water can become hard and fall from the sky. Some say it's always a cold night in there and the sun isn't warm! I think it is stupid, nobody can live like that!
+
+V4:
+-It's so interesting to see a Na'Hum. You're not that scary, though!
+-Why should I be scary?
+-They say your people consider killing a game and hunt for fun, not for survival.
+-Well, it lets us blow our steam off, I guess...
+-Why not stick a spear in a dummy then? No corpse and the steam's gone...
+-If only it was that simple...
+
+GIOVANNI AND THE GUARD:
+-Hey, a Na'Hum, I never thought I will see one with my own eyes! I'm Jo'si. How can I help?
+-I was told you got problems with snakes up here.
+-Yes! Finally someone to deal with it! I would do it myself, but they scare me!
+-It's fine, I'll just need a torch, the buggers are afraid of fire...
+-I have one here, there you are! Actually...
+No, nevermind, you wouldn't do it anyway...
+-What's that?
+-My son Za'Ji has gone missing! I have a feeling he could have gone to fight snakes, a silly boy! Could you please bring him back if you see him there?
+-Sure thing, I will look for him!
+-Oh thank you! Na'hum aren't as spiteful and vicious as the legends say after all...
+
+GIOVANNI AND Za'Ji
+-Hey, you look like a human, help me out!
+
+AFTER SNAKES ARE KILLED:
+-Phew, a bit more time and it would be an end to me!
+-Aren't you a bit too young to wander into a snake den alone?
+-I'm not just a silly boy! I'm Za'Ji the Young Tiger! Snakes are nothing to me!
+-You should run back home, your parents are worried...
+-No way! The snakes are still here. I'll help you out!
+
+AFTER QUEEN SNAKE IS KILLED:
+-Get it, you tailface queen!
+-Good job, Za'Ji
+-We saved the village, we are heroes now!
+
+AFTER COMING BACK TO VILLAGE:
+-I'll need to run now, tell my da I'm fine. See ya!
+
+COMING BACK TO LEADER:
+-Are you done yet?
+-Yes, the snakes are no more. Now where's the piece of your map?
+-You can have it, you deserve it!
+
+Level complete screen
