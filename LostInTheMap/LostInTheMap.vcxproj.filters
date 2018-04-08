@@ -132,6 +132,12 @@
     <ClInclude Include="player_system.h">
       <Filter>Header Files\systems\utility_systems</Filter>
     </ClInclude>
+    <ClInclude Include="dialog_system.h">
+      <Filter>Header Files\systems\gameplay_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="director.h">
+      <Filter>Header Files\systems\gameplay_systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -199,6 +205,12 @@
     </ClCompile>
     <ClCompile Include="player_system.cpp">
       <Filter>Source Files\systems\utility_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="dialog_system.cpp">
+      <Filter>Source Files\systems\gameplay_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="director.cpp">
+      <Filter>Source Files\systems\gameplay_systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

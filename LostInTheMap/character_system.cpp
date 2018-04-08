@@ -4,6 +4,7 @@ std::vector<Entity*> character_system::characters;
 
 std::vector<Entity*> character_system::init_characters(Character** charact, int width, int height, ITerrain* tr)
 {
+	static int value = 0;
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
@@ -45,7 +46,8 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 				bool is_friendly = true;
 				if (charact[i][j].type.compare("zakra_spearman") == 0)
 				{
-					ent->name = "spearman";
+					ent->name = "spearman" + std::to_string(value);
+					value++;
 					is_friendly = false;
 					type = character_type::zakra_spearman;
 				}
@@ -57,7 +59,8 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 				}
 				else if (charact[i][j].type.compare("zaji") == 0)
 				{
-					ent->name = "zaji";
+					ent->name = "zaji"+std::to_string(value);
+					value++;
 					type = character_type::h_zaji;
 				}
 				else
@@ -72,7 +75,7 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 				if (type == character_type::h_giovanni)
 				{
 					IInteractionSource* src = new IInteractionSource(ent);
-					src->interaction_trigger = &character_system::process_interaction;
+					src->interaction_trigger = &director::process_interaction;
 					ent->add_component(src);
 				}
 
@@ -225,23 +228,23 @@ adding_interaction:
 
 }
 
-void character_system::process_interaction(Entity* interaction_target)
-{
-	ICharacter* target_char = static_cast<ICharacter*>(interaction_target->get_component(Component::ComponentType::Character));
-	if (target_char)
-	{
-		if (target_char->is_friendly)
-		{
-			std::cout << "dialog started" << std::endl;
-		}
-		else
-		{
-			std::cout << "combat started" << std::endl;
-		}
-	}
-
-
-}
+//void character_system::process_interaction(Entity* interaction_target)
+//{
+//	ICharacter* target_char = static_cast<ICharacter*>(interaction_target->get_component(Component::ComponentType::Character));
+//	if (target_char)
+//	{
+//		if (target_char->is_friendly)
+//		{
+//			std::cout << "dialog started" << std::endl;
+//		}
+//		else
+//		{
+//			std::cout << "combat started" << std::endl;
+//		}
+//	}
+//
+//
+//}
 
 SDL_Point character_system::get_character_ids(Entity* character, ITerrain* tc)
 {

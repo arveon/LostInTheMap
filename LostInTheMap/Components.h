@@ -203,6 +203,8 @@ public:
 enum character_type
 {
 	h_giovanni,
+	npc_arch_supervisor,
+	npc_archaeologist,
 	h_zaji,
 	zakra_spearman,
 	juji_spearman,

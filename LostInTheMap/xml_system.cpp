@@ -251,6 +251,16 @@ std::vector<xml_system::LoadingState> xml_system::get_loading_states()
 	return states;
 }
 
+xml_system::Dialogue xml_system::load_dialogue(std::string path)
+{
+	Dialogue result;
+	std::cout << "Loading dialogue: " << path << std::endl;
+
+	return result;
+}
+
+
+
 xml_system::xml_system()
 {
 }
