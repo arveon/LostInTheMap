@@ -33,7 +33,8 @@ public:
 		UIElement,
 		Terrain,
 		Tile,
-		Character
+		Character,
+		InteractionSource
 	};
 	bool isActive;
 	ComponentType type;
@@ -118,20 +119,20 @@ public:
 	}
 };
 
-
-
-enum InteractionState
-{
-	none,
-	hover,
-	pressed,
-	blocked
-};
-class IMouseInteractable : public Component
-{
+class IInteractionSource : public Component
+{	
 public:
-	InteractionState state;
+	Entity * interaction_target;
+	bool has_triggered;
+	void(*interaction_trigger)(Entity* source);
+	IInteractionSource(Entity* owner) : Component(owner)
+	{
+		has_triggered = false;
+		interaction_target = nullptr;
+		type = ComponentType::InteractionSource;
+	}
 };
+
 
 enum UI_Element_Type
 {

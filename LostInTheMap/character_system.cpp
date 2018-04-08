@@ -69,6 +69,13 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 				ICharacter* cc = new ICharacter(ent, type, is_friendly);
 				ent->add_component(cc);
 
+				if (type == character_type::h_giovanni)
+				{
+					IInteractionSource* src = new IInteractionSource(ent);
+					src->interaction_trigger = &character_system::process_interaction;
+					ent->add_component(src);
+				}
+
 				characters.push_back(ent);
 			}
 		}
@@ -147,14 +154,25 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	mc->pathfinder.set_destination({ tile_c->x, tile_c->y });
 	//calculate and get path from pathfinder
 	mc->path = mc->pathfinder.get_path_to({ tile_c->x, tile_c->y });
-	
+
+	//set interaction target
+	Entity* target = SpaceSystem::get_object_at_point(space, mouse_pos.x, mouse_pos.y);
+	IInteractionSource* is = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
+	if (is)
+	{
+		is->interaction_target = target;
+		is->has_triggered = false;
+	}
+
+	bool need_to_move = false;
 	if (!mc->path.empty())
 	{//if moving between tiles
 		//set destination mouse click position
 		SDL_Point character_origin = character->get_object_origin();
 
+		need_to_move = true;
+
 		//check if point overlaps with any of the objects
-		Entity* target = SpaceSystem::get_object_at_point(space, mouse_pos.x, mouse_pos.y);
 		ITile* t_test = nullptr;
 		if (target)
 			t_test = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));
@@ -163,7 +181,10 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 			mc->path.erase(mc->path.begin());
 
 			if (mc->path.empty())
-				return;
+			{
+				need_to_move = false;
+				goto adding_interaction;
+			}
 			//get last tile of path
 			SDL_Point temp_ids = *(mc->path.begin());
 			Entity* temp_tile = terrain->terrain_tiles[temp_ids.y][temp_ids.x];
@@ -171,7 +192,6 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 			Transform* temp_t = static_cast<Transform*>(temp_tile->get_component(Component::ComponentType::Transf));
 
 			mc->final_destination = { temp_c->x * terrain->tile_width + temp_t->origin.x - tra->origin.x, temp_c->y * terrain->tile_width + temp_t->origin.y - tra->origin.y };
-			
 		}
 		else
 		{
@@ -194,6 +214,32 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 		mc->final_destination.y += desired_point.y;
 		mc->destination_reached = false;
 	}
+
+adding_interaction:
+	if(!need_to_move)
+		if (target && is)
+		{
+			is->has_triggered = true;
+			is->interaction_trigger(is->interaction_target);
+		}
+
+}
+
+void character_system::process_interaction(Entity* interaction_target)
+{
+	ICharacter* target_char = static_cast<ICharacter*>(interaction_target->get_component(Component::ComponentType::Character));
+	if (target_char)
+	{
+		if (target_char->is_friendly)
+		{
+			std::cout << "dialog started" << std::endl;
+		}
+		else
+		{
+			std::cout << "combat started" << std::endl;
+		}
+	}
+
 
 }
 

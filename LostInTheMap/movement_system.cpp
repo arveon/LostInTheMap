@@ -62,6 +62,19 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				tc->position.x = mc->final_destination.x;
 				tc->position.y = mc->final_destination.y;
 				mc->destination_reached = true;
+
+				IInteractionSource* int_src = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
+				if (int_src)
+				{
+					if (!int_src->has_triggered && int_src->interaction_target)
+					{
+						void(*a)(Entity*) = int_src->interaction_trigger;
+						a(int_src->interaction_target);
+						int_src->has_triggered = true;
+					}
+
+
+				}
 			}
 		}
 

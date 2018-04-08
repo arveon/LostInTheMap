@@ -13,8 +13,7 @@ public:
 	static std::vector<Entity*> init_characters(Character** character_map, int width, int height, ITerrain* tr);
 	static void attach_textures_to_characters(SDL_Point tile_origin);
 
-	
-	static void set_pathfinding_path(ITerrain* tr, SDL_Point mouse_pos);
+	static void process_interaction(Entity* target);
 
 	//sets final destination of character in raw world coords (will be adjusted to character origin automatically)
 	static void set_final_destination(ITerrain* terrain, Entity* character, SDL_Point dest, Space& space);
