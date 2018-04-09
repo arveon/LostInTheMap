@@ -83,8 +83,8 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 		delta_y = cur_dest.y - tc->position.y;
 
 		double angle = (double)std::atan2(delta_y, delta_x);
-		float a = std::cos(angle);
-		float b = std::sin(angle);
+		float a = (float)std::cos(angle);
+		float b = (float)std::sin(angle);
 		float shift_x = a * movement_system::tps*dt;
 		float shift_y = b * movement_system::tps*dt;
 
@@ -98,9 +98,9 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 			//since floor rounds negative values down towards negative (-0.5 to -1) and ceil rounds them up towards positive (-0.5 to 0)
 			//without this if statement speed is larger towards negative 
 			if (shift_buffer_x > 0)
-				tc->position.x += std::floor(shift_buffer_x);
+				tc->position.x += (int)std::floor(shift_buffer_x);
 			else
-				tc->position.x += std::ceil(shift_buffer_x);
+				tc->position.x += (int)std::ceil(shift_buffer_x);
 			//reset shift buffer
 			if (shift_buffer_x > 0)
 				shift_buffer_x -= 1.f;
@@ -112,9 +112,9 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 		if (shift_buffer_y > 1.f || shift_buffer_y < -1.f)
 		{
 			if (shift_buffer_y > 0)
-				tc->position.y += std::floor(shift_buffer_y);
+				tc->position.y += (int)std::floor(shift_buffer_y);
 			else
-				tc->position.y += std::ceil(shift_buffer_y);
+				tc->position.y += (int)std::ceil(shift_buffer_y);
 			//reset shift buffer
 			if (shift_buffer_y > 0)
 				shift_buffer_y -= 1.f;

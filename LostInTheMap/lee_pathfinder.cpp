@@ -100,7 +100,7 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 		pathfinding_tile* temp = cur_generation.at(i);
 		//if it's players pathfinder, limit pathfinding to camera size
 		if (is_player && (temp->position.x < camera.x || temp->position.x > camera.x + camera.w ||
-			temp->position.y < camera.y || temp->position.y > camera.y > camera.h))
+			temp->position.y < camera.y || temp->position.y > camera.y + camera.h))
 			continue;
 
 		//this block makes sure that character won't be able to cut through other objects diagonally (much like what's done with walls when adding neighbours)
@@ -305,7 +305,7 @@ std::vector<SDL_Point> lee_pathfinder::track_back()
 		path.push_back({ cur_tile->position.x, cur_tile->position.y });
 
 		//loop through all neighbours, find a tile that has pathfinding value cur_tile->pathfinding_value -1
-		for (int i = 0; i < cur_tile->neighbours.size(); i++)
+		for (unsigned int i = 0; i < cur_tile->neighbours.size(); i++)
 		{
 			if (cur_tile->neighbours.at(i)->position.x == origin.x &&
 				cur_tile->neighbours.at(i)->position.y == origin.y)

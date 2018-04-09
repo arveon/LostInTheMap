@@ -10,7 +10,6 @@ xml_system::Dialogue director::get_dialogue(Entity * target)
 	switch (cur_stage)
 	{
 	case pyramid_entrance:
-		character_type target_type;
 		ICharacter* cc = static_cast<ICharacter*>(target->get_component(Component::ComponentType::Character));
 		if (!cc)
 			return xml_system::Dialogue();

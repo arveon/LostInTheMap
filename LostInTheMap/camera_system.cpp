@@ -68,8 +68,8 @@ void camera_system::set_camera_zoom(float new_zoom)
 	int window_w, window_h;
 	SDL_manager::get_window_size(&window_w, &window_h);
 
-	camera_rect.w = window_w / new_zoom;
-	camera_rect.h = window_h / new_zoom;
+	camera_rect.w = (int)((float)window_w / new_zoom);
+	camera_rect.h = (int)((float)window_h / new_zoom);
 
 	zoom = new_zoom;
 }
@@ -77,10 +77,10 @@ void camera_system::set_camera_zoom(float new_zoom)
 SDL_Rect camera_system::get_camera_rect_ids(int tilewidth)
 {
 	SDL_Rect ids;
-	ids.x = std::ceil(camera_system::camera_rect.x / tilewidth);
-	ids.y = std::ceil(camera_system::camera_rect.y / tilewidth);
-	ids.w = std::ceil(camera_system::camera_rect.w / tilewidth);
-	ids.h = std::ceil(camera_system::camera_rect.h / tilewidth);
+	ids.x = (int)std::ceil(camera_system::camera_rect.x / tilewidth);
+	ids.y = (int)std::ceil(camera_system::camera_rect.y / tilewidth);
+	ids.w = (int)std::ceil(camera_system::camera_rect.w / tilewidth);
+	ids.h = (int)std::ceil(camera_system::camera_rect.h / tilewidth);
 	return ids;
 }
 

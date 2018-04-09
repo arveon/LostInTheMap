@@ -107,7 +107,6 @@ public:
 	//gets sprite origin in local sprite coordinates or {-1,-1} if no transform found
 	SDL_Point get_sprite_origin()
 	{
-		SDL_Point result;
 		IDrawable* dc = static_cast<IDrawable*>(this->get_component(Component::ComponentType::Drawable));
 		if (!dc)
 			return { -1,-1 };
@@ -117,7 +116,6 @@ public:
 	//gets transform origin in local transform coordinate system or {-1,-1} if no transform found
 	SDL_Point get_object_origin()
 	{
-		SDL_Point result;
 		Transform* tc = static_cast<Transform*>(this->get_component(Component::ComponentType::Transf));
 		if (!tc)
 			return { -1,-1 };
