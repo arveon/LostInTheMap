@@ -280,8 +280,8 @@ xml_system::Dialogue xml_system::load_dialogue(std::string path)
 		line.text = replica->first_attribute("text")->value();
 		int id = std::stoi(replica->first_attribute("character")->value());
 		line.character = result.characters.at(id);
-		std::cout << line.character << ": " << line.text << std::endl;
-
+		//std::cout << line.character << ": " << line.text << std::endl;
+		result.lines.push_back(line);
 		replica = replica->next_sibling("rep");
 	}
 	result.initialised = true;
@@ -291,13 +291,13 @@ xml_system::Dialogue xml_system::load_dialogue(std::string path)
 character_type xml_system::get_character_type_by_name(std::string name)
 {
 	character_type result;
-	if (name.compare("arch_supervisor") == 0)
+	if (name.compare("arch_supervisor") == 0 || name.compare("npc_arch_supervisor") == 0)
 		result = character_type::npc_arch_supervisor;
 	else if (name.compare("giovanni") == 0 || name.compare("player")==0)
 		result = character_type::h_giovanni;
 	else if (name.compare("zaji") == 0)
 		result = character_type::h_zaji;
-	else if (name.compare("npc_archaeologist") == 0)
+	else if (name.compare("archaeologist") == 0 || name.compare("npc_archaeologist") == 0)
 		result = character_type::npc_archaeologist;
 
 	return result;

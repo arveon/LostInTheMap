@@ -62,7 +62,8 @@ void director::process_interaction(Entity* interaction_target)
 	{
 		if (target_char->is_friendly)
 		{
-			director::get_dialogue(interaction_target);
+			xml_system::Dialogue dial = director::get_dialogue(interaction_target);
+			dialogue_system::start_dialogue(dial);
 		}
 		else
 		{

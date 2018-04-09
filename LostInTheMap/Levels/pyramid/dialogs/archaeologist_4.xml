@@ -1,0 +1,4 @@
+<dialogue character="giovanni" character="archaeologist">
+	<rep character="1" text="Did you find anything yet?"  />
+	<rep character="1" text="I bet there's a pile of gold hidden somewhere in these chambers..." />
+</dialogue>

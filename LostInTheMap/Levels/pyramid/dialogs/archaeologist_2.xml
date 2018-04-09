@@ -1,0 +1,6 @@
+<dialogue character="giovanni" character="archaeologist">
+	<rep character="1" text="Hi Gio, haven't seen you in a while? How are things?" />
+	<rep character="0" text="Hi Johny, doing great actually! That's my first actual excavation..." />
+	<rep character="0" text="It's so exciting to be here!" />
+	<rep character="1" text="Great to hear this! It's going to be great fun, I can feel it!" />
+</dialogue>

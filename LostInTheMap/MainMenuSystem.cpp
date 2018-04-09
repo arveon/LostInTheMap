@@ -85,7 +85,7 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 void MainMenuSystem::update_space(Space & space, int dt)
 {
 #pragma region update_mouse
-	mouse_system::update_mouse(MainMenuSystem::mouse, space);
+	mouse_system::update_mouse(MainMenuSystem::mouse, space, true);
 #pragma endregion
 
 	//check mouse collisions with other objects

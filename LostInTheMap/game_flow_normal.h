@@ -8,6 +8,8 @@
 #include "map_system.h"
 #include "player_system.h"
 #include "character_system.h"
+#include "dialogue_system.h"
+#include "director.h"
 
 #include "geometry_utilities.h"
 class game_flow_normal : SpaceSystem
@@ -24,6 +26,7 @@ public:
 	static void update_space(Space& space, int dt);
 	static void handle_mouse_clicks(Space& space);
 	static void update_pathfinder(Space& space);
+	static void set_movement(Space& space);
 
 	static void mouse_down_event();
 	static void mouse_up_event();

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 
+#include "dialogue_system.h"
 #include "xml_system.h"
 class director
 {

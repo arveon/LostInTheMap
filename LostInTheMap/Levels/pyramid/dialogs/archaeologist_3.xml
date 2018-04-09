@@ -1,0 +1,4 @@
+<dialogue character="giovanni" character="archaeologist">
+	<rep character="1" text="Gosh, this whole excavation is a sinking ship, look at all these rats!" />
+	<rep character="0" text="Yeah, popped out of their holes as soon as we dug this place out..." />
+</dialogue>
