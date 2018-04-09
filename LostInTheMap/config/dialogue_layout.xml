@@ -1,4 +1,5 @@
 <dialog_window>
-<bg image="assets/graphics/ui/dialogue_bg.png" x="89" y="450" w="800" h="128" />
-<portrait x="25" y="450" w="64" h="64" />
+<bg image="assets/graphics/ui/dialogue_bg.png" x="90" y="450" w="600" h="128" />
+<portrait x="90" y="450" w="128" h="128" />
+<text x="220" y="455" w="480" h="128"/>
 </dialog_window>

@@ -48,7 +48,8 @@ public:
 	{
 		SDL_Rect bg_frame;
 		std::string bg_path;
-		SDL_Rect portrait;
+		SDL_Rect portrait_frame;
+		SDL_Rect text_frame;
 	} DialogueFrame;
 
 	static WindowConfig load_config_file();

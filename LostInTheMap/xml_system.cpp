@@ -266,10 +266,16 @@ xml_system::DialogueFrame xml_system::load_dialogue_frame()
 	result.bg_frame.h = std::stoi(bg->first_attribute("h")->value());
 
 	bg = bg->next_sibling("portrait");
-	result.portrait.x = std::stoi(bg->first_attribute("x")->value());
-	result.portrait.y = std::stoi(bg->first_attribute("y")->value());
-	result.portrait.w = std::stoi(bg->first_attribute("w")->value());
-	result.portrait.h = std::stoi(bg->first_attribute("h")->value());
+	result.portrait_frame.x = std::stoi(bg->first_attribute("x")->value());
+	result.portrait_frame.y = std::stoi(bg->first_attribute("y")->value());
+	result.portrait_frame.w = std::stoi(bg->first_attribute("w")->value());
+	result.portrait_frame.h = std::stoi(bg->first_attribute("h")->value());
+
+	bg = bg->next_sibling("text");
+	result.text_frame.x = std::stoi(bg->first_attribute("x")->value());
+	result.text_frame.y = std::stoi(bg->first_attribute("y")->value());
+	result.text_frame.w = std::stoi(bg->first_attribute("w")->value());
+	result.text_frame.h = std::stoi(bg->first_attribute("h")->value());
 
 	return result;
 }

@@ -159,6 +159,8 @@ void render_system::render_queues()
 		for (std::vector<IDrawable*>::iterator it = ui.begin(); it != ui.end(); it++)
 		{
 			IDrawable* obj = *it;
+			if (!obj->isActive)
+				continue;
 			SDL_Rect dr = obj->draw_rect;
 			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
 				continue;

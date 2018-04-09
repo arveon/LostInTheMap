@@ -318,22 +318,32 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::loading_misc:
 	{
-		////create inactive dialog panel
-		//Entity* dialog_panel = new Entity(entity_type::ui_element, "dialog_panel");
-		//
-		//IDrawable* dc_panel = new IDrawable(dialog_panel, IDrawable::layers::ui);
-		//xml_system::DialogueFrame frame = xml_system::load_dialogue_frame();
-		//dc_panel->draw_rect = frame.bg_frame;
-		//dc_panel->sprite = asset_controller::load_texture(frame.bg_path.c_str());
-		//dialog_panel->add_component(dc_panel);
+		//create inactive dialog panel
+		Entity* dialog_panel = new Entity(entity_type::ui_element, "dialogue_panel");
+		
+		IDrawable* dc_panel = new IDrawable(dialog_panel, IDrawable::layers::ui);
+		xml_system::DialogueFrame frame = xml_system::load_dialogue_frame();
+		dc_panel->draw_rect = frame.bg_frame;
+		dc_panel->sprite = asset_controller::load_texture(frame.bg_path.c_str());
+		dc_panel->isActive = false;
+		dialog_panel->add_component(dc_panel);
 
-		//Entity* dialog_portrait = new Entity(entity_type::ui_element, "dialog_portrait");
-		//IDrawable* dc_portrait = new IDrawable(dialog_portrait, IDrawable::layers::ui);
-		//dc_portrait->draw_rect = frame.portrait;
-		//dialog_portrait->add_component(dc_portrait);
+		Entity* dialog_portrait = new Entity(entity_type::ui_element, "dialogue_portrait");
+		IDrawable* dc_portrait = new IDrawable(dialog_portrait, IDrawable::layers::ui);
+		dc_portrait->draw_rect = frame.portrait_frame;
+		dc_portrait->sprite = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
+		dc_portrait->isActive = false;
+		dialog_portrait->add_component(dc_portrait);
 
-		//game_space.objects.push_back(dialog_panel);
-		//game_space.objects.push_back(dialog_portrait);
+		Entity* dialog_text = new Entity(entity_type::ui_element, "dialogue_text");
+		IDrawable* dc_text = new IDrawable(dialog_portrait, IDrawable::layers::ui);
+		dc_text->draw_rect = frame.text_frame;
+		dc_text->isActive = false;
+		dialog_text->add_component(dc_text);
+
+		game_space.objects.push_back(dialog_panel);
+		game_space.objects.push_back(dialog_portrait);
+		game_space.objects.push_back(dialog_text);
 	}
 	case loading_state::objects_camera_positions:
 	{

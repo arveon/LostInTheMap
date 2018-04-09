@@ -74,11 +74,36 @@ void game_flow_normal::update_space(Space & space, int dt)
 	if (dialogue_system::dialogue_pending())
 	{
 		dialogue_system::update(dt);
-		if(!dialogue_system::is_line_done())
-			std::cout << dialogue_system::get_cur_line() << std::endl;
+		Entity* bg = SpaceSystem::find_entity_by_name(space, "dialogue_panel");
+		Entity* portrait = SpaceSystem::find_entity_by_name(space, "dialogue_portrait");
+		Entity* text = SpaceSystem::find_entity_by_name(space, "dialogue_text");
+		IDrawable* bg_dc = static_cast<IDrawable*>(bg->get_component(Component::ComponentType::Drawable));
+		bg_dc->isActive = true;
+		IDrawable* portrait_dc = static_cast<IDrawable*>(portrait->get_component(Component::ComponentType::Drawable));
+		portrait_dc->isActive = true;
+		IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
+		text_dc->isActive = true;
+
+		if (!dialogue_system::is_line_done())
+		{
+			text_dc->sprite = dialogue_system::get_cur_line_sprite();
+			SDL_Rect size = asset_controller::get_texture_size(text_dc->sprite);
+			text_dc->draw_rect.w = size.w;
+			text_dc->draw_rect.h = size.h;
+		}
 	}
 	else
 	{
+		Entity* bg = SpaceSystem::find_entity_by_name(space, "dialogue_panel");
+		Entity* portrait = SpaceSystem::find_entity_by_name(space, "dialogue_portrait");
+		Entity* text = SpaceSystem::find_entity_by_name(space, "dialogue_text");
+		IDrawable* bg_dc = static_cast<IDrawable*>(bg->get_component(Component::ComponentType::Drawable));
+		bg_dc->isActive = false;
+		IDrawable* portrait_dc = static_cast<IDrawable*>(portrait->get_component(Component::ComponentType::Drawable));
+		portrait_dc->isActive = false;
+		IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
+		text_dc->isActive = false;
+
 		Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
 		ITerrain* tr = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
 		movement_system::move_characters_tick(space, dt, tr);
@@ -94,9 +119,18 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 	{
 		if (dialogue_system::dialogue_pending())
 		{
+			Entity* text = SpaceSystem::find_entity_by_name(space, "dialogue_text");
+			IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
+
 			if (dialogue_system::is_line_done())
 				dialogue_system::next_line();
-
+			else
+				dialogue_system::finish_line();
+			//std::cout << dialogue_system::get_cur_line() << std::endl;
+			text_dc->sprite = dialogue_system::get_cur_line_sprite();
+			SDL_Rect size = asset_controller::get_texture_size(text_dc->sprite);
+			text_dc->draw_rect.w = size.w;
+			text_dc->draw_rect.h = size.h;
 		}
 		else
 			set_movement(space);
@@ -136,7 +170,8 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 
 
 		character_system::clear_characters();
-		asset_controller::destroy_terrain_textures();
+		director::clear_bound();
+		//asset_controller::destroy_terrain_textures();
 		lee_pathfinder::destroy_pathfinding();
 		reload_game();
 		r_down_event = false;

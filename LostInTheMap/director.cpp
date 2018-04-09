@@ -74,6 +74,8 @@ void director::process_interaction(Entity* interaction_target)
 
 }
 
+
+
 director::director()
 {
 }

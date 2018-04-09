@@ -44,6 +44,8 @@ public:
 
 	static void process_interaction(Entity* target);
 
+	static void clear_bound() { secondary_counter = 0; bound.clear(); }
+
 	director();
 	~director();
 };
