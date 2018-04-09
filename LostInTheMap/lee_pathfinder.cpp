@@ -324,6 +324,21 @@ std::vector<SDL_Point> lee_pathfinder::track_back()
 	return path;
 }
 
+void lee_pathfinder::destroy_pathfinding()
+{
+	for (int i = 0; i < lee_pathfinder::height; i++)
+	{
+		for (int j = 0; j < lee_pathfinder::width; j++)
+		{
+			delete map[i][j];
+		}
+	}
+
+
+
+
+}
+
 lee_pathfinder::lee_pathfinder()
 {
 }

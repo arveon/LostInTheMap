@@ -53,6 +53,8 @@ public:
 	static void set_camera_position(int x, int y) { camera.x = x; camera.y = y; }
 	static void set_camera_dimensions(int w, int h) { camera.w = w; camera.h = h; }
 
+	static void destroy_pathfinding();
+
 	lee_pathfinder();
 	~lee_pathfinder();
 };

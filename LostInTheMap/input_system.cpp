@@ -23,6 +23,9 @@ int input_system::register_event_callback(HardInputEventType type, SDL_manager::
 		break;
 	case HardInputEventType::right_mouse_up:
 		break;
+	case HardInputEventType::r_pressed:
+		id = SDL_manager::register_r_down_listener(callback);
+		break;
 	}
 	return id;
 }

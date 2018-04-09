@@ -5,6 +5,7 @@ SDL_Window* SDL_manager::game_window;
 std::vector<SDL_manager::callback> SDL_manager::mouse_down_callbacks;
 std::vector<SDL_manager::callback> SDL_manager::mouse_up_callbacks;
 std::vector<SDL_manager::callback> SDL_manager::window_close_callbacks;
+std::vector<SDL_manager::callback> SDL_manager::r_down_callbacks;
 SDL_manager::mouse SDL_manager::mouse_state;
 std::vector<HardInputEventType> SDL_manager::events;
 SDL_Renderer* SDL_manager::renderer;
@@ -58,6 +59,7 @@ bool SDL_manager::change_resolution(int w_res, int h_res, bool fullscr)
 
 void SDL_manager::update_input()
 {
+	static bool last_r = false;
 	//storing mouse clicks and mouse releases in mouse class
 	//reading events such as windows X button pressed
 	SDL_Event event;
@@ -95,6 +97,22 @@ void SDL_manager::update_input()
 				mouse_state.rmb_down = false;
 			}
 		}
+		else if (event.type == SDL_KEYDOWN)
+		{
+			if (event.key.keysym.sym == SDLK_r)
+			{
+				if (!last_r)
+					events.push_back(HardInputEventType::r_pressed);
+
+				last_r = true;
+				
+			}
+		}
+		else if (event.type == SDL_KEYUP)
+		{
+			if (event.key.keysym.sym == SDLK_r)
+				last_r = false;
+		}
 	}
 	//keyboard_state = SDL_GetKeyboardState();
 }
@@ -124,6 +142,14 @@ void SDL_manager::trigger_input_listeners()
 			for (unsigned int i = 0; i < mouse_up_callbacks.size(); i++)
 			{
 				callback cb = mouse_up_callbacks.at(i);
+				cb();
+			}
+			break;
+
+		case HardInputEventType::r_pressed:
+			for (unsigned int i = 0; i < r_down_callbacks.size(); i++)
+			{
+				callback cb = r_down_callbacks.at(i);
 				cb();
 			}
 			break;

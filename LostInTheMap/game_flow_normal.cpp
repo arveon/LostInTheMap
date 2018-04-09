@@ -5,6 +5,10 @@ int game_flow_normal::mouse_up_listener_id;
 int game_flow_normal::mouse_down_listener_id;
 bool game_flow_normal::lmb_down_event;
 bool game_flow_normal::lmb_up_event;
+int game_flow_normal::r_down_listener_id;
+bool game_flow_normal::r_down_event;
+
+void(*game_flow_normal::reload_game)();
 
 void game_flow_normal::init(Space & game_space)
 {
@@ -30,7 +34,7 @@ void game_flow_normal::init(Space & game_space)
 
 		if (!drawable)
 			continue;
-		render_system::add_object_to_queue(drawable);
+		drawable->id = render_system::add_object_to_queue(drawable);
 	}
 
 	//init mouse
@@ -64,7 +68,7 @@ void game_flow_normal::update_space(Space & space, int dt)
 	camera_system::update_camera();
 	SpaceSystem::apply_animation_sprite_changes(space);
 
-	game_flow_normal::handle_mouse_clicks(space);
+	
 	SpaceSystem::update_draw_rects(space);
 
 	if (dialogue_system::dialogue_pending())
@@ -80,6 +84,7 @@ void game_flow_normal::update_space(Space & space, int dt)
 		movement_system::move_characters_tick(space, dt, tr);
 		game_flow_normal::update_pathfinder(space);
 	}
+	game_flow_normal::handle_mouse_clicks(space);
 }
 
 void game_flow_normal::handle_mouse_clicks(Space& space)
@@ -101,6 +106,40 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 	if (lmb_up_event)
 	{
 		lmb_up_event = false;//clear event flag
+	}
+
+	//FOR TESTING
+	if (r_down_event)
+	{
+		Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
+		ITerrain* tc = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
+		for (int i = 0; i < tc->height; i++)
+		{
+			for (int j = 0; j < tc->width; j++)
+			{
+				Entity* tile = tc->terrain_tiles[i][j];
+				if (tile != nullptr)
+				{
+					delete tile->transform;
+					for (unsigned int k = tile->components.size() - 1; k >= 0; k--)
+					{
+						if (k > tile->components.size())
+							break;
+						Component* temp = tile->components.at(k);
+						tile->components.erase(tile->components.begin() + k);
+						delete temp;
+					}
+					delete tile;
+				}
+			}
+		}
+
+
+		character_system::clear_characters();
+		asset_controller::destroy_terrain_textures();
+		lee_pathfinder::destroy_pathfinding();
+		reload_game();
+		r_down_event = false;
 	}
 }
 
@@ -151,6 +190,15 @@ void game_flow_normal::update_pathfinder(Space& space)
 	SDL_Rect camera_rect_ids = camera_system::get_camera_rect_ids(trc->tile_width);
 	lee_pathfinder::set_camera_position(camera_rect_ids.x, camera_rect_ids.y);
 	lee_pathfinder::set_camera_dimensions(camera_rect_ids.w, camera_rect_ids.h);
+}
+
+void game_flow_normal::r_pressed_event()
+{
+	//destroy all terrain objects
+	
+
+	
+	r_down_event = true;
 }
 
 void game_flow_normal::mouse_down_event()

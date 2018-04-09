@@ -34,6 +34,7 @@ private:
 
 	static std::vector<callback> mouse_down_callbacks;
 	static std::vector<callback> mouse_up_callbacks;
+	static std::vector<callback> r_down_callbacks;
 	static std::vector<callback> window_close_callbacks;
 	static std::vector<HardInputEventType> events;
 public:
@@ -74,6 +75,17 @@ public:
 			window_close_callbacks.erase(window_close_callbacks.begin() + listener_id); return true; 
 		} else 
 			return false; 
+	};
+
+	static int register_r_down_listener(callback response) { r_down_callbacks.push_back(response); return (static_cast<int>(r_down_callbacks.size()) - 1); }
+	static bool remove_r_down_listener(int listener_id)
+	{
+		if (listener_id <= (static_cast<int>(r_down_callbacks.size()) - 1))
+		{
+			r_down_callbacks.erase(r_down_callbacks.begin() + listener_id); return true;
+		}
+		else
+			return false;
 	};
 
 	static void update_input();

@@ -40,6 +40,7 @@ int render_system::add_object_to_queue(IDrawable * obj)
 void render_system::flush_queues()
 {
 	background.clear();
+	terrain.clear();
 	surface.clear();
 	foreground.clear();
 	ui.clear();

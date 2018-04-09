@@ -58,18 +58,24 @@ void Game::start_handler()
 {
 	if (state == game_state::main_menu)
 	{
-		//render_system::report_not_null_textures();
 		MainMenuSystem::destroy_space(main_menu_space);
 		MainMenuSystem::remove_listeners();
-		//render_system::report_not_null_textures();
 	}
 	state = game_state::loading;
 }
 
 void Game::exit_game_flow()
 {
-	deregister_event_listener(HardInputEventType::left_mouse_down, game_flow_normal::mouse_down_listener_id);
-	deregister_event_listener(HardInputEventType::left_mouse_up, game_flow_normal::mouse_up_listener_id);
+	if (state == game_state::game_flow)
+	{
+		deregister_event_listener(HardInputEventType::left_mouse_down, game_flow_normal::mouse_down_listener_id);
+		deregister_event_listener(HardInputEventType::left_mouse_up, game_flow_normal::mouse_up_listener_id);
+		deregister_event_listener(HardInputEventType::r_pressed, game_flow_normal::r_down_listener_id);
+		
+		game_flow_normal::destroy_space(game_space);
+		render_system::flush_queues();
+	}
+	state = game_state::main_menu;
 }
 
 void Game::game_loop()
@@ -117,8 +123,10 @@ void Game::game_loop()
 			if (!game_space.initialised)
 			{
 				game_flow_normal::init(game_space);
+				game_flow_normal::reload_game = &Game::reload_game;
 				game_flow_normal::mouse_down_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_down, game_flow_normal::mouse_down_event);
 				game_flow_normal::mouse_up_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_up, game_flow_normal::mouse_up_event);
+				game_flow_normal::r_down_listener_id = input_system::register_event_callback(HardInputEventType::r_pressed, game_flow_normal::r_pressed_event);
 			}
 			game_flow_normal::update_space(game_space, time.get_delta_time());
 			
@@ -132,6 +140,12 @@ void Game::game_loop()
 		render_system::sort_queues();
 		render_system::render_queues();
 	}
+}
+
+void Game::reload_game()
+{
+	exit_game_flow();
+	state = game_state::loading;
 }
 
 Game::Game()

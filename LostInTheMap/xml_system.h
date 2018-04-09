@@ -35,7 +35,7 @@ public:
 	{
 		std::string text;
 		character_type character;
-	}DialogueLine;
+	} DialogueLine;
 
 	typedef struct
 	{
@@ -44,12 +44,20 @@ public:
 		std::vector<DialogueLine> lines;
 	} Dialogue;
 
+	typedef struct
+	{
+		SDL_Rect bg_frame;
+		std::string bg_path;
+		SDL_Rect portrait;
+	} DialogueFrame;
+
 	static WindowConfig load_config_file();
 	static MenuLayout load_interface_layout(std::string name);
 	static int** load_map_tiles(levels level, int* width, int* height, int* tilewidth);
 	static int** load_map_collisions(levels level, int width, int height);
 	static Character** load_characters(levels level, int width, int height);
 	static std::vector<LoadingState> get_loading_states();
+	static DialogueFrame load_dialogue_frame();
 
 	static character_type get_character_type_by_name(std::string);
 

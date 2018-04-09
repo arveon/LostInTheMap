@@ -21,6 +21,8 @@ public:
 	//sets final destination of character in raw world coords (will be adjusted to character origin automatically)
 	static void set_final_destination(ITerrain* terrain, Entity* character, SDL_Point dest, Space& space);
 	static SDL_Point get_character_ids(Entity* character, ITerrain* tc);
+
+	static void clear_characters() { characters.clear(); };
 	character_system();
 	~character_system();
 };

@@ -152,6 +152,10 @@ void asset_controller::load_terrain_textures(std::string path, int tilewidth)
 
 void asset_controller::destroy_terrain_textures()
 {
+	for (unsigned int i = 0; i < terrain_textures.size(); i++)
+	{
+		asset_controller::destroy_texture(terrain_textures.at(i));
+	}
 }
 
 SDL_Texture * asset_controller::get_sprite_from_spritesheet(SDL_Texture * spritesheet, SDL_Rect src_rect)

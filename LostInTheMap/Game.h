@@ -55,6 +55,8 @@ public:
 	static void start_handler();
 	static void exit_game_flow();
 
+	static void reload_game();
+
 	//function will be passed to initialise function that would allow them to register mouseclick callback methods
 	static int register_mousedown_listener(void(*cb)())
 	{

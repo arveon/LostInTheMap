@@ -251,6 +251,29 @@ std::vector<xml_system::LoadingState> xml_system::get_loading_states()
 	return states;
 }
 
+xml_system::DialogueFrame xml_system::load_dialogue_frame()
+{
+	DialogueFrame result;
+	rapidxml::file<> file("config/dialogue_layout.xml");
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(file.data());
+
+	rapidxml::xml_node<>* bg = doc.first_node("dialog_window")->first_node("bg");
+	result.bg_path = bg->first_attribute("image")->value();
+	result.bg_frame.x = std::stoi(bg->first_attribute("x")->value());
+	result.bg_frame.y = std::stoi(bg->first_attribute("y")->value());
+	result.bg_frame.w = std::stoi(bg->first_attribute("w")->value());
+	result.bg_frame.h = std::stoi(bg->first_attribute("h")->value());
+
+	bg = bg->next_sibling("portrait");
+	result.portrait.x = std::stoi(bg->first_attribute("x")->value());
+	result.portrait.y = std::stoi(bg->first_attribute("y")->value());
+	result.portrait.w = std::stoi(bg->first_attribute("w")->value());
+	result.portrait.h = std::stoi(bg->first_attribute("h")->value());
+
+	return result;
+}
+
 xml_system::Dialogue xml_system::load_dialogue(std::string path)
 {
 	Dialogue result;
