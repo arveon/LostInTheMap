@@ -40,6 +40,7 @@ public:
 	typedef struct
 	{
 		bool initialised = false;
+		std::vector<character_type> characters;
 		std::vector<DialogueLine> lines;
 	} Dialogue;
 
@@ -49,6 +50,8 @@ public:
 	static int** load_map_collisions(levels level, int width, int height);
 	static Character** load_characters(levels level, int width, int height);
 	static std::vector<LoadingState> get_loading_states();
+
+	static character_type get_character_type_by_name(std::string);
 
 	static Dialogue load_dialogue(std::string path);
 

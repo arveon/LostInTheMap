@@ -254,7 +254,51 @@ std::vector<xml_system::LoadingState> xml_system::get_loading_states()
 xml_system::Dialogue xml_system::load_dialogue(std::string path)
 {
 	Dialogue result;
-	std::cout << "Loading dialogue: " << path << std::endl;
+	
+	rapidxml::file<> file(path.c_str());
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(file.data());
+
+	rapidxml::xml_node<>* character = doc.first_node("dialogue");
+
+	//load character types participating in the dialogue
+	rapidxml::xml_attribute<>* atr = character->first_attribute("character");
+	while (atr)
+	{
+		std::string name = atr->value();
+		result.characters.push_back(xml_system::get_character_type_by_name(name));
+
+
+		atr = atr->next_attribute("character");
+	}
+
+	//load all required replicas
+	rapidxml::xml_node<>* replica = character->first_node("rep");
+	while (replica)
+	{
+		DialogueLine line;
+		line.text = replica->first_attribute("text")->value();
+		int id = std::stoi(replica->first_attribute("character")->value());
+		line.character = result.characters.at(id);
+		std::cout << line.character << ": " << line.text << std::endl;
+
+		replica = replica->next_sibling("rep");
+	}
+	result.initialised = true;
+	return result;
+}
+
+character_type xml_system::get_character_type_by_name(std::string name)
+{
+	character_type result;
+	if (name.compare("arch_supervisor") == 0)
+		result = character_type::npc_arch_supervisor;
+	else if (name.compare("giovanni") == 0 || name.compare("player")==0)
+		result = character_type::h_giovanni;
+	else if (name.compare("zaji") == 0)
+		result = character_type::h_zaji;
+	else if (name.compare("npc_archaeologist") == 0)
+		result = character_type::npc_archaeologist;
 
 	return result;
 }

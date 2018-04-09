@@ -42,31 +42,31 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 				ent->add_component(mc);
 
 				//set name and character type depending on what's stored in field
-				character_type type;
+				character_type type = xml_system::get_character_type_by_name(charact[i][j].type);
 				bool is_friendly = true;
-				if (charact[i][j].type.compare("zakra_spearman") == 0)
+				switch (type)
 				{
+				case character_type::zakra_spearman:
 					ent->name = "spearman" + std::to_string(value);
 					value++;
 					is_friendly = false;
 					type = character_type::zakra_spearman;
-				}
-				else if (charact[i][j].type.compare("player") == 0)
-				{
+					break;
+				case character_type::h_giovanni:
 					ent->name = "player";
 					type = character_type::h_giovanni;
 					mc->pathfinder.is_player = true;
-				}
-				else if (charact[i][j].type.compare("zaji") == 0)
-				{
-					ent->name = "zaji"+std::to_string(value);
+					break;
+
+				case character_type::h_zaji:
+					ent->name = "zaji" + std::to_string(value);
 					value++;
 					type = character_type::h_zaji;
-				}
-				else
-				{
+					break;
+				default:
 					ent->name = "Unnamed";
 					type = character_type::zakra_spearman;
+					break;
 				}
 
 				ICharacter* cc = new ICharacter(ent, type, is_friendly);

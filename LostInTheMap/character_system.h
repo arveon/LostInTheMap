@@ -6,6 +6,8 @@
 #include "map_system.h"
 #include "director.h"
 
+#include "xml_system.h"
+
 class character_system
 {
 private:

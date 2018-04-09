@@ -2,6 +2,4 @@
 <portrait_bg image="assets/graphics/ui/dialog_portrait_bg.png" x="25" y="450" w="64" h="64" />
 <portrait x="25" y="450" w="64" h="64" />
 <text_bg image="assets_graphics/ui_text_bg.png" x="89" y="450" w="400" h="64" />
-
-
 </dialog_window>
