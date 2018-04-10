@@ -1,0 +1,6 @@
+<dialogue character="arch_supervisor" character="archaeologist_1" character="archaeologist_2">
+	<rep character="0" text="Now now, be careful in there don't step on anything precious!" />
+	<rep character="1" text="Wow, a hidden chamber! Everything is exactly like in the movies!" />
+	<rep character="2" text="I wonder if there is any treasure in there..." />
+	<rep character="0" text="Stop this talk right now! Anything you find in there is to be brought to me!" />
+</dialogue>

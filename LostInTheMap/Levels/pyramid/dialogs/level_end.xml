@@ -1,0 +1,6 @@
+<dialogue character="arch_supervisor" character="archaeologist_2" character="archaeologist_4">
+	<rep character="0" text="Wow, that is a letdown! No hidden treasure..." />
+	<rep character="1" text="Is this a map? On a pedestal?" />
+	<rep character="2" text="Why would anyone build a room to guard a single piece of paper in it..." />
+	<rep character="0" text="Silence, it could be something very impor..." />
+</dialogue>

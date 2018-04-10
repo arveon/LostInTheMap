@@ -1,0 +1,5 @@
+<dialogue character="giovanni" character="arch_supervisor">
+	<rep character="1" text="Giovanni! Yes you, stop right there! What's that in your pocket?" />
+	<rep character="0" text="Me? This is just a few gold coins I found in one of the rooms." />
+	<rep character="1" text="Hand them over immediately then! I need to record them!" />
+</dialogue>
