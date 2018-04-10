@@ -344,6 +344,8 @@ void level_loading_system::load_game_components(Space & game_space)
 		game_space.objects.push_back(dialog_panel);
 		game_space.objects.push_back(dialog_portrait);
 		game_space.objects.push_back(dialog_text);
+
+		dialogue_system::max_text_width = dc_text->draw_rect.w;
 	}
 	case loading_state::objects_camera_positions:
 	{

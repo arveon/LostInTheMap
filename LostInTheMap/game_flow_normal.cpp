@@ -84,13 +84,10 @@ void game_flow_normal::update_space(Space & space, int dt)
 		IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
 		text_dc->isActive = true;
 
-		if (!dialogue_system::is_line_done())
-		{
-			text_dc->sprite = dialogue_system::get_cur_line_sprite();
-			SDL_Rect size = asset_controller::get_texture_size(text_dc->sprite);
-			text_dc->draw_rect.w = size.w;
-			text_dc->draw_rect.h = size.h;
-		}
+		text_dc->sprite = dialogue_system::get_cur_line_sprite();
+		SDL_Rect size = asset_controller::get_texture_size(text_dc->sprite);
+		text_dc->draw_rect.w = size.w;
+		text_dc->draw_rect.h = size.h;
 	}
 	else
 	{

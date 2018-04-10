@@ -105,7 +105,7 @@ public:
 	static TTF_Font* load_font(const char* path, int size, SDL_Color color);
 	static SDL_Texture* load_texture(const char* path);
 	
-	static SDL_Texture* get_texture_from_text(const char* text, SDL_Color color, TTF_Font* font);
+	static SDL_Texture* get_texture_from_text(const char* text, SDL_Color color, TTF_Font* font, int max_width=0);
 	static SDL_Texture* get_spritesheet_from_sprites(std::vector<SDL_Texture*> sprites);
 
 	static void get_mouse_position(int* x, int* y) { SDL_GetMouseState(x, y); }

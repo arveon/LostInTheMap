@@ -180,9 +180,14 @@ SDL_Texture* SDL_manager::load_texture(const char * path)
 	return temp;
 }
 
-SDL_Texture * SDL_manager::get_texture_from_text(const char*  text, SDL_Color color, TTF_Font* font)
+SDL_Texture * SDL_manager::get_texture_from_text(const char*  text, SDL_Color color, TTF_Font* font, int max_width)
 {
-	SDL_Surface* temp_s = TTF_RenderText_Solid(font, text, { color.r, color.g, color.b, 255 });
+	SDL_Surface* temp_s;
+
+	if (max_width == 0)
+		temp_s = TTF_RenderText_Solid(font, text, { color.r, color.g, color.b, 255 });
+	else
+		temp_s = TTF_RenderText_Blended_Wrapped(font, text, { color.r, color.g, color.b, 255 }, max_width);
 	assert(temp_s);
 
 	SDL_Texture* temp_t = SDL_CreateTextureFromSurface(renderer, temp_s);

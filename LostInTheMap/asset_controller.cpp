@@ -94,7 +94,7 @@ SDL_Texture * asset_controller::create_ui_text_button_spritesheet(std::string te
 	return result;
 }
 
-SDL_Texture* asset_controller::get_texture_from_text(std::string text, UI_text_type type)
+SDL_Texture* asset_controller::get_texture_from_text(std::string text, UI_text_type type, int max_width)
 {
 	//load appropriate font depending on what text is used for
 	SDL_Texture* result = nullptr;
@@ -117,8 +117,8 @@ SDL_Texture* asset_controller::get_texture_from_text(std::string text, UI_text_t
 		result = SDL_manager::get_texture_from_text(text.c_str(), { 0,0,0 }, font);
 		break;
 	case UI_text_type::game_dialog:
-		font = SDL_manager::load_font("assets/fonts/LinLibertine.ttf", 16, { 0,0,0 });
-		result = SDL_manager::get_texture_from_text(text.c_str(), { 0,0,0 }, font);
+		font = SDL_manager::load_font("assets/fonts/LinLibertine.ttf", 20, { 0,0,0 });
+		result = SDL_manager::get_texture_from_text(text.c_str(), { 0,0,0 }, font, max_width);
 		break;
 	}
 

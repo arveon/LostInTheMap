@@ -7,6 +7,7 @@
 class dialogue_system
 {
 private:
+	
 	static xml_system::Dialogue cur_dialogue;
 	static int counter;
 	static int line_counter;
@@ -16,6 +17,7 @@ private:
 	static int required_char_time;
 	static void inc_sprite();
 public:
+	static int max_text_width;
 	static void start_dialogue(xml_system::Dialogue);
 	static std::string get_cur_line() { return cur_dialogue.lines.at(line_counter).text.substr(0, counter); }
 	static bool is_line_done() { return (counter > cur_dialogue.lines.at(line_counter).text.length()); }
