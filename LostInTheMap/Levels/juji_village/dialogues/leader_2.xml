@@ -1,0 +1,5 @@
+<dialogue character="giovanni" character="jido">
+	<rep character="1" text="Any updates on the snake problem?" />
+	<rep character="0" text="Yes, the snakes are no more. Now what about my promised reward?" />
+	<rep character="1" text="There you are! You deserve it!" />
+</dialogue>

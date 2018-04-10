@@ -1,0 +1,19 @@
+<dialogue character="giovanni" character="josi">
+	<rep character="1" text="Hey, a Na'Hum, I never thought I will see one with my own eyes! I'm Jo'si. How can..." />
+	<rep character="0" text="Could you stop using this word please? My name is Giovanni..." />
+	<rep character="1" text="Forgive me, Gova..." />
+	<rep character="1" text="Giova..." />
+	<rep character="0" text="Just Gio, please." />
+	<rep character="1" text="Forgive me, Gio! How can I help you?" />
+	<rep character="0" text="I was told you got problems with snakes up here." />
+	<rep character="1" text="Yes! Finally someone to deal with it! I would do it myself, but they scare me!" />
+	<rep character="0" text="You are lucky I'm here then... Because I had to deal with them on my trip around Australia..." />
+	<rep character="1" text="Aus'Tra'Lia? Is it a land of snakes? Where is it?" />
+	<rep character="0" text="Somewhere far-far away... I'll just need a torch, they hate fire." />
+	<rep character="1" text="You can have mine! Could I also..." />
+	<rep character="1" text="No, nevermind, you wouldn't care anyway..." />
+	<rep character="0" text="What is it?" />
+	<rep character="1" text="My son Za'Ji has gone missing! He probably went off to fight the snakes. Could you bring him back if you see him?" />
+	<rep character="0" text="Alright, I will look for him." />
+	<rep character="1" text="Oh thank you! You don't look or sound anywhere near how our legends portray you..." />
+</dialogue>

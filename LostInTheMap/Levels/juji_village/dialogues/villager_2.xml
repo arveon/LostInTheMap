@@ -1,0 +1,8 @@
+<dialogue character="giovanni" character="juji_villager">
+	<rep character="1" text="What is this you wearing? Is it even comfortable?" />
+	<rep character="0" text="Yes, it's my favourite t-shirt, in fact..." />
+	<rep character="1" text="Oh my... Who would want to wear that... Don't you want to put on a normal dol?" />
+	<rep character="0" text="Depends on what it is..." />
+	<rep character="1" text="Oh, don't be silly, I'm wearing it right now!" />
+	<rep character="0" text="No thank you..." />
+</dialogue>

@@ -1,0 +1,5 @@
+<dialogue character="giovanni" character="zaji">
+	<rep character="1" text="Take this, you tailface!" />
+	<rep character="0" text="I think that was last of them, are you ready to go back?" />
+	<rep character="1" text="We saved the village! We shall come back as heroes!!!" />
+</dialogue>

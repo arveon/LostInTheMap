@@ -1,0 +1,8 @@
+<dialogue character="giovanni" character="zaji">
+	<rep character="0" text="Nice one, you are quite brave." />
+	<rep character="1" text="I know! I'm the bravest of them all! They are always afraid of something!" />
+	<rep character="0" text="Aren't you scared of anything?" />
+	<rep character="1" text="No, why would I be? Are you?" />
+	<rep character="0" text="You will know why when you get older... You should go back to the village now." />
+	<rep character="1" text="No way! I won't go back until every single one of them is dead!" />
+</dialogue>

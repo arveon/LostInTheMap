@@ -1,0 +1,9 @@
+<dialogue character="giovanni" character="juji_villager">
+	<rep character="1" text="Why is your skin so pale? Are you a Na'Hum?" />
+	<rep character="0" text="Uhm, you tell me! Am I? What is a Na'Hum?" />
+	<rep character="1" text="Did you just fall from the moon? Na'Hum are these weird legendary Northern creatures..." />
+	<rep character="0" text="It is said they live in the lands where water is hard and rocks fall from the sky at night." />
+	<rep character="0" text="Some also say that the sun isn't warm in their lands..." />
+	<rep character="0" text="I think they're all stupid. Who could live in such conditions? It's simply impossible!" />
+	<rep character="1" text="Well, in some way your legends are true..." />
+</dialogue>
