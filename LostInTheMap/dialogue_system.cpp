@@ -25,6 +25,15 @@ void dialogue_system::start_dialogue(xml_system::Dialogue dial, std::vector<asse
 	line_counter = 0;
 	cur_dialogue = dial;
 	counter = 1;
+
+	while(dialogue_system::portraits.size() > 0)
+	{
+		SDL_Texture* temp = dialogue_system::portraits.back().texture;
+		asset_controller::destroy_texture(temp);
+		dialogue_system::portraits.pop_back();
+	}
+
+	dialogue_system::portraits.clear();
 	dialogue_system::portraits = portraits;
 	update_portrait();
 }

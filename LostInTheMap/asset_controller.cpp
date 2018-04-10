@@ -172,10 +172,19 @@ std::vector<asset_controller::CharacterPortrait> asset_controller::get_character
 			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
 			break;
 		case npc_arch_supervisor:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/supervisor_portrait.png");
 			break;
-		case npc_archaeologist:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
+		case npc_archaeologist_1:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_1_portrait.png");
+			break;
+		case npc_archaeologist_2:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_2_portrait.png");
+			break;
+		case npc_archaeologist_3:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_3_portrait.png");
+			break;
+		case npc_archaeologist_4:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_4_portrait.png");
 			break;
 		case h_zaji:
 			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");

@@ -326,8 +326,14 @@ character_type xml_system::get_character_type_by_name(std::string name)
 		result = character_type::h_giovanni;
 	else if (name.compare("zaji") == 0)
 		result = character_type::h_zaji;
-	else if (name.compare("archaeologist") == 0 || name.compare("npc_archaeologist") == 0)
-		result = character_type::npc_archaeologist;
+	else if (name.compare("archaeologist_1") == 0 || name.compare("archaeologist")==0)
+		result = character_type::npc_archaeologist_1;
+	else if (name.compare("archaeologist_2") == 0)
+		result = character_type::npc_archaeologist_2;
+	else if (name.compare("archaeologist_3") == 0)
+		result = character_type::npc_archaeologist_3;
+	else if (name.compare("archaeologist_4") == 0)
+		result = character_type::npc_archaeologist_4;
 
 	return result;
 }

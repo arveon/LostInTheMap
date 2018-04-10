@@ -46,22 +46,38 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 				bool is_friendly = true;
 				switch (type)
 				{
+				case character_type::h_giovanni:
+					ent->name = "player";
+					mc->pathfinder.is_player = true;
+					break;
+				case character_type::npc_arch_supervisor:
+					ent->name = "supervisor" + std::to_string(value);
+					value++;
+					break;
+				case character_type::npc_archaeologist_1:
+					ent->name = "archaeologist" + std::to_string(value);
+					value++;
+					break;
+				case character_type::npc_archaeologist_2:
+					ent->name = "archaeologist" + std::to_string(value);
+					value++;
+					break;
+				case character_type::npc_archaeologist_3:
+					ent->name = "archaeologist" + std::to_string(value);
+					value++;
+					break;
+				case character_type::npc_archaeologist_4:
+					ent->name = "archaeologist" + std::to_string(value);
+					value++;
+					break;
+				case character_type::h_zaji:
+					ent->name = "zaji" + std::to_string(value);
+					value++;
+					break;
 				case character_type::zakra_spearman:
 					ent->name = "spearman" + std::to_string(value);
 					value++;
 					is_friendly = false;
-					type = character_type::zakra_spearman;
-					break;
-				case character_type::h_giovanni:
-					ent->name = "player";
-					type = character_type::h_giovanni;
-					mc->pathfinder.is_player = true;
-					break;
-
-				case character_type::h_zaji:
-					ent->name = "zaji" + std::to_string(value);
-					value++;
-					type = character_type::h_zaji;
 					break;
 				default:
 					ent->name = "Unnamed";
@@ -105,6 +121,31 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		{
 		case character_type::h_giovanni:
 			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/giovanni.png");
+			dc->draw_rect.w = 50;
+			dc->draw_rect.h = 48;
+			break;
+		case character_type::npc_arch_supervisor:
+			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/supervisor.png");
+			dc->draw_rect.w = 50;
+			dc->draw_rect.h = 48;
+			break;
+		case character_type::npc_archaeologist_1:
+			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/archaeologist_1.png");
+			dc->draw_rect.w = 50;
+			dc->draw_rect.h = 48;
+			break;
+		case character_type::npc_archaeologist_2:
+			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/archaeologist_2.png");
+			dc->draw_rect.w = 50;
+			dc->draw_rect.h = 48;
+			break;
+		case character_type::npc_archaeologist_3:
+			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/archaeologist_3.png");
+			dc->draw_rect.w = 50;
+			dc->draw_rect.h = 48;
+			break;
+		case character_type::npc_archaeologist_4:
+			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/archaeologist_4.png");
 			dc->draw_rect.w = 50;
 			dc->draw_rect.h = 48;
 			break;

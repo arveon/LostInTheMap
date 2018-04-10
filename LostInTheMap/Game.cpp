@@ -39,6 +39,7 @@ void Game::loading_done_handler()
 	{
 		level_loading_system::destroy_space(loading_space);
 		level_loading_system::remove_listeners();
+		render_system::flush_queues();
 	}
 	state = game_state::game_flow;
 
@@ -49,6 +50,7 @@ void Game::splash_elapsed_handler()
 	if (state == game_state::splash)
 	{
 		SplashScreenSystem::destroy_space(splash_screen_space);
+		render_system::flush_queues();
 	}
 	state = game_state::main_menu;
 	
@@ -60,6 +62,7 @@ void Game::start_handler()
 	{
 		MainMenuSystem::destroy_space(main_menu_space);
 		MainMenuSystem::remove_listeners();
+		render_system::flush_queues();
 	}
 	state = game_state::loading;
 }

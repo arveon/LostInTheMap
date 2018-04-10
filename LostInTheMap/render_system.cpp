@@ -48,6 +48,7 @@ void render_system::flush_queues()
 	surface.clear();
 	foreground.clear();
 	ui.clear();
+	mouse = nullptr;
 }
 
 void render_system::sort_queues()
@@ -199,7 +200,8 @@ void render_system::render_queues()
 		}
 	}
 
-	SDL_manager::render_sprite(mouse->sprite, mouse->draw_rect);
+	if(mouse != nullptr)
+		SDL_manager::render_sprite(mouse->sprite, mouse->draw_rect);
 	SDL_manager::end_render();
 }
 

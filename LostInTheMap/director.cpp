@@ -18,7 +18,10 @@ xml_system::Dialogue director::get_dialogue(Entity * target)
 		case character_type::npc_arch_supervisor:
 			result = xml_system::load_dialogue("Levels/pyramid/dialogs/supervisor_1.xml");
 			break;
-		case character_type::h_zaji:
+		case character_type::npc_archaeologist_1:
+		case character_type::npc_archaeologist_2:
+		case character_type::npc_archaeologist_3:
+		case character_type::npc_archaeologist_4:
 			//if player already talked to this person, show same dialogue
 			if (!bound.empty())
 			{
@@ -43,6 +46,18 @@ xml_system::Dialogue director::get_dialogue(Entity * target)
 				result = xml_system::load_dialogue("Levels/pyramid/dialogs/archaeologist_4.xml");
 			secondary_counter++;
 
+			//check all of the loaded characters and make sure proper archaeologist portraits are loaded
+			for (unsigned int i = 0; i < result.characters.size(); i++)
+			{
+				if (result.characters.at(i) == character_type::npc_archaeologist_1)
+					result.characters.at(i) = cc->c_type;
+			}
+			for (unsigned int i = 0; i < result.lines.size(); i++)
+			{
+				if (result.lines.at(i).character == character_type::npc_archaeologist_1)
+					result.lines.at(i).character = cc->c_type;
+			}
+
 			bound.push_back({ result, target });
 			break;
 		}
@@ -63,6 +78,8 @@ void director::process_interaction(Entity* interaction_target)
 		if (target_char->is_friendly)
 		{
 			xml_system::Dialogue dial = director::get_dialogue(interaction_target);
+
+
 			std::vector<asset_controller::CharacterPortrait> portraits = asset_controller::get_characters_portraits(dial.characters);
 			dialogue_system::start_dialogue(dial, portraits);
 		}

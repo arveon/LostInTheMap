@@ -100,6 +100,7 @@ void game_flow_normal::update_space(Space & space, int dt)
 		IDrawable* bg_dc = static_cast<IDrawable*>(bg->get_component(Component::ComponentType::Drawable));
 		bg_dc->isActive = false;
 		IDrawable* portrait_dc = static_cast<IDrawable*>(portrait->get_component(Component::ComponentType::Drawable));
+		portrait_dc->sprite = nullptr;
 		portrait_dc->isActive = false;
 		IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
 		text_dc->isActive = false;
