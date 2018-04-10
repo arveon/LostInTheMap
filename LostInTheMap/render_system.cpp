@@ -5,11 +5,15 @@ std::vector<IDrawable*> render_system::terrain;
 std::vector<IDrawable*> render_system::foreground;
 std::vector<IDrawable*> render_system::surface;
 std::vector<IDrawable*> render_system::ui;
+IDrawable* render_system::mouse;
 
 int render_system::add_object_to_queue(IDrawable * obj)
 {
-	if (obj->owner->name.compare("player") == 0)
-		std::cout << "a" << std::endl;
+	if (obj->owner->name.compare("mouse") == 0)
+	{
+		render_system::mouse = obj;
+		return 0;
+	}
 	int id = -1;
 	switch (obj->layer)
 	{
@@ -49,9 +53,9 @@ void render_system::flush_queues()
 void render_system::sort_queues()
 {
 	//only need to sort the surface queue
-	if (surface.size() <= 0)
-		return;
 	bool swapped = true;
+	if (surface.size() <= 0)
+		goto ui;
 	while (swapped)
 	{
 		swapped = false;
@@ -68,6 +72,32 @@ void render_system::sort_queues()
 			{
 				surface.at(i) = dr2;
 				surface.at(i+1) = dr1;
+				swapped = true;
+			}
+		}
+	}
+
+	ui:
+	//sort ui queue as well
+	if (ui.size() <= 0)
+		return;
+	swapped = true;
+	while (swapped)
+	{
+		swapped = false;
+
+		for (unsigned int i = 0; i < ui.size() - 1; i++)
+		{
+			IDrawable* dr1 = ui.at(i);
+			IDrawable* dr2 = ui.at(i + 1);
+
+			int first_y = dr1->draw_rect.y + dr1->sprite_origin.y;
+			int second_y = dr2->draw_rect.y + dr2->sprite_origin.y;
+
+			if (first_y > second_y)
+			{
+				ui.at(i) = dr2;
+				ui.at(i + 1) = dr1;
 				swapped = true;
 			}
 		}
@@ -169,6 +199,7 @@ void render_system::render_queues()
 		}
 	}
 
+	SDL_manager::render_sprite(mouse->sprite, mouse->draw_rect);
 	SDL_manager::end_render();
 }
 
@@ -191,6 +222,9 @@ bool render_system::remove_from_queue(int id, IDrawable::layers layer)
 	case IDrawable::layers::ui:
 		ui.erase(ui.begin() + id);
 		id = ui.size() - 1;
+		break;
+	case IDrawable::layers::mouse:
+		render_system::mouse == nullptr;
 		break;
 	}
 	return true;

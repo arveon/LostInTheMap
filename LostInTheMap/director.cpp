@@ -63,7 +63,8 @@ void director::process_interaction(Entity* interaction_target)
 		if (target_char->is_friendly)
 		{
 			xml_system::Dialogue dial = director::get_dialogue(interaction_target);
-			dialogue_system::start_dialogue(dial);
+			std::vector<asset_controller::CharacterPortrait> portraits = asset_controller::get_characters_portraits(dial.characters);
+			dialogue_system::start_dialogue(dial, portraits);
 		}
 		else
 		{

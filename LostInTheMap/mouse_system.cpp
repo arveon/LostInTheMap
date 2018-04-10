@@ -14,7 +14,7 @@ Entity* mouse_system::create_mouse()
 	m_anim_comp->src_rect = { 0,0,16,16 };
 	m_anim_comp->sprite_changed = false;
 
-	IDrawable* m_draw_comp = new IDrawable(mouse, IDrawable::layers::foreground);
+	IDrawable* m_draw_comp = new IDrawable(mouse, IDrawable::layers::mouse);
 	m_draw_comp->sprite = asset_controller::get_sprite_from_spritesheet(m_anim_comp->spritesheet, m_anim_comp->src_rect);
 
 	m_draw_comp->draw_rect = asset_controller::get_texture_size(m_draw_comp->sprite);

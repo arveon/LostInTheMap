@@ -158,6 +158,50 @@ void asset_controller::destroy_terrain_textures()
 	}
 }
 
+std::vector<asset_controller::CharacterPortrait> asset_controller::get_characters_portraits(std::vector<character_type> dialogue_participants)
+{
+	std::vector<CharacterPortrait> result;
+
+	for (unsigned int i = 0; i < dialogue_participants.size(); i++)
+	{
+		CharacterPortrait temp;
+		temp.ch_type = dialogue_participants.at(i);
+		switch (dialogue_participants.at(i))
+		{
+		case h_giovanni:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
+			break;
+		case npc_arch_supervisor:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
+			break;
+		case npc_archaeologist:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
+			break;
+		case h_zaji:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
+			break;
+		case zakra_spearman:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
+			break;
+		case juji_friendly_1:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
+			break;
+		case juji_friendly_2:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
+			break;
+		case h_zurshi:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
+			break;
+		default:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/default.png");
+			break;
+		}
+
+		result.push_back(temp);
+	}
+	return result;
+}
+
 SDL_Texture * asset_controller::get_sprite_from_spritesheet(SDL_Texture * spritesheet, SDL_Rect src_rect)
 {
 	return SDL_manager::get_sprite_from_spritesheet(spritesheet, src_rect);

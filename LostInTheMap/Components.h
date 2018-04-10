@@ -7,6 +7,7 @@
 #include "asset_controller.h"
 
 #include "lee_pathfinder.h"
+#include "CharacterTypes.h"
 
 typedef struct
 {
@@ -68,7 +69,8 @@ public:
 		terrain,
 		surface,
 		foreground,
-		ui
+		ui,
+		mouse
 	};
 
 	int id;
@@ -200,18 +202,6 @@ public:
 	}
 };
 
-enum character_type
-{
-	h_giovanni,
-	npc_arch_supervisor,
-	npc_archaeologist,
-	h_zaji,
-	zakra_spearman,
-	juji_spearman,
-	juji_friendly_1,
-	juji_friendly_2,
-	h_zurshi,
-};
 class ICharacter : public Component
 {
 public:

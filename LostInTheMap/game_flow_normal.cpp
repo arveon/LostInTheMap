@@ -84,6 +84,9 @@ void game_flow_normal::update_space(Space & space, int dt)
 		IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
 		text_dc->isActive = true;
 
+		if(portrait_dc->sprite == nullptr)
+			portrait_dc->sprite = dialogue_system::get_cur_portrait();
+
 		text_dc->sprite = dialogue_system::get_cur_line_sprite();
 		SDL_Rect size = asset_controller::get_texture_size(text_dc->sprite);
 		text_dc->draw_rect.w = size.w;
@@ -118,9 +121,15 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 		{
 			Entity* text = SpaceSystem::find_entity_by_name(space, "dialogue_text");
 			IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
-
+			
 			if (dialogue_system::is_line_done())
+			{
+				Entity* portrait = SpaceSystem::find_entity_by_name(space, "dialogue_portrait");
+				IDrawable* portrait_dc = static_cast<IDrawable*>(portrait->get_component(Component::ComponentType::Drawable));
+
 				dialogue_system::next_line();
+				portrait_dc->sprite = dialogue_system::get_cur_portrait();
+			}
 			else
 				dialogue_system::finish_line();
 			//std::cout << dialogue_system::get_cur_line() << std::endl;

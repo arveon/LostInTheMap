@@ -8,6 +8,8 @@
 
 #include "SDL_manager.h"
 
+#include "CharacterTypes.h"
+
 enum UI_text_type
 {
 	main_menu_button_main,
@@ -23,6 +25,12 @@ class asset_controller
 private:
 	static std::vector<SDL_Texture*> terrain_textures;
 public:
+	typedef struct
+	{
+		SDL_Texture* texture;
+		character_type ch_type;
+	}CharacterPortrait;
+
 	static SDL_Renderer * renderer;
 
 	static float tile_scaling;
@@ -43,5 +51,7 @@ public:
 	static void load_terrain_textures(std::string path, int tilewidth);
 	static SDL_Texture* get_terrain_texture(unsigned int id) { if (id < terrain_textures.size()) { return terrain_textures.at(id); } else { return nullptr; } }
 	static void destroy_terrain_textures();
+
+	static std::vector<CharacterPortrait> get_characters_portraits(std::vector<character_type> dialogue_participants);
 };
 
