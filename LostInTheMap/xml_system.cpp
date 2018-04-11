@@ -334,6 +334,8 @@ character_type xml_system::get_character_type_by_name(std::string name)
 		result = character_type::npc_archaeologist_3;
 	else if (name.compare("archaeologist_4") == 0)
 		result = character_type::npc_archaeologist_4;
+	else if (name.compare("rat") == 0)
+		result = character_type::rat;
 
 	return result;
 }

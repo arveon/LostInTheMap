@@ -226,7 +226,7 @@ bool render_system::remove_from_queue(int id, IDrawable::layers layer)
 		id = ui.size() - 1;
 		break;
 	case IDrawable::layers::mouse:
-		render_system::mouse == nullptr;
+		render_system::mouse = nullptr;
 		break;
 	}
 	return true;

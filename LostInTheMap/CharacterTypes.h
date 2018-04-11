@@ -14,4 +14,5 @@ enum character_type
 	juji_friendly_1,
 	juji_friendly_2,
 	h_zurshi,
+	rat
 };

@@ -79,6 +79,11 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 					value++;
 					is_friendly = false;
 					break;
+				case character_type::rat:
+					ent->name = "rat" + std::to_string(value);
+					value++;
+					is_friendly = false;
+					break;
 				default:
 					ent->name = "Unnamed";
 					type = character_type::zakra_spearman;
@@ -149,16 +154,22 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 			dc->draw_rect.w = 50;
 			dc->draw_rect.h = 48;
 			break;
-		case character_type::zakra_spearman:
-			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/zakra_spearman.png");
-			dc->draw_rect.w = 64;
-			dc->draw_rect.h = 64;
-			break;
 		case character_type::h_zaji:
 			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/za'ji.png");
 			dc->draw_rect.w = 50;
 			dc->draw_rect.h = 48;
 			break;
+		case character_type::zakra_spearman:
+			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/zakra_spearman.png");
+			dc->draw_rect.w = 64;
+			dc->draw_rect.h = 64;
+			break;
+		case character_type::rat:
+			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/rat.png");
+			dc->draw_rect.w = 50;
+			dc->draw_rect.h = 48;
+			break;
+		
 		default:
 			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/default.png");
 			dc->draw_rect.w = 50;
