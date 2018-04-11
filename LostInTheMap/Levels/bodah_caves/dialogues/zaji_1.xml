@@ -1,0 +1,5 @@
+<dialogue character="giovanni" character="zaji">
+	<rep character="1" text="Oh, hello again. I see you are heading to the caves. I'll go with you!" />
+	<rep character="0" text="Isn't it too dangerous? Aren't you at war with Zak'ra?" />
+	<rep character="1" text="We are, but I'm not scared of them! We need to show them what we're made of!" />
+</dialogue>

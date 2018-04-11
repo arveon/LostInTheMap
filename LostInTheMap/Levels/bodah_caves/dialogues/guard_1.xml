@@ -1,0 +1,14 @@
+<dialogue character="giovanni" character="josi">
+	<rep character="0" text="So what's next?" />
+	<rep character="1" text="I know two more people who will definitely have a piece..." />
+	<rep character="1" text="The problem is, both of them belong to the Zak'ra tribe." />
+	<rep character="0" text="Why would that be a problem? Where would I find them?" />
+	<rep character="1" text="Slow your zebras, I suspect they will not part with their parts so easily. We are at war with them" />
+	<rep character="0" text="So what do I have to do with it? I am not part of your war..." />
+	<rep character="1" text="But you already helped our village. I am sure their scouts noticed it and already reported to their leader..." />
+	<rep character="1" text="It is said that their D'ho gave up his soul some years ago to rule the tribe forever." />
+	<rep character="1" text="Ever since it happened they began attacking us without no reason. The war has been going for years now and it is said that one day a Na'Hum will come and put an end to it." />
+	<rep character="0" text="Are you saying I'm to end your war? Don't drag me into this, I don't have anything to do with your politics!" />
+	<rep character="1" text="It is just a twist of fate... If you want to get back to your world, you need the map. And their leaders have the pieces you need. " />
+	<rep character="1" text="You are to go to the caves behind the snakes den. You will find Zur'shi the right hand of Zak'ra D'ho. He has a piece of map. Don't expect warm welcome." />
+</dialogue>
