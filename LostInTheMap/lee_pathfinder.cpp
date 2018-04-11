@@ -237,7 +237,7 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 		return path;
 	}
 
-	print_pathfinding_values();
+	//print_pathfinding_values();
 	path = track_back();
 
 	return path;
