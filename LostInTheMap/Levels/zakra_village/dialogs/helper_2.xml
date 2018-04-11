@@ -1,0 +1,5 @@
+<dialogue character="giovanni" character="juji_warrior">
+	<rep character="0" text="Got everything, what now?" />
+	<rep character="1" text="Need to find an alchemy table to brew a potion. Hmmm... I think there was one on the north side of the village..." />
+	<rep character="0" text="Let's do this then!" />
+</dialogue>

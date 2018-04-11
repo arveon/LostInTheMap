@@ -1,0 +1,4 @@
+<dialogue character="giovanni" character="zakra_villager">
+	<rep character="1" text="Leave this village, it is not your war!" />
+	<rep character="0" text="You are correct, but I cannot leave." />
+</dialogue>

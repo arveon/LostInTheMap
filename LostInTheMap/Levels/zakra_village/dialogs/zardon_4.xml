@@ -1,0 +1,5 @@
+<dialogue character="giovanni" character="zardon_spirit">
+	<rep character="1" text="Follow them! Don't let him take my son's mind as he did with me..." />
+	<rep character="0" text="We will try." />
+	<rep character="1" text="As for why you are here, Na'hum, take this piece of map, it is no longer any use to me... Ba'zo will have the last one..." />
+</dialogue>

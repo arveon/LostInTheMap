@@ -1,0 +1,7 @@
+<dialogue character="giovanni" character="zardon">
+	<rep character="1" text="Ha, ha, ha! And you are here to challenge me? You are only alive because I wanted to see who dares to challenge me like that!" />
+	<rep character="0" text="I don't want to fight you. You could just give me the piece of map you have and I will be able to leave this world." />
+	<rep character="1" text="The Cursed Map? Is that what you're after? And I am to hand you a relic we've been holding on to for generations? This will not happen." />
+	<rep character="0" text="You don't really need it for anything, do you?" />
+	<rep character="1" text="Leave on your own or I will get you thrown out of my village!" />
+</dialogue>

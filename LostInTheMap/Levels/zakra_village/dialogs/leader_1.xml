@@ -1,0 +1,9 @@
+<dialogue character="giovanni" character="josi">
+	<rep character="1" text="You have achieved much in the short time you have been with us. However you are yet to challenge your final foe." />
+	<rep character="0" text="Who is my final foe?" />
+	<rep character="1" text="Zar'don. He gave up his soul gain immense power in return. You are to challenge him." />
+	<rep character="0" text="And how am I supposed to defeat him if he is that strong?" />
+	<rep character="1" text="He is strong, but not allpowerful. There are people who are ready to fight on your side. Zar'Don only fights alone as he is too proud." />
+	<rep character="0" text="So we just overpower him with our numbers?" />
+	<rep character="1" text="Be careful though, do not underestimate him! Time for you to go..." />
+</dialogue>

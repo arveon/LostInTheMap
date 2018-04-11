@@ -1,0 +1,7 @@
+<dialogue character="giovanni" character="juji_warrior">
+	<rep character="0" text="Oh my, this stinks worse than a horse after a race... Is there no other way?" />
+	<rep character="1" text="No, this will make you stronger, remember?" />
+	<rep character="0" text="Still..." />
+	<rep character="0" text="*sips potion*" />
+	<rep character="0" text="Oh my... it tastes even worse thank it smells! I hope it worked, we should go face Zar'don now..." />
+</dialogue>

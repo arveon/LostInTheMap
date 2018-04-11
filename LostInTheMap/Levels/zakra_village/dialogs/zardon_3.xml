@@ -1,0 +1,14 @@
+<dialogue character="giovanni" character="zardon_spirit" character="zaji" character="bazo">
+	<rep character="1" text="What... What happened? Who are you..." />
+	<rep character="0" text="You were defeated! Ha! You are not so strong after all..." />
+	<rep character="1" text="Strong? Za'Ji?! I am so glad to see you, my son..." />
+	<rep character="2" text="I'm not your son, you tyrant! Jo'si is my Da!" />
+	<rep character="1" text="Jo'si?" />
+	<rep character="1" text="Ah, I remember now... Why did he let you come here? You shouldn't be here!" />
+	<rep character="1" text="..." />
+	<rep character="1" text="Ba'zo, don't you dare to touch him! Now my son!" />
+	<rep character="3" text="You are dead. Dead should not talk to the living, begone!" />
+	<rep character="3" text="As for you Za'ji, I wanted to meet you long ago, but they hid you from me. Now you wandered straight into my hands..." />
+	<rep character="3" text="Come with me, child, we've much to do..." />
+	<rep character="2" text="Neve...." />
+</dialogue>

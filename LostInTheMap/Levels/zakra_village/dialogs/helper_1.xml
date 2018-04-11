@@ -1,0 +1,8 @@
+<dialogue character="giovanni" character="juji_warrior">
+	<rep character="1" text="I know what we can do!" />
+	<rep character="0" text="Huh?" />
+	<rep character="1" text="My father taught me how to brew a potion that gives you immense power for a short time after you drink it. We can make it and he will not dare to deny your challenge..." />
+	<rep character="0" text="Sounds like a plan. What do we need for the potion?" />
+	<rep character="1" text="Hmmm... let me think... So we are to mix the bark of a dead tree, some yen root in a bowl. Brew some snake's tail, mix it all together and it should be it!." />
+	<rep character="0" text="Just need to find the ingredients then." />
+</dialogue>
