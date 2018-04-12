@@ -231,6 +231,9 @@ public:
 	bool destination_reached;
 	//SDL_Point origin;
 
+	float shift_buffer_x;
+	float shift_buffer_y;
+
 	bool path_calculated;
 	std::vector<SDL_Point> path;
 
@@ -244,6 +247,9 @@ public:
 		destination_reached = true;
 		this->type = ComponentType::Movement;
 		movement_allowed = true;
+
+		shift_buffer_x = 0;
+		shift_buffer_y = 0;
 	}
 
 };

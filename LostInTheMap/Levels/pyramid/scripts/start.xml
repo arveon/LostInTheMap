@@ -1,7 +1,7 @@
-<script block_player="false">
-<action type="move" character="arch_supervisor" dest_x="29" dest_y="25" />
+<script block_player="true">
 <action type="move" character="arch_supervisor" dest_x="33" dest_y="24" />
 <action type="dialogue" dialogue="Levels/pyramid/dialogs/supervisor_1.xml" />
+<action type="move" character="arch_supervisor" dest_x="28" dest_y="25" />
 </script>
 
 
