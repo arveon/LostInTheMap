@@ -41,6 +41,8 @@ public:
 	typedef struct
 	{
 		bool initialised = false;
+		bool requires_callback = false;
+		void(*callback)(Entity* performer);
 		std::vector<character_type> characters;
 		std::vector<DialogueLine> lines;
 	} Dialogue;

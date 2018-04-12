@@ -103,13 +103,12 @@ void game_flow_normal::update_space(Space & space, int dt)
 		portrait_dc->sprite = nullptr;
 		portrait_dc->isActive = false;
 		IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
-		text_dc->isActive = false;
-
-		Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
-		ITerrain* tr = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
-		movement_system::move_characters_tick(space, dt, tr);
+		text_dc->isActive = false;	
 		game_flow_normal::update_pathfinder(space);
 	}
+	Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
+	ITerrain* tr = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
+	movement_system::move_characters_tick(space, dt, tr);
 	game_flow_normal::handle_mouse_clicks(space);
 }
 
@@ -177,7 +176,7 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 
 
 		character_system::clear_characters();
-		director::clear_bound();
+		director::reset_director();
 		//asset_controller::destroy_terrain_textures();
 		lee_pathfinder::destroy_pathfinding();
 		reload_game();

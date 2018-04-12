@@ -4,11 +4,22 @@
 Script script_system::cur_script;
 int script_system::cur_action;
 Space* script_system::game_space;
+void(*script_system::start_dialogue_callback)(std::string path);
 
 void script_system::start_script(Script s)
 {
 	cur_script = s;
 	cur_action = 0;
+
+	if (cur_script.blocks_player)
+	{
+		Entity* player = SpaceSystem::find_entity_by_name(*game_space, "player");
+		if (!player)
+			return;
+		IMoving* mc = static_cast<IMoving*>(player->get_component(Component::ComponentType::Movement));
+		mc->movement_allowed = false;
+	}
+
 	perform_action();
 }
 
@@ -24,9 +35,17 @@ void script_system::action_over(Entity * action_performer)
 	cur_script.actions.at(cur_action).finished = true;
 	cur_action++;
 	if (cur_action < cur_script.actions.size())
-	{
-		//perform_action();
+	{//if more actions are there
+		perform_action();
 	}		
+	else
+	{//if no more actions
+		Entity* player = SpaceSystem::find_entity_by_name(*game_space, "player");
+		if (!player)
+			return;
+		IMoving* mc = static_cast<IMoving*>(player->get_component(Component::ComponentType::Movement));
+		mc->movement_allowed = true;
+	}
 }
 
 void script_system::perform_action()
@@ -52,7 +71,7 @@ void script_system::perform_action()
 	}
 	case action_type::dialogue:
 	{
-		action_over(nullptr);
+		start_dialogue_callback(to_perform.dialogue_path);
 		break;
 	}
 	}

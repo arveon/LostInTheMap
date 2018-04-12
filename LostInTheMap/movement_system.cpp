@@ -17,6 +17,11 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 		//if not moving, skip
 		if (!mc || !cc)
 			continue;
+		if (!mc->movement_allowed)
+		{
+			mc->path.clear();
+			mc->destination_reached = true;
+		}
 
 		Transform* tc = static_cast<Transform*>(character->get_component(Component::ComponentType::Transf));
 		IDrawable* dc = static_cast<IDrawable*>(character->get_component(Component::ComponentType::Drawable));

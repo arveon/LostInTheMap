@@ -114,11 +114,11 @@ void level_loading_system::init_space(MenuLayout layout, Space & space, levels t
 
 void level_loading_system::update_space(Space & space, Space & level_space, int dt)
 {
-	if (loading_stage == loading_state::done)
+	/*if (loading_stage == loading_state::done)
 	{
 		loading_done();
 		return;
-	}
+	}*/
 	update_bar_fill(space);
 	load_game_components(level_space);
 }
@@ -195,8 +195,6 @@ void level_loading_system::load_game_components(Space & game_space)
 	{
 	case loading_state::loading_terrain:
 	{
-		
-
 		int w, h, tw;
 		int** map_tile_ids = xml_system::load_map_tiles(level_to_load, &w, &h, &tw);
 		Entity * terrain = new Entity(entity_type::tilemap, "terrain");
@@ -387,6 +385,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::done:
 	{
+		director::init_stage(level_to_load);
 		for (unsigned int i = 0; i < loading_done_listeners.size(); i++)
 		{
 			void(*a)() = loading_done_listeners.at(i);

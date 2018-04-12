@@ -79,20 +79,31 @@ void director::process_interaction(Entity* interaction_target)
 	{
 		if (target_char->is_friendly)
 		{
+			//stop target movement
+			character_system::stop_character_movement(interaction_target);
+
 			xml_system::Dialogue dial = director::get_dialogue(interaction_target);
 			if (dial.lines.size() == 0)
 				return;
 
 			std::vector<asset_controller::CharacterPortrait> portraits = asset_controller::get_characters_portraits(dial.characters);
-			dialogue_system::start_dialogue(dial, portraits);
+			dialogue_system::start_dialogue(dial, portraits, interaction_target);
 		}
 		else
 		{
 			std::cout << "combat started" << std::endl;
 		}
 	}
+}
 
+void director::start_scripted_dialogue(std::string path)
+{
+	xml_system::Dialogue d = xml_system::load_dialogue(path);
+	d.requires_callback = true;
+	d.callback = script_system::action_over;
+	std::vector<asset_controller::CharacterPortrait> portraits = asset_controller::get_characters_portraits(d.characters);
 
+	dialogue_system::start_dialogue(d, portraits, nullptr);
 }
 
 void director::script_trigger(Entity* trigger)
@@ -115,13 +126,15 @@ void director::script_trigger(Entity* trigger)
 		std::cout << "no is?!" << std::endl;
 }
 
-
+void director::init_stage(levels level)
+{
+	director::cur_level = level;
+	script_system::set_dialogue_start_callback(director::start_scripted_dialogue);
+}
 
 director::director()
-{
-}
+{}
 
 
 director::~director()
-{
-}
+{}

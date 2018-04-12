@@ -234,6 +234,8 @@ public:
 	bool path_calculated;
 	std::vector<SDL_Point> path;
 
+	bool movement_allowed;
+
 	IMoving(Entity* owner, int owner_t_x, int owner_t_y) : Component(owner)
 	{
 		//origin = { owner_t_x, owner_t_y };
@@ -241,6 +243,7 @@ public:
 		path_calculated = false;
 		destination_reached = true;
 		this->type = ComponentType::Movement;
+		movement_allowed = true;
 	}
 
 };

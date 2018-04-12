@@ -306,6 +306,24 @@ SDL_Point character_system::get_character_ids(Entity* character, ITerrain* tc)
 	return player_ids;
 }
 
+void character_system::stop_character_movement(Entity * character)
+{
+	IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
+	if (mc)
+	{
+		mc->destination_reached = true;
+		mc->path.clear();
+		mc->movement_allowed = false;
+	}
+}
+
+void character_system::allow_character_movement(Entity * character)
+{
+	IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
+	if (mc)
+		mc->movement_allowed = true;
+}
+
 Entity* character_system::get_character(character_type character)
 {
 	for (Entity* ch : characters)

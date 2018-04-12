@@ -43,15 +43,16 @@ private:
 
 public:
 	static levels cur_level;
-	static void init_stage() { cur_stage = pyramid_entrance; };
+	static void init_stage(levels level);
 	static void change_stage(story_stage new_stage) { cur_stage = new_stage; }
 
 	static xml_system::Dialogue get_dialogue(Entity* target);
+	static void start_scripted_dialogue(std::string path);
 
 	static void process_interaction(Entity* target);
 	static void script_trigger(Entity* trigger);
 
-	static void clear_bound() { secondary_counter = 0; bound.clear(); }
+	static void reset_director() { secondary_counter = 0; bound.clear(); triggered_scripts.clear(); }
 
 	director();
 	~director();
