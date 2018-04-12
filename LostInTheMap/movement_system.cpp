@@ -98,17 +98,17 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				//only player can cause triggers
 				if (character->name.compare("player")==0)
 				{
-					//check if character is trigger
-					IInteractionSource* int_src = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
-					if (int_src)
-					{
-						if (!int_src->has_triggered && int_src->interaction_target)
-						{
-							void(*a)(Entity*) = int_src->interaction_trigger;
-							a(int_src->interaction_target);
-							int_src->has_triggered = true;
-						}
-					}
+					////check if character is trigger
+					//IInteractionSource* int_src = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
+					//if (int_src)
+					//{
+					//	if (!int_src->has_triggered && int_src->interaction_target)
+					//	{
+					//		void(*a)(Entity*) = int_src->interaction_trigger;
+					//		a(int_src->interaction_target);
+					//		int_src->has_triggered = true;
+					//	}
+					//}
 
 					//check if currently inside trigger
 					Entity* trigger_tile = SpaceSystem::get_object_at_point(game_space, tc->position.x + tc->origin.x, tc->position.y + tc->origin.y, false);

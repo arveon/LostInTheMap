@@ -217,8 +217,11 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	if (target)
 	{
 		ITile* tc = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));
-		if(tc)
-			target = SpaceSystem::get_object_at_ids(space, dest_ids.x, dest_ids.y);
+		if (tc)
+		{
+			Entity* temp = SpaceSystem::get_object_at_ids(space, dest_ids.x, dest_ids.y);
+			target = (temp==nullptr) ? target : temp;
+		}
 	}
 	IInteractionSource* is = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
 	if (is)
@@ -280,12 +283,17 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	}
 
 adding_interaction:
-	if(!need_to_move)
+	if (!need_to_move)
+	{
+		mc->final_destination = { -1,-1 };
+		mc->path.clear();
+		mc->destination_reached = true;
 		if (target && is)
 		{
 			is->has_triggered = true;
 			is->interaction_trigger(is->interaction_target);
 		}
+	}
 
 }
 
