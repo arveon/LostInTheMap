@@ -19,6 +19,7 @@ void level_loading_system::init_space(MenuLayout layout, Space & space, levels t
 		return;
 	//temporary for testing
 	t_elapsed_time = 0;
+	director::cur_level = to_load;
 	
 	//general system initialisation
 	loading_stage = loading_state::loading_terrain;
@@ -240,6 +241,10 @@ void level_loading_system::load_game_components(Space & game_space)
 		for (unsigned int i = 0; i < temp.size(); i++)
 			game_space.objects.push_back(temp.at(i));
 
+		std::vector<Entity*> temp_t = map_system::init_triggers(characters, terrain);
+		for (unsigned int i = 0; i < temp_t.size(); i++)
+			game_space.objects.push_back(temp_t.at(i));
+
 	}
 		break;
 	case loading_state::loading_terrain_textures:
@@ -345,6 +350,8 @@ void level_loading_system::load_game_components(Space & game_space)
 		game_space.objects.push_back(dialog_text);
 
 		dialogue_system::max_text_width = dc_text->draw_rect.w;
+
+		script_system::game_space = &game_space;
 	}
 	case loading_state::objects_camera_positions:
 	{

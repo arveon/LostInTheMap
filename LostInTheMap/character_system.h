@@ -16,11 +16,12 @@ public:
 	static std::vector<Entity*> init_characters(Character** character_map, int width, int height, ITerrain* tr);
 	static void attach_textures_to_characters(SDL_Point tile_origin);
 
-	
-
 	//sets final destination of character in raw world coords (will be adjusted to character origin automatically)
 	static void set_final_destination(ITerrain* terrain, Entity* character, SDL_Point dest, Space& space);
+	static void set_final_destination_ids(ITerrain* terrain, Entity* character, SDL_Point dest_ids, Space& space);
 	static SDL_Point get_character_ids(Entity* character, ITerrain* tc);
+
+	static Entity* get_character(character_type character);
 
 	static void clear_characters() { characters.clear(); };
 	character_system();

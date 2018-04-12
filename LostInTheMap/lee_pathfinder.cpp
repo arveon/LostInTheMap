@@ -230,6 +230,8 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 		cur_generation = next_generation;
 	}
 
+
+	
 	//if all available tiles marked but destination not reached, means there is no available path
 	if (!destination_reached)
 	{
@@ -239,7 +241,7 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 
 	//print_pathfinding_values();
 	path = track_back();
-
+	reset_pathfinder();
 	return path;
 }
 

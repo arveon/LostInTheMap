@@ -280,6 +280,78 @@ xml_system::DialogueFrame xml_system::load_dialogue_frame()
 	return result;
 }
 
+Script xml_system::load_script(std::string name, levels level)
+{
+	Script result;
+
+	//compose the full path to script
+	switch (level)
+	{
+	case levels::pyramid:
+		name = "Levels/pyramid/scripts/" + name;
+		break;
+	case levels::juji_village:
+		name = "Levels/juji_village/scripts/" + name;
+		break;
+	case levels::caves:
+		name = "Levels/caves/scripts/" + name;
+		break;
+	case levels::zakra_village:
+		name = "Levels/zakra_village/scripts/" + name;
+		break;
+	case levels::desert:
+		name = "Levels/desert/scripts/" + name;
+		break;
+	default:
+		name = "Levels/pyramid/scripts/" + name;
+		break;
+	}
+
+	rapidxml::file<> file(name.c_str());
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(file.data());
+
+	rapidxml::xml_node<>* cur_node = doc.first_node("script");
+
+	std::string block = cur_node->first_attribute("block_player")->value();
+	if (block.compare("true") == 0)
+		result.blocks_player = true;
+	else
+		result.blocks_player = false;
+
+	cur_node = cur_node->first_node("action");
+	while (cur_node)
+	{
+		Action temp;
+		std::string type = cur_node->first_attribute("type")->value();
+		if (type.compare("move") == 0)
+		{
+			temp.type = action_type::movement;
+			std::string character = cur_node->first_attribute("character")->value();
+			temp.target_type = get_character_type_by_name(character);
+			int x = std::stoi(cur_node->first_attribute("dest_x")->value());
+			int y = std::stoi(cur_node->first_attribute("dest_y")->value());
+			temp.movement_dest = {x, y};
+			temp.dialogue_path = "";
+		}
+		else if (type.compare("dialogue") == 0)
+		{
+			temp.type = action_type::dialogue;
+			temp.dialogue_path = cur_node->first_attribute("dialogue")->value();
+			temp.movement_dest = { -1,-1 };
+			temp.target_type = character_type::none;
+		}
+		else
+			temp.type = action_type::not_set;
+
+		result.actions.push_back(temp);
+		cur_node = cur_node->next_sibling("action");
+	}
+
+
+	return result;
+}
+
 xml_system::Dialogue xml_system::load_dialogue(std::string path)
 {
 	Dialogue result;

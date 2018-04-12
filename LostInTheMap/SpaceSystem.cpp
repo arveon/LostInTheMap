@@ -77,14 +77,14 @@ Entity* SpaceSystem::find_entity_by_name(Space& space, std::string name)
 	return result;
 }
 
-Entity* SpaceSystem::get_object_at_point(Space& space, int x, int y)
+Entity* SpaceSystem::get_object_at_point(Space& space, int x, int y, bool ignore_triggers)
 {
 	Entity* ent = nullptr;
 
 	for (unsigned int i = 0; i < space.objects.size(); i++)
 	{
 		Entity* temp = space.objects.at(i);
-		if (temp->name.compare("mouse") == 0 || temp->name.compare("player") == 0)
+		if (temp->name.compare("mouse") == 0 || temp->name.compare("player") == 0 || (temp->type==entity_type::trigger && ignore_triggers))
 			continue;
 		Transform* tf = static_cast<Transform*>(temp->get_component(Component::ComponentType::Transf));
 		if (!tf)
@@ -106,6 +106,43 @@ Entity* SpaceSystem::get_object_at_point(Space& space, int x, int y)
 	}
 
 	return ent;
+}
+
+Entity* SpaceSystem::get_object_at_ids(Space& space, int x, int y)
+{
+	Entity* result = nullptr;
+
+	ITerrain* tc = SpaceSystem::get_terrain(space);
+	if (!tc)
+		return result;
+
+	for (Entity* temp : space.objects)
+	{
+		if (temp->type == entity_type::trigger)
+			continue;
+		//calculate ids
+		Transform* tf = temp->transform;
+		if (tf)
+		{
+			SDL_Point t_ids = { tf->position.x + tf->origin.x, tf->position.y + tf->origin.y };
+			t_ids = map_system::world_to_tilemap_ids(t_ids, tc);
+			if (t_ids.x == x && t_ids.y == y)
+			{
+				result = temp;
+				break;
+			}
+		}
+	}
+	return result;
+}
+
+ITerrain * SpaceSystem::get_terrain(Space & space)
+{
+	ITerrain* result = nullptr;
+	Entity* tr = SpaceSystem::find_entity_by_name(space, "terrain");
+	if (tr)
+		result = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
+	return result;
 }
 
 void SpaceSystem::update_draw_rects(Space & space)

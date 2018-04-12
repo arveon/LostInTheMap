@@ -1,0 +1,7 @@
+<script block_player="true">
+<action type="move" character="arch_supervisor" dest_x="33" dest_y="24" />
+<action type="dialogue" dialogue="supervisor_1.xml" />
+
+</script>
+
+<action type="move" character="arch_supervisor" dest_x="28" dest_y="25" />

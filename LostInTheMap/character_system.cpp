@@ -10,7 +10,7 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 		for (int j = 0; j < width; j++)
 		{
 			//if there is a character in this tile initialise an object for it
-			if (charact[i][j].value != -1)
+			if (charact[i][j].value == 2 || charact[i][j].value == 3 || charact[i][j].value == 1)
 			{
 				Entity* ent = new Entity(entity_type::game_object);
 
@@ -211,7 +211,15 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	mc->path = mc->pathfinder.get_path_to({ tile_c->x, tile_c->y });
 
 	//set interaction target
-	Entity* target = SpaceSystem::get_object_at_point(space, mouse_pos.x, mouse_pos.y);
+	SDL_Point dest_ids = map_system::world_to_tilemap_ids(mouse_pos, terrain);
+	Entity* target = SpaceSystem::get_object_at_point(space, mouse_pos.x, mouse_pos.y, true);
+	
+	if (target)
+	{
+		ITile* tc = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));
+		if(tc)
+			target = SpaceSystem::get_object_at_ids(space, dest_ids.x, dest_ids.y);
+	}
 	IInteractionSource* is = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
 	if (is)
 	{
@@ -227,11 +235,12 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 
 		need_to_move = true;
 
-		//check if point overlaps with any of the objects
+		//check if point overlaps with any object and this object is not tile and collidable
 		ITile* t_test = nullptr;
+		ICollidable* c_test = nullptr;
 		if (target)
-			t_test = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));
-		if (!t_test && target)
+			c_test = static_cast<ICollidable*>(target->get_component(Component::ComponentType::Collision));
+		if (c_test && target)
 		{
 			mc->path.erase(mc->path.begin());
 
@@ -280,28 +289,32 @@ adding_interaction:
 
 }
 
-//void character_system::process_interaction(Entity* interaction_target)
-//{
-//	ICharacter* target_char = static_cast<ICharacter*>(interaction_target->get_component(Component::ComponentType::Character));
-//	if (target_char)
-//	{
-//		if (target_char->is_friendly)
-//		{
-//			std::cout << "dialog started" << std::endl;
-//		}
-//		else
-//		{
-//			std::cout << "combat started" << std::endl;
-//		}
-//	}
-//
-//
-//}
+void character_system::set_final_destination_ids(ITerrain * terrain, Entity * character, SDL_Point dest_ids, Space & space)
+{
+	SDL_Point coords = {0,0};
+	coords = map_system::tilemap_ids_to_world(dest_ids, terrain);
+	Transform* tf = character->transform;
+	coords.x += tf->origin.x;
+	coords.y += tf->origin.y;
+
+	set_final_destination(terrain, character, coords, space);
+}
 
 SDL_Point character_system::get_character_ids(Entity* character, ITerrain* tc)
 {
 	SDL_Point player_ids = map_system::world_to_tilemap_ids(character->get_origin_in_world(), tc);
 	return player_ids;
+}
+
+Entity* character_system::get_character(character_type character)
+{
+	for (Entity* ch : characters)
+	{
+		ICharacter* cc = static_cast<ICharacter*>(ch->get_component(Component::ComponentType::Character));
+		if (cc->c_type == character)
+			return ch;
+	}
+	return nullptr;
 }
 
 character_system::character_system()

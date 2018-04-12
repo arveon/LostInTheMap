@@ -2,7 +2,10 @@
 #include <string>
 
 #include "dialogue_system.h"
+#include "script_system.h"
 #include "xml_system.h"
+#include "Script.h"
+#include "Levels.h"
 class director
 {
 private:
@@ -26,6 +29,7 @@ private:
 		desert_zaji_lives,
 		end
 	};
+	
 	static story_stage cur_stage;
 	static int secondary_counter;
 	
@@ -35,14 +39,17 @@ private:
 		Entity* entity;
 	};
 	static std::vector<DialogBound> bound;
+	static std::vector<std::string> triggered_scripts;
 
 public:
+	static levels cur_level;
 	static void init_stage() { cur_stage = pyramid_entrance; };
 	static void change_stage(story_stage new_stage) { cur_stage = new_stage; }
 
 	static xml_system::Dialogue get_dialogue(Entity* target);
 
 	static void process_interaction(Entity* target);
+	static void script_trigger(Entity* trigger);
 
 	static void clear_bound() { secondary_counter = 0; bound.clear(); }
 

@@ -104,6 +104,44 @@ void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 	}
 }
 
+std::vector<Entity*> map_system::init_triggers(Character ** trigger_map, ITerrain* tr)
+{
+	std::vector<Entity*> result;
+	static int counter = 0;
+	for (int i = 0; i < tr->height; i++)
+	{
+		for (int j = 0; j < tr->width; j++)
+		{
+			if (trigger_map[i][j].value == 4)
+			{
+				Entity* trigger = new Entity(entity_type::trigger, "trigger"+std::to_string(counter));
+				counter++;
+				Transform* tf = new Transform(trigger);
+				tf->position = {
+					static_cast<int>(j*tr->tile_width),
+					static_cast<int>(i*tr->tile_width),
+					static_cast<int>(tr->tile_width),
+					static_cast<int>(tr->tile_width)
+				};
+				trigger->add_component(tf);
+
+				IInteractionSource* is = new IInteractionSource(trigger);
+				is->has_triggered = false;
+				is->script_attached = trigger_map[i][j].type;
+				is->interaction_trigger = &director::script_trigger;
+				trigger->add_component(is);
+
+				result.push_back(trigger);
+			}
+
+
+		}
+	}
+
+
+	return result;
+}
+
 int ** map_system::get_pathfinding_map(ITerrain * tilemap)
 {
 	int** map;
@@ -137,6 +175,16 @@ SDL_Point map_system::world_to_tilemap_ids(SDL_Point world_coords, ITerrain* til
 	SDL_Point result;
 	result.x = (int)std::floor(world_coords.x / tilemap->tile_width);
 	result.y = (int)std::floor(world_coords.y / tilemap->tile_width);
+	return result;
+}
+
+SDL_Point map_system::tilemap_ids_to_world(SDL_Point ids, ITerrain * tilemap)
+{
+	SDL_Point result = ids;
+
+	result.x = result.x * tilemap->tile_width;
+	result.y = result.y * tilemap->tile_width;
+
 	return result;
 }
 

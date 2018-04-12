@@ -3,6 +3,8 @@
 director::story_stage director::cur_stage;
 int director::secondary_counter;
 std::vector<director::DialogBound> director::bound;
+std::vector<std::string> director::triggered_scripts;
+levels director::cur_level;
 
 xml_system::Dialogue director::get_dialogue(Entity * target)
 {
@@ -78,7 +80,8 @@ void director::process_interaction(Entity* interaction_target)
 		if (target_char->is_friendly)
 		{
 			xml_system::Dialogue dial = director::get_dialogue(interaction_target);
-
+			if (dial.lines.size() == 0)
+				return;
 
 			std::vector<asset_controller::CharacterPortrait> portraits = asset_controller::get_characters_portraits(dial.characters);
 			dialogue_system::start_dialogue(dial, portraits);
@@ -90,6 +93,26 @@ void director::process_interaction(Entity* interaction_target)
 	}
 
 
+}
+
+void director::script_trigger(Entity* trigger)
+{
+	IInteractionSource* is = static_cast<IInteractionSource*>(trigger->get_component(Component::ComponentType::InteractionSource));
+	if (is)
+	{
+		//check if script was called already
+		for (std::string temp : triggered_scripts)
+		{
+			if (temp.compare(is->script_attached) == 0)
+				return;
+		}
+
+		Script script = xml_system::load_script(is->script_attached, cur_level);
+		script_system::start_script(script);
+		triggered_scripts.push_back(is->script_attached);
+	}
+	else
+		std::cout << "no is?!" << std::endl;
 }
 
 

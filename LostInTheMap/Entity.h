@@ -8,7 +8,8 @@ enum entity_type
 	ui_element,
 	mouse,
 	tilemap,
-	game_object
+	game_object,
+	trigger
 };
 
 class Entity

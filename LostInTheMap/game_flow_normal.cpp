@@ -236,10 +236,6 @@ void game_flow_normal::update_pathfinder(Space& space)
 
 void game_flow_normal::r_pressed_event()
 {
-	//destroy all terrain objects
-	
-
-	
 	r_down_event = true;
 }
 

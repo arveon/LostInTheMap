@@ -6,6 +6,7 @@
 #include "map_system.h"
 #include "camera_system.h"
 #include "character_system.h"
+#include "director.h"
 
 class level_loading_system : public SpaceSystem
 {

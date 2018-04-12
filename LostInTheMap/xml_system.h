@@ -7,7 +7,8 @@
 #include <rapidxml\rapidxml.hpp>
 #include <rapidxml\rapidxml_utils.hpp>
 
-#include "map_system.h"
+#include "Levels.h"
+#include "Script.h"
 
 #include "Components.h"
 #include "MenuLayout.h"
@@ -59,6 +60,7 @@ public:
 	static Character** load_characters(levels level, int width, int height);
 	static std::vector<LoadingState> get_loading_states();
 	static DialogueFrame load_dialogue_frame();
+	static Script load_script(std::string name, levels level);
 
 	static character_type get_character_type_by_name(std::string);
 

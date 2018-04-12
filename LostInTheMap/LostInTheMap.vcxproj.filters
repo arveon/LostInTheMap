@@ -141,6 +141,15 @@
     <ClInclude Include="CharacterTypes.h">
       <Filter>Header Files\structs</Filter>
     </ClInclude>
+    <ClInclude Include="Levels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Header Files\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="script_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -214,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="dialogue_system.cpp">
       <Filter>Source Files\systems\gameplay_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="script_system.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

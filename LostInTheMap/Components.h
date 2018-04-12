@@ -35,7 +35,7 @@ public:
 		Terrain,
 		Tile,
 		Character,
-		InteractionSource
+		InteractionSource,
 	};
 	bool isActive;
 	ComponentType type;
@@ -126,6 +126,8 @@ class IInteractionSource : public Component
 public:
 	Entity * interaction_target;
 	bool has_triggered;
+	std::string script_attached;
+
 	void(*interaction_trigger)(Entity* source);
 	IInteractionSource(Entity* owner) : Component(owner)
 	{
@@ -207,11 +209,15 @@ class ICharacter : public Component
 public:
 	character_type c_type;
 	bool is_friendly;
+
+	bool controlled_by_script;
+	void(*script_done_callback)(Entity* script_target);
 	ICharacter(Entity* owner, character_type type, bool is_friendly) : Component(owner)
 	{
 		this->is_friendly = is_friendly;
 		c_type = type;
 		this->type = ComponentType::Character;
+		controlled_by_script = false;
 		
 	}
 };
@@ -238,6 +244,7 @@ public:
 	}
 
 };
+
 
 
 enum unit_type

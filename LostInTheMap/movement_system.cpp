@@ -38,17 +38,36 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				SDL_Point ori = mc->path.back();
 				mc->pathfinder.set_origin({ ori.x, ori.y });
 				mc->path.pop_back();
-//				mc->path = mc->pathfinder.get_path();
+				mc->path = mc->pathfinder.get_path();
+
+				//only player can cause triggers
+				if (character->name.compare("player")==0)
+				{
+					//check if currently inside trigger
+					Entity* trigger_tile = SpaceSystem::get_object_at_point(game_space, tc->position.x + tc->origin.x, tc->position.y + tc->origin.y, false);
+					if (trigger_tile)
+					{
+						IInteractionSource* trigger = static_cast<IInteractionSource*>(trigger_tile->get_component(Component::ComponentType::InteractionSource));
+						if (trigger)
+						{
+							if (!trigger->has_triggered)
+							{
+								trigger->interaction_trigger(trigger_tile);
+								trigger->has_triggered = true;
+							}
+						}
+					}
+				}
 			}
 		}
 		else
-		{//if still need to move within the tile
+		{//if one step between tiles remaining
 			if (!mc->path.empty())
 			{
 				SDL_Point ori = mc->path.back();
 				mc->pathfinder.set_origin({ ori.x, ori.y });
 				mc->path.pop_back();
-				//mc->path = mc->pathfinder.get_path();
+				mc->path = mc->pathfinder.get_path();
 			}
 			
 			//check for collisions and resolve them in cur_dest
@@ -63,17 +82,43 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				tc->position.y = mc->final_destination.y;
 				mc->destination_reached = true;
 
-				IInteractionSource* int_src = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
-				if (int_src)
+				//if was controlled by script, call a callback
+				ICharacter* ch = static_cast<ICharacter*>(character->get_component(Component::ComponentType::Character));
+				if (ch)
 				{
-					if (!int_src->has_triggered && int_src->interaction_target)
+					if(ch->controlled_by_script)
+						ch->script_done_callback(character);
+				}
+
+				//only player can cause triggers
+				if (character->name.compare("player")==0)
+				{
+					//check if character is trigger
+					IInteractionSource* int_src = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
+					if (int_src)
 					{
-						void(*a)(Entity*) = int_src->interaction_trigger;
-						a(int_src->interaction_target);
-						int_src->has_triggered = true;
+						if (!int_src->has_triggered && int_src->interaction_target)
+						{
+							void(*a)(Entity*) = int_src->interaction_trigger;
+							a(int_src->interaction_target);
+							int_src->has_triggered = true;
+						}
 					}
 
-
+					//check if currently inside trigger
+					Entity* trigger_tile = SpaceSystem::get_object_at_point(game_space, tc->position.x + tc->origin.x, tc->position.y + tc->origin.y, false);
+					if (trigger_tile)
+					{
+						IInteractionSource* trigger = static_cast<IInteractionSource*>(trigger_tile->get_component(Component::ComponentType::InteractionSource));
+						if (trigger)
+						{
+							if (!trigger->has_triggered)
+							{
+								trigger->interaction_trigger(trigger_tile);
+								trigger->has_triggered = true;
+							}
+						}
+					}
 				}
 			}
 		}
