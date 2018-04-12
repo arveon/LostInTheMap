@@ -1,0 +1,4 @@
+<dialogue character="giovanni" character="bazo">
+	<rep character="1" text="You do not stand a chance in this fight! Surrender while you still can and I will grant you a quick death!" />
+	<rep character="0" text="I don't think poeple you held in your shackles for years will just let it go. It will be a fight... The one you cannot win!" />
+</dialogue>

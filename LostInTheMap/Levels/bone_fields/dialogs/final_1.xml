@@ -1,0 +1,8 @@
+<dialogue character="giovanni" character="zakra_warrior_1" character="zakra_warrior_2" character="zakra_warrior_3" character="juji_warrior">
+	<rep character="1" text="Oh no, what have we done! How did this happen?!" />
+	<rep character="2" text="Za'Ji... Ba'zo, may your soul never find rest and wander this realm forever, you murderer!" />
+	<rep character="4" text="I suppose one can never escape his fate..." />
+	<rep character="0" text="I am sorry this happened..." />
+	<rep character="3" text="It is not your fault. We should bury him in our best tradition... As for you, Na'hum, your work here is done. Take the final piece of map from this cursed shaman's body and leave..." />
+	<rep character="3" text="Farewell..." />
+</dialogue>

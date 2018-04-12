@@ -1,0 +1,5 @@
+<dialogue character="giovanni" character="zakra_warrior">
+	<rep character="1" text="The shaman is too strong, we can't defeat him!" />
+	<rep character="0" text="Calm down, we will save more of your kin and they will help us!" />
+	<rep character="1" text="I will help you, it's the least I can do for my saviors..." />
+</dialogue>

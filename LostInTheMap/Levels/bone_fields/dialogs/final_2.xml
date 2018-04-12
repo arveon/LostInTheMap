@@ -1,0 +1,8 @@
+<dialogue character="giovanni" character="zakra_warrior_1" character="zakra_warrior_2" character="zakra_warrior_3" character="juji_warrior">
+	<rep character="1" text="Hooray! Our brothers should be free of the curse now!" />
+	<rep character="4" text="Does it mean our tribes can live peacefully once again?" />
+	<rep character="2" text="Of course! We would never fight you by our own will!" />
+	<rep character="4" text="We never knew what happened. We should have helped you long ago, but we let our pride blind us. This will never happen again and I hope our tribes will always live in peace from now on!" />
+	<rep character="3" text="As for you, Na'hum, your work here is done. Thank you for everything you have done for us. You can take the last piece of map and leave." />
+	<rep character="0" text="Farewell..." />
+</dialogue>

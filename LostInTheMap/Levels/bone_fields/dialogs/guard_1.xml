@@ -1,0 +1,5 @@
+<dialogue character="giovanni" character="juji_warrior">
+	<rep character="0" text="They must be somewhere in the area!" />
+	<rep character="1" text="I have a potion that relieves the mind, we could use it to lift Ba'zo's curse from anyone we find struggling with the curse!" />
+	<rep character="1" text="A good idea, they might help us in the fight!" />
+</dialogue>
