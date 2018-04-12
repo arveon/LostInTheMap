@@ -48,10 +48,6 @@ void mouse_system::update_mouse(Entity* mouse, Space& space, bool in_dialogue)
 		SDL_Point mouse_world = mouse_system::get_mouse_in_world(mouse);
 		Entity* target_object = SpaceSystem::get_object_at_point(space, mouse_world.x, mouse_world.y, true);
 
-		//if target object hasn't changed, just return
-		if (target_object == mc->cur_target)
-			return;
-
 		if (target_object)
 		{
 			ITile* tc = static_cast<ITile*>(target_object->get_component(Component::ComponentType::Tile));
