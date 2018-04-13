@@ -69,18 +69,18 @@ void lee_pathfinder::init_pathfinder(int ** map, int width, int height)
 		}
 }
 
-std::vector<SDL_Point> lee_pathfinder::get_path_to(SDL_Point destination)
+std::vector<SDL_Point> lee_pathfinder::get_path_to(SDL_Point destination, bool limit_to_camera_size)
 {
 	std::vector<SDL_Point> path;
 	this->destination = destination;
 	if (this->origin.x == destination.x && this->origin.y == destination.y)
 		return path;
-	path = get_path();
+	path = get_path(limit_to_camera_size);
 	
 	return path;
 }
 
-std::vector<SDL_Point> lee_pathfinder::get_path()
+std::vector<SDL_Point> lee_pathfinder::get_path(bool limit_to_camera_size)
 {
 	std::vector<SDL_Point> path;
 	
@@ -99,7 +99,7 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 	{
 		pathfinding_tile* temp = cur_generation.at(i);
 		//if it's players pathfinder, limit pathfinding to camera size
-		if (is_player && (temp->position.x < camera.x || temp->position.x > camera.x + camera.w ||
+		if (is_player && limit_to_camera_size && (temp->position.x < camera.x || temp->position.x > camera.x + camera.w ||
 			temp->position.y < camera.y || temp->position.y > camera.y + camera.h))
 			continue;
 
@@ -186,7 +186,7 @@ std::vector<SDL_Point> lee_pathfinder::get_path()
 				if (temp_next->pathfinding_value == 0)
 				{
 					//if it's players pathfinder, limit pathfinding to camera size
-					if (is_player && (temp_next->position.x < camera.x || temp_next->position.x > camera.x + camera.w || 
+					if (is_player && limit_to_camera_size && (temp_next->position.x < camera.x || temp_next->position.x > camera.x + camera.w ||
 						temp_next->position.y < camera.y || temp_next->position.y > camera.y + camera.h))
 							continue;
 

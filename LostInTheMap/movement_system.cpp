@@ -44,7 +44,9 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				SDL_Point ori = mc->path.back();
 				mc->pathfinder.set_origin({ ori.x, ori.y });
 				mc->path.pop_back();
-				mc->path = mc->pathfinder.get_path();
+				mc->path = mc->pathfinder.get_path(false);
+				if (mc->path.size() == 0)
+					mc->destination_reached = true;
 
 				//only player can cause triggers
 				if (character->name.compare("player")==0)
@@ -73,7 +75,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				SDL_Point ori = mc->path.back();
 				mc->pathfinder.set_origin({ ori.x, ori.y });
 				mc->path.pop_back();
-				mc->path = mc->pathfinder.get_path();
+				mc->path = mc->pathfinder.get_path(false);
 			}
 			
 			//check for collisions and resolve them in cur_dest

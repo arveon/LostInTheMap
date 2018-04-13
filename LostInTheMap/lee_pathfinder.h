@@ -23,11 +23,12 @@ public:
 	};
 	static pathfinding_tile*** map;
 
-	std::vector<SDL_Point> get_path();
+	std::vector<SDL_Point> get_path(bool limit_to_map_size);
+	std::vector<SDL_Point> get_path_to(SDL_Point destination, bool limit_to_map_size);
 	void reset_pathfinder();
 	void print_pathfinding_values();
 	std::vector<SDL_Point> track_back();
-public:
+
 	bool is_player = false;
 
 	static void init_pathfinder(int** map, int width, int height);
@@ -41,7 +42,6 @@ public:
 		if (origin.x >= 0 && origin.x < lee_pathfinder::width && origin.y >= 0 && origin.y < lee_pathfinder::height) 
 			this->origin = origin; 
 	};
-	std::vector<SDL_Point> get_path_to(SDL_Point destination);
 	
 	static void reset_obstructed();
 	static void set_obstructed(int x, int y) 

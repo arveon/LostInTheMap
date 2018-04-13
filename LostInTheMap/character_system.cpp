@@ -220,7 +220,7 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	//set pathfinders destination to tile
 	mc->pathfinder.set_destination({ tile_c->x, tile_c->y });
 	//calculate and get path from pathfinder
-	mc->path = mc->pathfinder.get_path_to({ tile_c->x, tile_c->y });
+	mc->path = mc->pathfinder.get_path_to({ tile_c->x, tile_c->y }, true);
 
 	//set interaction target
 	SDL_Point dest_ids = map_system::world_to_tilemap_ids(mouse_pos, terrain);
