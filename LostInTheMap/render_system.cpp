@@ -6,6 +6,8 @@ std::vector<IDrawable*> render_system::foreground;
 std::vector<IDrawable*> render_system::surface;
 std::vector<IDrawable*> render_system::ui;
 IDrawable* render_system::mouse;
+SDL_Texture* render_system::terrain_sprite;
+bool render_system::terrain_prepared;
 
 int render_system::add_object_to_queue(IDrawable * obj)
 {
@@ -39,6 +41,17 @@ int render_system::add_object_to_queue(IDrawable * obj)
 		break;
 	}
 	return id;
+}
+
+void render_system::prepare_terrain(int map_width, int map_height)
+{
+	std::vector<SDL_manager::Tile> tiles;
+	for (IDrawable* tile : terrain)
+	{
+		tiles.push_back({tile->sprite, tile->draw_rect});
+	}
+	terrain_sprite = SDL_manager::create_terrain_texture(tiles, map_width, map_height);
+	terrain_prepared = true;
 }
 
 void render_system::flush_queues()
@@ -133,20 +146,25 @@ void render_system::render_queues()
 
 	if (terrain.size() > 0)
 	{
-		for (std::vector<IDrawable*>::iterator it = terrain.begin(); it != terrain.end(); it++)
+		if(terrain_prepared)
+			SDL_manager::render_sprite_src(terrain_sprite, camera);
+		else
 		{
-			IDrawable* obj = *it;
-			if (!obj->isActive)
-				continue;
-			SDL_Rect dr = obj->draw_rect;
-			dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
-			dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
-			dr.w = static_cast<int>(std::floor(dr.w * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
-			dr.h = static_cast<int>(std::floor(dr.h * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
-			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
-				continue;
-			
-			SDL_manager::render_sprite(obj->sprite, dr);
+			for (std::vector<IDrawable*>::iterator it = terrain.begin(); it != terrain.end(); it++)
+			{
+				IDrawable* obj = *it;
+				if (!obj->isActive)
+					continue;
+				SDL_Rect dr = obj->draw_rect;
+				dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
+				dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
+				dr.w = static_cast<int>(std::floor(dr.w * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
+				dr.h = static_cast<int>(std::floor(dr.h * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
+				if (dr.x + dr.w < 0 || dr.x > camera.x + camera.w || dr.y + dr.h < 0 || dr.y > camera.y + camera.h)
+					continue;
+				
+				SDL_manager::render_sprite(obj->sprite, dr);
+			}
 		}
 	}
 

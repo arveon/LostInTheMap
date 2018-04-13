@@ -4,6 +4,7 @@ float movement_system::tps = .1f;
 
 void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* tr)
 {
+	//std::cout << "dt = " << dt << std::endl;
 	if (dt > 20)
 		return;
 	int tilewidth = tr->tile_width;

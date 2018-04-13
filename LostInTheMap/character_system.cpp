@@ -55,35 +55,47 @@ std::vector<Entity*> character_system::init_characters(Character** charact, int 
 					value++;
 					break;
 				case character_type::npc_archaeologist_1:
-					ent->name = "archaeologist" + std::to_string(value);
-					value++;
-					break;
 				case character_type::npc_archaeologist_2:
-					ent->name = "archaeologist" + std::to_string(value);
-					value++;
-					break;
 				case character_type::npc_archaeologist_3:
-					ent->name = "archaeologist" + std::to_string(value);
-					value++;
-					break;
 				case character_type::npc_archaeologist_4:
 					ent->name = "archaeologist" + std::to_string(value);
 					value++;
-					break;
-				case character_type::h_zaji:
-					ent->name = "zaji" + std::to_string(value);
-					value++;
-					break;
-				case character_type::zakra_spearman:
-					ent->name = "spearman" + std::to_string(value);
-					value++;
-					is_friendly = false;
 					break;
 				case character_type::rat:
 					ent->name = "rat" + std::to_string(value);
 					value++;
 					is_friendly = false;
 					break;
+				case character_type::h_jido:
+					ent->name = "jido" + std::to_string(value);
+					value++;
+					break;
+				case character_type::h_josi:
+					ent->name = "josi" + std::to_string(value);
+					value++;
+					break;
+				case character_type::juji_villager_1:
+				case character_type::juji_villager_2:
+				case character_type::juji_villager_3:
+				case character_type::juji_villager_4:
+					ent->name = "villager" + std::to_string(value);
+					value++;
+					break;
+				case character_type::h_zaji:
+					ent->name = "zaji" + std::to_string(value);
+					value++;
+					break;
+				case character_type::snake:
+					ent->name = "snake" + std::to_string(value);
+					value++;
+					is_friendly = false;
+					break;
+				case character_type::zakra_spearman:
+					ent->name = "spearman" + std::to_string(value);
+					value++;
+					is_friendly = false;
+					break;
+				
 				default:
 					ent->name = "Unnamed";
 					type = character_type::zakra_spearman;
@@ -213,7 +225,6 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	//set interaction target
 	SDL_Point dest_ids = map_system::world_to_tilemap_ids(mouse_pos, terrain);
 	Entity* target = SpaceSystem::get_object_at_point(space, mouse_pos.x, mouse_pos.y, true);
-	
 	if (target)
 	{
 		ITile* tc = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));

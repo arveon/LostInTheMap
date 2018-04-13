@@ -31,6 +31,7 @@ class Game
 {
 private:
 	static game_state state;
+	static levels cur_level;
 	SDL_manager sdl_manager;
 	static bool running;
 
@@ -56,6 +57,8 @@ public:
 	static void exit_game_flow();
 
 	static void reload_game();
+	static void set_level_juji();
+	static void set_level_pyramid();
 
 	//function will be passed to initialise function that would allow them to register mouseclick callback methods
 	static int register_mousedown_listener(void(*cb)())

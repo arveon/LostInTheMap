@@ -156,6 +156,7 @@ void asset_controller::destroy_terrain_textures()
 	{
 		asset_controller::destroy_texture(terrain_textures.at(i));
 	}
+	terrain_textures.clear();
 }
 
 std::vector<asset_controller::CharacterPortrait> asset_controller::get_characters_portraits(std::vector<character_type> dialogue_participants)
@@ -171,7 +172,7 @@ std::vector<asset_controller::CharacterPortrait> asset_controller::get_character
 		case h_giovanni:
 			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
 			break;
-		case npc_arch_supervisor:
+		case npc_arch_supervisor://LEVEL 1
 			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/supervisor_portrait.png");
 			break;
 		case npc_archaeologist_1:
@@ -186,19 +187,31 @@ std::vector<asset_controller::CharacterPortrait> asset_controller::get_character
 		case npc_archaeologist_4:
 			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_4_portrait.png");
 			break;
-		case h_zaji:
+		case h_zaji://LEVEL 2
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/zaji_portrait.png");
+			break;
+		case h_jido:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/supervisor_portrait.png");
+			break;
+		case h_josi:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/supervisor_portrait.png");
+			break;
+		case juji_villager_1:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_1_portrait.png");
+			break;
+		case juji_villager_2:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_1_portrait.png");
+			break;
+		case juji_villager_3:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_1_portrait.png");
+			break;
+		case juji_villager_4:
+			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_1_portrait.png");
+			break;
+		case h_zurshi://LEVEL 3...
 			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
 			break;
 		case zakra_spearman:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
-			break;
-		case juji_friendly_1:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
-			break;
-		case juji_friendly_2:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
-			break;
-		case h_zurshi:
 			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
 			break;
 		default:

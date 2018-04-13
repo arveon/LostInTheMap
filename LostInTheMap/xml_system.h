@@ -65,6 +65,8 @@ public:
 	static Script load_script(std::string name, levels level);
 
 	static character_type get_character_type_by_name(std::string);
+	static std::string get_level_path_prefix(levels level);
+	static std::string get_level_name_str(levels level);
 
 	static Dialogue load_dialogue(std::string path);
 

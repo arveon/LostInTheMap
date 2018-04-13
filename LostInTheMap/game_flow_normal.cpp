@@ -5,10 +5,6 @@ int game_flow_normal::mouse_up_listener_id;
 int game_flow_normal::mouse_down_listener_id;
 bool game_flow_normal::lmb_down_event;
 bool game_flow_normal::lmb_up_event;
-int game_flow_normal::r_down_listener_id;
-bool game_flow_normal::r_down_event;
-
-void(*game_flow_normal::reload_game)();
 
 void game_flow_normal::init(Space & game_space)
 {
@@ -56,6 +52,7 @@ void game_flow_normal::init(Space & game_space)
 	//init player system
 	player_system::set_player(SpaceSystem::find_entity_by_name(game_space, "player"));
 
+	render_system::prepare_terrain(tc->width * tc->tile_width, tc->height * tc->tile_width);
 	game_space.initialised = true;
 	game_flow_normal::lmb_down_event = false;
 }
@@ -147,41 +144,6 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 	{
 		lmb_up_event = false;//clear event flag
 	}
-
-	//FOR TESTING
-	if (r_down_event)
-	{
-		Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
-		ITerrain* tc = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
-		for (int i = 0; i < tc->height; i++)
-		{
-			for (int j = 0; j < tc->width; j++)
-			{
-				Entity* tile = tc->terrain_tiles[i][j];
-				if (tile != nullptr)
-				{
-					delete tile->transform;
-					for (unsigned int k = tile->components.size() - 1; k >= 0; k--)
-					{
-						if (k > tile->components.size())
-							break;
-						Component* temp = tile->components.at(k);
-						tile->components.erase(tile->components.begin() + k);
-						delete temp;
-					}
-					delete tile;
-				}
-			}
-		}
-
-
-		character_system::clear_characters();
-		director::reset_director();
-		//asset_controller::destroy_terrain_textures();
-		lee_pathfinder::destroy_pathfinding();
-		reload_game();
-		r_down_event = false;
-	}
 }
 
 void game_flow_normal::set_movement(Space& space)
@@ -233,9 +195,35 @@ void game_flow_normal::update_pathfinder(Space& space)
 	lee_pathfinder::set_camera_dimensions(camera_rect_ids.w, camera_rect_ids.h);
 }
 
-void game_flow_normal::r_pressed_event()
+void game_flow_normal::clear_all_systems(Space& space)
 {
-	r_down_event = true;
+	Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
+	ITerrain* tc = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
+	for (int i = 0; i < tc->height; i++)
+	{
+		for (int j = 0; j < tc->width; j++)
+		{
+			Entity* tile = tc->terrain_tiles[i][j];
+			if (tile != nullptr)
+			{
+				delete tile->transform;
+				for (unsigned int k = tile->components.size() - 1; k >= 0; k--)
+				{
+					if (k > tile->components.size())
+						break;
+					Component* temp = tile->components.at(k);
+					tile->components.erase(tile->components.begin() + k);
+					delete temp;
+				}
+				delete tile;
+			}
+		}
+	}
+
+	character_system::clear_characters();
+	director::reset_director();
+	asset_controller::destroy_terrain_textures();
+	lee_pathfinder::destroy_pathfinding();
 }
 
 void game_flow_normal::mouse_down_event()

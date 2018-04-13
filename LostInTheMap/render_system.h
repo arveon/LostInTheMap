@@ -15,6 +15,8 @@ private:
 	static std::vector<IDrawable*> surface;//characters, items, other game objects
 	static std::vector<IDrawable*> foreground;
 	static std::vector<IDrawable*> ui;
+	static SDL_Texture* terrain_sprite;
+	static bool terrain_prepared;
 	static IDrawable* mouse;
 
 public:
@@ -22,6 +24,7 @@ public:
 	static void flush_queues();
 	static void sort_queues();
 	static void render_queues();
+	static void prepare_terrain(int map_width, int map_height);
 	static bool remove_from_queue(int id, IDrawable::layers layer);
 	render_system();
 	~render_system();

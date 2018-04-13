@@ -7,6 +7,7 @@ Space Game::main_menu_space;
 Space Game::game_space;
 Space Game::pause_menu_space;
 Space Game::loading_space;
+levels Game::cur_level;
 
 
 void Game::init()
@@ -17,8 +18,12 @@ void Game::init()
 	asset_controller::renderer = sdl_manager.renderer;
 
 	input_system::register_event_callback(HardInputEventType::window_close, &Game::window_close_handler);
+	input_system::register_event_callback(HardInputEventType::f1_pressed, &Game::set_level_pyramid);
+	input_system::register_event_callback(HardInputEventType::f2_pressed, &Game::set_level_juji);
+	input_system::register_event_callback(HardInputEventType::r_pressed, &Game::reload_game);
 	Game::running = true;
 	state = game_state::main_menu;
+	cur_level = levels::pyramid;
 	time.init();
 }
 
@@ -73,8 +78,8 @@ void Game::exit_game_flow()
 	{
 		deregister_event_listener(HardInputEventType::left_mouse_down, game_flow_normal::mouse_down_listener_id);
 		deregister_event_listener(HardInputEventType::left_mouse_up, game_flow_normal::mouse_up_listener_id);
-		deregister_event_listener(HardInputEventType::r_pressed, game_flow_normal::r_down_listener_id);
 		
+		game_flow_normal::clear_all_systems(game_space);
 		game_flow_normal::destroy_space(game_space);
 		render_system::flush_queues();
 	}
@@ -113,7 +118,7 @@ void Game::game_loop()
 			if (!loading_space.initialised)
 			{
 				MenuLayout layout = xml_system::load_interface_layout("loading");
-				level_loading_system::init_space(layout,loading_space, levels::pyramid);
+				level_loading_system::init_space(layout,loading_space, cur_level);
 				level_loading_system::register_loading_done_listener(&loading_done_handler);
 				
 			}
@@ -126,10 +131,8 @@ void Game::game_loop()
 			if (!game_space.initialised)
 			{
 				game_flow_normal::init(game_space);
-				game_flow_normal::reload_game = &Game::reload_game;
 				game_flow_normal::mouse_down_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_down, game_flow_normal::mouse_down_event);
 				game_flow_normal::mouse_up_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_up, game_flow_normal::mouse_up_event);
-				game_flow_normal::r_down_listener_id = input_system::register_event_callback(HardInputEventType::r_pressed, game_flow_normal::r_pressed_event);
 			}
 			game_flow_normal::update_space(game_space, time.get_delta_time());
 			
@@ -149,6 +152,20 @@ void Game::reload_game()
 {
 	exit_game_flow();
 	state = game_state::loading;
+}
+
+void Game::set_level_juji()
+{
+	exit_game_flow();
+	state = game_state::loading;
+	cur_level = levels::juji_village;
+}
+
+void Game::set_level_pyramid()
+{
+	exit_game_flow();
+	state = game_state::loading;
+	cur_level = levels::pyramid;
 }
 
 Game::Game()

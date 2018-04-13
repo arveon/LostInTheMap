@@ -8,11 +8,17 @@ enum character_type
 	npc_archaeologist_2,
 	npc_archaeologist_3,
 	npc_archaeologist_4,
+	rat,
 	h_zaji,
+	h_jido,
+	h_josi,
+	juji_villager_1,
+	juji_villager_2,
+	juji_villager_3,
+	juji_villager_4,
+	snake,
 	zakra_spearman,
 	juji_spearman,
-	juji_friendly_1,
-	juji_friendly_2,
 	h_zurshi,
-	rat
+	
 };

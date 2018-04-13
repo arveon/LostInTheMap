@@ -6,6 +6,8 @@ std::vector<SDL_manager::callback> SDL_manager::mouse_down_callbacks;
 std::vector<SDL_manager::callback> SDL_manager::mouse_up_callbacks;
 std::vector<SDL_manager::callback> SDL_manager::window_close_callbacks;
 std::vector<SDL_manager::callback> SDL_manager::r_down_callbacks;
+std::vector<SDL_manager::callback> SDL_manager::f2_down_callbacks;
+std::vector<SDL_manager::callback> SDL_manager::f1_down_callbacks;
 SDL_manager::mouse SDL_manager::mouse_state;
 std::vector<HardInputEventType> SDL_manager::events;
 SDL_Renderer* SDL_manager::renderer;
@@ -21,6 +23,7 @@ SDL_manager::SDL_manager()
 SDL_manager::~SDL_manager()
 {
 }
+
 
 void SDL_manager::initialise(std::string title, int width, int height, bool fullscreen)
 {
@@ -60,6 +63,8 @@ bool SDL_manager::change_resolution(int w_res, int h_res, bool fullscr)
 void SDL_manager::update_input()
 {
 	static bool last_r = false;
+	static bool last_f1 = false;
+	static bool last_f2 = false;
 	//storing mouse clicks and mouse releases in mouse class
 	//reading events such as windows X button pressed
 	SDL_Event event;
@@ -107,11 +112,29 @@ void SDL_manager::update_input()
 				last_r = true;
 				
 			}
+			else if (event.key.keysym.sym == SDLK_F1)
+			{
+				if (!last_f1)
+					events.push_back(HardInputEventType::f1_pressed);
+
+				last_f1 = true;
+			}
+			else if (event.key.keysym.sym == SDLK_F2)
+			{
+				if (!last_f2)
+					events.push_back(HardInputEventType::f2_pressed);
+
+				last_f2 = true;
+			}
 		}
 		else if (event.type == SDL_KEYUP)
 		{
 			if (event.key.keysym.sym == SDLK_r)
 				last_r = false;
+			else if (event.key.keysym.sym == SDLK_F1)
+				last_f1 = false;
+			else if (event.key.keysym.sym == SDLK_F2)
+				last_f2 = false;
 		}
 	}
 	//keyboard_state = SDL_GetKeyboardState();
@@ -153,6 +176,20 @@ void SDL_manager::trigger_input_listeners()
 				cb();
 			}
 			break;
+		case HardInputEventType::f1_pressed:
+			for (unsigned int i = 0; i < f1_down_callbacks.size(); i++)
+			{
+				callback cb = f1_down_callbacks.at(i);
+				cb();
+			}
+			break;
+		case HardInputEventType::f2_pressed:
+			for (unsigned int i = 0; i < f2_down_callbacks.size(); i++)
+			{
+				callback cb = f2_down_callbacks.at(i);
+				cb();
+			}
+			break;
 
 		}
 		events.pop_back();
@@ -162,6 +199,16 @@ void SDL_manager::trigger_input_listeners()
 void SDL_manager::render_sprite(SDL_Texture * texture, SDL_Rect dest)
 {
 	SDL_RenderCopy(SDL_manager::renderer, texture, nullptr, &dest);
+}
+
+void SDL_manager::render_sprite_src(SDL_Texture * texture, SDL_Rect src, SDL_Rect dest)
+{
+	if (dest.w == -1 && dest.h == -1)
+	{
+		SDL_manager::get_window_size(&dest.w, &dest.h);
+	}
+
+	SDL_RenderCopy(SDL_manager::renderer, texture, &src, &dest);
 }
 
 TTF_Font * SDL_manager::load_font(const char * path, int size, SDL_Color color)
@@ -234,4 +281,18 @@ SDL_Texture* SDL_manager::get_sprite_from_spritesheet(SDL_Texture * texture, SDL
 	SDL_RenderCopy(renderer, texture, &src_rect, &rect);
 	SDL_SetRenderTarget(renderer, NULL);
 	return subtexture;
+}
+
+
+SDL_Texture * SDL_manager::create_terrain_texture(std::vector<SDL_manager::Tile> tiles, int width, int height)
+{
+	SDL_Texture* final_tex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width,height);
+	SDL_SetRenderTarget(renderer, final_tex);
+
+	for (Tile t : tiles)
+	{
+		SDL_RenderCopy(renderer, t.tex, NULL, &t.draw_rect);
+	}
+	SDL_SetRenderTarget(renderer, NULL);
+	return final_tex;
 }

@@ -29,7 +29,7 @@ xml_system::WindowConfig xml_system::load_config_file()
 			else
 				cfg.fullscreen = false;
 		}
-		
+
 
 		cur_node = cur_node->next_sibling();
 	}
@@ -54,7 +54,7 @@ MenuLayout xml_system::load_interface_layout(std::string name)
 		ui_element_config elem;
 		std::string name = cur_node->name();
 		//std::strcmp(name, "slider")
-		
+
 		if (name.compare("slider") == 0)
 		{
 			elem = Slider(std::stoi(cur_node->first_attribute("value")->value()));
@@ -92,16 +92,8 @@ int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* ti
 	int** tilemap = nullptr;
 
 	std::string path = "map.xml";
-	switch (level)
-	{
-	case levels::test:
-		path = "Levels/tests/" + path;
-		break;
-	case levels::pyramid:
-		path = "Levels/pyramid/" + path;
-		break;
-
-	}
+	std::string temp = xml_system::get_level_path_prefix(level);
+	path = temp + path;
 
 	rapidxml::file<> file(path.c_str());
 	rapidxml::xml_document<> doc;
@@ -122,7 +114,7 @@ int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* ti
 			tilemap[i][j] = -1;
 		}
 	}
-	
+
 	//loop through all nodes and get the tile values from them
 	rapidxml::xml_node<>* cur_node = doc.first_node("tilemap")->first_node("layer")->first_node("tile");
 	while (cur_node)
@@ -141,16 +133,8 @@ int** xml_system::load_map_collisions(levels level, int width, int height)
 {
 	int** tilemap = nullptr;
 	std::string path = "map.xml";
-	switch (level)
-	{
-	case levels::test:
-		path = "Levels/tests/"+path;
-		break;
-	case levels::pyramid:
-		path = "Levels/pyramid/" + path;
-		break;
-
-	}
+	std::string temp = xml_system::get_level_path_prefix(level);
+	path = temp + path;
 
 	rapidxml::file<> file(path.c_str());
 	rapidxml::xml_document<> doc;
@@ -197,15 +181,8 @@ Character** xml_system::load_characters(levels level, int width, int height)
 	}
 
 	std::string path = "map.xml";
-	switch (level)
-	{
-	case levels::test:
-		path = "Levels/tests/" + path;
-		break;
-	case levels::pyramid:
-		path = "Levels/pyramid/" + path;
-		break;
-	}
+	std::string temp = xml_system::get_level_path_prefix(level);
+	path = temp + path;
 
 	rapidxml::file<> file(path.c_str());
 	rapidxml::xml_document<> doc;
@@ -215,11 +192,11 @@ Character** xml_system::load_characters(levels level, int width, int height)
 	while (cur_node)
 	{
 		int id = std::stoi(cur_node->first_attribute("tile")->value());
-		
+
 		int x = std::stoi(cur_node->first_attribute("x")->value());
 		int y = std::stoi(cur_node->first_attribute("y")->value());
 		result[y][x].value = id;
-		rapidxml::xml_attribute<char>* attr= cur_node->first_attribute("type");
+		rapidxml::xml_attribute<char>* attr = cur_node->first_attribute("type");
 		if (attr != nullptr)
 			result[y][x].type = attr->value();
 		else
@@ -234,11 +211,11 @@ Character** xml_system::load_characters(levels level, int width, int height)
 std::vector<xml_system::LoadingState> xml_system::get_loading_states()
 {
 	std::vector<xml_system::LoadingState> states;
-	
+
 	rapidxml::file<> file("config/loading_states.xml");
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(file.data());
-	
+
 	rapidxml::xml_node<>* cur_node = doc.first_node("state");
 	while (cur_node)
 	{
@@ -284,28 +261,9 @@ Script xml_system::load_script(std::string name, levels level)
 {
 	Script result;
 
-	//compose the full path to script
-	switch (level)
-	{
-	case levels::pyramid:
-		name = "Levels/pyramid/scripts/" + name;
-		break;
-	case levels::juji_village:
-		name = "Levels/juji_village/scripts/" + name;
-		break;
-	case levels::caves:
-		name = "Levels/caves/scripts/" + name;
-		break;
-	case levels::zakra_village:
-		name = "Levels/zakra_village/scripts/" + name;
-		break;
-	case levels::desert:
-		name = "Levels/desert/scripts/" + name;
-		break;
-	default:
-		name = "Levels/pyramid/scripts/" + name;
-		break;
-	}
+	std::string temp = xml_system::get_level_path_prefix(level);
+	name = "scripts/" + name;
+	name = temp + name;
 
 	rapidxml::file<> file(name.c_str());
 	rapidxml::xml_document<> doc;
@@ -331,7 +289,7 @@ Script xml_system::load_script(std::string name, levels level)
 			temp.target_type = get_character_type_by_name(character);
 			int x = std::stoi(cur_node->first_attribute("dest_x")->value());
 			int y = std::stoi(cur_node->first_attribute("dest_y")->value());
-			temp.movement_dest = {x, y};
+			temp.movement_dest = { x, y };
 			temp.dialogue_path = "";
 		}
 		else if (type.compare("dialogue") == 0)
@@ -355,7 +313,7 @@ Script xml_system::load_script(std::string name, levels level)
 xml_system::Dialogue xml_system::load_dialogue(std::string path)
 {
 	Dialogue result;
-	
+
 	rapidxml::file<> file(path.c_str());
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(file.data());
@@ -392,13 +350,11 @@ xml_system::Dialogue xml_system::load_dialogue(std::string path)
 character_type xml_system::get_character_type_by_name(std::string name)
 {
 	character_type result;
-	if (name.compare("arch_supervisor") == 0 || name.compare("npc_arch_supervisor") == 0)
-		result = character_type::npc_arch_supervisor;
-	else if (name.compare("giovanni") == 0 || name.compare("player")==0)
+	if (name.compare("giovanni") == 0 || name.compare("player") == 0)
 		result = character_type::h_giovanni;
-	else if (name.compare("zaji") == 0)
-		result = character_type::h_zaji;
-	else if (name.compare("archaeologist_1") == 0 || name.compare("archaeologist")==0)
+	else if (name.compare("arch_supervisor") == 0 || name.compare("npc_arch_supervisor") == 0)//LEVEL 1
+		result = character_type::npc_arch_supervisor;
+	else if (name.compare("archaeologist_1") == 0 || name.compare("archaeologist") == 0)
 		result = character_type::npc_archaeologist_1;
 	else if (name.compare("archaeologist_2") == 0)
 		result = character_type::npc_archaeologist_2;
@@ -408,8 +364,82 @@ character_type xml_system::get_character_type_by_name(std::string name)
 		result = character_type::npc_archaeologist_4;
 	else if (name.compare("rat") == 0)
 		result = character_type::rat;
+	else if (name.compare("zaji") == 0)
+		result = character_type::h_zaji;//LEVEL 2
+	else if (name.compare("jido") == 0)
+		result = character_type::h_jido;
+	else if (name.compare("josi") == 0)
+		result = character_type::h_josi;
+	else if (name.compare("juji_villager_1") == 0 || name.compare("juji_villager") == 0)
+		result = character_type::juji_villager_1;
+	else if (name.compare("juji_villager_2") == 0)
+		result = character_type::juji_villager_2;
+	else if (name.compare("juji_villager_3") == 0)
+		result = character_type::juji_villager_3;
+	else if (name.compare("juji_villager_4") == 0)
+		result = character_type::juji_villager_4;
+	else if (name.compare("snake") == 0)
+		result = character_type::snake;
 
 	return result;
+}
+
+std::string xml_system::get_level_path_prefix(levels level)
+{
+	std::string path = "";
+	switch (level)
+	{
+	case levels::test:
+		path = "Levels/tests/";
+		break;
+	case levels::pyramid:
+		path = "Levels/pyramid/";
+		break;
+	case levels::juji_village:
+		path = "Levels/juji_village/";
+		break;
+	case levels::caves:
+		path = "Levels/bodah_caves/";
+		break;
+	case levels::zakra_village:
+		path = "Levels/zakra_village/";
+		break;
+	case levels::desert:
+		path = "Levels/bone_fields/";
+		break;
+	default:
+		path = "Levels/pyramid/";
+	}
+	return path;
+}
+
+std::string xml_system::get_level_name_str(levels level)
+{
+	std::string path = "";
+	switch (level)
+	{
+	case levels::test:
+		path = "test";
+		break;
+	case levels::pyramid:
+		path = "pyramid";
+		break;
+	case levels::juji_village:
+		path = "juji_village";
+		break;
+	case levels::caves:
+		path = "bodah_caves";
+		break;
+	case levels::zakra_village:
+		path = "zakra_village";
+		break;
+	case levels::desert:
+		path = "bone_fields";
+		break;
+	default:
+		path = "pyramid";
+	}
+	return path;
 }
 
 

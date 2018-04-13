@@ -1,7 +1,7 @@
 #include "map_system.h"
 
 int map_system::tile_width;
-void map_system::init_terrain_map(int ** tile_ids, levels level, Entity* tilemap)
+void map_system::init_terrain_map(int ** tile_ids, Entity* tilemap)
 {
 	ITerrain* tc = static_cast<ITerrain*>(tilemap->get_component(Component::ComponentType::Terrain));
 
@@ -33,7 +33,7 @@ void map_system::init_terrain_map(int ** tile_ids, levels level, Entity* tilemap
 				continue;
 			}
 			Entity* tile = new Entity(entity_type::game_object, std::to_string(x) + "_" + std::to_string(y));
-			IDrawable* dc = new IDrawable(tile, IDrawable::layers::background);
+			IDrawable* dc = new IDrawable(tile, IDrawable::layers::terrain);
 			tile->add_component(dc);
 			dc->id = tile_ids[y][x];
 			Transform* transf_c = new Transform(tile);

@@ -34,7 +34,7 @@ void script_system::action_over(Entity * action_performer)
 
 	cur_script.actions.at(cur_action).finished = true;
 	cur_action++;
-	if (cur_action < cur_script.actions.size())
+	if (cur_action < (int)cur_script.actions.size())
 	{//if more actions are there
 		perform_action();
 	}		

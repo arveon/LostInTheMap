@@ -19,19 +19,17 @@ private:
 
 	static bool lmb_down_event;
 	static bool lmb_up_event;
-	static bool r_down_event;
 public:
 	static int mouse_up_listener_id;
 	static int mouse_down_listener_id;
-	static int r_down_listener_id;
-	static void(*reload_game)();
 	static void init(Space& game_space);
 	static void update_space(Space& space, int dt);
 	static void handle_mouse_clicks(Space& space);
 	static void update_pathfinder(Space& space);
 	static void set_movement(Space& space);
 
-	static void r_pressed_event();
+	static void clear_all_systems(Space& space);
+
 	static void mouse_down_event();
 	static void mouse_up_event();
 	game_flow_normal();

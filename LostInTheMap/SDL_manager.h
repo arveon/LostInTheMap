@@ -35,11 +35,18 @@ private:
 	static std::vector<callback> mouse_down_callbacks;
 	static std::vector<callback> mouse_up_callbacks;
 	static std::vector<callback> r_down_callbacks;
+	static std::vector<callback> f1_down_callbacks;
+	static std::vector<callback> f2_down_callbacks;
 	static std::vector<callback> window_close_callbacks;
 	static std::vector<HardInputEventType> events;
 public:
-	static SDL_Renderer * renderer;
+	typedef struct
+	{
+		SDL_Texture* tex;
+		SDL_Rect draw_rect;
+	}Tile;
 	
+	static SDL_Renderer * renderer;
 	
 	SDL_manager();
 	~SDL_manager();
@@ -88,10 +95,33 @@ public:
 			return false;
 	};
 
+	static int register_f1_down_listener(callback response) { f1_down_callbacks.push_back(response); return (static_cast<int>(f1_down_callbacks.size()) - 1); }
+	static bool remove_f1_down_listener(int listener_id)
+	{
+		if (listener_id <= (static_cast<int>(f1_down_callbacks.size()) - 1))
+		{
+			f1_down_callbacks.erase(f1_down_callbacks.begin() + listener_id); return true;
+		}
+		else
+			return false;
+	};
+
+	static int register_f2_down_listener(callback response) { f2_down_callbacks.push_back(response); return (static_cast<int>(f2_down_callbacks.size()) - 1); }
+	static bool remove_f2_down_listener(int listener_id)
+	{
+		if (listener_id <= (static_cast<int>(f2_down_callbacks.size()) - 1))
+		{
+			f2_down_callbacks.erase(f2_down_callbacks.begin() + listener_id); return true;
+		}
+		else
+			return false;
+	};
+
 	static void update_input();
 	static void trigger_input_listeners();
 
 	static void render_sprite(SDL_Texture*, SDL_Rect dest);
+	static void render_sprite_src(SDL_Texture*, SDL_Rect src, SDL_Rect dest = { 0,0,-1,-1 });
 	static void start_render() 
 	{ 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
@@ -107,6 +137,8 @@ public:
 	
 	static SDL_Texture* get_texture_from_text(const char* text, SDL_Color color, TTF_Font* font, int max_width=0);
 	static SDL_Texture* get_spritesheet_from_sprites(std::vector<SDL_Texture*> sprites);
+
+	static SDL_Texture* create_terrain_texture(std::vector<SDL_manager::Tile> terrain, int width, int height);
 
 	static void get_mouse_position(int* x, int* y) { SDL_GetMouseState(x, y); }
 };

@@ -13,7 +13,7 @@ private:
 	static levels cur_level;
 	static int tile_width;
 public:
-	static void init_terrain_map(int** tile_ids, levels level, Entity* tilemap);
+	static void init_terrain_map(int** tile_ids, Entity* tilemap);
 	static void init_terrain_collisions(int** collision_map, Entity* tilemap);
 	static std::vector<Entity*> init_triggers(Character** trigger_map, ITerrain* tr);
 	static int** get_pathfinding_map(ITerrain* tilemap);

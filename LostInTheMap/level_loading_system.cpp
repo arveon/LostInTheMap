@@ -203,7 +203,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		tc->height = h;
 		tc->tile_width = tw;
 		terrain->add_component(tc);
-		map_system::init_terrain_map(map_tile_ids, level_to_load, terrain);
+		map_system::init_terrain_map(map_tile_ids, terrain);
 		game_space.objects.push_back(terrain);
 
 		camera_system::init_camera(tw);
@@ -247,16 +247,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::loading_terrain_textures:
 	{
-		std::string level_name;
-		switch (level_to_load)
-		{
-		case levels::test:
-			level_name = "test";
-			break;
-		case levels::pyramid:
-			level_name = "pyramid";
-			break;
-		}
+		std::string level_name = xml_system::get_level_name_str(level_to_load);
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
 		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
 
