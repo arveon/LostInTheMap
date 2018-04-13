@@ -116,28 +116,28 @@ void mouse_system::change_mouse_icon(mouse_icons icon, IAnimatable* anim_compone
 		cur_icon = mouse_icons::walking;
 		anim_component->src_rect.x = 16;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 24;
-		tf->origin = { tf->position.w / 2, tf->position.h / 2 };
+		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
 		anim_component->sprite_changed = true;
 		break;
 	case mouse_icons::attack:
 		cur_icon = mouse_icons::attack;
 		anim_component->src_rect.x = 32;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 32;
-		tf->origin = { tf->position.w / 2, tf->position.h / 2 };
+		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
 		anim_component->sprite_changed = true;
 		break;
 	case mouse_icons::blocked:
 		cur_icon = mouse_icons::blocked;
 		anim_component->src_rect.x = 48;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 24;
-		tf->origin = { tf->position.w / 2, tf->position.h / 2 };
+		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
 		anim_component->sprite_changed = true;
 		break;
 	case mouse_icons::talk:
 		cur_icon = mouse_icons::talk;
 		anim_component->src_rect.x = 64;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 32;
-		tf->origin = { tf->position.w / 2, tf->position.h / 2 };
+		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
 		anim_component->sprite_changed = true;
 		break;
 	}

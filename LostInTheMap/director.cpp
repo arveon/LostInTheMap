@@ -74,13 +74,16 @@ xml_system::Dialogue director::get_dialogue(Entity * target)
 
 void director::process_interaction(Entity* interaction_target)
 {
+	if (interaction_target->name.compare("player") == 0)
+		return;
 	ICharacter* target_char = static_cast<ICharacter*>(interaction_target->get_component(Component::ComponentType::Character));
 	if (target_char)
 	{
 		if (target_char->is_friendly)
 		{
 			//stop target movement
-			character_system::stop_character_movement(interaction_target);
+			
+				character_system::stop_character_movement(interaction_target);
 
 			xml_system::Dialogue dial = director::get_dialogue(interaction_target);
 			if (dial.lines.size() == 0)

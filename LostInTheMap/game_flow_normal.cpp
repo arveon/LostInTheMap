@@ -135,7 +135,7 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 			text_dc->draw_rect.w = size.w;
 			text_dc->draw_rect.h = size.h;
 		}
-		else
+		else if(!script_system::is_player_blocked())
 			set_movement(space);
 
 		lmb_down_event = false;//clear event flag
@@ -164,6 +164,7 @@ void game_flow_normal::set_movement(Space& space)
 
 		//get player and set his destination to mouse click position
 		Entity* player = SpaceSystem::find_entity_by_name(space, "player");
+		Entity* mouse = SpaceSystem::find_entity_by_name(space, "mouse");
 		character_system::set_final_destination(tc, player, mouse_pos, space);
 	}
 }

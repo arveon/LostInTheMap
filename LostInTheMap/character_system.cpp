@@ -229,9 +229,9 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	{
 		ITile* tc = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));
 		if (tc)
-		{
+		{//if tile was returned
 			Entity* temp = SpaceSystem::get_object_at_ids(space, dest_ids.x, dest_ids.y);
-			target = (temp==nullptr) ? target : temp;
+			target = (temp==nullptr || character->name.compare(temp->name)==0) ? target : temp;
 		}
 	}
 	IInteractionSource* is = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
@@ -276,7 +276,6 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 			mc->final_destination = { mouse_pos.x - character_origin.x, mouse_pos.y - character_origin.y };
 		}
 
-
 		SDL_Point desired_point = collision_system::resolve_collisions(colc, mc, terrain);
 		mc->final_destination.x += desired_point.x;
 		mc->final_destination.y += desired_point.y;
@@ -285,6 +284,7 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	else if (tile == terrain->terrain_tiles[char_ids.y][char_ids.x] && tile_c->is_traversible)
 	{//if moving within the same tile
 		//set destination mouse click position
+		need_to_move = true;
 		SDL_Point player_sp_or = character->get_object_origin();
 		mc->final_destination = { mouse_pos.x - player_sp_or.x, mouse_pos.y - player_sp_or.y };
 		SDL_Point desired_point = collision_system::resolve_collisions(colc, mc, terrain);
