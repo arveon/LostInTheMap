@@ -1,6 +1,7 @@
 <script block_player="true">
 <action type="move" character="arch_supervisor" dest_x="33" dest_y="24" />
 <action type="dialogue" dialogue="Levels/pyramid/dialogs/supervisor_1.xml" />
+<action type="wait" character="arch_supervisor" time="500"/>
 <action type="move" character="arch_supervisor" dest_x="28" dest_y="25" />
 </script>
 

@@ -148,7 +148,7 @@
       <Filter>Header Files\structs</Filter>
     </ClInclude>
     <ClInclude Include="script_system.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\systems\gameplay_systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -225,7 +225,7 @@
       <Filter>Source Files\systems\gameplay_systems</Filter>
     </ClCompile>
     <ClCompile Include="script_system.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\systems\gameplay_systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

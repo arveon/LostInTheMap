@@ -7,7 +7,8 @@ enum action_type
 {
 	not_set,
 	movement,
-	dialogue
+	dialogue,
+	wait
 };
 
 class Action
@@ -23,6 +24,9 @@ public:
 	//used if dialogue
 	std::string dialogue_path;
 	bool finished = false;
+
+	//used if wait
+	int time;
 };
 
 class Script

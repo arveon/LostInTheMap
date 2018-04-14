@@ -20,8 +20,9 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 			continue;
 		if (!mc->movement_allowed)
 		{
-			mc->path.clear();
-			mc->destination_reached = true;
+			//mc->path.clear();
+			//mc->destination_reached = true;
+			continue;
 		}
 
 		Transform* tc = static_cast<Transform*>(character->get_component(Component::ComponentType::Transf));

@@ -107,6 +107,8 @@ void game_flow_normal::update_space(Space & space, int dt)
 	ITerrain* tr = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
 	movement_system::move_characters_tick(space, dt, tr);
 	game_flow_normal::handle_mouse_clicks(space);
+	if(script_system::is_script_going())
+		script_system::update(dt);
 }
 
 void game_flow_normal::handle_mouse_clicks(Space& space)

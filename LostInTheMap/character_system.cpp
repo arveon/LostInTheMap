@@ -330,8 +330,6 @@ void character_system::stop_character_movement(Entity * character)
 	IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
 	if (mc)
 	{
-		mc->destination_reached = true;
-		mc->path.clear();
 		mc->movement_allowed = false;
 	}
 }

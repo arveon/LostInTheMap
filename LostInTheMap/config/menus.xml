@@ -1,6 +1,6 @@
 <mainmenu background="assets/graphics/bg/menu_bg.png">
 <button text="New game" x="20" y="150"/>
-<button text="Load game" x="20" y="200"/>	
+<button text="Load game" x="20" y="200"/>
 <button text="Exit" x="20" y="250"/>
 </mainmenu>
 

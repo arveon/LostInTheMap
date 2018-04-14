@@ -299,6 +299,13 @@ Script xml_system::load_script(std::string name, levels level)
 			temp.movement_dest = { -1,-1 };
 			temp.target_type = character_type::none;
 		}
+		else if (type.compare("wait") == 0)
+		{
+			temp.type = action_type::wait;
+			temp.time = std::stoi(cur_node->first_attribute("time")->value());
+			std::string character = cur_node->first_attribute("character")->value();
+			temp.target_type = get_character_type_by_name(character);
+		}
 		else
 			temp.type = action_type::not_set;
 

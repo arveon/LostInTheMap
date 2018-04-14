@@ -22,7 +22,6 @@ private:
 		int x, y;
 		bool lmb_down;
 		bool rmb_down;
-
 	}mouse;
 
 	static mouse mouse_state;
