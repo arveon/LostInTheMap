@@ -17,7 +17,7 @@ public:
 	static Space* game_space;
 	static void(*start_dialogue_callback)(std::string);
 
-	static bool is_player_blocked() { return cur_script.blocks_player; }
+	static bool is_player_blocked() { return (is_script_going() && cur_script.blocks_player); }
 	static bool is_script_going();
 
 	static void start_script(Script s);

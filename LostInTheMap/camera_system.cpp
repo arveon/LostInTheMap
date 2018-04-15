@@ -2,7 +2,8 @@
 
 SDL_Rect camera_system::camera_rect;
 SDL_Point camera_system::dest_point;
-float camera_system::speed;
+float camera_system::speed = .3f;
+float camera_system::speed_breakpoint = .2f;
 
 Entity* camera_system::target;
 bool camera_system::snapped = true;
@@ -23,7 +24,6 @@ void camera_system::init_camera(int tilewidth, Entity* target)
 {	
 	camera_system::target = target;
 	zoom = 1.f;
-	speed = .2f;
 	camera_rect = SDL_Rect{0,0,0,0};
 	SDL_manager::get_window_size(&camera_rect.w, &camera_rect.h);
 
@@ -85,9 +85,6 @@ void camera_system::update_camera(int dt)
 		if (!tc)
 			return;
 
-
-
-
 		SDL_Point cur_origin;
 		cur_origin.x = camera_rect.x + camera_rect.w / 2;
 		cur_origin.y = camera_rect.y + camera_rect.h / 2;
@@ -95,9 +92,9 @@ void camera_system::update_camera(int dt)
 
 		if (cur_origin.x == target_origin.x && cur_origin.y == target_origin.y)
 		{
+			snapped = true;
 			if (camera_reached_dest_callback)
 				camera_reached_dest_callback(nullptr);
-			snapped = true;
 			return;
 		}
 		
@@ -109,13 +106,35 @@ void camera_system::update_camera(int dt)
 		required_delta_x = destination.x - camera_rect.x;
 		required_delta_y = destination.y - camera_rect.y;
 
-		//this block makes camera speed increase and decrease gradually
-		//calculate % reached
-		float px, py;
-		px = 1.f - std::fabs((float)(required_delta_x - ((float)total_distance_to_object.x / 2)) / ((float)total_distance_to_object.x / 2));
-		py = 1.f - std::fabs((float)(required_delta_y - ((float)total_distance_to_object.y / 2)) / ((float)total_distance_to_object.y / 2));
-		float cur_speed_x = speed * px + 0.01f;
-		float cur_speed_y = speed * py + 0.01f;
+		//make camera increase speed and decrease speed depending on how much of path was traversed
+#pragma region camera_smoothing
+		float cur_speed_x, cur_speed_y;
+		SDL_Point trav_d = {std::abs(total_distance_to_object.x - required_delta_x), std::abs(total_distance_to_object.y - required_delta_y) };
+
+		if (trav_d.x < std::abs(total_distance_to_object.x)*speed_breakpoint)
+			cur_speed_x = std::abs(trav_d.x / (speed_breakpoint * total_distance_to_object.x));
+		else if (trav_d.x > std::abs(total_distance_to_object.x) * (1.f- speed_breakpoint))
+			cur_speed_x = std::abs((std::abs(total_distance_to_object.x) - trav_d.x) / (speed_breakpoint * total_distance_to_object.x));
+		else
+			cur_speed_x = 1.f;
+
+		if (trav_d.y < std::abs(total_distance_to_object.y)*speed_breakpoint)
+			cur_speed_y = std::abs(trav_d.y / (speed_breakpoint * total_distance_to_object.y));
+		else if (trav_d.y > std::abs(total_distance_to_object.y) * (1.f - speed_breakpoint))
+			cur_speed_y = std::abs((std::abs(total_distance_to_object.y) - trav_d.y) / (speed_breakpoint * total_distance_to_object.y));
+		else
+			cur_speed_y = 1.f;
+
+		if (total_distance_to_object.x == 0)
+			cur_speed_x = 0;
+		else
+			cur_speed_x = (cur_speed_x == 0) ? 0.1f : cur_speed_x * speed;
+
+		if(total_distance_to_object.y == 0)
+			cur_speed_y = 0;
+		else
+			cur_speed_y = (cur_speed_y != 0) ? cur_speed_y * speed : 0.1f;
+#pragma endregion
 
 		//calculate the speed depending on remaining distance to desired position
 		float tick_delta_x, tick_delta_y;

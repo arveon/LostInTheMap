@@ -14,6 +14,7 @@ private:
 	static SDL_Rect camera_rect;
 	static SDL_Point dest_point;
 	static float speed;
+	static float speed_breakpoint;
 
 	static float shift_buffer_x;
 	static float shift_buffer_y;
