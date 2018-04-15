@@ -8,7 +8,8 @@ enum action_type
 	not_set,
 	movement,
 	dialogue,
-	wait
+	wait,
+	change_camera_target
 };
 
 class Action

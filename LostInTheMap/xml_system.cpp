@@ -306,6 +306,12 @@ Script xml_system::load_script(std::string name, levels level)
 			std::string character = cur_node->first_attribute("character")->value();
 			temp.target_type = get_character_type_by_name(character);
 		}
+		else if (type.compare("camera_target") == 0)
+		{
+			temp.type = action_type::change_camera_target;
+			std::string character = cur_node->first_attribute("character")->value();
+			temp.target_type = get_character_type_by_name(character);
+		}
 		else
 			temp.type = action_type::not_set;
 

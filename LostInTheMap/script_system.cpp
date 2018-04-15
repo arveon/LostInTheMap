@@ -122,6 +122,19 @@ void script_system::perform_action()
 
 		break;
 	}
+	case action_type::change_camera_target:
+	{
+		Entity * target = character_system::get_character(to_perform->target_type);
+		if (!target)
+			action_over(nullptr);
+
+		to_perform->target = target;
+		camera_system::set_camera_target(target, false, &script_system::action_over);
+		
+		
+
+		break;
+	}
 	}
 }
 

@@ -3,6 +3,7 @@
 #include "SpaceSystem.h"
 #include "character_system.h"
 #include "Components.h"
+#include "camera_system.h"
 
 class script_system
 {

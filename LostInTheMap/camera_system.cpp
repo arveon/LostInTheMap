@@ -8,21 +8,30 @@ Entity* camera_system::target;
 bool camera_system::snapped = true;
 
 float camera_system::zoom = 1.f;
+float camera_system::shift_buffer_x= 0;
+float camera_system::shift_buffer_y = 0;
+
+SDL_Point camera_system::total_distance_to_object;
 
 int camera_system::gridwidth;
 int camera_system::gridheight;
 int camera_system::tilewidth;
 
+void(*camera_system::camera_reached_dest_callback)(Entity*);
+
 void camera_system::init_camera(int tilewidth, Entity* target)
 {	
 	camera_system::target = target;
 	zoom = 1.f;
+	speed = .2f;
 	camera_rect = SDL_Rect{0,0,0,0};
 	SDL_manager::get_window_size(&camera_rect.w, &camera_rect.h);
 
 	gridwidth = camera_rect.w / tilewidth;
 	gridheight = camera_rect.h / tilewidth;
 	camera_system::tilewidth = tilewidth;
+	shift_buffer_x = 0;
+	shift_buffer_y = 0;
 }
 
 SDL_Rect camera_system::world_to_camera_space(SDL_Rect world_rect, SDL_Rect draw_rect)
@@ -43,21 +52,102 @@ SDL_Point camera_system::screen_to_world_space(SDL_Point position)
 	return result;
 }
 
-void camera_system::update_camera()
+void camera_system::set_camera_target(Entity * new_target, bool snap, void(*callback)(Entity *))
+{
+	snapped = snap; 
+	target = new_target; 
+	if (callback != nullptr)
+		camera_reached_dest_callback = callback;
+
+	//calculate distance
+	SDL_Point target_origin = target->get_origin_in_world();
+	int required_delta_x, required_delta_y;
+	total_distance_to_object.x = target_origin.x - camera_rect.w/2 - camera_rect.x;
+	total_distance_to_object.y = target_origin.y - camera_rect.h/2 - camera_rect.y;
+}
+
+void camera_system::update_camera(int dt)
 {
 	if (snapped)
 	{
 		Transform* tc = static_cast<Transform*>(target->get_component(Component::ComponentType::Transf));
-		camera_rect.x = tc->position.x - camera_rect.w / 2 + tc->position.w / 2;
-		camera_rect.y = tc->position.y - camera_rect.h / 2 + tc->position.h / 2;
+		if (!tc)
+			return;
+		camera_rect.x = tc->position.x - camera_rect.w / 2 + tc->origin.x;
+		camera_rect.y = tc->position.y - camera_rect.h / 2 + tc->origin.y;
 	}
 	else
 	{
+		if (dt > 20)
+			return;
 		//calculate distance to the desired position
+		Transform* tc = static_cast<Transform*>(target->get_component(Component::ComponentType::Transf));
+		if (!tc)
+			return;
+
+
+
+
+		SDL_Point cur_origin;
+		cur_origin.x = camera_rect.x + camera_rect.w / 2;
+		cur_origin.y = camera_rect.y + camera_rect.h / 2;
+		SDL_Point target_origin = target->get_origin_in_world();
+
+		if (cur_origin.x == target_origin.x && cur_origin.y == target_origin.y)
+		{
+			if (camera_reached_dest_callback)
+				camera_reached_dest_callback(nullptr);
+			snapped = true;
+			return;
+		}
+		
+		SDL_Point destination;
+		destination.x = target_origin.x - camera_rect.w / 2;
+		destination.y = target_origin.y - camera_rect.h / 2;
+
+		int required_delta_x, required_delta_y;
+		required_delta_x = destination.x - camera_rect.x;
+		required_delta_y = destination.y - camera_rect.y;
+
+		//this block makes camera speed increase and decrease gradually
+		//calculate % reached
+		float px, py;
+		px = 1.f - std::fabs((float)(required_delta_x - ((float)total_distance_to_object.x / 2)) / ((float)total_distance_to_object.x / 2));
+		py = 1.f - std::fabs((float)(required_delta_y - ((float)total_distance_to_object.y / 2)) / ((float)total_distance_to_object.y / 2));
+		float cur_speed_x = speed * px + 0.01f;
+		float cur_speed_y = speed * py + 0.01f;
 
 		//calculate the speed depending on remaining distance to desired position
+		float tick_delta_x, tick_delta_y;
+		float angle = std::atan2(required_delta_y, required_delta_x);
+		tick_delta_x = std::cos(angle) * cur_speed_x * dt;
+		tick_delta_y = std::sin(angle) * cur_speed_y * dt;
 
 		//update camera position depending on speed
+		shift_buffer_x += tick_delta_x;
+		shift_buffer_y += tick_delta_y;
+
+		if (shift_buffer_x > 1)
+		{
+			camera_rect.x += 1;
+			shift_buffer_x -= 1;
+		}
+		else if (shift_buffer_x < -1)
+		{
+			camera_rect.x -= 1;
+			shift_buffer_x += 1;
+		}
+
+		if (shift_buffer_y > 1)
+		{
+			camera_rect.y += 1;
+			shift_buffer_y -= 1;
+		}
+		else if (shift_buffer_y < -1)
+		{
+			camera_rect.y -= 1;
+			shift_buffer_y += 1;
+		}
 	}
 
 	
