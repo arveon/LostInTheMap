@@ -129,6 +129,16 @@ void director::script_trigger(Entity* trigger)
 		std::cout << "no is?!" << std::endl;
 }
 
+void director::reset_director()
+{
+	secondary_counter = 0; 
+	bound.clear(); 
+	triggered_scripts.clear();
+
+	dialogue_system::reset();
+	script_system::reset();
+}
+
 void director::init_stage(levels level)
 {
 	director::cur_level = level;

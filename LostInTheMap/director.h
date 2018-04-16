@@ -52,7 +52,7 @@ public:
 	static void process_interaction(Entity* target);
 	static void script_trigger(Entity* trigger);
 
-	static void reset_director() { secondary_counter = 0; bound.clear(); triggered_scripts.clear(); }
+	static void reset_director();
 
 	director();
 	~director();

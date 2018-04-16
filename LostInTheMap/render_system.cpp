@@ -219,7 +219,8 @@ void render_system::render_queues()
 	}
 
 	if(mouse != nullptr)
-		SDL_manager::render_sprite(mouse->sprite, mouse->draw_rect);
+		if(mouse->isActive)
+			SDL_manager::render_sprite(mouse->sprite, mouse->draw_rect);
 	SDL_manager::end_render();
 }
 

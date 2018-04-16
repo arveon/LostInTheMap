@@ -29,6 +29,8 @@ public:
 
 	static void update(int dt);
 
+	static void reset();
+
 	script_system();
 	~script_system();
 };

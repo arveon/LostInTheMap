@@ -18,8 +18,8 @@ void Game::init()
 	asset_controller::renderer = sdl_manager.renderer;
 
 	input_system::register_event_callback(HardInputEventType::window_close, &Game::window_close_handler);
-	input_system::register_event_callback(HardInputEventType::f1_pressed, &Game::set_level_pyramid);
-	input_system::register_event_callback(HardInputEventType::f2_pressed, &Game::set_level_juji);
+	input_system::register_event_callback(HardInputEventType::f1_pressed, &Game::dec_level);
+	input_system::register_event_callback(HardInputEventType::f2_pressed, &Game::inc_level);
 	input_system::register_event_callback(HardInputEventType::r_pressed, &Game::reload_game);
 	Game::running = true;
 	state = game_state::main_menu;
@@ -154,18 +154,19 @@ void Game::reload_game()
 	state = game_state::loading;
 }
 
-void Game::set_level_juji()
+void Game::inc_level()
 {
 	exit_game_flow();
 	state = game_state::loading;
-	cur_level = levels::juji_village;
+	cur_level = ((int)cur_level + 1 > 3) ? (levels)3 : (levels)(cur_level + 1);
 }
 
-void Game::set_level_pyramid()
+void Game::dec_level()
 {
 	exit_game_flow();
 	state = game_state::loading;
-	cur_level = levels::pyramid;
+
+	cur_level = (cur_level - 1 < 1) ? (levels)1 : (levels)(cur_level - 1);
 }
 
 Game::Game()

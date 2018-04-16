@@ -57,8 +57,8 @@ public:
 	static void exit_game_flow();
 
 	static void reload_game();
-	static void set_level_juji();
-	static void set_level_pyramid();
+	static void inc_level();
+	static void dec_level();
 
 	//function will be passed to initialise function that would allow them to register mouseclick callback methods
 	static int register_mousedown_listener(void(*cb)())

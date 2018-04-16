@@ -60,7 +60,7 @@ void game_flow_normal::init(Space & game_space)
 void game_flow_normal::update_space(Space & space, int dt)
 {
 	static int tw = 0;
-	mouse_system::update_mouse(game_flow_normal::mouse, space, dialogue_system::dialogue_pending());
+	mouse_system::update_mouse(game_flow_normal::mouse, space, dialogue_system::dialogue_pending(), script_system::is_player_blocked());
 	mouse_system::update_mouse_hover(space, game_flow_normal::mouse);
 	camera_system::update_camera(dt);
 	SpaceSystem::apply_animation_sprite_changes(space);

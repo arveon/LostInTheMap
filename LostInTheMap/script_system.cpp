@@ -79,6 +79,12 @@ void script_system::update(int dt)
 
 }
 
+void script_system::reset()
+{
+	cur_script.actions.clear();
+	waiting_timer = 0;
+}
+
 void script_system::perform_action()
 {
 	Action* to_perform = &cur_script.actions.at(cur_action);

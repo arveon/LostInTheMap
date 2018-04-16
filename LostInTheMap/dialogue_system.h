@@ -37,6 +37,8 @@ public:
 	static void update(int dt);
 	static void update_portrait();
 
+	static void reset();
+
 	dialogue_system();
 	~dialogue_system();
 };

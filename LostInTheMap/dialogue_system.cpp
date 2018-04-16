@@ -87,6 +87,16 @@ void dialogue_system::update_portrait()
 
 }
 
+void dialogue_system::reset()
+{
+	if (cur_dialogue.initialised)
+	{
+		cur_dialogue.initialised = false;
+		counter = 0;
+		line_counter = cur_dialogue.lines.size() - 1;
+	}
+}
+
 dialogue_system::dialogue_system()
 {
 }

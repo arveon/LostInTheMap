@@ -31,7 +31,7 @@ Entity* mouse_system::create_mouse()
 	return mouse;
 }
 
-void mouse_system::update_mouse(Entity* mouse, Space& space, bool in_dialogue)
+void mouse_system::update_mouse(Entity* mouse, Space& space, bool in_dialogue, bool hidden)
 {
 	IDrawable* dc = static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable));
 	IAnimatable* ac = static_cast<IAnimatable*>(mouse->get_component(Component::ComponentType::Animated));
@@ -83,6 +83,10 @@ void mouse_system::update_mouse(Entity* mouse, Space& space, bool in_dialogue)
 		change_mouse_icon(mouse_icons::normal, ac, dc);
 	}
 
+	if (hidden && !in_dialogue)
+		dc->isActive = false;
+	else
+		dc->isActive = true;
 }
 
 SDL_Point mouse_system::get_mouse_in_world(Entity * mouse)
