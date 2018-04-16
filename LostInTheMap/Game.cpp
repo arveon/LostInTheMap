@@ -23,7 +23,7 @@ void Game::init()
 	input_system::register_event_callback(HardInputEventType::r_pressed, &Game::reload_game);
 	Game::running = true;
 	state = game_state::main_menu;
-	cur_level = levels::pyramid;
+	cur_level = levels::zakra_village;
 	time.init();
 }
 
@@ -158,7 +158,7 @@ void Game::inc_level()
 {
 	exit_game_flow();
 	state = game_state::loading;
-	cur_level = ((int)cur_level + 1 > 3) ? (levels)3 : (levels)(cur_level + 1);
+	cur_level = ((int)cur_level + 1 > 4) ? (levels)3 : (levels)(cur_level + 1);
 }
 
 void Game::dec_level()

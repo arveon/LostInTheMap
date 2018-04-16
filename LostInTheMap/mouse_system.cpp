@@ -36,16 +36,34 @@ void mouse_system::update_mouse(Entity* mouse, Space& space, bool in_dialogue, b
 	IDrawable* dc = static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable));
 	IAnimatable* ac = static_cast<IAnimatable*>(mouse->get_component(Component::ComponentType::Animated));
 	IMouse* mc = static_cast<IMouse*>(mouse->get_component(Component::ComponentType::Mouse));
-	
+	Transform* mt = mouse->transform;
+
 	mouse->transform->position.x = input_system::mouse.x;
 	mouse->transform->position.y = input_system::mouse.y;
-	dc->draw_rect.x = input_system::mouse.x;
-	dc->draw_rect.y = input_system::mouse.y;
-
+	dc->draw_rect.x = input_system::mouse.x - mt->origin.x;
+	dc->draw_rect.y = input_system::mouse.y - mt->origin.y;
 	
 	if (!in_dialogue)
 	{
+		ITerrain* terrain = SpaceSystem::get_terrain(space);
+		int x_cap = terrain->width * terrain->tile_width - 1;
+		int y_cap = terrain->height * terrain->tile_width - 1;
+
 		SDL_Point mouse_world = mouse_system::get_mouse_in_world(mouse);
+		int dx, dy;
+		dx = x_cap - mouse_world.x;
+		dy = y_cap - mouse_world.y;
+		if (dx < 0)
+		{
+			dc->draw_rect.x -= dx;
+			mt->position.x -= dx;
+		}
+		if (dy < 0)
+		{
+			dc->draw_rect.y -= dy;
+			mt->position.y -= dy;
+		}
+
 		Entity* target_object = SpaceSystem::get_object_at_point(space, mouse_world.x, mouse_world.y, true);
 
 		if (target_object)
@@ -93,7 +111,7 @@ SDL_Point mouse_system::get_mouse_in_world(Entity * mouse)
 {
 	IMouse* ms = static_cast<IMouse*>(mouse->get_component(Component::ComponentType::Mouse));
 	//get mouse screen space
-	SDL_Point mouse_pos = { mouse->transform->position.x + mouse->transform->origin.x, mouse->transform->position.y + mouse->transform->origin.y };
+	SDL_Point mouse_pos = { mouse->transform->position.x, mouse->transform->position.y};
 	//get mouse world space
 	mouse_pos = camera_system::screen_to_world_space(mouse_pos);
 

@@ -19,6 +19,10 @@ private:
 	static float shift_buffer_x;
 	static float shift_buffer_y;
 
+	static int x_cap;
+	static int y_cap;
+	static bool caps_set;
+
 	static bool snapped;
 
 	static int gridwidth;
@@ -30,7 +34,7 @@ private:
 
 	static SDL_Point total_distance_to_object;
 public:
-	static void init_camera(int tilewidth, Entity* target = nullptr);
+	static void init_camera(int tilewidth, int level_width, int level_height, Entity* target = nullptr);
 
 	static SDL_Rect world_to_camera_space(SDL_Rect world_rect, SDL_Rect draw_rect);
 	static SDL_Point screen_to_world_space(SDL_Point position);

@@ -18,14 +18,20 @@ int camera_system::gridwidth;
 int camera_system::gridheight;
 int camera_system::tilewidth;
 
+int camera_system::x_cap;
+int camera_system::y_cap;
+
 void(*camera_system::camera_reached_dest_callback)(Entity*);
 
-void camera_system::init_camera(int tilewidth, Entity* target)
+void camera_system::init_camera(int tilewidth, int level_width, int level_height, Entity* target)
 {	
 	camera_system::target = target;
 	zoom = 1.f;
 	camera_rect = SDL_Rect{0,0,0,0};
 	SDL_manager::get_window_size(&camera_rect.w, &camera_rect.h);
+
+	x_cap = level_width;
+	y_cap = level_height;
 
 	gridwidth = camera_rect.w / tilewidth;
 	gridheight = camera_rect.h / tilewidth;
@@ -73,6 +79,7 @@ void camera_system::update_camera(int dt)
 		Transform* tc = static_cast<Transform*>(target->get_component(Component::ComponentType::Transf));
 		if (!tc)
 			return;
+
 		camera_rect.x = tc->position.x - camera_rect.w / 2 + tc->origin.x;
 		camera_rect.y = tc->position.y - camera_rect.h / 2 + tc->origin.y;
 	}
@@ -169,8 +176,17 @@ void camera_system::update_camera(int dt)
 		}
 	}
 
-	
+	if (camera_rect.x < 0)
+		camera_rect.x = 0;
+	else if (camera_rect.x + camera_rect.w > x_cap-1)
+		camera_rect.x = x_cap - camera_rect.w -1;
+
+	if (camera_rect.y < 0)
+		camera_rect.y = 0;
+	else if (camera_rect.y + camera_rect.h > y_cap-1)
+		camera_rect.y = y_cap - camera_rect.h -1;
 }
+
 
 void camera_system::set_camera_zoom(float new_zoom)
 {

@@ -206,7 +206,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		map_system::init_terrain_map(map_tile_ids, terrain);
 		game_space.objects.push_back(terrain);
 
-		camera_system::init_camera(tw);
+		camera_system::init_camera(tw,tc->width*tc->tile_width, tc->height*tc->tile_width);
 	}
 		break;
 	case loading_state::creating_terrain_collisions:

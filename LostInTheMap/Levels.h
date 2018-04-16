@@ -5,6 +5,6 @@ typedef enum
 	pyramid,
 	juji_village,
 	caves,
-	desert,
-	zakra_village
+	zakra_village,
+	desert
 }levels;

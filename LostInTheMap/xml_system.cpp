@@ -444,7 +444,7 @@ std::string xml_system::get_level_name_str(levels level)
 		path = "bodah_caves";
 		break;
 	case levels::zakra_village:
-		path = "zakra_village";
+		path = "juji_village";
 		break;
 	case levels::desert:
 		path = "bone_fields";
