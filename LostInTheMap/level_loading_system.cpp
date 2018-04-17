@@ -191,6 +191,7 @@ void level_loading_system::update_status_text(Space & space, int stage_id)
 
 void level_loading_system::load_game_components(Space & game_space)
 {
+	static std::vector<Entity*> objects;
 	switch (loading_stage)
 	{
 	case loading_state::loading_terrain:
@@ -234,14 +235,22 @@ void level_loading_system::load_game_components(Space & game_space)
 	{
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
 		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
-		Character** characters = xml_system::load_characters(level_to_load, terrain->width, terrain->height);
-		std::vector<Entity*> temp = character_system::init_characters(characters, terrain->width, terrain->height, terrain);
-		for (unsigned int i = 0; i < temp.size(); i++)
-			game_space.objects.push_back(temp.at(i));
+		Actor** actors = xml_system::load_characters_and_objects(level_to_load, terrain->width, terrain->height);
+		std::vector<Entity*> temp = character_system::init_characters(actors, terrain->width, terrain->height, terrain);
+		for (Entity* a : temp)
+			game_space.objects.push_back(a);
 
-		std::vector<Entity*> temp_t = map_system::init_triggers(characters, terrain);
-		for (unsigned int i = 0; i < temp_t.size(); i++)
-			game_space.objects.push_back(temp_t.at(i));
+		//load triggers
+		std::vector<Entity*> temp_t = map_system::init_triggers(actors, terrain);
+		for (Entity* a : temp_t)
+			game_space.objects.push_back(a);
+
+		std::vector<Entity*> temp_obj = map_system::init_objects(actors, terrain);
+		for (Entity* a : temp_obj)
+		{
+			objects.push_back(a);
+			game_space.objects.push_back(a);
+		}
 
 	}
 		break;
@@ -254,9 +263,16 @@ void level_loading_system::load_game_components(Space & game_space)
 		asset_controller::load_terrain_textures("assets/tilesets/" + level_name + ".png", terrain->tile_width);
 	}
 		break;
-	case loading_state::loading_item_textures:
+	case loading_state::loading_object_textures:
 	{
-
+		for (Entity* a : objects)
+		{
+			IInteractionSource* oo = static_cast<IInteractionSource*>(a->get_component(Component::ComponentType::InteractionSource));
+			SDL_Texture* tex = asset_controller::get_object_texture(xml_system::get_object_name_by_type(oo->o_type));
+			IDrawable* dc = static_cast<IDrawable*>(a->get_component(Component::ComponentType::Drawable));
+			dc->sprite = tex;
+		}
+		
 	}
 		break;
 	case loading_state::attaching_terrain_textures:
@@ -302,7 +318,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::attaching_object_textures:
 	{
-
+		
 	}
 		break;
 	case loading_state::cleaning_up_tilesheet:
@@ -376,6 +392,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::done:
 	{
+		objects.clear();
 		director::init_stage(level_to_load);
 		for (unsigned int i = 0; i < loading_done_listeners.size(); i++)
 		{

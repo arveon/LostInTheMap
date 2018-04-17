@@ -76,6 +76,10 @@ void director::process_interaction(Entity* interaction_target)
 {
 	if (interaction_target->name.compare("player") == 0)
 		return;
+
+
+	IInteractionSource* interaction_src = static_cast<IInteractionSource*>(interaction_target->get_component(Component::ComponentType::InteractionSource));
+	//this block either starts combat or engages dialogue if it's a character (to avoid having to write script that starts a dialogue for every npc)
 	ICharacter* target_char = static_cast<ICharacter*>(interaction_target->get_component(Component::ComponentType::Character));
 	if (target_char)
 	{
@@ -97,6 +101,14 @@ void director::process_interaction(Entity* interaction_target)
 			std::cout << "combat started" << std::endl;
 		}
 	}
+	else if(interaction_src)
+	{
+		if (!interaction_src->has_triggered && interaction_src->script_attached != "")
+		{//if object wasn't triggered yet and has a script attached, call interaction
+			script_trigger(interaction_target);
+		}
+	}
+
 }
 
 void director::start_scripted_dialogue(std::string path)
@@ -109,6 +121,7 @@ void director::start_scripted_dialogue(std::string path)
 	dialogue_system::start_dialogue(d, portraits, nullptr);
 }
 
+//calls script stored on trigger object when called
 void director::script_trigger(Entity* trigger)
 {
 	IInteractionSource* is = static_cast<IInteractionSource*>(trigger->get_component(Component::ComponentType::InteractionSource));

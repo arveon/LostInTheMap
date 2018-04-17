@@ -110,6 +110,21 @@ Entity* SpaceSystem::get_object_at_point(Space& space, int x, int y, bool ignore
 	return ent;
 }
 
+Entity * SpaceSystem::get_tile_at_point(Space & space, int x, int y)
+{
+	Entity* terr = SpaceSystem::find_entity_by_name(space, "terrain");
+	ITerrain* tc = static_cast<ITerrain*>(terr->get_component(Component::ComponentType::Terrain));
+	SDL_Point ids = map_system::world_to_tilemap_ids({ x, y }, tc);
+	return (tc->terrain_tiles[ids.y][ids.x]);
+}
+
+Entity * SpaceSystem::get_tile_at_ids(Space & space, int x, int y)
+{
+	Entity* terr = SpaceSystem::find_entity_by_name(space, "terrain");
+	ITerrain* tc = static_cast<ITerrain*>(terr->get_component(Component::ComponentType::Terrain));
+	return (tc->terrain_tiles[y][x]);
+}
+
 Entity* SpaceSystem::get_object_at_ids(Space& space, int x, int y)
 {
 	Entity* result = nullptr;

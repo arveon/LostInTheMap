@@ -113,18 +113,21 @@ void script_system::perform_action()
 	}
 	case action_type::wait:
 	{
-		Entity * to_stop = character_system::get_character(to_perform->target_type);
-		if (!to_stop)
-			action_over(nullptr);
-
-		to_perform->target = to_stop;
-		IMoving* mc = static_cast<IMoving*>(to_stop->get_component(Component::ComponentType::Movement));
-		if(!mc)
-			action_over(nullptr);
-
-		mc->movement_allowed = false;
 		total_wait_time = to_perform->time;
 		waiting_timer = 0;
+
+		//if character specified, stop that character from moving
+		Entity * to_stop = character_system::get_character(to_perform->target_type);
+		if (to_stop)
+		{
+			action_over(nullptr);
+
+			to_perform->target = to_stop;
+			IMoving* mc = static_cast<IMoving*>(to_stop->get_component(Component::ComponentType::Movement));
+			if (!mc)
+				action_over(nullptr);
+			mc->movement_allowed = false;
+		}
 
 		break;
 	}
@@ -136,9 +139,15 @@ void script_system::perform_action()
 
 		to_perform->target = target;
 		camera_system::set_camera_target(target, false, &script_system::action_over);
-		
-		
+		break;
+	}
+	case action_type::move_camera_to_tile:
+	{
+		Entity * target = SpaceSystem::get_tile_at_ids(*game_space, to_perform->movement_dest.x, to_perform->movement_dest.y);
+		if (!target)
+			action_over(nullptr);
 
+		camera_system::set_camera_target(target, false, &script_system::action_over);
 		break;
 	}
 	}

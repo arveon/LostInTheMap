@@ -65,29 +65,46 @@ void mouse_system::update_mouse(Entity* mouse, Space& space, bool in_dialogue, b
 		}
 
 		Entity* target_object = SpaceSystem::get_object_at_point(space, mouse_world.x, mouse_world.y, true);
-
-		if (target_object)
+		Entity* tile = SpaceSystem::get_tile_at_point(space, mouse_world.x, mouse_world.y);
+		if (tile)
 		{
-			ITile* tc = static_cast<ITile*>(target_object->get_component(Component::ComponentType::Tile));
-			ICharacter* cc = static_cast<ICharacter*>(target_object->get_component(Component::ComponentType::Character));
-			if (tc)
-				if (tc->is_traversible)
+			ITile* tlc = static_cast<ITile*>(tile->get_component(Component::ComponentType::Tile));
+			if (target_object && tlc->is_traversible)
+			{
+				ITile* tc = static_cast<ITile*>(target_object->get_component(Component::ComponentType::Tile));
+				ICharacter* cc = static_cast<ICharacter*>(target_object->get_component(Component::ComponentType::Character));
+				IInteractionSource* interaction = static_cast<IInteractionSource*>(target_object->get_component(Component::ComponentType::InteractionSource));
+				if (tc)
+				{
+					if (tc->is_traversible)
+					{
+						mc->cur_target = target_object;
+						change_mouse_icon(mouse_icons::walking, ac, dc);
+					}
+					else
+					{
+						mc->cur_target = nullptr;
+						change_mouse_icon(mouse_icons::blocked, ac, dc);
+					}
+				}
+				else if (cc)
 				{
 					mc->cur_target = target_object;
-					change_mouse_icon(mouse_icons::walking, ac, dc);
+					if (cc->is_friendly)
+						change_mouse_icon(mouse_icons::talk, ac, dc);
+					else
+						change_mouse_icon(mouse_icons::attack, ac, dc);
 				}
-				else
+				else if (interaction)
 				{
-					mc->cur_target = nullptr;
-					change_mouse_icon(mouse_icons::blocked, ac, dc);
+					mc->cur_target = target_object;
+					change_mouse_icon(mouse_icons::normal, ac, dc);
 				}
-			else if (cc)
+			}
+			else
 			{
-				mc->cur_target = target_object;
-				if (cc->is_friendly)
-					change_mouse_icon(mouse_icons::talk, ac, dc);
-				else
-					change_mouse_icon(mouse_icons::attack, ac, dc);
+				mc->cur_target = nullptr;
+				change_mouse_icon(mouse_icons::blocked, ac, dc);
 			}
 		}
 		else

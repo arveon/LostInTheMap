@@ -20,7 +20,7 @@ private:
 		loading_characters,
 		loading_terrain_textures,
 		loading_character_textures,
-		loading_item_textures,
+		loading_object_textures,
 		attaching_terrain_textures,
 		attaching_character_textures,
 		attaching_object_textures,

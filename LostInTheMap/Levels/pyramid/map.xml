@@ -6187,8 +6187,8 @@
     <tile x="30" y="23" tile="-1" rot="0" flipX="false"/>
     <tile x="31" y="23" tile="-1" rot="0" flipX="false"/>
     <tile x="32" y="23" tile="-1" rot="0" flipX="false"/>
-    <tile x="33" y="23" tile="4" type="start.xml" rot="0" flipX="false"/>
-    <tile x="34" y="23" tile="4" type="start.xml" rot="0" flipX="false"/>
+    <tile x="33" y="23" tile="4" type="trigger" script="start.xml" rot="0" flipX="false"/>
+    <tile x="34" y="23" tile="4" type="trigger" script="start.xml" rot="0" flipX="false"/>
     <tile x="35" y="23" tile="-1" rot="0" flipX="false"/>
     <tile x="36" y="23" tile="-1" rot="0" flipX="false"/>
     <tile x="37" y="23" tile="-1" rot="0" flipX="false"/>
@@ -6237,7 +6237,7 @@
     <tile x="30" y="24" tile="-1" rot="0" flipX="false"/>
     <tile x="31" y="24" tile="-1" rot="0" flipX="false"/>
     <tile x="32" y="24" tile="-1" rot="0" flipX="false"/>
-    <tile x="33" y="24" tile="4" type="start.xml" rot="0" flipX="false"/>
+    <tile x="33" y="24" tile="4"  type="trigger" script="start.xml" rot="0" flipX="false"/>
     <tile x="34" y="24" tile="1" type="player" rot="0" flipX="false"/>
     <tile x="35" y="24" tile="-1" rot="0" flipX="false"/>
     <tile x="36" y="24" tile="-1" rot="0" flipX="false"/>
@@ -6278,7 +6278,7 @@
     <tile x="21" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="22" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="23" y="25" tile="-1" rot="0" flipX="false"/>
-    <tile x="24" y="25" tile="-1" rot="0" flipX="false"/>
+    <tile x="24" y="25" tile="6" type="i_object" script="lever.xml" name="lever" rot="0" flipX="false"/>
     <tile x="25" y="25" tile="2" type="archaeologist_1" rot="0" flipX="false"/>
     <tile x="26" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="27" y="25" tile="-1" rot="0" flipX="false"/>

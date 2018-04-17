@@ -67,7 +67,6 @@ void camera_system::set_camera_target(Entity * new_target, bool snap, void(*call
 
 	//calculate distance
 	SDL_Point target_origin = target->get_origin_in_world();
-	int required_delta_x, required_delta_y;
 	total_distance_to_object.x = target_origin.x - camera_rect.w/2 - camera_rect.x;
 	total_distance_to_object.y = target_origin.y - camera_rect.h/2 - camera_rect.y;
 }

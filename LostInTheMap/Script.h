@@ -9,7 +9,8 @@ enum action_type
 	movement,
 	dialogue,
 	wait,
-	change_camera_target
+	change_camera_target,
+	move_camera_to_tile
 };
 
 class Action

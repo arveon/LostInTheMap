@@ -8,12 +8,14 @@
 
 #include "lee_pathfinder.h"
 #include "CharacterTypes.h"
+#include "ObjectTypes.h"
 
 typedef struct
 {
 	int value;
 	std::string type;
-} Character;
+	std::string script;
+} Actor;
 
 class Entity;
 class Component
@@ -35,7 +37,7 @@ public:
 		Terrain,
 		Tile,
 		Character,
-		InteractionSource,
+		InteractionSource
 	};
 	bool isActive;
 	ComponentType type;
@@ -128,15 +130,17 @@ public:
 	bool has_triggered;
 	std::string script_attached;
 
+	object_types o_type;
+
 	void(*interaction_trigger)(Entity* source);
-	IInteractionSource(Entity* owner) : Component(owner)
+	IInteractionSource(Entity* owner, object_types o_type = object_types::type_none) : Component(owner)
 	{
+		this->o_type = o_type;
 		has_triggered = false;
 		interaction_target = nullptr;
 		type = ComponentType::InteractionSource;
 	}
 };
-
 
 enum UI_Element_Type
 {

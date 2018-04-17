@@ -227,6 +227,9 @@
     <ClCompile Include="script_system.cpp">
       <Filter>Source Files\systems\gameplay_systems</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectTypes.h">
+      <Filter>Header Files\structs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

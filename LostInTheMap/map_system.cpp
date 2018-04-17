@@ -69,10 +69,10 @@ void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 				continue;
 			Transform* transform = static_cast<Transform*>(tr->terrain_tiles[i][j]->get_component(Component::ComponentType::Transf));
 			transform->position = {
-				static_cast<int>(j*tr->tile_width), 
-				static_cast<int>(i*tr->tile_width), 
-				static_cast<int>(tr->tile_width), 
-				static_cast<int>(tr->tile_width) 
+				static_cast<int>(j*tr->tile_width),
+				static_cast<int>(i*tr->tile_width),
+				static_cast<int>(tr->tile_width),
+				static_cast<int>(tr->tile_width)
 			};
 			transform->origin.x = transform->position.w / 2;
 			transform->origin.y = transform->position.h / 2;
@@ -104,7 +104,7 @@ void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 	}
 }
 
-std::vector<Entity*> map_system::init_triggers(Character ** trigger_map, ITerrain* tr)
+std::vector<Entity*> map_system::init_triggers(Actor ** trigger_map, ITerrain* tr)
 {
 	std::vector<Entity*> result;
 	static int counter = 0;
@@ -114,7 +114,7 @@ std::vector<Entity*> map_system::init_triggers(Character ** trigger_map, ITerrai
 		{
 			if (trigger_map[i][j].value == 4)
 			{
-				Entity* trigger = new Entity(entity_type::trigger, "trigger"+std::to_string(counter));
+				Entity* trigger = new Entity(entity_type::trigger, "trigger" + std::to_string(counter));
 				counter++;
 				Transform* tf = new Transform(trigger);
 				tf->position = {
@@ -127,7 +127,7 @@ std::vector<Entity*> map_system::init_triggers(Character ** trigger_map, ITerrai
 
 				IInteractionSource* is = new IInteractionSource(trigger);
 				is->has_triggered = false;
-				is->script_attached = trigger_map[i][j].type;
+				is->script_attached = trigger_map[i][j].script;
 				is->interaction_trigger = &director::script_trigger;
 				trigger->add_component(is);
 
@@ -142,17 +142,92 @@ std::vector<Entity*> map_system::init_triggers(Character ** trigger_map, ITerrai
 	return result;
 }
 
+std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr)
+{
+	std::vector<Entity*> result;
+	static int counter = 0;
+	for (int i = 0; i < tr->height; i++)
+	{
+		for (int j = 0; j < tr->width; j++)
+		{
+			if (objects_map[i][j].value == 6)
+			{
+				Entity* obj = new Entity(entity_type::game_object, "object" + std::to_string(counter));
+				counter++;
+				Transform* tf = new Transform(obj);
+				tf->position = {
+					static_cast<int>(j*tr->tile_width),
+					static_cast<int>(i*tr->tile_width),
+					static_cast<int>(tr->tile_width),
+					static_cast<int>(tr->tile_width)
+				};
+				obj->add_component(tf);
+
+				ICollidable* collider = new ICollidable(obj);
+				IDrawable* dc = new IDrawable(obj, IDrawable::layers::surface);
+				dc->draw_rect = tf->position;
+
+				object_types type = xml_system::get_object_type_by_name(objects_map[i][j].type);
+				tf->origin = { tf->position.w / 2, tf->position.h - 1 };
+				
+				IInteractionSource* i_obj = new IInteractionSource(obj, type);
+				switch (type)
+				{
+				case object_types::juji_house_1:
+				case object_types::juji_house_2:
+				{
+					dc->draw_rect.w = 128;
+					dc->draw_rect.h = 96;
+					
+					collider->collidable = true;
+					collider->collision_rect.w = 90;
+					collider->collision_rect.h = 32;
+					break;
+				}
+				case object_types::lever:
+				case object_types::pickup_blowgun:
+				case object_types::pickup_gold_pile:
+				case object_types::pickup_sling:
+				case object_types::pickup_spear:
+				case object_types::pickup_sword:
+				{
+					//init collider
+					collider->collidable = true;
+					collider->collision_rect.w = tf->position.w;
+					collider->collision_rect.h = tf->position.h;
+
+					i_obj->interaction_trigger = &director::script_trigger;
+					i_obj->script_attached = objects_map[i][j].script;
+				}
+
+
+				}
+				dc->sprite_origin = {dc->draw_rect.w / 2, dc->draw_rect.h};
+
+				obj->add_component(dc);
+				obj->add_component(i_obj);
+				obj->add_component(collider);
+
+				result.push_back(obj);
+			}
+
+
+		}
+	}
+	return result;
+}
+
 int ** map_system::get_pathfinding_map(ITerrain * tilemap)
 {
 	int** map;
-	
+
 	//initialise array
 	map = new int*[tilemap->height];
 	for (int i = 0; i < tilemap->height; i++)
 		map[i] = new int[tilemap->width];
 
 	//set up the array
-	for(int i = 0; i < tilemap->height; i++)
+	for (int i = 0; i < tilemap->height; i++)
 		for (int j = 0; j < tilemap->width; j++)
 		{
 			if (tilemap->terrain_tiles[i][j] == nullptr)

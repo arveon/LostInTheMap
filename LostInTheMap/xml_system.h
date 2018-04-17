@@ -59,7 +59,7 @@ public:
 	static MenuLayout load_interface_layout(std::string name);
 	static int** load_map_tiles(levels level, int* width, int* height, int* tilewidth);
 	static int** load_map_collisions(levels level, int width, int height);
-	static Character** load_characters(levels level, int width, int height);
+	static Actor** load_characters_and_objects(levels level, int width, int height);
 	static std::vector<LoadingState> get_loading_states();
 	static DialogueFrame load_dialogue_frame();
 	static Script load_script(std::string name, levels level);
@@ -67,6 +67,10 @@ public:
 	static character_type get_character_type_by_name(std::string);
 	static std::string get_level_path_prefix(levels level);
 	static std::string get_level_name_str(levels level);
+
+	static object_types get_object_type_by_name(std::string name);
+
+	static std::string get_object_name_by_type(object_types type);
 
 	static Dialogue load_dialogue(std::string path);
 

@@ -2,7 +2,7 @@
 
 std::vector<Entity*> character_system::characters;
 
-std::vector<Entity*> character_system::init_characters(Character** charact, int width, int height, ITerrain* tr)
+std::vector<Entity*> character_system::init_characters(Actor** charact, int width, int height, ITerrain* tr)
 {
 	static int value = 0;
 	for (int i = 0; i < height; i++)
@@ -222,7 +222,7 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	//calculate and get path from pathfinder
 	mc->path = mc->pathfinder.get_path_to({ tile_c->x, tile_c->y }, true);
 
-	//set interaction target
+	//set destination
 	SDL_Point dest_ids = map_system::world_to_tilemap_ids(mouse_pos, terrain);
 	Entity* target = SpaceSystem::get_object_at_point(space, mouse_pos.x, mouse_pos.y, true);
 	if (target)
@@ -234,11 +234,17 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 			target = (temp==nullptr || character->name.compare(temp->name)==0) ? target : temp;
 		}
 	}
+
+	//get players interaction source
 	IInteractionSource* is = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
-	if (is)
+	if (is)//make sure player has one on him to avoid crashes
 	{
-		is->interaction_target = target;
-		is->has_triggered = false;
+		//if target is also an interaction source (can be interacted with, store it as players interaction target)
+		if (static_cast<IInteractionSource*>(target->get_component(Component::ComponentType::InteractionSource)))
+		{
+			is->interaction_target = target;
+			is->has_triggered = false;
+		}
 	}
 
 	bool need_to_move = false;
@@ -295,7 +301,7 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 
 adding_interaction:
 	if (!need_to_move)
-	{
+	{//if don't need to move to destination, trigger the script on players interaction target
 		mc->final_destination = { -1,-1 };
 		mc->path.clear();
 		mc->destination_reached = true;
@@ -343,6 +349,8 @@ void character_system::allow_character_movement(Entity * character)
 
 Entity* character_system::get_character(character_type character)
 {
+	if (character == character_type::none)
+		return nullptr;
 	for (Entity* ch : characters)
 	{
 		ICharacter* cc = static_cast<ICharacter*>(ch->get_component(Component::ComponentType::Character));

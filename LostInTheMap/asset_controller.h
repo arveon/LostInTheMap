@@ -5,10 +5,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 
 #include "SDL_manager.h"
 
 #include "CharacterTypes.h"
+#include "ObjectTypes.h"
+
+
 
 enum UI_text_type
 {
@@ -24,6 +28,7 @@ class asset_controller
 {
 private:
 	static std::vector<SDL_Texture*> terrain_textures;
+	static std::map<std::string, SDL_Texture*> object_textures;
 public:
 	typedef struct
 	{
@@ -51,6 +56,8 @@ public:
 	static void load_terrain_textures(std::string path, int tilewidth);
 	static SDL_Texture* get_terrain_texture(unsigned int id) { if (id < terrain_textures.size()) { return terrain_textures.at(id); } else { return nullptr; } }
 	static void destroy_terrain_textures();
+
+	static SDL_Texture* get_object_texture(std::string obj_name);
 
 	static std::vector<CharacterPortrait> get_characters_portraits(std::vector<character_type> dialogue_participants);
 };

@@ -3,6 +3,7 @@
 
 SDL_Renderer* asset_controller::renderer;
 std::vector<SDL_Texture*> asset_controller::terrain_textures;
+std::map<std::string, SDL_Texture*> asset_controller::object_textures;
 
 float asset_controller::tile_scaling = 2.f;
 
@@ -157,6 +158,17 @@ void asset_controller::destroy_terrain_textures()
 		asset_controller::destroy_texture(terrain_textures.at(i));
 	}
 	terrain_textures.clear();
+}
+
+SDL_Texture* asset_controller::get_object_texture(std::string obj_name)
+{
+	SDL_Texture* text = object_textures[obj_name];
+	if (!object_textures[obj_name])
+	{
+		std::string path = "assets/graphics/objects/" + obj_name + ".png";
+		object_textures[obj_name] = load_texture(path.c_str());
+	}
+	return object_textures[obj_name];
 }
 
 std::vector<asset_controller::CharacterPortrait> asset_controller::get_characters_portraits(std::vector<character_type> dialogue_participants)

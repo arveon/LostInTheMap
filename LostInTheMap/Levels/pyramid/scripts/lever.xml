@@ -1,0 +1,5 @@
+<script block_player="true">
+<action type="move_camera" dest_x="28" dest_y="18"/>
+<action type="wait" time="1000"/>
+<action type="camera_target" character="player" />
+</script>

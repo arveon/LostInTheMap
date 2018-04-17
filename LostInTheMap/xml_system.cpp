@@ -165,17 +165,17 @@ int** xml_system::load_map_collisions(levels level, int width, int height)
 	return tilemap;
 }
 
-Character** xml_system::load_characters(levels level, int width, int height)
+Actor** xml_system::load_characters_and_objects(levels level, int width, int height)
 {
-	Character** result;
+	Actor** result;
 	//initialise the tilemap to -1s as it will represent a tile with nothing
-	result = new Character*[height];
+	result = new Actor*[height];
 	for (int i = 0; i < height; i++)
 	{
-		result[i] = new Character[width];
+		result[i] = new Actor[width];
 		for (int j = 0; j < width; j++)
 		{
-			Character ch;
+			Actor ch;
 			result[i][j] = ch;
 		}
 	}
@@ -198,7 +198,16 @@ Character** xml_system::load_characters(levels level, int width, int height)
 		result[y][x].value = id;
 		rapidxml::xml_attribute<char>* attr = cur_node->first_attribute("type");
 		if (attr != nullptr)
+		{
 			result[y][x].type = attr->value();
+			if (result[y][x].type.compare("trigger") == 0)
+				result[y][x].script = cur_node->first_attribute("script")->value();
+			else if (result[y][x].type.compare("i_object") == 0)
+			{
+				result[y][x].type = cur_node->first_attribute("name")->value();
+				result[y][x].script = cur_node->first_attribute("script")->value();
+			}
+		}
 		else
 			result[y][x].type = "";
 		cur_node = cur_node->next_sibling("tile");
@@ -303,14 +312,27 @@ Script xml_system::load_script(std::string name, levels level)
 		{
 			temp.type = action_type::wait;
 			temp.time = std::stoi(cur_node->first_attribute("time")->value());
-			std::string character = cur_node->first_attribute("character")->value();
-			temp.target_type = get_character_type_by_name(character);
+			rapidxml::xml_attribute<>* ch = cur_node->first_attribute("character");
+			if (ch)
+			{
+				std::string character = ch->value();
+				temp.target_type = get_character_type_by_name(character);
+			}
+			else
+				temp.target_type = character_type::none;
 		}
 		else if (type.compare("camera_target") == 0)
 		{
 			temp.type = action_type::change_camera_target;
 			std::string character = cur_node->first_attribute("character")->value();
 			temp.target_type = get_character_type_by_name(character);
+		}
+		else if (type.compare("move_camera") == 0)
+		{
+			temp.type = action_type::move_camera_to_tile;
+			int x = std::stoi(cur_node->first_attribute("dest_x")->value());
+			int y = std::stoi(cur_node->first_attribute("dest_y")->value());
+			temp.movement_dest = { x, y };
 		}
 		else
 			temp.type = action_type::not_set;
@@ -455,7 +477,62 @@ std::string xml_system::get_level_name_str(levels level)
 	return path;
 }
 
+object_types xml_system::get_object_type_by_name(std::string name)
+{
+	object_types result;
+	if (name.compare("lever") == 0)
+		result = object_types::lever;
+	else if (name.compare("juji_house_1") == 0 || name.compare("juji_house") == 0)
+		result = object_types::juji_house_1;
+	else if (name.compare("juji_house_2") == 0)
+		result = object_types::juji_house_2;
+	else if (name.compare("blowgun") == 0)
+		result = object_types::pickup_blowgun;
+	else if (name.compare("sling") == 0)
+		result = object_types::pickup_sling;
+	else if (name.compare("gold_pile") == 0)
+		result = object_types::pickup_gold_pile;
+	else if (name.compare("spear") == 0)
+		result = object_types::pickup_spear;
+	else if (name.compare("sword") == 0)
+		result = object_types::pickup_sword;
 
+	return result;
+}
+
+std::string xml_system::get_object_name_by_type(object_types type)
+{
+	std::string result = "";
+	switch (type)
+	{
+	case object_types::juji_house_1:
+		result = "juji_house_1";
+		break;
+	case object_types::juji_house_2:
+		result = "juji_house_2";
+		break;
+	case object_types::lever:
+		result = "lever";
+		break;
+	case object_types::pickup_blowgun:
+		result = "blowgun";
+		break;
+	case object_types::pickup_gold_pile:
+		result = "gold_pile";
+		break;
+	case object_types::pickup_sling:
+		result = "sling";
+		break;
+	case object_types::pickup_spear:
+		result = "spear";
+		break;
+	case object_types::pickup_sword:
+		result = "sword";
+		break;
+	}
+
+	return result;
+}
 
 xml_system::xml_system()
 {

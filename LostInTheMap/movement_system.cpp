@@ -99,10 +99,10 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 						ch->script_done_callback(character);
 				}
 
-				//only player can cause triggers
+				//only player can trigger scripts, so don't check for triggers on other characters
 				if (character->name.compare("player")==0)
 				{
-					//check if character is trigger
+					//get trigger component and check interaction target
 					IInteractionSource* int_src = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
 					if (int_src)
 					{
