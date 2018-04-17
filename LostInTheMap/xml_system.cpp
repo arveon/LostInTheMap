@@ -363,7 +363,7 @@ xml_system::Dialogue xml_system::load_dialogue(std::string path)
 character_type xml_system::get_character_type_by_name(std::string name)
 {
 	character_type result;
-	if (name.compare("giovanni") == 0 || name.compare("player") == 0)
+	if (name.compare("giovanni") == 0 || name.compare("player") == 0 || name.compare("")==0)
 		result = character_type::h_giovanni;
 	else if (name.compare("arch_supervisor") == 0 || name.compare("npc_arch_supervisor") == 0)//LEVEL 1
 		result = character_type::npc_arch_supervisor;

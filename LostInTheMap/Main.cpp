@@ -7,6 +7,5 @@ int main(int argc, char* argv[])
 	game.init();
 	game.game_loop();
 	game.finish();
-
 	return 0;
 }

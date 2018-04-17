@@ -158,7 +158,7 @@ void Game::inc_level()
 {
 	exit_game_flow();
 	state = game_state::loading;
-	cur_level = ((int)cur_level + 1 > 4) ? (levels)3 : (levels)(cur_level + 1);
+	cur_level = ((int)cur_level + 1 > 5) ? (levels)5 : (levels)(cur_level + 1);
 }
 
 void Game::dec_level()
