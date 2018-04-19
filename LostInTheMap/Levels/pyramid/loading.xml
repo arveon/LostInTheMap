@@ -1,5 +1,0 @@
-<map path="map.map"/>
-<assets>
-	<character path="character_tilesheet.png"/>
-	<tilesheet path="map_tiles.png"/>
-</assets>

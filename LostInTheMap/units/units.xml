@@ -1,0 +1,13 @@
+<unit name="giovanni">
+<health value="100"/>
+<close_attack min_value="20" max_value="30"/>
+<ranged allowed="true" min_value="5" max_value="10"/>
+<speed value="5" />
+</unit>
+
+<unit name="rat">
+<health value="10"/>
+<close_attack min_value="3" max_value="5"/>
+<ranged allowed="false"/>
+<speed value="5" />
+</unit>

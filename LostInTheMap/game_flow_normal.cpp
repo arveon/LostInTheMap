@@ -49,8 +49,7 @@ void game_flow_normal::init(Space & game_space)
 	lee_pathfinder::set_camera_dimensions(camera_rect_ids.w, camera_rect_ids.h);
 	mouse_system::change_mouse_icon(mouse_system::mouse_icons::walking, static_cast<IAnimatable*>(mouse->get_component(Component::ComponentType::Animated)), static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
 
-	//init player system
-	player_system::set_player(SpaceSystem::find_entity_by_name(game_space, "player"));
+	director::set_space(&game_space);
 
 	render_system::prepare_terrain(tc->width * tc->tile_width, tc->height * tc->tile_width);
 	game_space.initialised = true;

@@ -2,7 +2,7 @@
 
 std::vector<Entity*> character_system::characters;
 
-std::vector<Entity*> character_system::init_characters(Actor** charact, int width, int height, ITerrain* tr)
+std::vector<Entity*> character_system::init_characters(Actor** charact, int width, int height, ITerrain* tr, bool create_armies)
 {
 	static int value = 0;
 	for (int i = 0; i < height; i++)
@@ -100,6 +100,24 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 					ent->name = "Unnamed";
 					type = character_type::zakra_spearman;
 					break;
+				}
+
+				if ((!is_friendly || type==character_type::h_giovanni) && create_armies)
+				{
+					IFightable* fc = new IFightable(ent);
+					fc->army_file = charact[i][j].army;
+					ent->add_component(fc);
+
+					//if its an enemy, it should be an interaction source
+					IInteractionSource* src = new IInteractionSource(ent);
+					src->interaction_trigger = &director::process_interaction;
+					if (charact[i][j].script.compare("") == 0)
+						src->script_attached = "start_combat.xml";
+					else
+						src->script_attached = charact[i][j].script;
+
+					ent->add_component(src);
+					character_system::add_army_to_character(ent);
 				}
 
 				ICharacter* cc = new ICharacter(ent, type, is_friendly);
@@ -345,6 +363,13 @@ void character_system::allow_character_movement(Entity * character)
 	IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
 	if (mc)
 		mc->movement_allowed = true;
+}
+
+void character_system::add_army_to_character(Entity * character)
+{
+	IFightable* fc = static_cast<IFightable*>(character->get_component(Component::ComponentType::Fighting));
+	std::cout << "load army" << std::endl;
+	
 }
 
 Entity* character_system::get_character(character_type character)

@@ -13,6 +13,8 @@ private:
 
 	static int waiting_timer;
 	static int total_wait_time;
+
+	static void(*combat_start_callback)(levels level, Space&, IFightable*);
 public:
 	static Space* game_space;
 	static void(*start_dialogue_callback)(std::string);
@@ -30,6 +32,8 @@ public:
 	static void update(int dt);
 
 	static void reset();
+
+	static void set_combat_start_callback(void(*combat_callback)(levels, Space&, IFightable*)) { combat_start_callback = combat_callback; }
 
 	script_system();
 	~script_system();

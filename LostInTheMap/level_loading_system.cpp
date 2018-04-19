@@ -236,7 +236,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
 		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
 		Actor** actors = xml_system::load_characters_and_objects(level_to_load, terrain->width, terrain->height);
-		std::vector<Entity*> temp = character_system::init_characters(actors, terrain->width, terrain->height, terrain);
+		std::vector<Entity*> temp = character_system::init_characters(actors, terrain->width, terrain->height, terrain, true);
 		for (Entity* a : temp)
 			game_space.objects.push_back(a);
 
@@ -394,6 +394,7 @@ void level_loading_system::load_game_components(Space & game_space)
 	{
 		objects.clear();
 		director::init_stage(level_to_load);
+		script_system::set_combat_start_callback(&level_loading_system::load_combat);
 		for (unsigned int i = 0; i < loading_done_listeners.size(); i++)
 		{
 			void(*a)() = loading_done_listeners.at(i);
@@ -420,6 +421,44 @@ void level_loading_system::load_game_components(Space & game_space)
 
 }
 
+void level_loading_system::load_combat(levels level, Space& game_space, IFightable* fc)
+{
+	Entity* player = SpaceSystem::find_entity_by_name(game_space, "player");
+
+	//load terrain
+	int w, h, tw;
+	int** map = nullptr;
+	int** collisions;
+	if (level == levels::pyramid)
+	{
+		map = xml_system::load_map_tiles(levels::pyramid_combat_1, &w, &h, &tw);
+		collisions = xml_system::load_map_collisions(levels::pyramid_combat_1, w, h);
+	}
+
+	Entity* tilemap = new Entity(entity_type::game_object_combat, "CombatTerrain");
+	ITerrain* tc = new ITerrain(tilemap);
+	tilemap->add_component(tc);
+	//create entities for all tiles
+	map_system::init_terrain_map(map, tilemap);
+
+
+	ITerrain* terrain = static_cast<ITerrain*>(tilemap->get_component(Component::ComponentType::Terrain));
+	for (int i = 0; i < terrain->height; i++)
+		for (int j = 0; j < terrain->width; j++)
+		{
+			if (!terrain->terrain_tiles[i][j])
+				continue;
+			Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(Component::ComponentType::Transf));
+			IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable));
+			dc->sprite = asset_controller::get_terrain_texture(dc->id);
+			dc->draw_rect = camera_system::world_to_camera_space(tf->position, dc->draw_rect);
+			dc->draw_rect.w = dc->draw_rect.h = terrain->tile_width;
+			dc->sprite_origin = { terrain->tile_width / 2, terrain->tile_width / 2 };
+		}
+
+	//IFightable* fc = static_cast<IFightable*>(player->get_component(Component::ComponentType::Fighting));
+	xml_system::load_army(fc->army_file, level_to_load);
+}
 
 level_loading_system::level_loading_system()
 {

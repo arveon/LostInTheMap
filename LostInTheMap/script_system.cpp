@@ -5,6 +5,7 @@ Script script_system::cur_script;
 int script_system::cur_action;
 Space* script_system::game_space;
 void(*script_system::start_dialogue_callback)(std::string path);
+void(*script_system::combat_start_callback)(levels level, Space&, IFightable*);
 
 int script_system::waiting_timer;
 int script_system::total_wait_time;
@@ -149,6 +150,18 @@ void script_system::perform_action()
 
 		camera_system::set_camera_target(target, false, &script_system::action_over);
 		break;
+	}
+	case action_type::start_combat:
+	{
+		Entity* player = SpaceSystem::find_entity_by_name(*game_space, "player");
+		IInteractionSource* src = static_cast<IInteractionSource*>(player->get_component(Component::ComponentType::InteractionSource));
+		Entity * target = src->interaction_target;
+		if (!target)
+			action_over(nullptr);
+
+		IFightable* fc = static_cast<IFightable*>(target->get_component(Component::ComponentType::Fighting));
+		combat_start_callback(director::cur_level, *game_space, fc);
+
 	}
 	}
 }

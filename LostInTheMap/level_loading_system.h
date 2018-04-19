@@ -46,6 +46,7 @@ private:
 	static void update_bar_fill(Space& space);
 	static void update_status_text(Space& space, int state_id);
 	static void load_game_components(Space& game_space);
+	static void load_combat(levels level, Space & game_space, IFightable*);
 public:
 	
 	static void load_new_game();

@@ -13,7 +13,7 @@ class character_system
 private:
 	static std::vector<Entity*> characters;
 public:
-	static std::vector<Entity*> init_characters(Actor** character_map, int width, int height, ITerrain* tr);
+	static std::vector<Entity*> init_characters(Actor** character_map, int width, int height, ITerrain* tr, bool create_armies=false);
 	static void attach_textures_to_characters(SDL_Point tile_origin);
 
 	//sets final destination of character in raw world coords (will be adjusted to character origin automatically)
@@ -22,6 +22,8 @@ public:
 	static SDL_Point get_character_ids(Entity* character, ITerrain* tc);
 	static void stop_character_movement(Entity* character);
 	static void allow_character_movement(Entity* character);
+
+	static void add_army_to_character(Entity* character);
 
 	static Entity* get_character(character_type character);
 

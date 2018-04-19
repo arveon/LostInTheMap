@@ -9,12 +9,14 @@
 #include "lee_pathfinder.h"
 #include "CharacterTypes.h"
 #include "ObjectTypes.h"
+#include "ArmyUnit.h"
 
 typedef struct
 {
 	int value;
 	std::string type;
 	std::string script;
+	std::string army;
 } Actor;
 
 class Entity;
@@ -260,30 +262,19 @@ public:
 
 
 
-enum unit_type
-{
-	//TODO: list all the possible units that will be encountered in the game
-
-
-};
-
-struct unit
-{
-	unit_type type;
-	int quantity;
-	int health_of_first; //remaining health of the first unit in stack
-};
-
 class IFightable : public Component
 {
 public:
-	unit army[6]; //can be up to 6 different units in army
+	std::vector<army_unit> army;//can be up to 6 different units in army
+	std::string army_file;
 	IFightable(Entity* owner) : Component(owner)
 	{
 		type = ComponentType::Fighting;
 		isActive = true;
 	}
 };
+
+
 
 class ILiving : public Component
 {

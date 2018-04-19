@@ -5,6 +5,8 @@ int director::secondary_counter;
 std::vector<director::DialogBound> director::bound;
 std::vector<std::string> director::triggered_scripts;
 levels director::cur_level;
+Space* director::space;
+
 
 xml_system::Dialogue director::get_dialogue(Entity * target)
 {
@@ -77,17 +79,16 @@ void director::process_interaction(Entity* interaction_target)
 	if (interaction_target->name.compare("player") == 0)
 		return;
 
-
 	IInteractionSource* interaction_src = static_cast<IInteractionSource*>(interaction_target->get_component(Component::ComponentType::InteractionSource));
-	//this block either starts combat or engages dialogue if it's a character (to avoid having to write script that starts a dialogue for every npc)
+	//this block engages dialogue if it's a friendly character (to avoid having to write script that starts a dialogue for every npc)
 	ICharacter* target_char = static_cast<ICharacter*>(interaction_target->get_component(Component::ComponentType::Character));
-	if (target_char)
+	if (target_char && target_char->is_friendly)
 	{
 		if (target_char->is_friendly)
 		{
 			//stop target movement
 			
-				character_system::stop_character_movement(interaction_target);
+			character_system::stop_character_movement(interaction_target);
 
 			xml_system::Dialogue dial = director::get_dialogue(interaction_target);
 			if (dial.lines.size() == 0)
@@ -96,10 +97,7 @@ void director::process_interaction(Entity* interaction_target)
 			std::vector<asset_controller::CharacterPortrait> portraits = asset_controller::get_characters_portraits(dial.characters);
 			dialogue_system::start_dialogue(dial, portraits, interaction_target);
 		}
-		else
-		{
-			std::cout << "combat started" << std::endl;
-		}
+		
 	}
 	else if(interaction_src)
 	{
@@ -156,6 +154,7 @@ void director::init_stage(levels level)
 {
 	director::cur_level = level;
 	script_system::set_dialogue_start_callback(director::start_scripted_dialogue);
+
 }
 
 director::director()

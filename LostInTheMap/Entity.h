@@ -9,6 +9,7 @@ enum entity_type
 	mouse,
 	tilemap,
 	game_object,
+	game_object_combat,
 	trigger
 };
 
@@ -26,6 +27,22 @@ public:
 		this->type = type;
 		this->name = name;
 		is_active = true;
+	}
+
+	void deactivate()
+	{
+		is_active = true;
+		transform->isActive = false;
+		for (Component* c : components)
+			c->isActive = false;
+	}
+
+	void activate()
+	{
+		is_active = true;
+		transform->isActive = true;
+		for (Component* c : components)
+			c->isActive = true;
 	}
 
 	void add_component(Component* cmp)

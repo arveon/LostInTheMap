@@ -5815,7 +5815,7 @@
     <tile x="8" y="16" tile="-1" rot="0" flipX="false"/>
     <tile x="9" y="16" tile="-1" rot="0" flipX="false"/>
     <tile x="10" y="16" tile="-1" rot="0" flipX="false"/>
-    <tile x="11" y="16" tile="3" type="rat" rot="0" flipX="false"/>
+    <tile x="11" y="16" tile="3" type="rat" army="rat_1.xml" rot="0" flipX="false"/>
     <tile x="12" y="16" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="16" tile="-1" rot="0" flipX="false"/>
     <tile x="14" y="16" tile="-1" rot="0" flipX="false"/>
@@ -6074,7 +6074,7 @@
     <tile x="17" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="18" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="19" y="21" tile="-1" rot="0" flipX="false"/>
-    <tile x="20" y="21" tile="3" type="rat" rot="0" flipX="false"/>
+    <tile x="20" y="21" tile="3" type="rat" army="rat_1.xml" rot="0" flipX="false"/>
     <tile x="21" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="22" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="23" y="21" tile="-1" rot="0" flipX="false"/>
@@ -6090,7 +6090,7 @@
     <tile x="33" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="34" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="35" y="21" tile="-1" rot="0" flipX="false"/>
-    <tile x="36" y="21" tile="3" type="rat" rot="0" flipX="false"/>
+    <tile x="36" y="21" tile="3" type="rat" army="rat_1.xml" rot="0" flipX="false"/>
     <tile x="37" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="38" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="39" y="21" tile="-1" rot="0" flipX="false"/>
@@ -6381,7 +6381,7 @@
     <tile x="24" y="27" tile="-1" rot="0" flipX="false"/>
     <tile x="25" y="27" tile="-1" rot="0" flipX="false"/>
     <tile x="26" y="27" tile="-1" rot="0" flipX="false"/>
-    <tile x="27" y="27" tile="3" type="rat" type="rat" rot="0" flipX="false"/>
+    <tile x="27" y="27" tile="3" type="rat" army="rat_1.xml" army="rat_1.xml" army="" rot="0" flipX="false"/>
     <tile x="28" y="27" tile="-1" rot="0" flipX="false"/>
     <tile x="29" y="27" tile="-1" rot="0" flipX="false"/>
     <tile x="30" y="27" tile="-1" rot="0" flipX="false"/>
@@ -6475,7 +6475,7 @@
     <tile x="18" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="19" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="20" y="29" tile="-1" rot="0" flipX="false"/>
-    <tile x="21" y="29" tile="3" type="rat" rot="0" flipX="false"/>
+    <tile x="21" y="29" tile="3" type="rat" army="rat_1.xml" rot="0" flipX="false"/>
     <tile x="22" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="23" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="24" y="29" tile="-1" rot="0" flipX="false"/>

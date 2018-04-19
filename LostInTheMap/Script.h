@@ -10,7 +10,8 @@ enum action_type
 	dialogue,
 	wait,
 	change_camera_target,
-	move_camera_to_tile
+	move_camera_to_tile,
+	start_combat
 };
 
 class Action

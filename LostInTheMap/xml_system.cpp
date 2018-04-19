@@ -196,10 +196,10 @@ Actor** xml_system::load_characters_and_objects(levels level, int width, int hei
 		int x = std::stoi(cur_node->first_attribute("x")->value());
 		int y = std::stoi(cur_node->first_attribute("y")->value());
 		result[y][x].value = id;
-		rapidxml::xml_attribute<char>* attr = cur_node->first_attribute("type");
-		if (attr != nullptr)
+		rapidxml::xml_attribute<char>* type_attr = cur_node->first_attribute("type");
+		if (type_attr != nullptr)
 		{
-			result[y][x].type = attr->value();
+			result[y][x].type = type_attr->value();
 			if (result[y][x].type.compare("trigger") == 0)
 				result[y][x].script = cur_node->first_attribute("script")->value();
 			else if (result[y][x].type.compare("i_object") == 0)
@@ -210,6 +210,10 @@ Actor** xml_system::load_characters_and_objects(levels level, int width, int hei
 		}
 		else
 			result[y][x].type = "";
+
+		rapidxml::xml_attribute<char>* army_attr = cur_node->first_attribute("army");
+		if (army_attr)
+			result[y][x].army = army_attr->value();
 		cur_node = cur_node->next_sibling("tile");
 	}
 
@@ -334,6 +338,10 @@ Script xml_system::load_script(std::string name, levels level)
 			int y = std::stoi(cur_node->first_attribute("dest_y")->value());
 			temp.movement_dest = { x, y };
 		}
+		else if (type.compare("start_combat") == 0)
+		{
+			temp.type = action_type::start_combat;
+		}
 		else
 			temp.type = action_type::not_set;
 
@@ -379,6 +387,28 @@ xml_system::Dialogue xml_system::load_dialogue(std::string path)
 		replica = replica->next_sibling("rep");
 	}
 	result.initialised = true;
+	return result;
+}
+
+std::vector<army_unit> xml_system::load_army(std::string army_path, levels level)
+{
+	std::vector<army_unit> result;
+
+	std::string path = xml_system::get_level_path_prefix(level) + "armies/" + army_path.c_str();
+	rapidxml::file<> file(path.c_str());
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(file.data());
+
+	rapidxml::xml_node<>* unit = doc.first_node("army")->first_node("unit");
+	while (unit)
+	{
+		army_unit u;
+		u.type = xml_system::get_character_type_by_name(unit->first_attribute("type")->value());
+		u.quantity = std::stoi(unit->first_attribute("quantity")->value());
+		result.push_back(u);
+		unit = unit->next_sibling("unit");
+	}
+
 	return result;
 }
 
@@ -533,6 +563,8 @@ std::string xml_system::get_object_name_by_type(object_types type)
 
 	return result;
 }
+
+
 
 xml_system::xml_system()
 {

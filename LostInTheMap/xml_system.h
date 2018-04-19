@@ -13,6 +13,8 @@
 #include "Components.h"
 #include "MenuLayout.h"
 
+#include "ArmyUnit.h"
+
 class xml_system
 {
 private:
@@ -71,6 +73,8 @@ public:
 	static object_types get_object_type_by_name(std::string name);
 
 	static std::string get_object_name_by_type(object_types type);
+
+	static std::vector<army_unit> load_army(std::string army_path, levels level);
 
 	static Dialogue load_dialogue(std::string path);
 

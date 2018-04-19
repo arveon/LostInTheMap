@@ -150,6 +150,12 @@
     <ClInclude Include="script_system.h">
       <Filter>Header Files\systems\gameplay_systems</Filter>
     </ClInclude>
+    <ClInclude Include="combat_flow.h">
+      <Filter>Header Files\systems\gameplay_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmyUnit.h">
+      <Filter>Header Files\structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -229,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="ObjectTypes.h">
       <Filter>Header Files\structs</Filter>
+    </ClCompile>
+    <ClCompile Include="combat_flow.cpp">
+      <Filter>Source Files\systems\gameplay_systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
