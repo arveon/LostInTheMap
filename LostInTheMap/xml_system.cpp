@@ -421,7 +421,7 @@ std::vector<army_unit> xml_system::load_army(std::string army_path, levels level
 character_type xml_system::get_character_type_by_name(std::string name)
 {
 	character_type result;
-	if (name.compare("giovanni") == 0 || name.compare("player") == 0 || name.compare("")==0)
+	if (name.compare("giovanni") == 0 || name.compare("player") == 0 || name.compare("") == 0)
 		result = character_type::h_giovanni;
 	else if (name.compare("arch_supervisor") == 0 || name.compare("npc_arch_supervisor") == 0)//LEVEL 1
 		result = character_type::npc_arch_supervisor;
@@ -451,6 +451,12 @@ character_type xml_system::get_character_type_by_name(std::string name)
 		result = character_type::juji_villager_4;
 	else if (name.compare("snake") == 0)
 		result = character_type::snake;
+	else if (name.compare("zakra_spearman") == 0)//LEVEL 3
+		result = character_type::zakra_spearman;
+	else if (name.compare("zurshi") == 0)
+		result = character_type::h_zurshi;
+	else
+		result = character_type::none;
 
 	return result;
 }

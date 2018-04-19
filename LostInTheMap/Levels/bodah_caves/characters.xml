@@ -1,5 +1,5 @@
 <tilemap tileswide="100" tileshigh="100" tilewidth="32" tileheight="32">
- <layer number="0" name="Layer 2">
+  <layer number="0" name="Layer 2">
     <tile x="0" y="0" tile="-1" rot="0" flipX="false"/>
     <tile x="1" y="0" tile="-1" rot="0" flipX="false"/>
     <tile x="2" y="0" tile="-1" rot="0" flipX="false"/>
@@ -343,9 +343,9 @@
     <tile x="40" y="3" tile="-1" rot="0" flipX="false"/>
     <tile x="41" y="3" tile="-1" rot="0" flipX="false"/>
     <tile x="42" y="3" tile="-1" rot="0" flipX="false"/>
-    <tile x="43" y="3" tile="0" rot="0" flipX="false"/>
-    <tile x="44" y="3" tile="0" rot="0" flipX="false"/>
-    <tile x="45" y="3" tile="0" rot="0" flipX="false"/>
+    <tile x="43" y="3" tile="-1" rot="0" flipX="false"/>
+    <tile x="44" y="3" tile="-1" rot="0" flipX="false"/>
+    <tile x="45" y="3" tile="-1" rot="0" flipX="false"/>
     <tile x="46" y="3" tile="-1" rot="0" flipX="false"/>
     <tile x="47" y="3" tile="-1" rot="0" flipX="false"/>
     <tile x="48" y="3" tile="-1" rot="0" flipX="false"/>
@@ -443,12 +443,12 @@
     <tile x="40" y="4" tile="-1" rot="0" flipX="false"/>
     <tile x="41" y="4" tile="-1" rot="0" flipX="false"/>
     <tile x="42" y="4" tile="-1" rot="0" flipX="false"/>
-    <tile x="43" y="4" tile="0" rot="0" flipX="false"/>
-    <tile x="44" y="4" tile="0" rot="0" flipX="false"/>
-    <tile x="45" y="4" tile="0" rot="0" flipX="false"/>
-    <tile x="46" y="4" tile="0" rot="0" flipX="false"/>
-    <tile x="47" y="4" tile="0" rot="0" flipX="false"/>
-    <tile x="48" y="4" tile="0" rot="0" flipX="false"/>
+    <tile x="43" y="4" tile="-1" rot="0" flipX="false"/>
+    <tile x="44" y="4" tile="-1" rot="0" flipX="false"/>
+    <tile x="45" y="4" tile="-1" rot="0" flipX="false"/>
+    <tile x="46" y="4" tile="-1" rot="0" flipX="false"/>
+    <tile x="47" y="4" tile="-1" rot="0" flipX="false"/>
+    <tile x="48" y="4" tile="-1" rot="0" flipX="false"/>
     <tile x="49" y="4" tile="-1" rot="0" flipX="false"/>
     <tile x="50" y="4" tile="-1" rot="0" flipX="false"/>
     <tile x="51" y="4" tile="-1" rot="0" flipX="false"/>
@@ -545,7 +545,7 @@
     <tile x="42" y="5" tile="-1" rot="0" flipX="false"/>
     <tile x="43" y="5" tile="-1" rot="0" flipX="false"/>
     <tile x="44" y="5" tile="-1" rot="0" flipX="false"/>
-    <tile x="45" y="5" tile="-1" rot="0" flipX="false"/>
+    <tile x="45" y="5" tile="4"  type="trigger" script="to_village.xml" rot="0" flipX="false"/>
     <tile x="46" y="5" tile="-1" rot="0" flipX="false"/>
     <tile x="47" y="5" tile="-1" rot="0" flipX="false"/>
     <tile x="48" y="5" tile="-1" rot="0" flipX="false"/>
@@ -630,13 +630,13 @@
     <tile x="27" y="6" tile="-1" rot="0" flipX="false"/>
     <tile x="28" y="6" tile="-1" rot="0" flipX="false"/>
     <tile x="29" y="6" tile="-1" rot="0" flipX="false"/>
-    <tile x="30" y="6" tile="-1" rot="0" flipX="false"/>
+    <tile x="30" y="6" tile="4" type="trigger" script="shortcut_hint.xml" rot="0" flipX="false"/>
     <tile x="31" y="6" tile="-1" rot="0" flipX="false"/>
-    <tile x="32" y="6" tile="-1" rot="0" flipX="false"/>
+    <tile x="32" y="6" tile="5" type="i_object" script="shortcut_boards.xml" name="boards_vertical" rot="0" flipX="false"/>
     <tile x="33" y="6" tile="-1" rot="0" flipX="false"/>
     <tile x="34" y="6" tile="-1" rot="0" flipX="false"/>
     <tile x="35" y="6" tile="-1" rot="0" flipX="false"/>
-    <tile x="36" y="6" tile="-1" rot="0" flipX="false"/>
+    <tile x="36" y="6" tile="4" type="trigger" script="ravine_script.xml" rot="0" flipX="false"/>
     <tile x="37" y="6" tile="-1" rot="0" flipX="false"/>
     <tile x="38" y="6" tile="-1" rot="0" flipX="false"/>
     <tile x="39" y="6" tile="-1" rot="0" flipX="false"/>
@@ -729,14 +729,14 @@
     <tile x="26" y="7" tile="-1" rot="0" flipX="false"/>
     <tile x="27" y="7" tile="-1" rot="0" flipX="false"/>
     <tile x="28" y="7" tile="-1" rot="0" flipX="false"/>
-    <tile x="29" y="7" tile="-1" rot="0" flipX="false"/>
-    <tile x="30" y="7" tile="-1" rot="0" flipX="false"/>
+    <tile x="29" y="7" tile="3" type="zurshi" army="zurshi_army.xml" rot="0" flipX="false"/>
+    <tile x="30" y="7" tile="4" type="trigger" script="shortcut_hint.xml" rot="0" flipX="false"/>
     <tile x="31" y="7" tile="-1" rot="0" flipX="false"/>
     <tile x="32" y="7" tile="-1" rot="0" flipX="false"/>
     <tile x="33" y="7" tile="-1" rot="0" flipX="false"/>
-    <tile x="34" y="7" tile="-1" rot="0" flipX="false"/>
+    <tile x="34" y="7" tile="5" type="boards_horizontal" rot="0" flipX="false"/>
     <tile x="35" y="7" tile="-1" rot="0" flipX="false"/>
-    <tile x="36" y="7" tile="-1" rot="0" flipX="false"/>
+    <tile x="36" y="7" tile="4" type="trigger" script="ravine_script.xml" rot="0" flipX="false"/>
     <tile x="37" y="7" tile="-1" rot="0" flipX="false"/>
     <tile x="38" y="7" tile="-1" rot="0" flipX="false"/>
     <tile x="39" y="7" tile="-1" rot="0" flipX="false"/>
@@ -793,7 +793,7 @@
     <tile x="90" y="7" tile="-1" rot="0" flipX="false"/>
     <tile x="91" y="7" tile="-1" rot="0" flipX="false"/>
     <tile x="92" y="7" tile="-1" rot="0" flipX="false"/>
-    <tile x="93" y="7" tile="-1" rot="0" flipX="false"/>
+    <tile x="93" y="7" tile="2" type="juji_captive" rot="0" flipX="false"/>
     <tile x="94" y="7" tile="-1" rot="0" flipX="false"/>
     <tile x="95" y="7" tile="-1" rot="0" flipX="false"/>
     <tile x="96" y="7" tile="-1" rot="0" flipX="false"/>
@@ -830,13 +830,13 @@
     <tile x="27" y="8" tile="-1" rot="0" flipX="false"/>
     <tile x="28" y="8" tile="-1" rot="0" flipX="false"/>
     <tile x="29" y="8" tile="-1" rot="0" flipX="false"/>
-    <tile x="30" y="8" tile="-1" rot="0" flipX="false"/>
+    <tile x="30" y="8" tile="4" type="trigger" script="shortcut_hint.xml" rot="0" flipX="false"/>
     <tile x="31" y="8" tile="-1" rot="0" flipX="false"/>
     <tile x="32" y="8" tile="-1" rot="0" flipX="false"/>
     <tile x="33" y="8" tile="-1" rot="0" flipX="false"/>
     <tile x="34" y="8" tile="-1" rot="0" flipX="false"/>
     <tile x="35" y="8" tile="-1" rot="0" flipX="false"/>
-    <tile x="36" y="8" tile="-1" rot="0" flipX="false"/>
+    <tile x="36" y="8" tile="4" type="trigger" script="ravine_script.xml" rot="0" flipX="false"/>
     <tile x="37" y="8" tile="-1" rot="0" flipX="false"/>
     <tile x="38" y="8" tile="-1" rot="0" flipX="false"/>
     <tile x="39" y="8" tile="-1" rot="0" flipX="false"/>
@@ -930,7 +930,7 @@
     <tile x="27" y="9" tile="-1" rot="0" flipX="false"/>
     <tile x="28" y="9" tile="-1" rot="0" flipX="false"/>
     <tile x="29" y="9" tile="-1" rot="0" flipX="false"/>
-    <tile x="30" y="9" tile="-1" rot="0" flipX="false"/>
+    <tile x="30" y="9" tile="4" type="trigger" script="shortcut_hint.xml" rot="0" flipX="false"/>
     <tile x="31" y="9" tile="-1" rot="0" flipX="false"/>
     <tile x="32" y="9" tile="-1" rot="0" flipX="false"/>
     <tile x="33" y="9" tile="-1" rot="0" flipX="false"/>
@@ -1194,7 +1194,7 @@
     <tile x="91" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="92" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="93" y="11" tile="-1" rot="0" flipX="false"/>
-    <tile x="94" y="11" tile="-1" rot="0" flipX="false"/>
+    <tile x="94" y="11" tile="2" type="juji_captive" rot="0" flipX="false"/>
     <tile x="95" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="96" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="97" y="11" tile="-1" rot="0" flipX="false"/>
@@ -1294,7 +1294,7 @@
     <tile x="91" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="92" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="93" y="12" tile="-1" rot="0" flipX="false"/>
-    <tile x="94" y="12" tile="-1" rot="0" flipX="false"/>
+    <tile x="94" y="12" tile="3" type="zakra_spearman" army="zakra_army_1.xml" rot="0" flipX="false"/>
     <tile x="95" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="96" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="97" y="12" tile="-1" rot="0" flipX="false"/>
@@ -1311,7 +1311,7 @@
     <tile x="8" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="9" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="10" y="13" tile="-1" rot="0" flipX="false"/>
-    <tile x="11" y="13" tile="-1" rot="0" flipX="false"/>
+    <tile x="11" y="13" tile="3" type="zakra_spearman" army="zakra_army_5.xml" rot="0" flipX="false"/>
     <tile x="12" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="14" y="13" tile="-1" rot="0" flipX="false"/>
@@ -2059,7 +2059,7 @@
     <tile x="56" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="57" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="58" y="20" tile="-1" rot="0" flipX="false"/>
-    <tile x="59" y="20" tile="-1" rot="0" flipX="false"/>
+    <tile x="59" y="20" tile="5" type="i_object" script="chest.xml" name="chest" rot="0" flipX="false"/>
     <tile x="60" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="61" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="62" y="20" tile="-1" rot="0" flipX="false"/>
@@ -2650,7 +2650,7 @@
     <tile x="47" y="26" tile="-1" rot="0" flipX="false"/>
     <tile x="48" y="26" tile="-1" rot="0" flipX="false"/>
     <tile x="49" y="26" tile="-1" rot="0" flipX="false"/>
-    <tile x="50" y="26" tile="-1" rot="0" flipX="false"/>
+    <tile x="50" y="26" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="51" y="26" tile="-1" rot="0" flipX="false"/>
     <tile x="52" y="26" tile="-1" rot="0" flipX="false"/>
     <tile x="53" y="26" tile="-1" rot="0" flipX="false"/>
@@ -2746,7 +2746,7 @@
     <tile x="43" y="27" tile="-1" rot="0" flipX="false"/>
     <tile x="44" y="27" tile="-1" rot="0" flipX="false"/>
     <tile x="45" y="27" tile="-1" rot="0" flipX="false"/>
-    <tile x="46" y="27" tile="-1" rot="0" flipX="false"/>
+    <tile x="46" y="27" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="47" y="27" tile="-1" rot="0" flipX="false"/>
     <tile x="48" y="27" tile="-1" rot="0" flipX="false"/>
     <tile x="49" y="27" tile="-1" rot="0" flipX="false"/>
@@ -2889,7 +2889,7 @@
     <tile x="86" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="87" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="88" y="28" tile="-1" rot="0" flipX="false"/>
-    <tile x="89" y="28" tile="-1" rot="0" flipX="false"/>
+    <tile x="89" y="28" tile="5" type="i_object" script="rack.xml" name="weapon_rack" rot="0" flipX="false"/>
     <tile x="90" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="91" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="92" y="28" tile="-1" rot="0" flipX="false"/>
@@ -2990,7 +2990,7 @@
     <tile x="87" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="88" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="89" y="29" tile="-1" rot="0" flipX="false"/>
-    <tile x="90" y="29" tile="-1" rot="0" flipX="false"/>
+    <tile x="90" y="29" tile="5" type="i_object" script="rack.xml" name="weapon_rack" rot="0" flipX="false"/>
     <tile x="91" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="92" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="93" y="29" tile="-1" rot="0" flipX="false"/>
@@ -3086,7 +3086,7 @@
     <tile x="83" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="84" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="85" y="30" tile="-1" rot="0" flipX="false"/>
-    <tile x="86" y="30" tile="-1" rot="0" flipX="false"/>
+    <tile x="86" y="30" tile="5" type="i_object" script="upgrade_spear.xml" name="upgrade_spear" rot="0" flipX="false"/>
     <tile x="87" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="88" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="89" y="30" tile="-1" rot="0" flipX="false"/>
@@ -3456,7 +3456,7 @@
     <tile x="53" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="54" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="55" y="34" tile="-1" rot="0" flipX="false"/>
-    <tile x="56" y="34" tile="-1" rot="0" flipX="false"/>
+    <tile x="56" y="34" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="57" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="58" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="59" y="34" tile="-1" rot="0" flipX="false"/>
@@ -3488,7 +3488,7 @@
     <tile x="85" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="86" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="87" y="34" tile="-1" rot="0" flipX="false"/>
-    <tile x="88" y="34" tile="-1" rot="0" flipX="false"/>
+    <tile x="88" y="34" tile="5" type="i_object" script="rack.xml" name="weapon_rack" rot="0" flipX="false"/>
     <tile x="89" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="90" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="91" y="34" tile="-1" rot="0" flipX="false"/>
@@ -3588,9 +3588,9 @@
     <tile x="85" y="35" tile="-1" rot="0" flipX="false"/>
     <tile x="86" y="35" tile="-1" rot="0" flipX="false"/>
     <tile x="87" y="35" tile="-1" rot="0" flipX="false"/>
-    <tile x="88" y="35" tile="-1" rot="0" flipX="false"/>
-    <tile x="89" y="35" tile="-1" rot="0" flipX="false"/>
-    <tile x="90" y="35" tile="-1" rot="0" flipX="false"/>
+    <tile x="88" y="35" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
+    <tile x="89" y="35" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
+    <tile x="90" y="35" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="91" y="35" tile="-1" rot="0" flipX="false"/>
     <tile x="92" y="35" tile="-1" rot="0" flipX="false"/>
     <tile x="93" y="35" tile="-1" rot="0" flipX="false"/>
@@ -3678,7 +3678,7 @@
     <tile x="75" y="36" tile="-1" rot="0" flipX="false"/>
     <tile x="76" y="36" tile="-1" rot="0" flipX="false"/>
     <tile x="77" y="36" tile="-1" rot="0" flipX="false"/>
-    <tile x="78" y="36" tile="-1" rot="0" flipX="false"/>
+    <tile x="78" y="36" tile="3" type="zakra_spearman"  army="zakra_army_2.xml" rot="0" flipX="false"/>
     <tile x="79" y="36" tile="-1" rot="0" flipX="false"/>
     <tile x="80" y="36" tile="-1" rot="0" flipX="false"/>
     <tile x="81" y="36" tile="-1" rot="0" flipX="false"/>
@@ -3871,7 +3871,7 @@
     <tile x="68" y="38" tile="-1" rot="0" flipX="false"/>
     <tile x="69" y="38" tile="-1" rot="0" flipX="false"/>
     <tile x="70" y="38" tile="-1" rot="0" flipX="false"/>
-    <tile x="71" y="38" tile="-1" rot="0" flipX="false"/>
+    <tile x="71" y="38" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="72" y="38" tile="-1" rot="0" flipX="false"/>
     <tile x="73" y="38" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="38" tile="-1" rot="0" flipX="false"/>
@@ -3970,7 +3970,7 @@
     <tile x="67" y="39" tile="-1" rot="0" flipX="false"/>
     <tile x="68" y="39" tile="-1" rot="0" flipX="false"/>
     <tile x="69" y="39" tile="-1" rot="0" flipX="false"/>
-    <tile x="70" y="39" tile="-1" rot="0" flipX="false"/>
+    <tile x="70" y="39" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="71" y="39" tile="-1" rot="0" flipX="false"/>
     <tile x="72" y="39" tile="-1" rot="0" flipX="false"/>
     <tile x="73" y="39" tile="-1" rot="0" flipX="false"/>
@@ -4338,14 +4338,14 @@
     <tile x="35" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="36" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="37" y="43" tile="-1" rot="0" flipX="false"/>
-    <tile x="38" y="43" tile="-1" rot="0" flipX="false"/>
+    <tile x="38" y="43" tile="5" type="i_object" script="chest.xml" name="chest" rot="0" flipX="false"/>
     <tile x="39" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="40" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="41" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="42" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="43" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="44" y="43" tile="-1" rot="0" flipX="false"/>
-    <tile x="45" y="43" tile="-1" rot="0" flipX="false"/>
+    <tile x="45" y="43" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="46" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="47" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="48" y="43" tile="-1" rot="0" flipX="false"/>
@@ -4358,7 +4358,7 @@
     <tile x="55" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="56" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="57" y="43" tile="-1" rot="0" flipX="false"/>
-    <tile x="58" y="43" tile="-1" rot="0" flipX="false"/>
+    <tile x="58" y="43" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="59" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="60" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="61" y="43" tile="-1" rot="0" flipX="false"/>
@@ -4376,7 +4376,7 @@
     <tile x="73" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="75" y="43" tile="-1" rot="0" flipX="false"/>
-    <tile x="76" y="43" tile="-1" rot="0" flipX="false"/>
+    <tile x="76" y="43" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="77" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="79" y="43" tile="-1" rot="0" flipX="false"/>
@@ -4476,7 +4476,7 @@
     <tile x="73" y="44" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="44" tile="-1" rot="0" flipX="false"/>
     <tile x="75" y="44" tile="-1" rot="0" flipX="false"/>
-    <tile x="76" y="44" tile="-1" rot="0" flipX="false"/>
+    <tile x="76" y="44" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="77" y="44" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="44" tile="-1" rot="0" flipX="false"/>
     <tile x="79" y="44" tile="-1" rot="0" flipX="false"/>
@@ -4576,7 +4576,7 @@
     <tile x="73" y="45" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="45" tile="-1" rot="0" flipX="false"/>
     <tile x="75" y="45" tile="-1" rot="0" flipX="false"/>
-    <tile x="76" y="45" tile="-1" rot="0" flipX="false"/>
+    <tile x="76" y="45" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="77" y="45" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="45" tile="-1" rot="0" flipX="false"/>
     <tile x="79" y="45" tile="-1" rot="0" flipX="false"/>
@@ -4676,7 +4676,7 @@
     <tile x="73" y="46" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="46" tile="-1" rot="0" flipX="false"/>
     <tile x="75" y="46" tile="-1" rot="0" flipX="false"/>
-    <tile x="76" y="46" tile="-1" rot="0" flipX="false"/>
+    <tile x="76" y="46" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="77" y="46" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="46" tile="-1" rot="0" flipX="false"/>
     <tile x="79" y="46" tile="-1" rot="0" flipX="false"/>
@@ -4776,9 +4776,9 @@
     <tile x="73" y="47" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="47" tile="-1" rot="0" flipX="false"/>
     <tile x="75" y="47" tile="-1" rot="0" flipX="false"/>
-    <tile x="76" y="47" tile="-1" rot="0" flipX="false"/>
-    <tile x="77" y="47" tile="-1" rot="0" flipX="false"/>
-    <tile x="78" y="47" tile="-1" rot="0" flipX="false"/>
+    <tile x="76" y="47" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
+    <tile x="77" y="47" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
+    <tile x="78" y="47" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="79" y="47" tile="-1" rot="0" flipX="false"/>
     <tile x="80" y="47" tile="-1" rot="0" flipX="false"/>
     <tile x="81" y="47" tile="-1" rot="0" flipX="false"/>
@@ -4843,7 +4843,7 @@
     <tile x="40" y="48" tile="-1" rot="0" flipX="false"/>
     <tile x="41" y="48" tile="-1" rot="0" flipX="false"/>
     <tile x="42" y="48" tile="-1" rot="0" flipX="false"/>
-    <tile x="43" y="48" tile="-1" rot="0" flipX="false"/>
+    <tile x="43" y="48" tile="5" type="i_object" script="chest.xml" name="c" rot="0" flipX="false"/>
     <tile x="44" y="48" tile="-1" rot="0" flipX="false"/>
     <tile x="45" y="48" tile="-1" rot="0" flipX="false"/>
     <tile x="46" y="48" tile="-1" rot="0" flipX="false"/>
@@ -4877,9 +4877,9 @@
     <tile x="74" y="48" tile="-1" rot="0" flipX="false"/>
     <tile x="75" y="48" tile="-1" rot="0" flipX="false"/>
     <tile x="76" y="48" tile="-1" rot="0" flipX="false"/>
-    <tile x="77" y="48" tile="-1" rot="0" flipX="false"/>
-    <tile x="78" y="48" tile="-1" rot="0" flipX="false"/>
-    <tile x="79" y="48" tile="-1" rot="0" flipX="false"/>
+    <tile x="77" y="48" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
+    <tile x="78" y="48" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
+    <tile x="79" y="48" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="80" y="48" tile="-1" rot="0" flipX="false"/>
     <tile x="81" y="48" tile="-1" rot="0" flipX="false"/>
     <tile x="82" y="48" tile="-1" rot="0" flipX="false"/>
@@ -4949,7 +4949,7 @@
     <tile x="46" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="47" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="48" y="49" tile="-1" rot="0" flipX="false"/>
-    <tile x="49" y="49" tile="-1" rot="0" flipX="false"/>
+    <tile x="49" y="49" tile="3" type="zakra_spearman" army="zakra_army_3.xml" rot="0" flipX="false"/>
     <tile x="50" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="51" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="52" y="49" tile="-1" rot="0" flipX="false"/>
@@ -4979,8 +4979,8 @@
     <tile x="76" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="77" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="49" tile="-1" rot="0" flipX="false"/>
-    <tile x="79" y="49" tile="-1" rot="0" flipX="false"/>
-    <tile x="80" y="49" tile="-1" rot="0" flipX="false"/>
+    <tile x="79" y="49" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
+    <tile x="80" y="49" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="81" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="82" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="83" y="49" tile="-1" rot="0" flipX="false"/>
@@ -4990,7 +4990,7 @@
     <tile x="87" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="88" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="89" y="49" tile="-1" rot="0" flipX="false"/>
-    <tile x="90" y="49" tile="-1" rot="0" flipX="false"/>
+    <tile x="90" y="49" tile="5" type="i_object" script="chest.xml" name="chest" rot="0" flipX="false"/>
     <tile x="91" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="92" y="49" tile="-1" rot="0" flipX="false"/>
     <tile x="93" y="49" tile="-1" rot="0" flipX="false"/>
@@ -5089,7 +5089,7 @@
     <tile x="86" y="50" tile="-1" rot="0" flipX="false"/>
     <tile x="87" y="50" tile="-1" rot="0" flipX="false"/>
     <tile x="88" y="50" tile="-1" rot="0" flipX="false"/>
-    <tile x="89" y="50" tile="-1" rot="0" flipX="false"/>
+    <tile x="89" y="50" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="90" y="50" tile="-1" rot="0" flipX="false"/>
     <tile x="91" y="50" tile="-1" rot="0" flipX="false"/>
     <tile x="92" y="50" tile="-1" rot="0" flipX="false"/>
@@ -5211,7 +5211,7 @@
     <tile x="8" y="52" tile="-1" rot="0" flipX="false"/>
     <tile x="9" y="52" tile="-1" rot="0" flipX="false"/>
     <tile x="10" y="52" tile="-1" rot="0" flipX="false"/>
-    <tile x="11" y="52" tile="-1" rot="0" flipX="false"/>
+    <tile x="11" y="52" tile="5" type="i_object" script="chest.xml" name="chest" rot="0" flipX="false"/>
     <tile x="12" y="52" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="52" tile="-1" rot="0" flipX="false"/>
     <tile x="14" y="52" tile="-1" rot="0" flipX="false"/>
@@ -5544,7 +5544,7 @@
     <tile x="41" y="55" tile="-1" rot="0" flipX="false"/>
     <tile x="42" y="55" tile="-1" rot="0" flipX="false"/>
     <tile x="43" y="55" tile="-1" rot="0" flipX="false"/>
-    <tile x="44" y="55" tile="-1" rot="0" flipX="false"/>
+    <tile x="44" y="55" tile="5" type="i_object" script="chest.xml" name="chest" rot="0" flipX="false"/>
     <tile x="45" y="55" tile="-1" rot="0" flipX="false"/>
     <tile x="46" y="55" tile="-1" rot="0" flipX="false"/>
     <tile x="47" y="55" tile="-1" rot="0" flipX="false"/>
@@ -5649,7 +5649,7 @@
     <tile x="46" y="56" tile="-1" rot="0" flipX="false"/>
     <tile x="47" y="56" tile="-1" rot="0" flipX="false"/>
     <tile x="48" y="56" tile="-1" rot="0" flipX="false"/>
-    <tile x="49" y="56" tile="-1" rot="0" flipX="false"/>
+    <tile x="49" y="56" tile="2" type="juji_captive" rot="0" flipX="false"/>
     <tile x="50" y="56" tile="-1" rot="0" flipX="false"/>
     <tile x="51" y="56" tile="-1" rot="0" flipX="false"/>
     <tile x="52" y="56" tile="-1" rot="0" flipX="false"/>
@@ -6111,7 +6111,7 @@
     <tile x="8" y="61" tile="-1" rot="0" flipX="false"/>
     <tile x="9" y="61" tile="-1" rot="0" flipX="false"/>
     <tile x="10" y="61" tile="-1" rot="0" flipX="false"/>
-    <tile x="11" y="61" tile="-1" rot="0" flipX="false"/>
+    <tile x="11" y="61" tile="5" type="i_object" script="chest.xml" name="chest" rot="0" flipX="false"/>
     <tile x="12" y="61" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="61" tile="-1" rot="0" flipX="false"/>
     <tile x="14" y="61" tile="-1" rot="0" flipX="false"/>
@@ -6213,7 +6213,7 @@
     <tile x="10" y="62" tile="-1" rot="0" flipX="false"/>
     <tile x="11" y="62" tile="-1" rot="0" flipX="false"/>
     <tile x="12" y="62" tile="-1" rot="0" flipX="false"/>
-    <tile x="13" y="62" tile="-1" rot="0" flipX="false"/>
+    <tile x="13" y="62" tile="3" type="zakra_spearman" army="zakra_army_4.xml" rot="0" flipX="false"/>
     <tile x="14" y="62" tile="-1" rot="0" flipX="false"/>
     <tile x="15" y="62" tile="-1" rot="0" flipX="false"/>
     <tile x="16" y="62" tile="-1" rot="0" flipX="false"/>
@@ -6313,7 +6313,7 @@
     <tile x="10" y="63" tile="-1" rot="0" flipX="false"/>
     <tile x="11" y="63" tile="-1" rot="0" flipX="false"/>
     <tile x="12" y="63" tile="-1" rot="0" flipX="false"/>
-    <tile x="13" y="63" tile="-1" rot="0" flipX="false"/>
+    <tile x="13" y="63" tile="2" type="juji_captive" rot="0" flipX="false"/>
     <tile x="14" y="63" tile="-1" rot="0" flipX="false"/>
     <tile x="15" y="63" tile="-1" rot="0" flipX="false"/>
     <tile x="16" y="63" tile="-1" rot="0" flipX="false"/>
@@ -6443,7 +6443,7 @@
     <tile x="40" y="64" tile="-1" rot="0" flipX="false"/>
     <tile x="41" y="64" tile="-1" rot="0" flipX="false"/>
     <tile x="42" y="64" tile="-1" rot="0" flipX="false"/>
-    <tile x="43" y="64" tile="-1" rot="0" flipX="false"/>
+    <tile x="43" y="64" tile="2" type="juji_captive" rot="0" flipX="false"/>
     <tile x="44" y="64" tile="-1" rot="0" flipX="false"/>
     <tile x="45" y="64" tile="-1" rot="0" flipX="false"/>
     <tile x="46" y="64" tile="-1" rot="0" flipX="false"/>
