@@ -122,6 +122,7 @@ public:
 	{
 		type = ComponentType::Collision;
 		collision_rect = { 0,0,width,height };
+		isActive = true;
 	}
 };
 
