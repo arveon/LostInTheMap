@@ -431,8 +431,8 @@ void level_loading_system::load_combat(levels level, Space& game_space, IFightab
 	int** collisions;
 	if (level == levels::pyramid)
 	{
-		map = xml_system::load_map_tiles(levels::pyramid_combat_1, &w, &h, &tw);
-		collisions = xml_system::load_map_collisions(levels::pyramid_combat_1, w, h);
+		map = xml_system::load_map_tiles(levels::pyramid, &w, &h, &tw, true);
+		collisions = xml_system::load_map_collisions(levels::pyramid, w, h, true);
 	}
 
 	Entity* tilemap = new Entity(entity_type::game_object_combat, "CombatTerrain");

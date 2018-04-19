@@ -87,7 +87,7 @@ MenuLayout xml_system::load_interface_layout(std::string name)
 //TODO: add layer system to load methods switch(cur_tile->name()) case "terrain" - load tiles, etc 
 
 
-int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* tilewidth)
+int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* tilewidth, bool is_combat)
 {
 	int** tilemap = nullptr;
 
@@ -129,10 +129,16 @@ int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* ti
 	return tilemap;
 }
 
-int** xml_system::load_map_collisions(levels level, int width, int height)
+int** xml_system::load_map_collisions(levels level, int width, int height, bool is_combat)
 {
 	int** tilemap = nullptr;
-	std::string path = "map.xml";
+	std::string path;
+	if(!is_combat)
+		 path = "map.xml";
+	else
+	{
+		path = "map_combat.xml";
+	}
 	std::string temp = xml_system::get_level_path_prefix(level);
 	path = temp + path;
 
@@ -180,7 +186,7 @@ Actor** xml_system::load_characters_and_objects(levels level, int width, int hei
 		}
 	}
 
-	std::string path = "map.xml";
+	std::string path = "characters.xml";
 	std::string temp = xml_system::get_level_path_prefix(level);
 	path = temp + path;
 
@@ -188,7 +194,7 @@ Actor** xml_system::load_characters_and_objects(levels level, int width, int hei
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(file.data());
 
-	rapidxml::xml_node<>* cur_node = doc.first_node("tilemap")->first_node("layer")->next_sibling()->next_sibling()->first_node("tile");
+	rapidxml::xml_node<>* cur_node = doc.first_node("tilemap")->first_node("layer")->first_node("tile");
 	while (cur_node)
 	{
 		int id = std::stoi(cur_node->first_attribute("tile")->value());

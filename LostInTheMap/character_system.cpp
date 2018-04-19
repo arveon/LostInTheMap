@@ -263,6 +263,8 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 			is->interaction_target = target;
 			is->has_triggered = false;
 		}
+		else
+			is->interaction_target = nullptr;
 	}
 
 	bool need_to_move = false;
@@ -323,7 +325,7 @@ adding_interaction:
 		mc->final_destination = { -1,-1 };
 		mc->path.clear();
 		mc->destination_reached = true;
-		if (target && is)
+		if (target && is && is->interaction_target != nullptr)
 		{
 			is->has_triggered = true;
 			is->interaction_trigger(is->interaction_target);

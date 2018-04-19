@@ -141,9 +141,6 @@
     <ClInclude Include="CharacterTypes.h">
       <Filter>Header Files\structs</Filter>
     </ClInclude>
-    <ClInclude Include="Levels.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>Header Files\structs</Filter>
     </ClInclude>
@@ -154,6 +151,9 @@
       <Filter>Header Files\systems\gameplay_systems</Filter>
     </ClInclude>
     <ClInclude Include="ArmyUnit.h">
+      <Filter>Header Files\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Levels.h">
       <Filter>Header Files\structs</Filter>
     </ClInclude>
   </ItemGroup>
