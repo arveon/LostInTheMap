@@ -1418,7 +1418,7 @@
     <tile x="15" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="16" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="17" y="28" tile="-1" rot="0" flipX="false"/>
-    <tile x="18" y="28" tile="5" rot="0" flipX="false"/>
+    <tile x="18" y="28" tile="6" type="i_object" script="gold.xml" name="gold_pile" rot="0" flipX="false"/>
     <tile x="19" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="20" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="21" y="28" tile="-1" rot="0" flipX="false"/>

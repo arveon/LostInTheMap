@@ -10,6 +10,8 @@ enum object_types
 	weapon_rack,
 	table,
 	alchemy_table,
+	boards_vertical,
+	boards_horizontal,
 
 	juji_house_1,
 	juji_house_2,

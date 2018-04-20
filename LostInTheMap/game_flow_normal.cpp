@@ -224,7 +224,7 @@ void game_flow_normal::clear_all_systems(Space& space)
 
 	character_system::clear_characters();
 	director::reset_director();
-	asset_controller::destroy_terrain_textures();
+	asset_controller::clear_stored_textures();
 	lee_pathfinder::destroy_pathfinding();
 }
 

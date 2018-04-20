@@ -1,5 +1,13 @@
 <script block_player="true">
 <action type="move_camera" dest_x="28" dest_y="18"/>
+<action type="move" character="arch_supervisor" dest_x="27" dest_y="18" />
+<action type="move" character="archaeologist_1" dest_x="28" dest_y="18" />
+<action type="move" character="archaeologist_2" dest_x="27" dest_y="19" />
+<action type="move" character="archaeologist_3" dest_x="28" dest_y="19" />
+<action type="move" character="archaeologist_4" dest_x="26" dest_y="18" />
+<action type="dialogue" dialogue="door_opened.xml"/>
 <action type="wait" time="1000"/>
+<action type="set_story_state" new_state="pyramid_lever_switched"/>
+
 <action type="camera_target" character="player" />
 </script>

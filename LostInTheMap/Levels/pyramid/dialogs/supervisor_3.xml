@@ -1,0 +1,5 @@
+<dialogue character="giovanni" character="arch_supervisor">
+	<rep character="1" text="Get back to work now!" />
+	<rep character="1" text="Make sure you report all of the findings to me IMMEDIATELY, please..." />
+	<rep character="0" text="I was on my way to let you know about it anyway..." />
+</dialogue>

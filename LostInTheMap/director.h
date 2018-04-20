@@ -6,6 +6,7 @@
 #include "xml_system.h"
 #include "Script.h"
 #include "Levels.h"
+#include "StoryStages.h"
 class director
 {
 public:
@@ -18,26 +19,7 @@ public:
 		rat_5
 	};
 private:
-	enum story_stage
-	{
-		pyramid_entrance,
-		pyramid_gold_picked_up,
-		pyramid_lever_switched,
-		juji_start,
-		juji_snakes_start,
-		juji_snakes_end,
-		bodah_start,
-		bodah_end,
-		zakra_start,
-		zakra_after_leader,
-		zakra_after_collected,
-		zakra_after_potion,
-		zakra_end,
-		desert_before_fight,
-		desert_zaji_dies,
-		desert_zaji_lives,
-		end
-	};	
+	
 	
 	static story_stage cur_stage;
 	static int secondary_counter;
@@ -66,9 +48,18 @@ public:
 	static void process_interaction(Entity* target);
 	static void script_trigger(Entity* trigger);
 
+	static void set_story_state(std::string new_state);
+
+	static story_stage get_story_state_from_name(std::string name);
+
 	static void reset_director();
 
 	director();
 	~director();
+	
+	static xml_system::Dialogue pyramid_entrance_dialogues(Entity * target);
+	static xml_system::Dialogue pyramid_gold_picked_up_dialogues(Entity * target);
+	static xml_system::Dialogue pyramid_gold_taken_dialogues(Entity * target);
+	static xml_system::Dialogue get_archaeologist_dialogue(Entity * target, ICharacter* cc);
 };
 

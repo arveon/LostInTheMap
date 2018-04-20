@@ -151,13 +151,20 @@ void asset_controller::load_terrain_textures(std::string path, int tilewidth)
 	SDL_DestroyTexture(tex);
 }
 
-void asset_controller::destroy_terrain_textures()
+void asset_controller::clear_stored_textures()
 {
-	for (unsigned int i = 0; i < terrain_textures.size(); i++)
+	for (SDL_Texture* t : terrain_textures)
 	{
-		asset_controller::destroy_texture(terrain_textures.at(i));
+		asset_controller::destroy_texture(t);
 	}
 	terrain_textures.clear();
+
+	for (std::pair<std::string, SDL_Texture*> t : object_textures)
+	{
+		asset_controller::destroy_texture(t.second);
+	}
+	object_textures.clear();
+
 }
 
 SDL_Texture* asset_controller::get_object_texture(std::string obj_name)

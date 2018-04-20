@@ -42,7 +42,7 @@ void mouse_system::update_mouse(Entity* mouse, Space& space, bool in_dialogue, b
 	mouse->transform->position.y = input_system::mouse.y;
 	dc->draw_rect.x = input_system::mouse.x - mt->origin.x;
 	dc->draw_rect.y = input_system::mouse.y - mt->origin.y;
-	
+
 	if (!in_dialogue)
 	{
 		ITerrain* terrain = SpaceSystem::get_terrain(space);
@@ -74,7 +74,12 @@ void mouse_system::update_mouse(Entity* mouse, Space& space, bool in_dialogue, b
 				ITile* tc = static_cast<ITile*>(target_object->get_component(Component::ComponentType::Tile));
 				ICharacter* cc = static_cast<ICharacter*>(target_object->get_component(Component::ComponentType::Character));
 				IInteractionSource* interaction = static_cast<IInteractionSource*>(target_object->get_component(Component::ComponentType::InteractionSource));
-				if (tc)
+				if (!target_object->is_active)
+				{
+					mc->cur_target = target_object;
+					change_mouse_icon(mouse_icons::walking, ac, dc);
+				}
+				else if (tc)
 				{
 					if (tc->is_traversible)
 					{
@@ -128,7 +133,7 @@ SDL_Point mouse_system::get_mouse_in_world(Entity * mouse)
 {
 	IMouse* ms = static_cast<IMouse*>(mouse->get_component(Component::ComponentType::Mouse));
 	//get mouse screen space
-	SDL_Point mouse_pos = { mouse->transform->position.x, mouse->transform->position.y};
+	SDL_Point mouse_pos = { mouse->transform->position.x, mouse->transform->position.y };
 	//get mouse world space
 	mouse_pos = camera_system::screen_to_world_space(mouse_pos);
 

@@ -1042,13 +1042,13 @@
     <tile x="39" y="10" tile="-1" rot="0" flipX="false"/>
     <tile x="40" y="10" tile="-1" rot="0" flipX="false"/>
     <tile x="41" y="10" tile="-1" rot="0" flipX="false"/>
-    <tile x="42" y="10" tile="-1" rot="0" flipX="false"/>
+    <tile x="42" y="10" tile="5" type="i_object" script="weapon_rack.xml" name="weapon_rack" rot="0" flipX="false"/>
     <tile x="43" y="10" tile="-1" rot="0" flipX="false"/>
     <tile x="44" y="10" tile="-1" rot="0" flipX="false"/>
-    <tile x="45" y="10" tile="-1" rot="0" flipX="false"/>
+    <tile x="45" y="10" tile="5" type="i_object" script="chest.xml" name="chest" rot="0" flipX="false"/>
     <tile x="46" y="10" tile="-1" rot="0" flipX="false"/>
     <tile x="47" y="10" tile="-1" rot="0" flipX="false"/>
-    <tile x="48" y="10" tile="-1" rot="0" flipX="false"/>
+    <tile x="48" y="10" tile="5" type="i_object" script="barrel.xml" name="barrel" rot="0" flipX="false"/>
     <tile x="49" y="10" tile="-1" rot="0" flipX="false"/>
     <tile x="50" y="10" tile="-1" rot="0" flipX="false"/>
     <tile x="51" y="10" tile="-1" rot="0" flipX="false"/>

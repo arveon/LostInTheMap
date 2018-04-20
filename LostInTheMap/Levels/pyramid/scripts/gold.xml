@@ -1,0 +1,5 @@
+<script block_player="true" once="true">
+<action type="dialogue" dialogue="gold.xml"/>
+<action type="set_story_state"  new_state="pyramid_gold_picked_up"/>
+<action type="object_disappear" object_type="target"/>
+</script>

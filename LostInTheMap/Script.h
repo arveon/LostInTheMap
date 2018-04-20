@@ -11,7 +11,10 @@ enum action_type
 	wait,
 	change_camera_target,
 	move_camera_to_tile,
-	start_combat
+	start_combat,
+	set_story_state,
+	object_disappear,
+	character_disappear
 };
 
 class Action
@@ -30,12 +33,16 @@ public:
 
 	//used if wait
 	int time;
+
+	//utility stuff
+	std::string utility;
 };
 
 class Script
 {
 public:
 	bool initialised = false;
+	bool happens_once = false;
 	bool blocks_player;
 	std::vector<Action> actions;
 

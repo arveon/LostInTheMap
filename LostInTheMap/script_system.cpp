@@ -5,7 +5,9 @@ Script script_system::cur_script;
 int script_system::cur_action;
 Space* script_system::game_space;
 void(*script_system::start_dialogue_callback)(std::string path);
+void(*script_system::state_change_callback)(std::string path);
 void(*script_system::combat_start_callback)(levels level, Space&, IFightable*);
+
 
 int script_system::waiting_timer;
 int script_system::total_wait_time;
@@ -99,7 +101,7 @@ void script_system::perform_action()
 			action_over(nullptr);
 		to_perform->target = to_move;
 		ICharacter* ch = static_cast<ICharacter*>(to_move->get_component(Component::ComponentType::Character));
-		if (!ch)
+		if (!ch || !to_move->is_active)
 			action_over(nullptr);
 		ch->controlled_by_script = true;
 		ch->script_done_callback = &script_system::action_over;
@@ -161,7 +163,31 @@ void script_system::perform_action()
 
 		IFightable* fc = static_cast<IFightable*>(target->get_component(Component::ComponentType::Fighting));
 		combat_start_callback(director::cur_level, *game_space, fc);
-
+		break;
+	}
+	case action_type::set_story_state:
+	{
+		script_system::state_change_callback(to_perform->utility);
+		action_over(nullptr);
+		break;
+	}
+	case action_type::object_disappear:
+	{
+		if (to_perform->utility.compare("target") == 0)
+		{
+			Entity* pl = SpaceSystem::find_entity_by_name(*game_space, "player");
+			IInteractionSource* src = static_cast<IInteractionSource*>(pl->get_component(Component::ComponentType::InteractionSource));
+			src->interaction_target->deactivate();
+		}
+		action_over(nullptr);
+		break;
+	}
+	case action_type::character_disappear:
+	{
+		Entity* character = character_system::get_character(to_perform->target_type);
+		character->deactivate();
+		action_over(nullptr);
+		break;
 	}
 	}
 }

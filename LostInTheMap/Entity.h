@@ -31,7 +31,7 @@ public:
 
 	void deactivate()
 	{
-		is_active = true;
+		is_active = false;
 		transform->isActive = false;
 		for (Component* c : components)
 			c->isActive = false;

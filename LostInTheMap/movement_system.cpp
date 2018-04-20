@@ -11,6 +11,11 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 	for (unsigned int i = 0; i < game_space.objects.size(); i++)
 	{
 		Entity* character = game_space.objects.at(i);
+
+		//if character inactive, skip it
+		if (!character->is_active)
+			continue;
+
 		//get moving component to see if entity is movable
 		IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
 		ICollidable* cc = static_cast<ICollidable*>(character->get_component(Component::ComponentType::Collision));
@@ -116,7 +121,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 
 					//check if currently inside trigger
 					Entity* trigger_tile = SpaceSystem::get_object_at_point(game_space, tc->position.x + tc->origin.x, tc->position.y + tc->origin.y, false);
-					if (trigger_tile)
+					if (trigger_tile && trigger_tile->is_active)
 					{
 						IInteractionSource* trigger = static_cast<IInteractionSource*>(trigger_tile->get_component(Component::ComponentType::InteractionSource));
 						if (trigger)

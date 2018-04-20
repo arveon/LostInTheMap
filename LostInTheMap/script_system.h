@@ -4,6 +4,7 @@
 #include "character_system.h"
 #include "Components.h"
 #include "camera_system.h"
+#include "StoryStages.h"
 
 class script_system
 {
@@ -15,9 +16,10 @@ private:
 	static int total_wait_time;
 
 	static void(*combat_start_callback)(levels level, Space&, IFightable*);
+	static void(*start_dialogue_callback)(std::string);
+	static void(*state_change_callback)(std::string);
 public:
 	static Space* game_space;
-	static void(*start_dialogue_callback)(std::string);
 
 	static bool is_player_blocked() { return (is_script_going() && cur_script.blocks_player); }
 	static bool is_script_going();
@@ -25,7 +27,6 @@ public:
 	static void start_script(Script s);
 	static void perform_action();
 
-	static void set_dialogue_start_callback(void(*cb)(std::string)) { start_dialogue_callback = cb; }
 	
 	static void action_over(Entity* action_performer);
 
@@ -34,6 +35,8 @@ public:
 	static void reset();
 
 	static void set_combat_start_callback(void(*combat_callback)(levels, Space&, IFightable*)) { combat_start_callback = combat_callback; }
+	static void set_dialogue_start_callback(void(*cb)(std::string)) { start_dialogue_callback = cb; }
+	static void set_state_change_callback(void(*cb)(std::string)) { state_change_callback = cb; }
 
 	script_system();
 	~script_system();

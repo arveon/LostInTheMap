@@ -150,7 +150,7 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 	{
 		for (int j = 0; j < tr->width; j++)
 		{
-			if (objects_map[i][j].value == 6)
+			if (objects_map[i][j].value == 6 || objects_map[i][j].value == 5)
 			{
 				Entity* obj = new Entity(entity_type::game_object, "object" + std::to_string(counter));
 				counter++;
@@ -198,6 +198,50 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 
 					i_obj->interaction_trigger = &director::script_trigger;
 					i_obj->script_attached = objects_map[i][j].script;
+					break;
+				}
+				case object_types::barrel:
+				case object_types::weapon_rack:
+				case object_types::boards_vertical:
+				{
+					dc->draw_rect.w = 32;
+					dc->draw_rect.h = 64;
+
+					collider->collidable = true;
+					collider->collision_rect.w = tf->position.w;
+					collider->collision_rect.h = tf->position.h;
+
+					i_obj->interaction_trigger = &director::script_trigger;
+					i_obj->script_attached = objects_map[i][j].script;
+					break;
+				}
+				case object_types::boards_horizontal:
+				{
+					dc->draw_rect.w = 96;
+					dc->draw_rect.h = 32;
+
+					collider->collidable = true;
+					collider->collision_rect.w = 96;
+					collider->collision_rect.h = tf->position.h;
+					
+					i_obj->interaction_trigger = &director::script_trigger;
+					i_obj->script_attached = objects_map[i][j].script;
+					break;
+				}
+				case object_types::table:
+				case object_types::alchemy_table:
+				case object_types::chest:
+				{
+					dc->draw_rect.w = 64;
+					dc->draw_rect.h = 64;
+
+					collider->collidable = true;
+					collider->collision_rect.w = tf->position.w;
+					collider->collision_rect.h = tf->position.h;
+
+					i_obj->interaction_trigger = &director::script_trigger;
+					i_obj->script_attached = objects_map[i][j].script;
+					break;
 				}
 
 

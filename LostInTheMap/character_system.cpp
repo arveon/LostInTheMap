@@ -10,7 +10,8 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 		for (int j = 0; j < width; j++)
 		{
 			//if there is a character in this tile initialise an object for it
-			if (charact[i][j].value == 2 || charact[i][j].value == 3 || charact[i][j].value == 1)
+			//TODO: UNCOMMENT CHARACTER LOADING WHEN ALL LEVEL TRANSITIONS READY
+			if (charact[i][j].value == 2 /*|| charact[i][j].value == 3*/ || charact[i][j].value == 1)
 			{
 				Entity* ent = new Entity(entity_type::game_object);
 
@@ -102,21 +103,23 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 					break;
 				}
 
+				//if its an enemy, it should be an interaction source
+				IInteractionSource* src = new IInteractionSource(ent);
+				src->interaction_trigger = &director::process_interaction;
+				src->script_attached = charact[i][j].script;
+					
+
+				ent->add_component(src);
+
 				if ((!is_friendly || type==character_type::h_giovanni) && create_armies)
 				{
 					IFightable* fc = new IFightable(ent);
 					fc->army_file = charact[i][j].army;
 					ent->add_component(fc);
 
-					//if its an enemy, it should be an interaction source
-					IInteractionSource* src = new IInteractionSource(ent);
-					src->interaction_trigger = &director::process_interaction;
-					if (charact[i][j].script.compare("") == 0)
+					if (src->script_attached.compare("") == 0)
 						src->script_attached = "start_combat.xml";
-					else
-						src->script_attached = charact[i][j].script;
-
-					ent->add_component(src);
+					
 					character_system::add_army_to_character(ent);
 				}
 
@@ -250,6 +253,7 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 		{//if tile was returned
 			Entity* temp = SpaceSystem::get_object_at_ids(space, dest_ids.x, dest_ids.y);
 			target = (temp==nullptr || character->name.compare(temp->name)==0) ? target : temp;
+			
 		}
 	}
 
@@ -257,11 +261,16 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	IInteractionSource* is = static_cast<IInteractionSource*>(character->get_component(Component::ComponentType::InteractionSource));
 	if (is)//make sure player has one on him to avoid crashes
 	{
-		//if target is also an interaction source (can be interacted with, store it as players interaction target)
-		if (static_cast<IInteractionSource*>(target->get_component(Component::ComponentType::InteractionSource)))
+		if (target->is_active)
 		{
-			is->interaction_target = target;
-			is->has_triggered = false;
+			//if target is also an interaction source (can be interacted with, store it as players interaction target)
+			if (static_cast<IInteractionSource*>(target->get_component(Component::ComponentType::InteractionSource)))
+			{
+				is->interaction_target = target;
+				is->has_triggered = false;
+			}
+			else
+				is->interaction_target = nullptr;
 		}
 		else
 			is->interaction_target = nullptr;
@@ -278,7 +287,7 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 		//check if point overlaps with any object and this object is not tile and collidable
 		ITile* t_test = nullptr;
 		ICollidable* c_test = nullptr;
-		if (target)
+		if (target && target->is_active)
 			c_test = static_cast<ICollidable*>(target->get_component(Component::ComponentType::Collision));
 		if (c_test && target)
 		{

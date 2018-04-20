@@ -298,6 +298,18 @@ Script xml_system::load_script(std::string name, levels level)
 		else
 			result.blocks_player = false;
 
+		rapidxml::xml_attribute<>* o = cur_node->first_attribute("once");
+		if (o)
+		{
+			std::string once = o->value();
+			if (once.compare("true") == 0)
+				result.happens_once = true;
+			else
+				result.happens_once = false;
+		}
+		else
+			result.happens_once = true;
+
 		cur_node = cur_node->first_node("action");
 		while (cur_node)
 		{
@@ -350,6 +362,21 @@ Script xml_system::load_script(std::string name, levels level)
 			{
 				temp.type = action_type::start_combat;
 			}
+			else if (type.compare("set_story_state") == 0)
+			{
+				temp.type = action_type::set_story_state;
+				temp.utility = cur_node->first_attribute("new_state")->value();
+			}
+			else if (type.compare("object_disappear") == 0)
+			{
+				temp.type = action_type::object_disappear;
+				temp.utility = cur_node->first_attribute("object_type")->value();
+			}
+			else if (type.compare("character_disappear") == 0)
+			{
+				temp.type = action_type::character_disappear;
+				temp.target_type = xml_system::get_character_type_by_name(cur_node->first_attribute("character")->value());
+			}
 			else
 				temp.type = action_type::not_set;
 
@@ -369,11 +396,14 @@ Script xml_system::load_script(std::string name, levels level)
 	return result;
 }
 
-xml_system::Dialogue xml_system::load_dialogue(std::string path)
+xml_system::Dialogue xml_system::load_dialogue(levels level, std::string path)
 {
 	Dialogue result;
 
-	rapidxml::file<> file(path.c_str());
+	std::string final_path = get_level_path_prefix(level);
+	final_path = final_path + "dialogs/" + path;
+
+	rapidxml::file<> file(final_path.c_str());
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(file.data());
 
@@ -685,6 +715,14 @@ object_types xml_system::get_object_type_by_name(std::string name)
 		result = object_types::juji_house_1;
 	else if (name.compare("juji_house_2") == 0)
 		result = object_types::juji_house_2;
+	else if (name.compare("chest") == 0)
+		result = object_types::chest;
+	else if (name.compare("barrel") == 0)
+		result = object_types::barrel;
+	else if (name.compare("boards_vertical") == 0)
+		result = object_types::boards_vertical;
+	else if (name.compare("weapon_rack") == 0)
+		result = object_types::weapon_rack;
 	else if (name.compare("blowgun") == 0)
 		result = object_types::pickup_blowgun;
 	else if (name.compare("sling") == 0)
@@ -695,6 +733,8 @@ object_types xml_system::get_object_type_by_name(std::string name)
 		result = object_types::pickup_spear;
 	else if (name.compare("sword") == 0)
 		result = object_types::pickup_sword;
+	else
+		result = object_types::type_none;
 
 	return result;
 }
@@ -710,8 +750,20 @@ std::string xml_system::get_object_name_by_type(object_types type)
 	case object_types::juji_house_2:
 		result = "juji_house_2";
 		break;
+	case object_types::chest:
+		result = "chest";
+		break;
 	case object_types::lever:
 		result = "lever";
+		break;
+	case object_types::barrel:
+		result = "barrel";
+		break;
+	case object_types::boards_vertical:
+		result = "boards_vertical";
+		break;
+	case object_types::weapon_rack:
+		result = "weapon_rack";
 		break;
 	case object_types::pickup_blowgun:
 		result = "blowgun";
@@ -728,6 +780,8 @@ std::string xml_system::get_object_name_by_type(object_types type)
 	case object_types::pickup_sword:
 		result = "sword";
 		break;
+	default:
+		result = "default";
 	}
 
 	return result;

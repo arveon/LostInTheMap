@@ -55,7 +55,7 @@ public:
 
 	static void load_terrain_textures(std::string path, int tilewidth);
 	static SDL_Texture* get_terrain_texture(unsigned int id) { if (id < terrain_textures.size()) { return terrain_textures.at(id); } else { return nullptr; } }
-	static void destroy_terrain_textures();
+	static void clear_stored_textures();
 
 	static SDL_Texture* get_object_texture(std::string obj_name);
 

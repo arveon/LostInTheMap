@@ -155,6 +155,7 @@
     <ClInclude Include="Space.h" />
     <ClInclude Include="SpaceSystem.h" />
     <ClInclude Include="SplashScreeenSystem.h" />
+    <ClInclude Include="StoryStages.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="xml_system.h" />
   </ItemGroup>

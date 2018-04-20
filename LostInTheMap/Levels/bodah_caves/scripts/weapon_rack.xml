@@ -1,0 +1,3 @@
+<script block_player="false" once="false">
+<action type="dialogue" dialogue="weapons.xml" />
+</script>

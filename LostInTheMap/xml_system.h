@@ -77,7 +77,7 @@ public:
 
 	static std::vector<army_unit> load_army(std::string army_path, levels level);
 
-	static Dialogue load_dialogue(std::string path);
+	static Dialogue load_dialogue(levels level, std::string path);
 
 	xml_system();
 	~xml_system();
