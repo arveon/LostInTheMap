@@ -2889,7 +2889,7 @@
     <tile x="86" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="87" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="88" y="28" tile="-1" rot="0" flipX="false"/>
-    <tile x="89" y="28" tile="5" type="i_object" script="rack.xml" name="weapon_rack" rot="0" flipX="false"/>
+    <tile x="89" y="28" tile="5" type="i_object" script="weapon_rack.xml" name="weapon_rack" rot="0" flipX="false"/>
     <tile x="90" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="91" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="92" y="28" tile="-1" rot="0" flipX="false"/>
@@ -2990,7 +2990,7 @@
     <tile x="87" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="88" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="89" y="29" tile="-1" rot="0" flipX="false"/>
-    <tile x="90" y="29" tile="5" type="i_object" script="rack.xml" name="weapon_rack" rot="0" flipX="false"/>
+    <tile x="90" y="29" tile="5" type="i_object" script="weapon_rack.xml" name="weapon_rack" rot="0" flipX="false"/>
     <tile x="91" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="92" y="29" tile="-1" rot="0" flipX="false"/>
     <tile x="93" y="29" tile="-1" rot="0" flipX="false"/>
@@ -3488,7 +3488,7 @@
     <tile x="85" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="86" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="87" y="34" tile="-1" rot="0" flipX="false"/>
-    <tile x="88" y="34" tile="5" type="i_object" script="rack.xml" name="weapon_rack" rot="0" flipX="false"/>
+    <tile x="88" y="34" tile="5" type="i_object" script="weapon_rack.xml" name="weapon_rack" rot="0" flipX="false"/>
     <tile x="89" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="90" y="34" tile="-1" rot="0" flipX="false"/>
     <tile x="91" y="34" tile="-1" rot="0" flipX="false"/>
