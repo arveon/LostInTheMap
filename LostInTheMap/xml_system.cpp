@@ -416,6 +416,7 @@ std::vector<army_unit> xml_system::load_army(std::string army_path, levels level
 	doc.parse<0>(file.data());
 
 	rapidxml::xml_node<>* unit = doc.first_node("army")->first_node("unit");
+	//load unit types and quantities
 	while (unit)
 	{
 		army_unit u;
@@ -423,6 +424,92 @@ std::vector<army_unit> xml_system::load_army(std::string army_path, levels level
 		u.quantity = std::stoi(unit->first_attribute("quantity")->value());
 		result.push_back(u);
 		unit = unit->next_sibling("unit");
+	}
+
+	//construct the vector of units that need to be loaded
+	std::vector<character_type> units_to_be_loaded;
+	for (army_unit u : result)
+	{
+		bool already_exists = false;
+		for (character_type existing_type : units_to_be_loaded)
+		{
+			if (u.type == existing_type)
+			{
+				already_exists = true;
+				continue;
+			}
+		}
+		if (!already_exists)
+			units_to_be_loaded.push_back(u.type);
+	}
+
+	//preload units file
+	rapidxml::file<> units_file("config/units.xml");
+	rapidxml::xml_document<> units_doc;
+	units_doc.parse<0>(units_file.data());
+
+	//load unit stats
+	if (units_to_be_loaded.size() > 0)
+	{
+		for (character_type unit : units_to_be_loaded)
+		{
+			std::string name = get_character_name_by_type(unit);
+			rapidxml::xml_node<>* unit_data =  units_doc.first_node(name.c_str())->first_node();
+
+			int health = 0;
+			int close_min = 0;
+			int close_max = 0;
+			int ranged_min = 0;
+			int ranged_max = 0;
+			int speed = 0;
+			bool ranged_allowed = false;
+
+			//read in units stats of the given unit
+			while (unit_data)
+			{
+				std::string data_name = unit_data->name();
+				if (data_name.compare("health") == 0)
+				{
+					health = std::stoi(unit_data->first_attribute("value")->value());
+				}
+				else if (data_name.compare("close_attack") == 0)
+				{
+					close_min = std::stoi(unit_data->first_attribute("min_value")->value());
+					close_max = std::stoi(unit_data->first_attribute("max_value")->value());
+				}
+				else if (data_name.compare("ranged_attack") == 0)
+				{
+					std::string val = unit_data->first_attribute("allowed")->value();
+					if (val.compare("true") == 0)
+					{
+						ranged_allowed = true;
+						ranged_min = std::stoi(unit_data->first_attribute("min_value")->value());
+						ranged_max = std::stoi(unit_data->first_attribute("max_value")->value());
+					}
+				}
+				else if (data_name.compare("speed") == 0)
+				{
+					speed = std::stoi(unit_data->first_attribute("value")->value());
+				}				
+				unit_data = unit_data->next_sibling();
+			}
+
+			//apply units stats to all units of that type in the army
+			for (army_unit& u : result)
+			{
+				u.health_of_first = health;
+				u.max_health = health;
+
+				u.min_damage_close = close_min;
+				u.max_damage_close = close_max;
+
+				u.min_damage_ranged = ranged_min;
+				u.max_damage_ranged = ranged_max;
+				u.ranged_allowed = ranged_allowed;
+
+				u.speed = speed;
+			}
+		}
 	}
 
 	return result;
@@ -468,6 +555,66 @@ character_type xml_system::get_character_type_by_name(std::string name)
 	else
 		result = character_type::none;
 
+	return result;
+}
+
+std::string xml_system::get_character_name_by_type(character_type type)
+{
+	std::string result;
+	switch (type)
+	{
+	case character_type::h_giovanni:
+		result = "giovanni";
+		break;
+	case character_type::h_jido:
+		result = "jido";
+		break;
+	case character_type::h_josi:
+		result = "josi";
+		break;
+	case character_type::h_zaji:
+		result = "zaji";
+		break;
+	case character_type::h_zurshi:
+		result = "zurshi";
+		break;
+	case character_type::juji_spearman:
+		result = "juji_spearman";
+		break;
+	case character_type::juji_villager_1:
+		result = "juji_villager_1";
+		break;
+	case character_type::juji_villager_2:
+		result = "juji_villager_2";
+		break;
+	case character_type::juji_villager_3:
+		result = "juji_villager_3";
+		break;
+	case character_type::juji_villager_4:
+		result = "juji_villager_4";
+		break;
+	case character_type::npc_archaeologist_1:
+		result = "npc_archaeologist_1";
+		break;
+	case character_type::npc_archaeologist_2:
+		result = "npc_archaeologist_2";
+		break;
+	case character_type::npc_archaeologist_3:
+		result = "npc_archaeologist_3";
+		break;
+	case character_type::npc_archaeologist_4:
+		result = "npc_archaeologist_4";
+		break;
+	case character_type::npc_arch_supervisor:
+		result = "npc_arch_supervisor";
+		break;
+	case character_type::rat:
+		result = "rat";
+		break;
+	case character_type::zakra_spearman:
+		result = "zakra_spearman";
+		break;
+	}
 	return result;
 }
 
