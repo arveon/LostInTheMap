@@ -133,7 +133,8 @@ void director::script_trigger(Entity* trigger)
 		}
 
 		Script script = xml_system::load_script(is->script_attached, cur_level);
-		script_system::start_script(script);
+		if(script.initialised)
+			script_system::start_script(script);
 		triggered_scripts.push_back(is->script_attached);
 	}
 	else

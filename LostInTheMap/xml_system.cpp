@@ -284,78 +284,88 @@ Script xml_system::load_script(std::string name, levels level)
 	name = "scripts/" + name;
 	name = temp + name;
 
-	rapidxml::file<> file(name.c_str());
-	rapidxml::xml_document<> doc;
-	doc.parse<0>(file.data());
-
-	rapidxml::xml_node<>* cur_node = doc.first_node("script");
-
-	std::string block = cur_node->first_attribute("block_player")->value();
-	if (block.compare("true") == 0)
-		result.blocks_player = true;
-	else
-		result.blocks_player = false;
-
-	cur_node = cur_node->first_node("action");
-	while (cur_node)
+	try
 	{
-		Action temp;
-		std::string type = cur_node->first_attribute("type")->value();
-		if (type.compare("move") == 0)
+		rapidxml::file<> file(name.c_str());
+		rapidxml::xml_document<> doc;
+		doc.parse<0>(file.data());
+
+		rapidxml::xml_node<>* cur_node = doc.first_node("script");
+
+		std::string block = cur_node->first_attribute("block_player")->value();
+		if (block.compare("true") == 0)
+			result.blocks_player = true;
+		else
+			result.blocks_player = false;
+
+		cur_node = cur_node->first_node("action");
+		while (cur_node)
 		{
-			temp.type = action_type::movement;
-			std::string character = cur_node->first_attribute("character")->value();
-			temp.target_type = get_character_type_by_name(character);
-			int x = std::stoi(cur_node->first_attribute("dest_x")->value());
-			int y = std::stoi(cur_node->first_attribute("dest_y")->value());
-			temp.movement_dest = { x, y };
-			temp.dialogue_path = "";
-		}
-		else if (type.compare("dialogue") == 0)
-		{
-			temp.type = action_type::dialogue;
-			temp.dialogue_path = cur_node->first_attribute("dialogue")->value();
-			temp.movement_dest = { -1,-1 };
-			temp.target_type = character_type::none;
-		}
-		else if (type.compare("wait") == 0)
-		{
-			temp.type = action_type::wait;
-			temp.time = std::stoi(cur_node->first_attribute("time")->value());
-			rapidxml::xml_attribute<>* ch = cur_node->first_attribute("character");
-			if (ch)
+			Action temp;
+			std::string type = cur_node->first_attribute("type")->value();
+			if (type.compare("move") == 0)
 			{
-				std::string character = ch->value();
+				temp.type = action_type::movement;
+				std::string character = cur_node->first_attribute("character")->value();
+				temp.target_type = get_character_type_by_name(character);
+				int x = std::stoi(cur_node->first_attribute("dest_x")->value());
+				int y = std::stoi(cur_node->first_attribute("dest_y")->value());
+				temp.movement_dest = { x, y };
+				temp.dialogue_path = "";
+			}
+			else if (type.compare("dialogue") == 0)
+			{
+				temp.type = action_type::dialogue;
+				temp.dialogue_path = cur_node->first_attribute("dialogue")->value();
+				temp.movement_dest = { -1,-1 };
+				temp.target_type = character_type::none;
+			}
+			else if (type.compare("wait") == 0)
+			{
+				temp.type = action_type::wait;
+				temp.time = std::stoi(cur_node->first_attribute("time")->value());
+				rapidxml::xml_attribute<>* ch = cur_node->first_attribute("character");
+				if (ch)
+				{
+					std::string character = ch->value();
+					temp.target_type = get_character_type_by_name(character);
+				}
+				else
+					temp.target_type = character_type::none;
+			}
+			else if (type.compare("camera_target") == 0)
+			{
+				temp.type = action_type::change_camera_target;
+				std::string character = cur_node->first_attribute("character")->value();
 				temp.target_type = get_character_type_by_name(character);
 			}
+			else if (type.compare("move_camera") == 0)
+			{
+				temp.type = action_type::move_camera_to_tile;
+				int x = std::stoi(cur_node->first_attribute("dest_x")->value());
+				int y = std::stoi(cur_node->first_attribute("dest_y")->value());
+				temp.movement_dest = { x, y };
+			}
+			else if (type.compare("start_combat") == 0)
+			{
+				temp.type = action_type::start_combat;
+			}
 			else
-				temp.target_type = character_type::none;
-		}
-		else if (type.compare("camera_target") == 0)
-		{
-			temp.type = action_type::change_camera_target;
-			std::string character = cur_node->first_attribute("character")->value();
-			temp.target_type = get_character_type_by_name(character);
-		}
-		else if (type.compare("move_camera") == 0)
-		{
-			temp.type = action_type::move_camera_to_tile;
-			int x = std::stoi(cur_node->first_attribute("dest_x")->value());
-			int y = std::stoi(cur_node->first_attribute("dest_y")->value());
-			temp.movement_dest = { x, y };
-		}
-		else if (type.compare("start_combat") == 0)
-		{
-			temp.type = action_type::start_combat;
-		}
-		else
-			temp.type = action_type::not_set;
+				temp.type = action_type::not_set;
 
-		result.actions.push_back(temp);
-		cur_node = cur_node->next_sibling("action");
+			result.actions.push_back(temp);
+			cur_node = cur_node->next_sibling("action");
+		}
+		result.initialised = true;
+	}
+	catch (std::exception e)
+	{
+		std::cout << "script not found at " << name << std::endl;
+		result.initialised = false;
+		return result;
 	}
 
-
+	
 	return result;
 }
 

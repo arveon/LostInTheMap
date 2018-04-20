@@ -35,6 +35,7 @@ public:
 class Script
 {
 public:
+	bool initialised = false;
 	bool blocks_player;
 	std::vector<Action> actions;
 
