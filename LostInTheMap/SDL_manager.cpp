@@ -223,6 +223,8 @@ SDL_Texture* SDL_manager::load_texture(const char * path)
 	SDL_Texture* temp = IMG_LoadTexture(renderer, path);
 	//SDL_SetTextureBlendMode(temp, SDL_BlendMode::SDL_BLENDMODE_BLEND);
 	std::cout << IMG_GetError() << " for image " << path;
+	if(!temp)
+		temp = IMG_LoadTexture(renderer, "assets/graphics/objects/default.png");
 	assert(temp);
 	return temp;
 }

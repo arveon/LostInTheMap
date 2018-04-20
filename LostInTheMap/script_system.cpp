@@ -123,7 +123,7 @@ void script_system::perform_action()
 		Entity * to_stop = character_system::get_character(to_perform->target_type);
 		if (to_stop)
 		{
-			action_over(nullptr);
+			
 
 			to_perform->target = to_stop;
 			IMoving* mc = static_cast<IMoving*>(to_stop->get_component(Component::ComponentType::Movement));
@@ -178,6 +178,12 @@ void script_system::perform_action()
 			Entity* pl = SpaceSystem::find_entity_by_name(*game_space, "player");
 			IInteractionSource* src = static_cast<IInteractionSource*>(pl->get_component(Component::ComponentType::InteractionSource));
 			src->interaction_target->deactivate();
+		}
+		else
+		{
+			object_types t = xml_system::get_object_type_by_name(to_perform->utility);
+			Entity* ent = SpaceSystem::find_object_of_type(*game_space, t);
+			ent->deactivate();
 		}
 		action_over(nullptr);
 		break;

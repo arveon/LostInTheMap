@@ -1,9 +1,10 @@
 <script block_player="true" once="true">
-<action type="camera_target" character="player" />
-</script>
-
 <action type="camera_target" character="arch_supervisor" />
 <action type="move" character="arch_supervisor" dest_x="33" dest_y="24" />
 <action type="dialogue" dialogue="supervisor_1.xml" />
 <action type="wait" character="arch_supervisor" time="1000"/>
 <action type="move" character="arch_supervisor" dest_x="28" dest_y="25" />
+<action type="camera_target" character="player" />
+</script>
+
+

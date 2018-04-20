@@ -184,5 +184,18 @@ void SpaceSystem::update_draw_rects(Space & space)
 
 }
 
+Entity* SpaceSystem::find_object_of_type(Space& game_space, object_types type)
+{
+	for (Entity* ent : game_space.objects)
+	{
+		IInteractionSource* src = static_cast<IInteractionSource*>(ent->get_component(Component::ComponentType::InteractionSource));
+		if (!src)
+			continue;
+
+		if (src->o_type == type)
+			return ent;
+	}
+}
+
 
 

@@ -4,6 +4,7 @@ enum object_types
 {
 	type_none,
 	lever,
+	hidden_door,
 	chest,
 	barrel,
 	dead_tree,

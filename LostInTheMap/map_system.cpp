@@ -215,6 +215,7 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 					i_obj->script_attached = objects_map[i][j].script;
 					break;
 				}
+				
 				case object_types::boards_horizontal:
 				{
 					dc->draw_rect.w = 96;
@@ -234,6 +235,20 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 				{
 					dc->draw_rect.w = 64;
 					dc->draw_rect.h = 64;
+
+					collider->collidable = true;
+					collider->collision_rect.w = tf->position.w;
+					collider->collision_rect.h = tf->position.h;
+
+					i_obj->interaction_trigger = &director::script_trigger;
+					i_obj->script_attached = objects_map[i][j].script;
+					break;
+				}
+				case object_types::hidden_door:
+				{
+					dc->draw_rect.w = 64;
+					dc->draw_rect.h = 32;
+					tf->position.w = 64;
 
 					collider->collidable = true;
 					collider->collision_rect.w = tf->position.w;

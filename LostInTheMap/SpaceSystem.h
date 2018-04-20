@@ -29,5 +29,6 @@ public:
 	static ITerrain* get_terrain(Space& space);
 
 	static void update_draw_rects(Space& space);
+	static Entity * find_object_of_type(Space& game_space, object_types type);
 };
 

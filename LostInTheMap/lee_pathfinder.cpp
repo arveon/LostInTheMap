@@ -141,13 +141,13 @@ std::vector<SDL_Point> lee_pathfinder::get_path(bool limit_to_camera_size)
 		
 		if (temp->position.x == destination.x && temp->position.y == destination.y)
 		{
+			temp->pathfinding_value = generation_number;
 			destination_reached = true;
 			break;
 		}
 
 		if (!temp->is_traversible || temp->is_obstructed)
 		{
-			//cur_generation.erase(std::find(cur_generation.begin(), cur_generation.end(), temp));
 			continue;
 		}
 
@@ -166,6 +166,13 @@ std::vector<SDL_Point> lee_pathfinder::get_path(bool limit_to_camera_size)
 			pathfinding_tile* temp = cur_generation.at(i);
 			std::vector<pathfinding_tile*> generation = temp->neighbours;
 
+			if (temp->position.x == destination.x && temp->position.y == destination.y)
+			{
+				temp->pathfinding_value = generation_number;
+				destination_reached = true;
+				break;
+			}
+
 			if (temp->is_obstructed || !temp->is_traversible)
 				continue;
 
@@ -179,6 +186,13 @@ std::vector<SDL_Point> lee_pathfinder::get_path(bool limit_to_camera_size)
 			for (unsigned int j = 0; j < generation.size(); j++)
 			{
 				pathfinding_tile* temp_next = generation.at(j);
+
+				if (temp_next->position.x == destination.x && temp_next->position.y == destination.y)
+				{
+					temp_next->pathfinding_value = generation_number;
+					destination_reached = true;
+					break;
+				}
 
 				if (!temp_next->is_traversible)
 					continue;
@@ -218,11 +232,7 @@ std::vector<SDL_Point> lee_pathfinder::get_path(bool limit_to_camera_size)
 					next_generation.push_back(temp_next);
 				}
 
-				if (temp_next->position.x == destination.x && temp_next->position.y == destination.y)
-				{
-					destination_reached = true;
-					break;
-				}
+				
 				
 			}
 		}

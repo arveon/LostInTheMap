@@ -711,6 +711,8 @@ object_types xml_system::get_object_type_by_name(std::string name)
 	object_types result;
 	if (name.compare("lever") == 0)
 		result = object_types::lever;
+	else if (name.compare("hidden_door") == 0)
+		result = object_types::hidden_door;
 	else if (name.compare("juji_house_1") == 0 || name.compare("juji_house") == 0)
 		result = object_types::juji_house_1;
 	else if (name.compare("juji_house_2") == 0)
@@ -755,6 +757,9 @@ std::string xml_system::get_object_name_by_type(object_types type)
 		break;
 	case object_types::lever:
 		result = "lever";
+		break;
+	case object_types::hidden_door:
+		result = "hidden_door";
 		break;
 	case object_types::barrel:
 		result = "barrel";

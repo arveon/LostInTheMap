@@ -183,12 +183,12 @@ void game_flow_normal::update_pathfinder(Space& space)
 	{
 		Entity* ent = space.objects.at(i);
 
-		SDL_Point t = ent->get_collision_origin_in_world();
+		SDL_Point t = ent->get_origin_in_world();
 		if (t.x == -1 && t.y == -1)
 			continue;
 
-		t = map_system::world_to_tilemap_ids(t, trc);
-		lee_pathfinder::set_obstructed(t.x, t.y);
+		SDL_Point b = map_system::world_to_tilemap_ids(t, trc);
+		lee_pathfinder::set_obstructed(b.x, b.y);
 	}
 
 	//set camera inside pathfinder
