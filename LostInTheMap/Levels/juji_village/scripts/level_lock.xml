@@ -1,0 +1,5 @@
+<script block_player="true" once="false">
+<action type="dialogue" dialogue="not_ready.xml" />
+<action type="wait" character="player" time="500" />
+<action type="move" character="player" dest_x="88" dest_y="79" />
+</script>

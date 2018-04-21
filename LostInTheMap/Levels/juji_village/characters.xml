@@ -1159,7 +1159,7 @@
     <tile x="56" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="57" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="58" y="11" tile="-1" rot="0" flipX="false"/>
-    <tile x="59" y="11" tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="59" y="11" tile="6" type="juji_house" name="juji_house" rot="0" flipX="false"/>
     <tile x="60" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="61" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="62" y="11" tile="-1" rot="0" flipX="false"/>
@@ -1176,14 +1176,14 @@
     <tile x="73" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="75" y="11" tile="-1" rot="0" flipX="false"/>
-    <tile x="76" y="11" tile="-1" rot="0" flipX="false"/>
-    <tile x="77" y="11" tile="-1" rot="0" flipX="false"/>
-    <tile x="78" y="11" tile="-1" rot="0" flipX="false"/>
-    <tile x="79" y="11" tile="-1" rot="0" flipX="false"/>
+    <tile x="76" y="11" tile="4" type="trigger" script="help_zaji.xml" rot="0" flipX="false"/>
+    <tile x="77" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="78" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="79" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
     <tile x="80" y="11" tile="-1" rot="0" flipX="false"/>
-    <tile x="81" y="11" tile="-1" rot="0" flipX="false"/>
-    <tile x="82" y="11" tile="-1" rot="0" flipX="false"/>
-    <tile x="83" y="11" tile="-1" rot="0" flipX="false"/>
+    <tile x="81" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="82" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="83" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
     <tile x="84" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="85" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="86" y="11" tile="-1" rot="0" flipX="false"/>
@@ -1279,11 +1279,11 @@
     <tile x="76" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="77" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="12" tile="-1" rot="0" flipX="false"/>
-    <tile x="79" y="12" tile="-1" rot="0" flipX="false"/>
-    <tile x="80" y="12" tile="3" type="snake" rot="0" flipX="false"/>
-    <tile x="81" y="12" tile="-1" rot="0" flipX="false"/>
-    <tile x="82" y="12" tile="-1" rot="0" flipX="false"/>
-    <tile x="83" y="12" tile="-1" rot="0" flipX="false"/>
+    <tile x="79" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="80" y="12" tile="3" type="snake" army="zaji_snake.xml" rot="0" flipX="false"/>
+    <tile x="81" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="82" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="83" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
     <tile x="84" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="85" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="86" y="12" tile="-1" rot="0" flipX="false"/>
@@ -1321,10 +1321,10 @@
     <tile x="18" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="19" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="20" y="13" tile="-1" rot="0" flipX="false"/>
-    <tile x="21" y="13" tile="6" type="juji_house_2" rot="0" flipX="false"/>
+    <tile x="21" y="13" tile="6" type="juji_house" type="juji_house" rot="0" flipX="false"/>
     <tile x="22" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="23" y="13" tile="-1" rot="0" flipX="false"/>
-    <tile x="24" y="13"  tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="24" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="25" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="26" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="27" y="13" tile="-1" rot="0" flipX="false"/>
@@ -1342,7 +1342,7 @@
     <tile x="39" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="40" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="41" y="13" tile="-1" rot="0" flipX="false"/>
-    <tile x="42" y="13" tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="42" y="13" tile="6" type="juji_house" type="juji_house" rot="0" flipX="false"/>
     <tile x="43" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="44" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="45" y="13" tile="-1" rot="0" flipX="false"/>
@@ -1383,8 +1383,8 @@
     <tile x="80" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="81" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="82" y="13" tile="-1" rot="0" flipX="false"/>
-    <tile x="83" y="13" tile="-1" rot="0" flipX="false"/>
-    <tile x="84" y="13" tile="-1" rot="0" flipX="false"/>
+    <tile x="83" y="13" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="84" y="13" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
     <tile x="85" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="86" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="87" y="13" tile="-1" rot="0" flipX="false"/>
@@ -1676,7 +1676,7 @@
     <tile x="73" y="16" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="16" tile="-1" rot="0" flipX="false"/>
     <tile x="75" y="16" tile="-1" rot="0" flipX="false"/>
-    <tile x="76" y="16" tile="3" type="snake" rot="0" flipX="false"/>
+    <tile x="76" y="16" tile="3" rot="0" flipX="false"/>
     <tile x="77" y="16" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="16" tile="-1" rot="0" flipX="false"/>
     <tile x="79" y="16" tile="-1" rot="0" flipX="false"/>
@@ -2045,7 +2045,7 @@
     <tile x="42" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="43" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="44" y="20" tile="-1" rot="0" flipX="false"/>
-    <tile x="45" y="20" tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="45" y="20" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="46" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="47" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="48" y="20" tile="-1" rot="0" flipX="false"/>
@@ -2075,7 +2075,7 @@
     <tile x="72" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="73" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="20" tile="-1" rot="0" flipX="false"/>
-    <tile x="75" y="20" tile="-1" rot="0" flipX="false"/>
+    <tile x="75" y="20" tile="4" type="trigger" script="help_zaji.xml" rot="0" flipX="false"/>
     <tile x="76" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="77" y="20" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="20" tile="-1" rot="0" flipX="false"/>
@@ -2175,7 +2175,7 @@
     <tile x="72" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="73" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="21" tile="-1" rot="0" flipX="false"/>
-    <tile x="75" y="21" tile="-1" rot="0" flipX="false"/>
+    <tile x="75" y="21" tile="4" type="trigger" script="help_zaji.xml" rot="0" flipX="false"/>
     <tile x="76" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="77" y="21" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="21" tile="-1" rot="0" flipX="false"/>
@@ -2212,7 +2212,7 @@
     <tile x="9" y="22" tile="-1" rot="0" flipX="false"/>
     <tile x="10" y="22" tile="-1" rot="0" flipX="false"/>
     <tile x="11" y="22" tile="-1" rot="0" flipX="false"/>
-    <tile x="12" y="22" tile="6" type="juji_house_2" rot="0" flipX="false"/>
+    <tile x="12" y="22" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="13" y="22" tile="-1" rot="0" flipX="false"/>
     <tile x="14" y="22" tile="-1" rot="0" flipX="false"/>
     <tile x="15" y="22" tile="-1" rot="0" flipX="false"/>
@@ -2275,7 +2275,7 @@
     <tile x="72" y="22" tile="-1" rot="0" flipX="false"/>
     <tile x="73" y="22" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="22" tile="-1" rot="0" flipX="false"/>
-    <tile x="75" y="22" tile="-1" rot="0" flipX="false"/>
+    <tile x="75" y="22" tile="4" type="trigger" script="help_zaji.xml" rot="0" flipX="false"/>
     <tile x="76" y="22" tile="-1" rot="0" flipX="false"/>
     <tile x="77" y="22" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="22" tile="-1" rot="0" flipX="false"/>
@@ -2375,7 +2375,7 @@
     <tile x="72" y="23" tile="-1" rot="0" flipX="false"/>
     <tile x="73" y="23" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="23" tile="-1" rot="0" flipX="false"/>
-    <tile x="75" y="23" tile="-1" rot="0" flipX="false"/>
+    <tile x="75" y="23" tile="4" type="trigger" script="help_zaji.xml" rot="0" flipX="false"/>
     <tile x="76" y="23" tile="-1" rot="0" flipX="false"/>
     <tile x="77" y="23" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="23" tile="-1" rot="0" flipX="false"/>
@@ -2431,7 +2431,7 @@
     <tile x="28" y="24" tile="-1" rot="0" flipX="false"/>
     <tile x="29" y="24" tile="-1" rot="0" flipX="false"/>
     <tile x="30" y="24" tile="-1" rot="0" flipX="false"/>
-    <tile x="31" y="24" tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="31" y="24" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="32" y="24" tile="-1" rot="0" flipX="false"/>
     <tile x="33" y="24" tile="-1" rot="0" flipX="false"/>
     <tile x="34" y="24" tile="-1" rot="0" flipX="false"/>
@@ -2475,7 +2475,7 @@
     <tile x="72" y="24" tile="-1" rot="0" flipX="false"/>
     <tile x="73" y="24" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="24" tile="-1" rot="0" flipX="false"/>
-    <tile x="75" y="24" tile="-1" rot="0" flipX="false"/>
+    <tile x="75" y="24" tile="4" type="trigger" script="help_zaji.xml" rot="0" flipX="false"/>
     <tile x="76" y="24" tile="-1" rot="0" flipX="false"/>
     <tile x="77" y="24" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="24" tile="-1" rot="0" flipX="false"/>
@@ -2551,7 +2551,7 @@
     <tile x="48" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="49" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="50" y="25" tile="-1" rot="0" flipX="false"/>
-    <tile x="51" y="25" tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="51" y="25" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="52" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="53" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="54" y="25" tile="-1" rot="0" flipX="false"/>
@@ -2575,7 +2575,7 @@
     <tile x="72" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="73" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="74" y="25" tile="-1" rot="0" flipX="false"/>
-    <tile x="75" y="25" tile="-1" rot="0" flipX="false"/>
+    <tile x="75" y="25" tile="4" type="trigger" script="help_zaji.xml" rot="0" flipX="false"/>
     <tile x="76" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="77" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="25" tile="-1" rot="0" flipX="false"/>
@@ -2815,7 +2815,7 @@
     <tile x="12" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="14" y="28" tile="-1" rot="0" flipX="false"/>
-    <tile x="15" y="28" tile="2" type="juji_villager_3" rot="0" flipX="false"/>
+    <tile x="15" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="16" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="17" y="28" tile="-1" rot="0" flipX="false"/>
     <tile x="18" y="28" tile="-1" rot="0" flipX="false"/>
@@ -3021,7 +3021,7 @@
     <tile x="18" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="19" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="20" y="30" tile="-1" rot="0" flipX="false"/>
-    <tile x="21" y="30" tile="6" type="juji_house_2" rot="0" flipX="false"/>
+    <tile x="21" y="30" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="22" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="23" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="24" y="30" tile="-1" rot="0" flipX="false"/>
@@ -3038,7 +3038,7 @@
     <tile x="35" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="36" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="37" y="30" tile="-1" rot="0" flipX="false"/>
-    <tile x="38" y="30" tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="38" y="30" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="39" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="40" y="30" tile="-1" rot="0" flipX="false"/>
     <tile x="41" y="30" tile="-1" rot="0" flipX="false"/>
@@ -3631,7 +3631,7 @@
     <tile x="28" y="36" tile="-1" rot="0" flipX="false"/>
     <tile x="29" y="36" tile="-1" rot="0" flipX="false"/>
     <tile x="30" y="36" tile="-1" rot="0" flipX="false"/>
-    <tile x="31" y="36" tile="6" type="juji_house_2" rot="0" flipX="false"/>
+    <tile x="31" y="36" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="32" y="36" tile="-1" rot="0" flipX="false"/>
     <tile x="33" y="36" tile="-1" rot="0" flipX="false"/>
     <tile x="34" y="36" tile="-1" rot="0" flipX="false"/>
@@ -3741,7 +3741,7 @@
     <tile x="38" y="37" tile="-1" rot="0" flipX="false"/>
     <tile x="39" y="37" tile="-1" rot="0" flipX="false"/>
     <tile x="40" y="37" tile="-1" rot="0" flipX="false"/>
-    <tile x="41" y="37" tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="41" y="37" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="42" y="37" tile="-1" rot="0" flipX="false"/>
     <tile x="43" y="37" tile="-1" rot="0" flipX="false"/>
     <tile x="44" y="37" tile="-1" rot="0" flipX="false"/>
@@ -3812,7 +3812,7 @@
     <tile x="9" y="38" tile="-1" rot="0" flipX="false"/>
     <tile x="10" y="38" tile="-1" rot="0" flipX="false"/>
     <tile x="11" y="38" tile="-1" rot="0" flipX="false"/>
-    <tile x="12" y="38" tile="2" type="juji_villager_2" rot="0" flipX="false"/>
+    <tile x="12" y="38" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="38" tile="-1" rot="0" flipX="false"/>
     <tile x="14" y="38" tile="-1" rot="0" flipX="false"/>
     <tile x="15" y="38" tile="-1" rot="0" flipX="false"/>
@@ -4109,7 +4109,7 @@
     <tile x="6" y="41" tile="-1" rot="0" flipX="false"/>
     <tile x="7" y="41" tile="-1" rot="0" flipX="false"/>
     <tile x="8" y="41" tile="-1" rot="0" flipX="false"/>
-    <tile x="9" y="41" tile="6" type="juji_house_2" rot="0" flipX="false"/>
+    <tile x="9" y="41" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="10" y="41" tile="-1" rot="0" flipX="false"/>
     <tile x="11" y="41" tile="-1" rot="0" flipX="false"/>
     <tile x="12" y="41" tile="-1" rot="0" flipX="false"/>
@@ -4218,7 +4218,7 @@
     <tile x="15" y="42" tile="-1" rot="0" flipX="false"/>
     <tile x="16" y="42" tile="-1" rot="0" flipX="false"/>
     <tile x="17" y="42" tile="-1" rot="0" flipX="false"/>
-    <tile x="18" y="42" tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="18" y="42" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="19" y="42" tile="-1" rot="0" flipX="false"/>
     <tile x="20" y="42" tile="-1" rot="0" flipX="false"/>
     <tile x="21" y="42" tile="-1" rot="0" flipX="false"/>
@@ -4317,7 +4317,7 @@
     <tile x="14" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="15" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="16" y="43" tile="-1" rot="0" flipX="false"/>
-    <tile x="17" y="43" tile="-1" rot="0" flipX="false"/>
+    <tile x="17" y="43" tile="2" type="juji_villager_2" rot="0" flipX="false"/>
     <tile x="18" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="19" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="20" y="43" tile="-1" rot="0" flipX="false"/>
@@ -4328,7 +4328,7 @@
     <tile x="25" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="26" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="27" y="43" tile="-1" rot="0" flipX="false"/>
-    <tile x="28" y="43" tile="2" type="juji_villager_4" rot="0" flipX="false"/>
+    <tile x="28" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="29" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="30" y="43" tile="-1" rot="0" flipX="false"/>
     <tile x="31" y="43" tile="-1" rot="0" flipX="false"/>
@@ -4531,7 +4531,7 @@
     <tile x="28" y="45" tile="-1" rot="0" flipX="false"/>
     <tile x="29" y="45" tile="-1" rot="0" flipX="false"/>
     <tile x="30" y="45" tile="-1" rot="0" flipX="false"/>
-    <tile x="31" y="45" tile="6" type="juji_house_2" rot="0" flipX="false"/>
+    <tile x="31" y="45" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="32" y="45" tile="-1" rot="0" flipX="false"/>
     <tile x="33" y="45" tile="-1" rot="0" flipX="false"/>
     <tile x="34" y="45" tile="-1" rot="0" flipX="false"/>
@@ -5315,7 +5315,7 @@
     <tile x="12" y="53" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="53" tile="-1" rot="0" flipX="false"/>
     <tile x="14" y="53" tile="-1" rot="0" flipX="false"/>
-    <tile x="15" y="53" tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="15" y="53" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="16" y="53" tile="-1" rot="0" flipX="false"/>
     <tile x="17" y="53" tile="-1" rot="0" flipX="false"/>
     <tile x="18" y="53" tile="-1" rot="0" flipX="false"/>
@@ -5414,7 +5414,7 @@
     <tile x="11" y="54" tile="-1" rot="0" flipX="false"/>
     <tile x="12" y="54" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="54" tile="-1" rot="0" flipX="false"/>
-    <tile x="14" y="54" tile="-1" rot="0" flipX="false"/>
+    <tile x="14" y="54" tile="2" type="juji_villager_3" rot="0" flipX="false"/>
     <tile x="15" y="54" tile="-1" rot="0" flipX="false"/>
     <tile x="16" y="54" tile="-1" rot="0" flipX="false"/>
     <tile x="17" y="54" tile="-1" rot="0" flipX="false"/>
@@ -5635,7 +5635,7 @@
     <tile x="32" y="56" tile="-1" rot="0" flipX="false"/>
     <tile x="33" y="56" tile="-1" rot="0" flipX="false"/>
     <tile x="34" y="56" tile="-1" rot="0" flipX="false"/>
-    <tile x="35" y="56" tile="-1" rot="0" flipX="false"/>
+    <tile x="35" y="56" tile="2" type="josi" rot="0" flipX="false"/>
     <tile x="36" y="56" tile="-1" rot="0" flipX="false"/>
     <tile x="37" y="56" tile="-1" rot="0" flipX="false"/>
     <tile x="38" y="56" tile="-1" rot="0" flipX="false"/>
@@ -5733,7 +5733,7 @@
     <tile x="30" y="57" tile="-1" rot="0" flipX="false"/>
     <tile x="31" y="57" tile="-1" rot="0" flipX="false"/>
     <tile x="32" y="57" tile="-1" rot="0" flipX="false"/>
-    <tile x="33" y="57" tile="-1" rot="0" flipX="false"/>
+    <tile x="33" y="57" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="34" y="57" tile="-1" rot="0" flipX="false"/>
     <tile x="35" y="57" tile="-1" rot="0" flipX="false"/>
     <tile x="36" y="57" tile="-1" rot="0" flipX="false"/>
@@ -5927,7 +5927,7 @@
     <tile x="24" y="59" tile="-1" rot="0" flipX="false"/>
     <tile x="25" y="59" tile="-1" rot="0" flipX="false"/>
     <tile x="26" y="59" tile="-1" rot="0" flipX="false"/>
-    <tile x="27" y="59" tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="27" y="59" tile="-1" rot="0" flipX="false"/>
     <tile x="28" y="59" tile="-1" rot="0" flipX="false"/>
     <tile x="29" y="59" tile="-1" rot="0" flipX="false"/>
     <tile x="30" y="59" tile="-1" rot="0" flipX="false"/>
@@ -6307,7 +6307,7 @@
     <tile x="4" y="63" tile="-1" rot="0" flipX="false"/>
     <tile x="5" y="63" tile="-1" rot="0" flipX="false"/>
     <tile x="6" y="63" tile="-1" rot="0" flipX="false"/>
-    <tile x="7" y="63" tile="6" type="juji_house_2" rot="0" flipX="false"/>
+    <tile x="7" y="63" tile="-1" rot="0" flipX="false"/>
     <tile x="8" y="63" tile="-1" rot="0" flipX="false"/>
     <tile x="9" y="63" tile="-1" rot="0" flipX="false"/>
     <tile x="10" y="63" tile="-1" rot="0" flipX="false"/>
@@ -6820,7 +6820,7 @@
     <tile x="17" y="68" tile="-1" rot="0" flipX="false"/>
     <tile x="18" y="68" tile="-1" rot="0" flipX="false"/>
     <tile x="19" y="68" tile="-1" rot="0" flipX="false"/>
-    <tile x="20" y="68" tile="6" type="juji_house_1" rot="0" flipX="false"/>
+    <tile x="20" y="68" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="21" y="68" tile="-1" rot="0" flipX="false"/>
     <tile x="22" y="68" tile="-1" rot="0" flipX="false"/>
     <tile x="23" y="68" tile="-1" rot="0" flipX="false"/>
@@ -7046,7 +7046,7 @@
     <tile x="43" y="70" tile="-1" rot="0" flipX="false"/>
     <tile x="44" y="70" tile="-1" rot="0" flipX="false"/>
     <tile x="45" y="70" tile="-1" rot="0" flipX="false"/>
-    <tile x="46" y="70" tile="3" type="snake" rot="0" flipX="false"/>
+    <tile x="46" y="70" tile="3" rot="0" flipX="false"/>
     <tile x="47" y="70" tile="-1" rot="0" flipX="false"/>
     <tile x="48" y="70" tile="-1" rot="0" flipX="false"/>
     <tile x="49" y="70" tile="-1" rot="0" flipX="false"/>
@@ -7411,7 +7411,7 @@
     <tile x="8" y="74" tile="-1" rot="0" flipX="false"/>
     <tile x="9" y="74" tile="-1" rot="0" flipX="false"/>
     <tile x="10" y="74" tile="-1" rot="0" flipX="false"/>
-    <tile x="11" y="74" tile="6" type="juji_house_2" rot="0" flipX="false"/>
+    <tile x="11" y="74" tile="6" type="juji_house" rot="0" flipX="false"/>
     <tile x="12" y="74" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="74" tile="-1" rot="0" flipX="false"/>
     <tile x="14" y="74" tile="-1" rot="0" flipX="false"/>
@@ -7511,7 +7511,7 @@
     <tile x="8" y="75" tile="-1" rot="0" flipX="false"/>
     <tile x="9" y="75" tile="-1" rot="0" flipX="false"/>
     <tile x="10" y="75" tile="-1" rot="0" flipX="false"/>
-    <tile x="11" y="75" tile="-1" rot="0" flipX="false"/>
+    <tile x="11" y="75" tile="2" type="juji_villager_4" rot="0" flipX="false"/>
     <tile x="12" y="75" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="75" tile="-1" rot="0" flipX="false"/>
     <tile x="14" y="75" tile="-1" rot="0" flipX="false"/>
@@ -8281,7 +8281,7 @@
     <tile x="78" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="79" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="80" y="82" tile="-1" rot="0" flipX="false"/>
-    <tile x="81" y="82" tile="3" type="snake" rot="0" flipX="false"/>
+    <tile x="81" y="82" tile="3" rot="0" flipX="false"/>
     <tile x="82" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="83" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="84" y="82" tile="-1" rot="0" flipX="false"/>
@@ -8291,8 +8291,8 @@
     <tile x="88" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="89" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="90" y="82" tile="-1" rot="0" flipX="false"/>
-    <tile x="91" y="82" tile="4" rot="0" flipX="false"/>
-    <tile x="92" y="82" tile="4" rot="0" flipX="false"/>
+    <tile x="91" y="82" tile="4" type="trigger" script="level_lock.xml" rot="0" flipX="false"/>
+    <tile x="92" y="82" tile="4" type="trigger" script="level_lock.xml" rot="0" flipX="false"/>
     <tile x="93" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="94" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="95" y="82" tile="-1" rot="0" flipX="false"/>
@@ -8391,7 +8391,7 @@
     <tile x="88" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="89" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="90" y="83" tile="-1" rot="0" flipX="false"/>
-    <tile x="91" y="83" tile="4" rot="0" flipX="false"/>
+    <tile x="91" y="83" tile="4" type="trigger" script="level_lock.xml" rot="0" flipX="false"/>
     <tile x="92" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="93" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="94" y="83" tile="-1" rot="0" flipX="false"/>
@@ -8399,7 +8399,7 @@
     <tile x="96" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="97" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="98" y="83" tile="-1" rot="0" flipX="false"/>
-    <tile x="99" y="83" tile="4" rot="0" flipX="false"/>
+    <tile x="99" y="83" tile="4" type="trigger" script="to_crossroads.xml" rot="0" flipX="false"/>
     <tile x="0" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="1" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="2" y="84" tile="-1" rot="0" flipX="false"/>
@@ -8409,7 +8409,7 @@
     <tile x="6" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="7" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="8" y="84" tile="-1" rot="0" flipX="false"/>
-    <tile x="9" y="84" tile="5" rot="0" flipX="false"/>
+    <tile x="9" y="84" tile="5" type="i_object" script="sling.xml" name="sling" rot="0" flipX="false"/>
     <tile x="10" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="11" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="12" y="84" tile="-1" rot="0" flipX="false"/>
@@ -8468,7 +8468,7 @@
     <tile x="65" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="66" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="67" y="84" tile="-1" rot="0" flipX="false"/>
-    <tile x="68" y="84" tile="3" type="snake" rot="0" flipX="false"/>
+    <tile x="68" y="84" tile="3" rot="0" flipX="false"/>
     <tile x="69" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="70" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="71" y="84" tile="-1" rot="0" flipX="false"/>
@@ -8499,7 +8499,7 @@
     <tile x="96" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="97" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="98" y="84" tile="-1" rot="0" flipX="false"/>
-    <tile x="99" y="84" tile="4" rot="0" flipX="false"/>
+    <tile x="99" y="84" tile="4" type="trigger" script="to_crossroads.xml" rot="0" flipX="false"/>
     <tile x="0" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="1" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="2" y="85" tile="-1" rot="0" flipX="false"/>
@@ -8599,7 +8599,7 @@
     <tile x="96" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="97" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="98" y="85" tile="-1" rot="0" flipX="false"/>
-    <tile x="99" y="85" tile="4" rot="0" flipX="false"/>
+    <tile x="99" y="85" tile="4" type="trigger" script="to_crossroads.xml" rot="0" flipX="false"/>
     <tile x="0" y="86" tile="-1" rot="0" flipX="false"/>
     <tile x="1" y="86" tile="-1" rot="0" flipX="false"/>
     <tile x="2" y="86" tile="-1" rot="0" flipX="false"/>
@@ -8714,7 +8714,7 @@
     <tile x="11" y="87" tile="-1" rot="0" flipX="false"/>
     <tile x="12" y="87" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="87" tile="-1" rot="0" flipX="false"/>
-    <tile x="14" y="87" tile="3" type="snake" rot="0" flipX="false"/>
+    <tile x="14" y="87" tile="3" rot="0" flipX="false"/>
     <tile x="15" y="87" tile="-1" rot="0" flipX="false"/>
     <tile x="16" y="87" tile="-1" rot="0" flipX="false"/>
     <tile x="17" y="87" tile="-1" rot="0" flipX="false"/>
@@ -8723,7 +8723,7 @@
     <tile x="20" y="87" tile="-1" rot="0" flipX="false"/>
     <tile x="21" y="87" tile="-1" rot="0" flipX="false"/>
     <tile x="22" y="87" tile="-1" rot="0" flipX="false"/>
-    <tile x="23" y="87" tile="3" type="snake" rot="0" flipX="false"/>
+    <tile x="23" y="87" tile="3" rot="0" flipX="false"/>
     <tile x="24" y="87" tile="-1" rot="0" flipX="false"/>
     <tile x="25" y="87" tile="-1" rot="0" flipX="false"/>
     <tile x="26" y="87" tile="-1" rot="0" flipX="false"/>
@@ -9264,7 +9264,7 @@
     <tile x="61" y="92" tile="-1" rot="0" flipX="false"/>
     <tile x="62" y="92" tile="-1" rot="0" flipX="false"/>
     <tile x="63" y="92" tile="-1" rot="0" flipX="false"/>
-    <tile x="64" y="92" tile="3" type="snake" rot="0" flipX="false"/>
+    <tile x="64" y="92" tile="3" rot="0" flipX="false"/>
     <tile x="65" y="92" tile="-1" rot="0" flipX="false"/>
     <tile x="66" y="92" tile="-1" rot="0" flipX="false"/>
     <tile x="67" y="92" tile="-1" rot="0" flipX="false"/>

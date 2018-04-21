@@ -67,7 +67,6 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 							if (!trigger->has_triggered)
 							{
 								trigger->interaction_trigger(trigger_tile);
-								trigger->has_triggered = true;
 							}
 						}
 					}
@@ -115,7 +114,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 						{
 							void(*a)(Entity*) = int_src->interaction_trigger;
 							a(int_src->interaction_target);
-							int_src->has_triggered = true;
+							//int_src->has_triggered = true;
 						}
 					}
 
@@ -129,7 +128,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 							if (!trigger->has_triggered)
 							{
 								trigger->interaction_trigger(trigger_tile);
-								trigger->has_triggered = true;
+								//trigger->has_triggered = true;
 							}
 						}
 					}

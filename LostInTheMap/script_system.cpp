@@ -64,6 +64,8 @@ void script_system::action_over(Entity * action_performer)
 			return;
 		IMoving* mc = static_cast<IMoving*>(player->get_component(Component::ComponentType::Movement));
 		mc->movement_allowed = true;
+
+
 	}
 }
 

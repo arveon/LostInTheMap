@@ -1,0 +1,6 @@
+<script block_player="true" once="true">
+<action type="camera_target" character="zaji" />
+<action type="dialogue" dialogue="zaji_1.xml" />
+<action type="wait" character="arch_supervisor" time="500"/>
+<action type="camera_target" character="player" />
+</script>

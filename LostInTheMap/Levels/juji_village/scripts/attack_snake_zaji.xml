@@ -1,0 +1,5 @@
+<script block_player="true" once="true">
+<action type="dialogue" dialogue="attack_snakes.xml"/>
+
+</script>
+<action type="start_combat" army="snake_zaji.xml"/>

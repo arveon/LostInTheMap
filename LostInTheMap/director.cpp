@@ -89,8 +89,11 @@ void director::script_trigger(Entity* trigger)
 		Script script = xml_system::load_script(is->script_attached, cur_level);
 		if(script.initialised)
 			script_system::start_script(script);
-		if(script.happens_once)
+		if (script.happens_once)
+		{
+			is->has_triggered = true;
 			triggered_scripts.push_back(is->script_attached);
+		}
 	}
 	else
 		std::cout << "no is?!" << std::endl;

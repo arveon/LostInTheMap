@@ -336,7 +336,7 @@ adding_interaction:
 		mc->destination_reached = true;
 		if (target && is && is->interaction_target != nullptr)
 		{
-			is->has_triggered = true;
+			//is->has_triggered = true;
 			is->interaction_trigger(is->interaction_target);
 		}
 	}
