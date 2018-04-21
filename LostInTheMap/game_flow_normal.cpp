@@ -58,6 +58,10 @@ void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
 	render_system::prepare_terrain(tc->width * tc->tile_width, tc->height * tc->tile_width);
 	game_space.initialised = true;
 	game_flow_normal::lmb_down_event = false;
+
+	//update camera needed here as it sets camera coords to player
+	camera_system::update_camera(1);
+	director::script_trigger("start.xml");
 }
 
 void game_flow_normal::update_space(Space & space, int dt)

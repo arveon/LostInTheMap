@@ -1,0 +1,5 @@
+<dialogue character="giovanni" character="archaeologist">
+	<rep character="1" text="A hidden room built to store a useless map?" />
+	<rep character="1" text="These tribes are just stupid..." />
+	<rep character="0" text="Come on, it could be way worse... At least there's no rats here." />
+</dialogue>

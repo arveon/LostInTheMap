@@ -1,0 +1,15 @@
+<script block_player="true" once="true">
+<action type="wait" time="1000"/>
+<action type="move_camera" dest_x="9" dest_y="10"/>
+<action type="wait" time="1000"/>
+<action type="camera_target" character="arch_supervisor" />
+<action type="dialogue" dialogue="enter_room.xml"/>
+<action type="move" character="archaeologist_1" dest_x="4" dest_y="12"/>
+<action type="move" character="archaeologist_2" dest_x="7" dest_y="17"/>
+<action type="move" character="archaeologist_3" dest_x="13" dest_y="9"/>
+<action type="move" character="archaeologist_4" dest_x="15" dest_y="16"/>
+<action type="camera_target" character="player" />
+<action type="set_story_state" new_state="pyramid_map_discovered"/>
+</script>
+
+

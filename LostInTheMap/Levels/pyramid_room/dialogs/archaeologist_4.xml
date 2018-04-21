@@ -1,0 +1,5 @@
+<dialogue character="giovanni" character="archaeologist">
+	<rep character="1" text="Looks like they didn't want anyone to see or find the map..."  />
+	<rep character="1" text="What could possible be the reason? It's just a piece of old parchment with some ink on it..."  />
+	<rep character="0" text="Well, they probably had their reasons."  />
+</dialogue>

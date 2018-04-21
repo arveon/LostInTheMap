@@ -49,6 +49,8 @@ public:
 
 	static void process_interaction(Entity* target);
 	static void script_trigger(Entity* trigger);
+	//used to initialise scripts that always happen inside any level (eg. level start script)
+	static void script_trigger(std::string path);
 
 	static void set_story_state(std::string new_state);
 

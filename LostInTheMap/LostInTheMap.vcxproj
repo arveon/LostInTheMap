@@ -186,6 +186,7 @@
     <ClCompile Include="sdl_utils.cpp" />
     <ClCompile Include="SpaceSystem.cpp" />
     <ClCompile Include="SplashScreeenSystem.cpp" />
+    <ClCompile Include="ToDoList.cpp" />
     <ClCompile Include="xml_system.cpp" />
   </ItemGroup>
   <ItemGroup>

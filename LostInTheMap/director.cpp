@@ -24,6 +24,7 @@ xml_system::Dialogue director::get_dialogue(Entity * target)
 		break;
 	case story_stage::pyramid_gold_taken:
 	case story_stage::pyramid_lever_switched:
+	case story_stage::pyramid_map_discovered:
 		result = director::pyramid_gold_taken_dialogues(target);
 		break;
 	}
@@ -102,6 +103,18 @@ void director::script_trigger(Entity* trigger)
 		std::cout << "no is?!" << std::endl;
 }
 
+void director::script_trigger(std::string path)
+{
+	Script script = xml_system::load_script(path, cur_level);
+	if (script.initialised)
+		script_system::start_script(script);
+	if (script.happens_once)
+	{
+		triggered_scripts.push_back(path);
+	}
+
+}
+
 void director::set_story_state(std::string new_state)
 {
 	cur_stage = get_story_state_from_name(new_state);
@@ -116,6 +129,8 @@ story_stage director::get_story_state_from_name(std::string name)
 		stage = story_stage::pyramid_gold_picked_up;
 	else if (name.compare("pyramid_lever_switched") == 0)
 		stage = story_stage::pyramid_lever_switched;
+	else if (name.compare("pyramid_map_discovered") == 0)
+		stage = story_stage::pyramid_map_discovered;
 	else if (name.compare("juji_start") == 0)
 		stage = story_stage::juji_start;
 	else if (name.compare("juji_snakes_start") == 0)

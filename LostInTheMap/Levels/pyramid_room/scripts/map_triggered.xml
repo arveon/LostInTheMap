@@ -1,0 +1,4 @@
+<script block_player="true">
+<action type="wait" time="1000" />
+<action type="change_level" level="juji_village"/>
+</script>

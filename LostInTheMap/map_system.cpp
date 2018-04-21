@@ -171,6 +171,12 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 				tf->origin = { tf->position.w / 2, tf->position.h - 1 };
 				
 				IInteractionSource* i_obj = new IInteractionSource(obj, type);
+				if (objects_map[i][j].script.compare("")!=0)
+				{
+					i_obj->interaction_trigger = &director::script_trigger;
+					i_obj->script_attached = objects_map[i][j].script;
+				}
+
 				switch (type)
 				{
 				case object_types::juji_house_1:
@@ -195,9 +201,6 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 					collider->collidable = true;
 					collider->collision_rect.w = tf->position.w;
 					collider->collision_rect.h = tf->position.h;
-
-					i_obj->interaction_trigger = &director::script_trigger;
-					i_obj->script_attached = objects_map[i][j].script;
 					break;
 				}
 				case object_types::barrel:
@@ -211,8 +214,7 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 					collider->collision_rect.w = tf->position.w;
 					collider->collision_rect.h = tf->position.h;
 
-					i_obj->interaction_trigger = &director::script_trigger;
-					i_obj->script_attached = objects_map[i][j].script;
+					
 					break;
 				}
 				
@@ -224,9 +226,6 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 					collider->collidable = true;
 					collider->collision_rect.w = 96;
 					collider->collision_rect.h = tf->position.h;
-					
-					i_obj->interaction_trigger = &director::script_trigger;
-					i_obj->script_attached = objects_map[i][j].script;
 					break;
 				}
 				case object_types::table:
@@ -239,9 +238,6 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 					collider->collidable = true;
 					collider->collision_rect.w = tf->position.w;
 					collider->collision_rect.h = tf->position.h;
-
-					i_obj->interaction_trigger = &director::script_trigger;
-					i_obj->script_attached = objects_map[i][j].script;
 					break;
 				}
 				case object_types::hidden_door:
@@ -253,9 +249,6 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 					collider->collidable = true;
 					collider->collision_rect.w = tf->position.w;
 					collider->collision_rect.h = tf->position.h;
-
-					i_obj->interaction_trigger = &director::script_trigger;
-					i_obj->script_attached = objects_map[i][j].script;
 					break;
 				}
 

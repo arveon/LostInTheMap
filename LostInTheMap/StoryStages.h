@@ -5,6 +5,7 @@ enum story_stage
 	pyramid_gold_picked_up,
 	pyramid_gold_taken,
 	pyramid_lever_switched,
+	pyramid_map_discovered,
 	juji_start,
 	juji_snakes_start,
 	juji_snakes_end,

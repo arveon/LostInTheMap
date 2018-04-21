@@ -59,7 +59,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				{
 					//check if currently inside trigger
 					Entity* trigger_tile = SpaceSystem::get_object_at_point(game_space, tc->position.x + tc->origin.x, tc->position.y + tc->origin.y, false);
-					if (trigger_tile)
+					if (trigger_tile && trigger_tile->is_active)
 					{
 						IInteractionSource* trigger = static_cast<IInteractionSource*>(trigger_tile->get_component(Component::ComponentType::InteractionSource));
 						if (trigger)

@@ -242,6 +242,9 @@
     <ClCompile Include="combat_flow.cpp">
       <Filter>Source Files\systems\gameplay_systems</Filter>
     </ClCompile>
+    <ClCompile Include="ToDoList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

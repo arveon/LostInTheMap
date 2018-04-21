@@ -1,0 +1,10 @@
+<dialogue character="giovanni" character="arch_supervisor">
+	<rep character="1" text="Finally! An interesting find! All these graduates probably think it's a lame piece of parchment!" />
+	<rep character="0" text="Well, it does look like a boring piece of parchment, if I'm honest..." />
+	<rep character="1" text="So what? It's not what it's made of that's important. It's what's on it and why they placed it here." />
+	<rep character="0" text="And do you have any idea why?" />
+	<rep character="1" text="Look at these symbols on the wall around pedestal. They represent Ar'Dha - one of the Ju'ji gods." />
+	<rep character="1" text="I have spent my whole life researching their religion and usually they place these symbols around objects they believe cursed and may harm others to protect them." />
+	<rep character="1" text="I don't believe in magic, but they probably put the map here to protect others from the curse it bares." />
+	<rep character="0" text="Let's take it and get out of here, I don't think there is anything else interesting in these ruins...." />
+</dialogue>

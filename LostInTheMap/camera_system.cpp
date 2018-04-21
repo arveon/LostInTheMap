@@ -95,6 +95,8 @@ void camera_system::update_camera(int dt)
 		cur_origin.x = camera_rect.x + camera_rect.w / 2;
 		cur_origin.y = camera_rect.y + camera_rect.h / 2;
 		SDL_Point target_origin = target->get_origin_in_world();
+		if (target_origin.y + camera_rect.h / 2 > y_cap)
+			target_origin.y = y_cap-camera_rect.h;
 
 		if (cur_origin.x == target_origin.x && cur_origin.y == target_origin.y)
 		{
