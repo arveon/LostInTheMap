@@ -18,6 +18,7 @@ private:
 	static void(*combat_start_callback)(levels level, Space&, IFightable*);
 	static void(*start_dialogue_callback)(std::string);
 	static void(*state_change_callback)(std::string);
+	static void(*level_change_callback)(levels);
 public:
 	static Space* game_space;
 
@@ -37,6 +38,7 @@ public:
 	static void set_combat_start_callback(void(*combat_callback)(levels, Space&, IFightable*)) { combat_start_callback = combat_callback; }
 	static void set_dialogue_start_callback(void(*cb)(std::string)) { start_dialogue_callback = cb; }
 	static void set_state_change_callback(void(*cb)(std::string)) { state_change_callback = cb; }
+	static void set_level_switch_callback(void(*cb)(levels)) { level_change_callback = cb; }
 
 	script_system();
 	~script_system();

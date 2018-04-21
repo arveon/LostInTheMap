@@ -15,6 +15,7 @@
 class game_flow_normal : public SpaceSystem
 {
 private:
+	static void(*change_level_callback)(levels level);
 	static Entity* mouse;
 
 	static bool lmb_down_event;
@@ -22,7 +23,7 @@ private:
 public:
 	static int mouse_up_listener_id;
 	static int mouse_down_listener_id;
-	static void init(Space& game_space);
+	static void init(Space& game_space, void(*change_level_cb)(levels));
 	static void update_space(Space& space, int dt);
 	static void handle_mouse_clicks(Space& space);
 	static void update_pathfinder(Space& space);

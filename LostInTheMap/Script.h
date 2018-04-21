@@ -14,7 +14,8 @@ enum action_type
 	start_combat,
 	set_story_state,
 	object_disappear,
-	character_disappear
+	character_disappear,
+	level_switch
 };
 
 class Action

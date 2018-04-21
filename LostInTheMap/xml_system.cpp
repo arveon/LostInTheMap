@@ -377,6 +377,11 @@ Script xml_system::load_script(std::string name, levels level)
 				temp.type = action_type::character_disappear;
 				temp.target_type = xml_system::get_character_type_by_name(cur_node->first_attribute("character")->value());
 			}
+			else if (type.compare("change_level") == 0)
+			{
+				temp.type = action_type::level_switch;
+				temp.utility = cur_node->first_attribute("level")->value();
+			}
 			else
 				temp.type = action_type::not_set;
 
@@ -659,6 +664,9 @@ std::string xml_system::get_level_path_prefix(levels level)
 	case levels::pyramid:
 		path = "Levels/pyramid/";
 		break;
+	case levels::pyramid_room:
+		path = "Levels/pyramid_room/";
+		break;
 	case levels::juji_village:
 		path = "Levels/juji_village/";
 		break;
@@ -704,6 +712,27 @@ std::string xml_system::get_level_name_str(levels level)
 		path = "pyramid";
 	}
 	return path;
+}
+
+levels xml_system::get_level_type_from_name(std::string name)
+{
+	levels result;
+	if (name.compare("pyramid") == 0)
+		result = levels::pyramid;
+	else if (name.compare("pyramid_room") == 0)
+		result = levels::pyramid_room;
+	else if (name.compare("juji_village") == 0)
+		result = levels::juji_village;
+	else if (name.compare("bodah_caves") == 0)
+		result = levels::caves;
+	else if (name.compare("zakra_village") == 0)
+		result = levels::zakra_village;
+	else if (name.compare("desert") == 0)
+		result = levels::desert;
+	else
+		result = levels::pyramid;
+
+	return result;
 }
 
 object_types xml_system::get_object_type_by_name(std::string name)

@@ -7,6 +7,7 @@ Space* script_system::game_space;
 void(*script_system::start_dialogue_callback)(std::string path);
 void(*script_system::state_change_callback)(std::string path);
 void(*script_system::combat_start_callback)(levels level, Space&, IFightable*);
+void(*script_system::level_change_callback)(levels level);
 
 
 int script_system::waiting_timer;
@@ -194,6 +195,13 @@ void script_system::perform_action()
 	{
 		Entity* character = character_system::get_character(to_perform->target_type);
 		character->deactivate();
+		action_over(nullptr);
+		break;
+	}
+	case action_type::level_switch:
+	{
+		levels target_level = xml_system::get_level_type_from_name(to_perform->utility);
+		level_change_callback(target_level);
 		action_over(nullptr);
 		break;
 	}

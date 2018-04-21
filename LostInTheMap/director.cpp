@@ -7,6 +7,9 @@ std::vector<std::string> director::triggered_scripts;
 levels director::cur_level;
 Space* director::space;
 
+bool director::level_switch_pending = false;
+levels director::target_level;
+
 
 xml_system::Dialogue director::get_dialogue(Entity * target)
 {
@@ -146,6 +149,7 @@ story_stage director::get_story_state_from_name(std::string name)
 void director::reset_director()
 {
 	secondary_counter = 0; 
+	level_switch_pending = false;
 	bound.clear(); 
 	triggered_scripts.clear();
 
@@ -158,6 +162,7 @@ void director::init_stage(levels level)
 	director::cur_level = level;
 	script_system::set_dialogue_start_callback(&director::start_scripted_dialogue);
 	script_system::set_state_change_callback(&director::set_story_state);
+	script_system::set_level_switch_callback(&director::set_level_switch);
 }
 
 director::director()

@@ -6,8 +6,12 @@ int game_flow_normal::mouse_down_listener_id;
 bool game_flow_normal::lmb_down_event;
 bool game_flow_normal::lmb_up_event;
 
-void game_flow_normal::init(Space & game_space)
+void(*game_flow_normal::change_level_callback)(levels level);
+
+void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
 {
+	game_flow_normal::change_level_callback = change_level_cb;
+
 	//add all of the objects in game space to render queue
 	for (unsigned int i = 0; i < game_space.objects.size(); i++)
 	{
@@ -108,6 +112,11 @@ void game_flow_normal::update_space(Space & space, int dt)
 	game_flow_normal::handle_mouse_clicks(space);
 	if(script_system::is_script_going())
 		script_system::update(dt);
+
+	if (director::is_level_switch_pending())
+	{
+		change_level_callback(director::target_level);
+	}
 }
 
 void game_flow_normal::handle_mouse_clicks(Space& space)

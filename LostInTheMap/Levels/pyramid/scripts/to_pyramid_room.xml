@@ -1,0 +1,3 @@
+<script block_player="true">
+<action type="change_level" level="pyramid_room"/>
+</script>

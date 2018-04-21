@@ -20,7 +20,8 @@ public:
 	};
 private:
 	
-	
+	static bool level_switch_pending;
+
 	static story_stage cur_stage;
 	static int secondary_counter;
 	
@@ -37,6 +38,7 @@ private:
 	
 public:
 	static levels cur_level;
+	static levels target_level;
 	static void init_stage(levels level);
 	static void change_stage(story_stage new_stage) { cur_stage = new_stage; }
 
@@ -52,7 +54,11 @@ public:
 
 	static story_stage get_story_state_from_name(std::string name);
 
+	static void set_level_switch(levels target) { level_switch_pending = true; target_level = target; }
+
 	static void reset_director();
+
+	static bool is_level_switch_pending() { return level_switch_pending; }
 
 	director();
 	~director();

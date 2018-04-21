@@ -130,7 +130,7 @@ void Game::game_loop()
 		case game_state::game_flow:
 			if (!game_space.initialised)
 			{
-				game_flow_normal::init(game_space);
+				game_flow_normal::init(game_space, &Game::change_to_level);
 				game_flow_normal::mouse_down_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_down, game_flow_normal::mouse_down_event);
 				game_flow_normal::mouse_up_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_up, game_flow_normal::mouse_up_event);
 			}
@@ -167,6 +167,13 @@ void Game::dec_level()
 	state = game_state::loading;
 
 	cur_level = (cur_level - 1 < 1) ? (levels)5 : (levels)(cur_level - 1);
+}
+
+void Game::change_to_level(levels level)
+{
+	exit_game_flow();
+	state = game_state::loading;
+	cur_level = level;
 }
 
 Game::Game()

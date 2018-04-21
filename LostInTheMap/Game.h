@@ -60,6 +60,8 @@ public:
 	static void inc_level();
 	static void dec_level();
 
+	static void change_to_level(levels level);
+
 	//function will be passed to initialise function that would allow them to register mouseclick callback methods
 	static int register_mousedown_listener(void(*cb)())
 	{
