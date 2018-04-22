@@ -629,19 +629,19 @@ std::string xml_system::get_character_name_by_type(character_type type)
 		result = "juji_villager_4";
 		break;
 	case character_type::npc_archaeologist_1:
-		result = "npc_archaeologist_1";
+		result = "archaeologist_1";
 		break;
 	case character_type::npc_archaeologist_2:
-		result = "npc_archaeologist_2";
+		result = "archaeologist_2";
 		break;
 	case character_type::npc_archaeologist_3:
-		result = "npc_archaeologist_3";
+		result = "archaeologist_3";
 		break;
 	case character_type::npc_archaeologist_4:
-		result = "npc_archaeologist_4";
+		result = "archaeologist_4";
 		break;
 	case character_type::npc_arch_supervisor:
-		result = "npc_arch_supervisor";
+		result = "arch_supervisor";
 		break;
 	case character_type::rat:
 		result = "rat";

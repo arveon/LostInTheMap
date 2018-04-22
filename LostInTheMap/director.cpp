@@ -27,6 +27,9 @@ xml_system::Dialogue director::get_dialogue(Entity * target)
 	case story_stage::pyramid_map_discovered:
 		result = director::pyramid_gold_taken_dialogues(target);
 		break;
+	case story_stage::juji_start:
+		//result = director::juji_start_dialogues(target);
+		break;
 	}
 
 	return result;

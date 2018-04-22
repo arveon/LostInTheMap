@@ -155,58 +155,14 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		dc->draw_rect = tc->position;
 
 		//init texture and draw rect size
-		switch (cc->c_type)
+		std::string tex_path = "assets/graphics/characters/"+xml_system::get_character_name_by_type(cc->c_type)+".png";
+		ac->spritesheet = asset_controller::load_texture(tex_path.c_str());
+		dc->draw_rect.w = 50;
+		dc->draw_rect.h = 48;
+		if (cc->c_type == character_type::zakra_spearman)
 		{
-		case character_type::h_giovanni:
-			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/giovanni.png");
-			dc->draw_rect.w = 50;
-			dc->draw_rect.h = 48;
-			break;
-		case character_type::npc_arch_supervisor:
-			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/supervisor.png");
-			dc->draw_rect.w = 50;
-			dc->draw_rect.h = 48;
-			break;
-		case character_type::npc_archaeologist_1:
-			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/archaeologist_1.png");
-			dc->draw_rect.w = 50;
-			dc->draw_rect.h = 48;
-			break;
-		case character_type::npc_archaeologist_2:
-			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/archaeologist_2.png");
-			dc->draw_rect.w = 50;
-			dc->draw_rect.h = 48;
-			break;
-		case character_type::npc_archaeologist_3:
-			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/archaeologist_3.png");
-			dc->draw_rect.w = 50;
-			dc->draw_rect.h = 48;
-			break;
-		case character_type::npc_archaeologist_4:
-			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/archaeologist_4.png");
-			dc->draw_rect.w = 50;
-			dc->draw_rect.h = 48;
-			break;
-		case character_type::h_zaji:
-			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/za'ji.png");
-			dc->draw_rect.w = 50;
-			dc->draw_rect.h = 48;
-			break;
-		case character_type::zakra_spearman:
-			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/zakra_spearman.png");
 			dc->draw_rect.w = 64;
 			dc->draw_rect.h = 64;
-			break;
-		case character_type::rat:
-			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/rat.png");
-			dc->draw_rect.w = 50;
-			dc->draw_rect.h = 48;
-			break;
-		
-		default:
-			ac->spritesheet = asset_controller::load_texture("assets/graphics/characters/default.png");
-			dc->draw_rect.w = 50;
-			dc->draw_rect.h = 48;
 		}
 
 		//set tile origin

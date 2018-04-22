@@ -1,0 +1,5 @@
+<script block_player="true">
+<action type="wait" time="1000" />
+<action type="dialogue" dialogue="leader_1.xml" />
+<action type="set_story_state" new_state="juji_start"/>
+</script>
