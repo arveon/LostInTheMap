@@ -167,7 +167,7 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 				IDrawable* dc = new IDrawable(obj, IDrawable::layers::surface);
 				dc->draw_rect = tf->position;
 
-				object_types type = xml_system::get_object_type_by_name(objects_map[i][j].type);
+				object_types type = NameToTypeConversion::get_object_type_by_name(objects_map[i][j].type);
 				tf->origin = { tf->position.w / 2, tf->position.h - 1 };
 				
 				IInteractionSource* i_obj = new IInteractionSource(obj, type);

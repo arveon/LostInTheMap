@@ -6,6 +6,7 @@
 #include "director.h"
 #include "Levels.h"
 #include "ObjectTypes.h"
+#include "NameToTypeConversion.h"
 
 
 class map_system

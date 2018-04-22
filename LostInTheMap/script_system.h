@@ -5,6 +5,7 @@
 #include "Components.h"
 #include "camera_system.h"
 #include "StoryStages.h"
+#include "NameToTypeConversion.h"
 
 class script_system
 {

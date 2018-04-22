@@ -146,6 +146,7 @@
     <ClInclude Include="MenuLayout.h" />
     <ClInclude Include="mouse_system.h" />
     <ClInclude Include="movement_system.h" />
+    <ClInclude Include="NameToTypeConversion.h" />
     <ClInclude Include="player_system.h" />
     <ClInclude Include="render_system.h" />
     <ClInclude Include="Script.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="map_system.cpp" />
     <ClCompile Include="mouse_system.cpp" />
     <ClCompile Include="movement_system.cpp" />
+    <ClCompile Include="NameToTypeConversion.cpp" />
     <ClCompile Include="ObjectTypes.h" />
     <ClCompile Include="player_system.cpp" />
     <ClCompile Include="render_system.cpp" />

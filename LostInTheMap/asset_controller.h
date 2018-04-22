@@ -12,6 +12,7 @@
 #include "CharacterTypes.h"
 #include "ObjectTypes.h"
 
+#include "NameToTypeConversion.h"
 
 
 enum UI_text_type

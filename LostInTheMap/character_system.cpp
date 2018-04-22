@@ -43,7 +43,7 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 				ent->add_component(mc);
 
 				//set name and character type depending on what's stored in field
-				character_type type = xml_system::get_character_type_by_name(charact[i][j].type);
+				character_type type = NameToTypeConversion::get_character_type_by_name(charact[i][j].type);
 				bool is_friendly = true;
 				switch (type)
 				{
@@ -155,7 +155,7 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		dc->draw_rect = tc->position;
 
 		//init texture and draw rect size
-		std::string tex_path = "assets/graphics/characters/"+xml_system::get_character_name_by_type(cc->c_type)+".png";
+		std::string tex_path = "assets/graphics/characters/"+ NameToTypeConversion::get_character_name_by_type(cc->c_type)+".png";
 		ac->spritesheet = asset_controller::load_texture(tex_path.c_str());
 		dc->draw_rect.w = 50;
 		dc->draw_rect.h = 48;

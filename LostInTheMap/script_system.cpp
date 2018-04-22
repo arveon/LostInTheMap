@@ -184,7 +184,7 @@ void script_system::perform_action()
 		}
 		else
 		{
-			object_types t = xml_system::get_object_type_by_name(to_perform->utility);
+			object_types t = NameToTypeConversion::get_object_type_by_name(to_perform->utility);
 			Entity* ent = SpaceSystem::find_object_of_type(*game_space, t);
 			ent->deactivate();
 		}
@@ -200,7 +200,7 @@ void script_system::perform_action()
 	}
 	case action_type::level_switch:
 	{
-		levels target_level = xml_system::get_level_type_from_name(to_perform->utility);
+		levels target_level = NameToTypeConversion::get_level_type_from_name(to_perform->utility);
 		level_change_callback(target_level);
 		action_over(nullptr);
 		break;

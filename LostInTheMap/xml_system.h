@@ -15,6 +15,8 @@
 
 #include "ArmyUnit.h"
 
+#include "NameToTypeConversion.h"
+
 class xml_system
 {
 private:
@@ -65,17 +67,6 @@ public:
 	static std::vector<LoadingState> get_loading_states();
 	static DialogueFrame load_dialogue_frame();
 	static Script load_script(std::string name, levels level);
-
-	static character_type get_character_type_by_name(std::string);
-	static std::string get_character_name_by_type(character_type type);
-	static std::string get_level_path_prefix(levels level);
-	static std::string get_level_name_str(levels level);
-
-	static levels get_level_type_from_name(std::string name);
-
-	static object_types get_object_type_by_name(std::string name);
-
-	static std::string get_object_name_by_type(object_types type);
 
 	static std::vector<army_unit> load_army(std::string army_path, levels level);
 

@@ -186,57 +186,8 @@ std::vector<asset_controller::CharacterPortrait> asset_controller::get_character
 	{
 		CharacterPortrait temp;
 		temp.ch_type = dialogue_participants.at(i);
-		switch (dialogue_participants.at(i))
-		{
-		case h_giovanni:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
-			break;
-		case npc_arch_supervisor://LEVEL 1
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/supervisor_portrait.png");
-			break;
-		case npc_archaeologist_1:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_1_portrait.png");
-			break;
-		case npc_archaeologist_2:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_2_portrait.png");
-			break;
-		case npc_archaeologist_3:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_3_portrait.png");
-			break;
-		case npc_archaeologist_4:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_4_portrait.png");
-			break;
-		case h_zaji://LEVEL 2
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/zaji_portrait.png");
-			break;
-		case h_jido:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/supervisor_portrait.png");
-			break;
-		case h_josi:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/supervisor_portrait.png");
-			break;
-		case juji_villager_1:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_1_portrait.png");
-			break;
-		case juji_villager_2:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_1_portrait.png");
-			break;
-		case juji_villager_3:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_1_portrait.png");
-			break;
-		case juji_villager_4:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/archaeologist_1_portrait.png");
-			break;
-		case h_zurshi://LEVEL 3...
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
-			break;
-		case zakra_spearman:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/giovanni_portrait.png");
-			break;
-		default:
-			temp.texture = asset_controller::load_texture("assets/graphics/characters/portraits/default.png");
-			break;
-		}
+		std::string fullpath = "assets/graphics/characters/portraits/" + NameToTypeConversion::get_character_name_by_type(dialogue_participants.at(i)) + "_portrait.png";
+		temp.texture = asset_controller::load_texture(fullpath.c_str());
 
 		result.push_back(temp);
 	}

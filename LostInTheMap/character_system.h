@@ -7,6 +7,7 @@
 #include "director.h"
 
 #include "xml_system.h"
+#include "NameToTypeConversion.h"
 
 class character_system
 {

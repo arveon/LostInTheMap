@@ -256,7 +256,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		break;
 	case loading_state::loading_terrain_textures:
 	{
-		std::string level_name = xml_system::get_level_name_str(level_to_load);
+		std::string level_name = NameToTypeConversion::get_level_name_str(level_to_load);
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
 		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
 
@@ -268,7 +268,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		for (Entity* a : objects)
 		{
 			IInteractionSource* oo = static_cast<IInteractionSource*>(a->get_component(Component::ComponentType::InteractionSource));
-			SDL_Texture* tex = asset_controller::get_object_texture(xml_system::get_object_name_by_type(oo->o_type));
+			SDL_Texture* tex = asset_controller::get_object_texture(NameToTypeConversion::get_object_name_by_type(oo->o_type));
 			IDrawable* dc = static_cast<IDrawable*>(a->get_component(Component::ComponentType::Drawable));
 			dc->sprite = tex;
 		}
