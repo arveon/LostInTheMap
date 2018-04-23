@@ -1,0 +1,3 @@
+<script block_player="true" once="true">
+<action type="change_level" level="bodah_caves"/>
+</script>

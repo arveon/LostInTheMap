@@ -106,6 +106,11 @@ void script_system::perform_action()
 		ICharacter* ch = static_cast<ICharacter*>(to_move->get_component(Component::ComponentType::Character));
 		if (!ch || !to_move->is_active)
 			action_over(nullptr);
+		
+		IMoving* mc = static_cast<IMoving*>(to_move->get_component(Component::ComponentType::Movement));
+		if (!mc->movement_allowed)
+			mc->movement_allowed = true;
+
 		ch->controlled_by_script = true;
 		ch->script_done_callback = &script_system::action_over;
 

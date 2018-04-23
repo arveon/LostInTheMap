@@ -1177,13 +1177,13 @@
     <tile x="74" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="75" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="76" y="11" tile="4" type="trigger" script="help_zaji.xml" rot="0" flipX="false"/>
-    <tile x="77" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
-    <tile x="78" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
-    <tile x="79" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="77" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
+    <tile x="78" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
+    <tile x="79" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
     <tile x="80" y="11" tile="-1" rot="0" flipX="false"/>
-    <tile x="81" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
-    <tile x="82" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
-    <tile x="83" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="81" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
+    <tile x="82" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
+    <tile x="83" y="11" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
     <tile x="84" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="85" y="11" tile="-1" rot="0" flipX="false"/>
     <tile x="86" y="11" tile="-1" rot="0" flipX="false"/>
@@ -1279,11 +1279,11 @@
     <tile x="76" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="77" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="78" y="12" tile="-1" rot="0" flipX="false"/>
-    <tile x="79" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="79" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
     <tile x="80" y="12" tile="3" type="snake" army="zaji_snake.xml" rot="0" flipX="false"/>
-    <tile x="81" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
-    <tile x="82" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
-    <tile x="83" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="81" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
+    <tile x="82" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
+    <tile x="83" y="12" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
     <tile x="84" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="85" y="12" tile="-1" rot="0" flipX="false"/>
     <tile x="86" y="12" tile="-1" rot="0" flipX="false"/>
@@ -1310,7 +1310,7 @@
     <tile x="7" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="8" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="9" y="13" tile="-1" rot="0" flipX="false"/>
-    <tile x="10" y="13" tile="1" type="player" rot="0" flipX="false"/>
+    <tile x="10" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="11" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="12" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="13" y="13" tile="-1" rot="0" flipX="false"/>
@@ -1383,8 +1383,8 @@
     <tile x="80" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="81" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="82" y="13" tile="-1" rot="0" flipX="false"/>
-    <tile x="83" y="13" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
-    <tile x="84" y="13" tile="4" type="trigger" script="attack_snake_zaji.xml" rot="0" flipX="false"/>
+    <tile x="83" y="13" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
+    <tile x="84" y="13" tile="4" type="trigger" script="attack_snake_zaji.xml" name="attack_snake_zaji" rot="0" flipX="false"/>
     <tile x="85" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="86" y="13" tile="-1" rot="0" flipX="false"/>
     <tile x="87" y="13" tile="-1" rot="0" flipX="false"/>
@@ -8290,9 +8290,9 @@
     <tile x="87" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="88" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="89" y="82" tile="-1" rot="0" flipX="false"/>
-    <tile x="90" y="82" tile="-1" rot="0" flipX="false"/>
-    <tile x="91" y="82" tile="4" type="trigger" script="level_lock.xml" rot="0" flipX="false"/>
-    <tile x="92" y="82" tile="4" type="trigger" script="level_lock.xml" rot="0" flipX="false"/>
+    <tile x="90" y="82" tile="1" type="player" rot="0" flipX="false"/>
+    <tile x="91" y="82" tile="4" type="trigger" script="zakra_lock.xml" name="zakra_lock" rot="0" flipX="false"/>
+    <tile x="92" y="82" tile="4" type="trigger" script="zakra_lock.xml" name="zakra_lock" rot="0" flipX="false"/>
     <tile x="93" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="94" y="82" tile="-1" rot="0" flipX="false"/>
     <tile x="95" y="82" tile="-1" rot="0" flipX="false"/>
@@ -8391,7 +8391,7 @@
     <tile x="88" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="89" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="90" y="83" tile="-1" rot="0" flipX="false"/>
-    <tile x="91" y="83" tile="4" type="trigger" script="level_lock.xml" rot="0" flipX="false"/>
+    <tile x="91" y="83" tile="4" type="trigger" script="zakra_lock.xml" name="zakra_lock" rot="0" flipX="false"/>
     <tile x="92" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="93" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="94" y="83" tile="-1" rot="0" flipX="false"/>
@@ -8399,7 +8399,7 @@
     <tile x="96" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="97" y="83" tile="-1" rot="0" flipX="false"/>
     <tile x="98" y="83" tile="-1" rot="0" flipX="false"/>
-    <tile x="99" y="83" tile="4" type="trigger" script="to_crossroads.xml" rot="0" flipX="false"/>
+    <tile x="99" y="83" tile="4" type="trigger" script="to_zakra.xml" rot="0" flipX="false"/>
     <tile x="0" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="1" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="2" y="84" tile="-1" rot="0" flipX="false"/>
@@ -8499,7 +8499,7 @@
     <tile x="96" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="97" y="84" tile="-1" rot="0" flipX="false"/>
     <tile x="98" y="84" tile="-1" rot="0" flipX="false"/>
-    <tile x="99" y="84" tile="4" type="trigger" script="to_crossroads.xml" rot="0" flipX="false"/>
+    <tile x="99" y="84" tile="4" type="trigger" script="to_zakra.xml" rot="0" flipX="false"/>
     <tile x="0" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="1" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="2" y="85" tile="-1" rot="0" flipX="false"/>
@@ -8585,8 +8585,8 @@
     <tile x="82" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="83" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="84" y="85" tile="-1" rot="0" flipX="false"/>
-    <tile x="85" y="85" tile="-1" rot="0" flipX="false"/>
-    <tile x="86" y="85" tile="-1" rot="0" flipX="false"/>
+    <tile x="85" y="85" tile="4" type="trigger" script="bodah_lock.xml" rot="0" flipX="false"/>
+    <tile x="86" y="85" tile="4" type="trigger" script="bodah_lock.xml" rot="0" flipX="false"/>
     <tile x="87" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="88" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="89" y="85" tile="-1" rot="0" flipX="false"/>
@@ -8599,7 +8599,7 @@
     <tile x="96" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="97" y="85" tile="-1" rot="0" flipX="false"/>
     <tile x="98" y="85" tile="-1" rot="0" flipX="false"/>
-    <tile x="99" y="85" tile="4" type="trigger" script="to_crossroads.xml" rot="0" flipX="false"/>
+    <tile x="99" y="85" tile="4" type="trigger" script="to_zakra.xml" rot="0" flipX="false"/>
     <tile x="0" y="86" tile="-1" rot="0" flipX="false"/>
     <tile x="1" y="86" tile="-1" rot="0" flipX="false"/>
     <tile x="2" y="86" tile="-1" rot="0" flipX="false"/>
@@ -9985,8 +9985,8 @@
     <tile x="82" y="99" tile="-1" rot="0" flipX="false"/>
     <tile x="83" y="99" tile="-1" rot="0" flipX="false"/>
     <tile x="84" y="99" tile="-1" rot="0" flipX="false"/>
-    <tile x="85" y="99" tile="-1" rot="0" flipX="false"/>
-    <tile x="86" y="99" tile="-1" rot="0" flipX="false"/>
+    <tile x="85" y="99" tile="4" type="trigger" script="to_bodah.xml" rot="0" flipX="false"/>
+    <tile x="86" y="99" tile="4" type="trigger" script="to_bodah.xml" rot="0" flipX="false"/>
     <tile x="87" y="99" tile="-1" rot="0" flipX="false"/>
     <tile x="88" y="99" tile="-1" rot="0" flipX="false"/>
     <tile x="89" y="99" tile="-1" rot="0" flipX="false"/>

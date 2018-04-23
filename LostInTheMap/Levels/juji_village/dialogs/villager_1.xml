@@ -1,5 +1,5 @@
 <dialogue character="giovanni" character="juji_villager">
-	<rep character="1" text="Wow, where did you come from?" />
+	<rep character="1" text="Hey! You don't look like one of us! Where did you come from?" />
 	<rep character="0" text="From a magic land of ponies..." />
 	<rep character="1" text="Wooooooow... Who is ponies?" />
 	<rep character="0" text="Nevermind..." />

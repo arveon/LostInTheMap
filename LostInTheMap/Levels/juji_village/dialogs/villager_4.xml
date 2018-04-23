@@ -1,8 +1,12 @@
 <dialogue character="giovanni" character="juji_villager">
 	<rep character="1" text="It's so interesting to see a Na'Hum. You are not here to harm our village, are you?" />
 	<rep character="0" text="No, why would you think so?" />
-	<rep character="1" text="They say your people consider killing animals a game. Some even say you put their skins on walls for bragging..." />
+	<rep character="1" text="They say your people consider killing other animals a game. And aren't we all animals?" />
+	<rep character="1" text="Some even say you put their skins or heads on walls to brag about." />
 	<rep character="0" text="Well... That is some of our traditions, yes... We are predators and predators hunt their prey..." />
-	<rep character="1" text="Us, Ju'Ji aren't predators, we grow our food and live in peace with other animals..." />
-	<rep character="0" text="It's quite easy to achieve this with your climate..." />
+	<rep character="0" text="And you are humans, as long as I can see... Humans aren't animals!" />
+	<rep character="1" text="Oh, but we are!" />
+	<rep character="1" text="Us, Ju'Ji aren't predators, we grow our food and live in peace with others..." />
+	<rep character="0" text="People in my world can't agree about that either..." />
+	<rep character="0" text="As for food... It's quite easy to achieve this with your climate..." />
 </dialogue>

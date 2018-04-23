@@ -43,9 +43,11 @@ SDL_Point collision_system::resolve_collisions(ICollidable* character_collision,
 	//only look at collisions on right, if no collisions on left happened
 	if (!dest_altered_x)
 	{
-		//RIGHT
+		//RIGHT	
 		Entity* right_top = tc->terrain_tiles[tile_id.y][tile_id.x + 1];
 
+		if (tile_id.x > tc->width)
+			right_top = nullptr;
 		ITile* rtt = nullptr;
 		if (right_top)
 			rtt = static_cast<ITile*>(right_top->get_component(Component::ComponentType::Tile));

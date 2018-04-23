@@ -1,0 +1,3 @@
+<script block_player="true" once="false">
+<action type="change_level" level="juji_village"/>
+</script>

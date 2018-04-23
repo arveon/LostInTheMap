@@ -263,11 +263,15 @@ xml_system::Dialogue director::juji_start_dialogues(Entity* target)
 	case character_type::h_jido:
 		result = xml_system::load_dialogue(cur_level, "jido_1_1.xml");
 		break;
-	case character_type::npc_archaeologist_1:
-	case character_type::npc_archaeologist_2:
-	case character_type::npc_archaeologist_3:
-	case character_type::npc_archaeologist_4:
+	case character_type::h_josi:
+		result = xml_system::load_dialogue(cur_level, "josi_1.xml");
+		break;
+	case character_type::juji_villager_1:
+	case character_type::juji_villager_2:
+	case character_type::juji_villager_3:
+	case character_type::juji_villager_4:
 		result = get_secondary_dialogue(target, cc, "villager");
+		break;
 	}
 	return result;
 }
