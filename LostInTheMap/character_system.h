@@ -9,6 +9,8 @@
 #include "xml_system.h"
 #include "NameToTypeConversion.h"
 
+#include "combat_flow.h"
+
 class character_system
 {
 private:

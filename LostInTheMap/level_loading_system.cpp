@@ -421,6 +421,7 @@ void level_loading_system::load_game_components(Space & game_space)
 
 }
 
+//is called when combat start script action is invoked
 void level_loading_system::load_combat(levels level, Space& game_space, IFightable* fc)
 {
 	Entity* player = SpaceSystem::find_entity_by_name(game_space, "player");
@@ -435,29 +436,65 @@ void level_loading_system::load_combat(levels level, Space& game_space, IFightab
 		collisions = xml_system::load_map_collisions(levels::pyramid, w, h, true);
 	}
 
-	Entity* tilemap = new Entity(entity_type::game_object_combat, "CombatTerrain");
+	Entity* tilemap = new Entity(entity_type::game_object_combat, "cb_terrain");
 	ITerrain* tc = new ITerrain(tilemap);
 	tilemap->add_component(tc);
 	//create entities for all tiles
 	map_system::init_terrain_map(map, tilemap);
 
-
-	ITerrain* terrain = static_cast<ITerrain*>(tilemap->get_component(Component::ComponentType::Terrain));
-	for (int i = 0; i < terrain->height; i++)
-		for (int j = 0; j < terrain->width; j++)
+	//create combat terrain
+	for (int i = 0; i < tc->height; i++)
+		for (int j = 0; j < tc->width; j++)
 		{
-			if (!terrain->terrain_tiles[i][j])
+			if (!tc->terrain_tiles[i][j])
 				continue;
-			Transform* tf = static_cast<Transform*>(terrain->terrain_tiles[i][j]->get_component(Component::ComponentType::Transf));
-			IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable));
+			Transform* tf = static_cast<Transform*>(tc->terrain_tiles[i][j]->get_component(Component::ComponentType::Transf));
+			IDrawable* dc = static_cast<IDrawable*>(tc->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable));
 			dc->sprite = asset_controller::get_terrain_texture(dc->id);
 			dc->draw_rect = camera_system::world_to_camera_space(tf->position, dc->draw_rect);
-			dc->draw_rect.w = dc->draw_rect.h = terrain->tile_width;
-			dc->sprite_origin = { terrain->tile_width / 2, terrain->tile_width / 2 };
+			dc->draw_rect.w = dc->draw_rect.h = tc->tile_width;
+			dc->sprite_origin = { tc->tile_width / 2, tc->tile_width / 2 };
 		}
+	game_space.objects.push_back(tilemap);
 
-	//IFightable* fc = static_cast<IFightable*>(player->get_component(Component::ComponentType::Fighting));
-	xml_system::load_army(fc->army_file, level_to_load);
+	//create combat units
+	std::vector<army_unit> army = xml_system::load_army(fc->army_file, level_to_load);
+	for (army_unit u : army)
+	{
+		int id = 0;
+		std::string name = "cb_unit_" +  NameToTypeConversion::get_character_name_by_type(u.type) + std::to_string(id);
+		Entity* unit = new Entity(entity_type::game_object_combat, name);
+
+		//transform
+		Transform* tf = new Transform(unit);
+		//TODO init transform position
+		unit->add_component(tf);
+
+		//draw
+		IDrawable* dc = new IDrawable(unit, IDrawable::surface);
+
+		unit->add_component(dc);
+		//animation
+		IAnimatable* anim = new IAnimatable(unit);
+		unit->add_component(anim);
+
+		//movement
+		IMoving* mc = new IMoving(unit, 0,0);
+
+		unit->add_component(mc);
+
+		//combat
+		ICombatUnit* cbu = new ICombatUnit(unit, u);
+		unit->add_component(cbu);
+
+		//
+
+		game_space.objects.push_back(unit);
+	}
+
+
+
+	combat_flow::set_in_combat();
 }
 
 level_loading_system::level_loading_system()

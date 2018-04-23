@@ -455,7 +455,8 @@ std::vector<army_unit> xml_system::load_army(std::string army_path, levels level
 	while (unit)
 	{
 		army_unit u;
-		u.type = NameToTypeConversion::get_character_type_by_name(unit->first_attribute("type")->value());
+		std::string name = unit->first_attribute("type")->value();
+		u.type = NameToTypeConversion::get_character_type_by_name(name);
 		u.quantity = std::stoi(unit->first_attribute("quantity")->value());
 		result.push_back(u);
 		unit = unit->next_sibling("unit");

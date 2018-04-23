@@ -11,7 +11,7 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 		{
 			//if there is a character in this tile initialise an object for it
 			//TODO: UNCOMMENT CHARACTER LOADING WHEN ALL LEVEL TRANSITIONS READY
-			if (charact[i][j].value == 2 /*|| charact[i][j].value == 3*/ || charact[i][j].value == 1)
+			if (charact[i][j].value == 2 || charact[i][j].value == 3 || charact[i][j].value == 1)
 			{
 				Entity* ent = new Entity(entity_type::game_object);
 
@@ -107,14 +107,26 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 				IInteractionSource* src = new IInteractionSource(ent);
 				src->interaction_trigger = &director::process_interaction;
 				src->script_attached = charact[i][j].script;
-					
 
 				ent->add_component(src);
 
 				if ((!is_friendly || type==character_type::h_giovanni) && create_armies)
 				{
-					IFightable* fc = new IFightable(ent);
+					IFightable* fc = new IFightable(ent, is_friendly);
 					fc->army_file = charact[i][j].army;
+
+					if (type == character_type::h_giovanni)
+					{
+						if (combat_flow::is_player_army_initialised())
+							fc->army = combat_flow::player_army;
+						else
+						{
+							fc->army = xml_system::load_army("giovanni.xml", director::cur_level);
+							combat_flow::player_army = fc->army;
+						}
+					}
+
+
 					ent->add_component(fc);
 
 					if (src->script_attached.compare("") == 0)

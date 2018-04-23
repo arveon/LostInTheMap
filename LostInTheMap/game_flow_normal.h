@@ -10,6 +10,7 @@
 #include "character_system.h"
 #include "dialogue_system.h"
 #include "director.h"
+#include "combat_flow.h"
 
 #include "geometry_utilities.h"
 class game_flow_normal : public SpaceSystem

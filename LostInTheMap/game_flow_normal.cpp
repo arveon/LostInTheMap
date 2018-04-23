@@ -74,52 +74,60 @@ void game_flow_normal::update_space(Space & space, int dt)
 
 	
 	SpaceSystem::update_draw_rects(space);
-
-	if (dialogue_system::dialogue_pending())
+	
+	if (combat_flow::is_in_combat())
 	{
-		dialogue_system::update(dt);
-		Entity* bg = SpaceSystem::find_entity_by_name(space, "dialogue_panel");
-		Entity* portrait = SpaceSystem::find_entity_by_name(space, "dialogue_portrait");
-		Entity* text = SpaceSystem::find_entity_by_name(space, "dialogue_text");
-		IDrawable* bg_dc = static_cast<IDrawable*>(bg->get_component(Component::ComponentType::Drawable));
-		bg_dc->isActive = true;
-		IDrawable* portrait_dc = static_cast<IDrawable*>(portrait->get_component(Component::ComponentType::Drawable));
-		portrait_dc->isActive = true;
-		IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
-		text_dc->isActive = true;
-
-		if(portrait_dc->sprite == nullptr)
-			portrait_dc->sprite = dialogue_system::get_cur_portrait();
-
-		text_dc->sprite = dialogue_system::get_cur_line_sprite();
-		SDL_Rect size = asset_controller::get_texture_size(text_dc->sprite);
-		text_dc->draw_rect.w = size.w;
-		text_dc->draw_rect.h = size.h;
+		if (!combat_flow::is_initialised())
+			combat_flow::init_combat_space(space);
 	}
 	else
 	{
-		Entity* bg = SpaceSystem::find_entity_by_name(space, "dialogue_panel");
-		Entity* portrait = SpaceSystem::find_entity_by_name(space, "dialogue_portrait");
-		Entity* text = SpaceSystem::find_entity_by_name(space, "dialogue_text");
-		IDrawable* bg_dc = static_cast<IDrawable*>(bg->get_component(Component::ComponentType::Drawable));
-		bg_dc->isActive = false;
-		IDrawable* portrait_dc = static_cast<IDrawable*>(portrait->get_component(Component::ComponentType::Drawable));
-		portrait_dc->sprite = nullptr;
-		portrait_dc->isActive = false;
-		IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
-		text_dc->isActive = false;	
-		game_flow_normal::update_pathfinder(space);
-	}
-	Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
-	ITerrain* tr = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
-	movement_system::move_characters_tick(space, dt, tr);
-	game_flow_normal::handle_mouse_clicks(space);
-	if(script_system::is_script_going())
-		script_system::update(dt);
+		if (dialogue_system::dialogue_pending())
+		{
+			dialogue_system::update(dt);
+			Entity* bg = SpaceSystem::find_entity_by_name(space, "dialogue_panel");
+			Entity* portrait = SpaceSystem::find_entity_by_name(space, "dialogue_portrait");
+			Entity* text = SpaceSystem::find_entity_by_name(space, "dialogue_text");
+			IDrawable* bg_dc = static_cast<IDrawable*>(bg->get_component(Component::ComponentType::Drawable));
+			bg_dc->isActive = true;
+			IDrawable* portrait_dc = static_cast<IDrawable*>(portrait->get_component(Component::ComponentType::Drawable));
+			portrait_dc->isActive = true;
+			IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
+			text_dc->isActive = true;
 
-	if (director::is_level_switch_pending())
-	{
-		change_level_callback(director::target_level);
+			if (portrait_dc->sprite == nullptr)
+				portrait_dc->sprite = dialogue_system::get_cur_portrait();
+
+			text_dc->sprite = dialogue_system::get_cur_line_sprite();
+			SDL_Rect size = asset_controller::get_texture_size(text_dc->sprite);
+			text_dc->draw_rect.w = size.w;
+			text_dc->draw_rect.h = size.h;
+		}
+		else
+		{
+			Entity* bg = SpaceSystem::find_entity_by_name(space, "dialogue_panel");
+			Entity* portrait = SpaceSystem::find_entity_by_name(space, "dialogue_portrait");
+			Entity* text = SpaceSystem::find_entity_by_name(space, "dialogue_text");
+			IDrawable* bg_dc = static_cast<IDrawable*>(bg->get_component(Component::ComponentType::Drawable));
+			bg_dc->isActive = false;
+			IDrawable* portrait_dc = static_cast<IDrawable*>(portrait->get_component(Component::ComponentType::Drawable));
+			portrait_dc->sprite = nullptr;
+			portrait_dc->isActive = false;
+			IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
+			text_dc->isActive = false;
+			game_flow_normal::update_pathfinder(space);
+		}
+		Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
+		ITerrain* tr = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
+		movement_system::move_characters_tick(space, dt, tr);
+		game_flow_normal::handle_mouse_clicks(space);
+		if (script_system::is_script_going())
+			script_system::update(dt);
+
+		if (director::is_level_switch_pending())
+		{
+			change_level_callback(director::target_level);
+		}
 	}
 }
 

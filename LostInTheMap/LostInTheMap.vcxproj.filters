@@ -160,7 +160,7 @@
       <Filter>Header Files\structs</Filter>
     </ClInclude>
     <ClInclude Include="NameToTypeConversion.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\systems\utility_systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +168,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sdl_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="asset_controller.cpp">
@@ -250,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="NameToTypeConversion.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sdl_utils.cpp">
+      <Filter>Source Files\systems\utility_systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

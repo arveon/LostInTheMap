@@ -19,7 +19,6 @@ public:
 		rat_5
 	};
 private:
-	
 	static bool level_switch_pending;
 
 	static story_stage cur_stage;
@@ -40,7 +39,7 @@ public:
 	static levels cur_level;
 	static levels target_level;
 	static void init_stage(levels level);
-	static void change_stage(story_stage new_stage) { cur_stage = new_stage; }
+	static void change_stage(story_stage new_stage);
 
 	static void set_space(Space* game_space) { space = game_space; }
 
@@ -62,6 +61,8 @@ public:
 
 	static bool is_level_switch_pending() { return level_switch_pending; }
 
+	static void add_ignored_script(std::string name) { triggered_scripts.push_back(name); }
+
 	director();
 	~director();
 	
@@ -70,6 +71,5 @@ public:
 	static xml_system::Dialogue pyramid_gold_taken_dialogues(Entity * target);
 	static xml_system::Dialogue juji_start_dialogues(Entity * target);
 	static xml_system::Dialogue get_secondary_dialogue(Entity * target, ICharacter * cc, std::string character_type);
-	static xml_system::Dialogue get_juji_villager_dialogue(Entity * target, ICharacter * cc);
 };
 

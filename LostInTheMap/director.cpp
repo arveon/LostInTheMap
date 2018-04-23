@@ -183,6 +183,21 @@ void director::init_stage(levels level)
 	script_system::set_level_switch_callback(&director::set_level_switch);
 }
 
+void director::change_stage(story_stage new_stage)
+{
+	cur_stage = new_stage;
+	//when switching to another story stage, some triggers/scripts should be ignored (e.g. level locks)
+	switch (new_stage)
+	{
+	case story_stage::bodah_start:
+		add_ignored_script("bodah_lock.xml");
+		break;
+	case story_stage::zakra_start:
+		add_ignored_script("zakra_lock.xml");
+		break;
+	}
+}
+
 director::director()
 {}
 

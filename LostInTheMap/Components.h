@@ -39,7 +39,8 @@ public:
 		Terrain,
 		Tile,
 		Character,
-		InteractionSource
+		InteractionSource,
+		CombatUnit
 	};
 	bool isActive;
 	ComponentType type;
@@ -261,16 +262,29 @@ public:
 
 };
 
-
-
 class IFightable : public Component
 {
 public:
 	std::vector<army_unit> army;//can be up to 6 different units in army
 	std::string army_file;
-	IFightable(Entity* owner) : Component(owner)
+	bool friendly;
+	IFightable(Entity* owner, bool friendly = false) : Component(owner)
 	{
 		type = ComponentType::Fighting;
+		isActive = true;
+		this->friendly = friendly;
+	}
+};
+
+class ICombatUnit : public Component
+{
+public:
+	army_unit unit_stats;
+
+	ICombatUnit(Entity* owner, army_unit unit) : Component(owner)
+	{
+		type = ComponentType::CombatUnit;
+		unit_stats = unit;
 		isActive = true;
 	}
 };
