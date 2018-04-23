@@ -1,3 +1,3 @@
-<script block_player="true">
+<script block_player="true" once="false">
 <action type="start_combat"/>
 </script>

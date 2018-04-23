@@ -13,6 +13,8 @@
 class level_loading_system : public SpaceSystem
 {
 private:
+	static const int terrain_texture_width = 32;
+	static const int terrain_texture_height = 32;
 	enum loading_state
 	{
 		loading_terrain,

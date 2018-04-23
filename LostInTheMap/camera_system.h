@@ -39,14 +39,14 @@ public:
 	static SDL_Rect world_to_camera_space(SDL_Rect world_rect, SDL_Rect draw_rect);
 	static SDL_Point screen_to_world_space(SDL_Point position);
 
-	static void move_camera_to(SDL_Point destination);
+	static void move_camera_to(SDL_Point destination) { set_camera_target(nullptr); camera_rect.x = destination.x; camera_rect.y = destination.y; }
 	static void set_camera_target(Entity* new_target, bool snap = true, void(*callback)(Entity*) = nullptr);
 
 	static float get_camera_zoom() { return zoom; }
 	static void set_camera_zoom(float zoom);
 	static SDL_Rect get_camera_rect() { return camera_rect; }
 
-	static SDL_Rect get_camera_rect_ids(int tilewidth);
+	static SDL_Rect get_camera_rect_ids(int tilewidth, int tileheight);
 	
 	static void update_camera(int dt);
 	camera_system();

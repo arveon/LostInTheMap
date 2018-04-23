@@ -47,7 +47,7 @@ void mouse_system::update_mouse(Entity* mouse, Space& space, bool in_dialogue, b
 	{
 		ITerrain* terrain = SpaceSystem::get_terrain(space);
 		int x_cap = terrain->width * terrain->tile_width - 1;
-		int y_cap = terrain->height * terrain->tile_width - 1;
+		int y_cap = terrain->height * terrain->tile_height - 1;
 
 		SDL_Point mouse_world = mouse_system::get_mouse_in_world(mouse);
 		int dx, dy;

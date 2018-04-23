@@ -61,7 +61,7 @@ public:
 
 	static WindowConfig load_config_file();
 	static MenuLayout load_interface_layout(std::string name);
-	static int** load_map_tiles(levels level, int* width, int* height, int* tilewidth, bool is_combat = false);
+	static int** load_map_tiles(levels level, int* width, int* height, int* tilewidth, int* tileheight, bool is_combat = false);
 	static int** load_map_collisions(levels level, int width, int height, bool is_combat = false);
 	static Actor** load_characters_and_objects(levels level, int width, int height);
 	static std::vector<LoadingState> get_loading_states();

@@ -23,15 +23,15 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 				ent->add_component(transf_c);
 				transf_c->position = {
 					static_cast<int>(j*tr->tile_width),
-					static_cast<int>(i*tr->tile_width),
+					static_cast<int>(i*tr->tile_height),
 					static_cast<int>(tr->tile_width),
-					static_cast<int>(tr->tile_width)
+					static_cast<int>(tr->tile_height)
 				};
 				transf_c->origin = {transf_c->position.w/2, transf_c->position.h-1};
 
 				ICollidable* colc = new ICollidable(ent);
 				colc->collidable = true;
-				colc->collision_rect = { 0,0,tr->tile_width,tr->tile_width };
+				colc->collision_rect = { 0,0,tr->tile_width,tr->tile_height };
 				ent->add_component(colc);
 
 				IAnimatable* ac = new IAnimatable(ent);//character sprite size 64x64
@@ -167,8 +167,7 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		dc->draw_rect = tc->position;
 
 		//init texture and draw rect size
-		std::string tex_path = "assets/graphics/characters/"+ NameToTypeConversion::get_character_name_by_type(cc->c_type)+".png";
-		ac->spritesheet = asset_controller::load_texture(tex_path.c_str());
+		ac->spritesheet = asset_controller::get_character_spritesheet(cc->c_type);
 		dc->draw_rect.w = 50;
 		dc->draw_rect.h = 48;
 		if (cc->c_type == character_type::zakra_spearman)
@@ -272,7 +271,7 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 			ITile* temp_c = static_cast<ITile*>(temp_tile->get_component(Component::ComponentType::Tile));
 			Transform* temp_t = static_cast<Transform*>(temp_tile->get_component(Component::ComponentType::Transf));
 
-			mc->final_destination = { temp_c->x * terrain->tile_width + temp_t->origin.x - tra->origin.x, temp_c->y * terrain->tile_width + temp_t->origin.y - tra->origin.y };
+			mc->final_destination = { temp_c->x * terrain->tile_width + temp_t->origin.x - tra->origin.x, temp_c->y * terrain->tile_height + temp_t->origin.y - tra->origin.y };
 		}
 		else
 		{

@@ -24,8 +24,10 @@ public:
 	static void flush_queues();
 	static void sort_queues();
 	static void render_queues();
-	static void prepare_terrain(int map_width, int map_height);
-	static bool remove_from_queue(int id, IDrawable::layers layer);
+	static void set_terrain_texture(SDL_Texture * tex);
+	
+	static void prepare_terrain(int map_width, int map_height);//width and height in pixels
+	static bool remove_from_queue(IDrawable*);//remove the given component from queue
 	render_system();
 	~render_system();
 };

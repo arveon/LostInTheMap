@@ -1,0 +1,8 @@
+Renderer:
+All objects added individually. Only IDrawable component is passed. All objects stored in their queues (vectors).
+Public methods:
+add_object_to_queue(IDrawable*) – adds an object to queue
+sort_queues() - called every tick to sort the surface and ui object by their y coordinates (objects that are higher on screen are behind). uses bubble sort because it had best best-case complexity (linear)
+render_queues() - render everything
+prepare_terrain(int map_width, map_height) - map_width and height require size of whole map in pixels
+remove_from_terrain(int id, layers layer) - removes an object with specified queue id from the render queue

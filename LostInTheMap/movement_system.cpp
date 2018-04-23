@@ -8,6 +8,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 	if (dt > 20)
 		return;
 	int tilewidth = tr->tile_width;
+	int tilehigh = tr->tile_height;
 	for (unsigned int i = 0; i < game_space.objects.size(); i++)
 	{
 		Entity* character = game_space.objects.at(i);
@@ -43,7 +44,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 			cur_dest = mc->path.back();
 			Transform* tile_t = static_cast<Transform*>(tr->terrain_tiles[cur_dest.y][cur_dest.x]->get_component(Component::ComponentType::Transf));
 			cur_dest.x = cur_dest.x * tilewidth + tile_t->origin.x - tc->origin.x;
-			cur_dest.y = cur_dest.y * tilewidth + tile_t->origin.y - tc->origin.y;
+			cur_dest.y = cur_dest.y * tilehigh + tile_t->origin.y - tc->origin.y;
 
 			if (tc->position.x == cur_dest.x && tc->position.y == cur_dest.y)
 			{

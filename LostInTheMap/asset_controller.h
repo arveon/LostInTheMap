@@ -30,6 +30,7 @@ class asset_controller
 private:
 	static std::vector<SDL_Texture*> terrain_textures;
 	static std::map<std::string, SDL_Texture*> object_textures;
+	static std::map<character_type, SDL_Texture*> character_textures;
 public:
 	typedef struct
 	{
@@ -47,6 +48,8 @@ public:
 	static SDL_Texture* load_texture(const char* path);
 	static void destroy_texture(SDL_Texture*);
 
+	static SDL_Texture* get_character_spritesheet(character_type ch);
+
 	static SDL_Rect get_texture_size(SDL_Texture* texture);
 	static void set_texture_alpha(SDL_Texture* texture, int alpha);
 
@@ -54,7 +57,7 @@ public:
 	static SDL_Texture* get_sprite_from_spritesheet(SDL_Texture* spritesheet, SDL_Rect src_rect);
 	static SDL_Texture* get_texture_from_text(std::string text, UI_text_type type, int max_width = 0);
 
-	static void load_terrain_textures(std::string path, int tilewidth);
+	static void load_terrain_textures(std::string path, int tilewidth, int tileheight);
 	static SDL_Texture* get_terrain_texture(unsigned int id) { if (id < terrain_textures.size()) { return terrain_textures.at(id); } else { return nullptr; } }
 	static void clear_stored_textures();
 

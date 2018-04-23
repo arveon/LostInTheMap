@@ -184,9 +184,10 @@ class ITerrain : public Component
 {
 public:
 	Entity * ** terrain_tiles;
-	int width;
-	int height;
+	int width;//in tiles
+	int height;//in tiles
 	int tile_width;
+	int tile_height;
 	ITerrain(Entity* owner) : Component(owner)
 	{
 		width = 0;

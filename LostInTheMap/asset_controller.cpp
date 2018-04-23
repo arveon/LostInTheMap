@@ -4,6 +4,7 @@
 SDL_Renderer* asset_controller::renderer;
 std::vector<SDL_Texture*> asset_controller::terrain_textures;
 std::map<std::string, SDL_Texture*> asset_controller::object_textures;
+std::map<character_type, SDL_Texture*> asset_controller::character_textures;
 
 float asset_controller::tile_scaling = 2.f;
 
@@ -128,7 +129,7 @@ SDL_Texture* asset_controller::get_texture_from_text(std::string text, UI_text_t
 	return result;
 }
 
-void asset_controller::load_terrain_textures(std::string path, int tilewidth)
+void asset_controller::load_terrain_textures(std::string path, int tilewidth, int tileheight)
 {
 	SDL_Texture* tex = load_texture(path.c_str());
 
@@ -137,14 +138,14 @@ void asset_controller::load_terrain_textures(std::string path, int tilewidth)
 	SDL_QueryTexture(tex, NULL, NULL, &w, &h);
 
 	int tileswide = w / tilewidth;
-	int tileshigh = h / tilewidth;
+	int tileshigh = h / tileheight;
 
 	//crop out all individual textures from it
 	for (int i = 0; i < tileshigh; i++)
 	{
 		for (int j = 0; j < tileswide; j++)
 		{
-			terrain_textures.push_back(get_sprite_from_spritesheet(tex, {tilewidth*j, tilewidth*i, tilewidth, tilewidth}));
+			terrain_textures.push_back(get_sprite_from_spritesheet(tex, {tilewidth*j, tilewidth*i, tilewidth, tileheight}));
 		}
 	}
 
@@ -165,6 +166,11 @@ void asset_controller::clear_stored_textures()
 	}
 	object_textures.clear();
 
+	for (std::pair<character_type, SDL_Texture*> pr : character_textures)
+	{
+		asset_controller::destroy_texture(pr.second);
+	}
+	character_textures.clear();
 }
 
 SDL_Texture* asset_controller::get_object_texture(std::string obj_name)
@@ -202,4 +208,20 @@ SDL_Texture * asset_controller::get_sprite_from_spritesheet(SDL_Texture * sprite
 void asset_controller::destroy_texture(SDL_Texture* texture)
 {
 	SDL_DestroyTexture(texture);
+}
+
+SDL_Texture* asset_controller::get_character_spritesheet(character_type ch)
+{
+	for (std::pair<character_type, SDL_Texture*> pr : character_textures)
+	{
+		if (pr.first == ch)
+			return pr.second;
+	}
+
+	std::string path = "assets/graphics/characters/" + NameToTypeConversion::get_character_name_by_type(ch) + ".png";
+	SDL_Texture* result = load_texture(path.c_str());
+
+	character_textures[ch] = result;
+
+	return result;
 }

@@ -32,7 +32,7 @@ void SpaceSystem::apply_animation_sprite_changes(Space& space)
 }
 
 //function clears all memory allocated for entities inside space and their components
-void SpaceSystem::destroy_space(Space& space)
+void SpaceSystem::destroy_space(Space& space, bool destroy_textures)
 {
 	for (int i = static_cast<int>(space.objects.size() - 1); i >= 0; i--)
 	{
@@ -45,13 +45,15 @@ void SpaceSystem::destroy_space(Space& space)
 			if (temp_tc->type == Component::ComponentType::Drawable)
 			{
 				IDrawable* temp_c = static_cast<IDrawable*>(temp_tc);
-				render_system::remove_from_queue(temp_c->id, temp_c->layer);
-				asset_controller::destroy_texture(temp_c->sprite);
+				render_system::remove_from_queue(temp_c);
+				if(destroy_textures)
+					asset_controller::destroy_texture(temp_c->sprite);
 			}
 			if (temp_tc->type == Component::ComponentType::Animated)
 			{
 				IAnimatable* temp_c = static_cast<IAnimatable*>(temp_tc);
-				asset_controller::destroy_texture(temp_c->spritesheet);
+				if(destroy_textures)
+					asset_controller::destroy_texture(temp_c->spritesheet);
 			}
 			temp->components.erase(temp->components.begin() + j);
 			delete temp_tc;
@@ -83,7 +85,7 @@ Entity* SpaceSystem::get_object_at_point(Space& space, int x, int y, bool ignore
 
 	Entity* terr = SpaceSystem::find_entity_by_name(space, "terrain");
 	ITerrain* tc = static_cast<ITerrain*>(terr->get_component(Component::ComponentType::Terrain));
-	if (x < 0 || y < 0 || x >= tc->width * tc->tile_width || y >= tc->width * tc->tile_width)
+	if (x < 0 || y < 0 || x >= tc->width * tc->tile_width || y >= tc->width * tc->tile_height)
 		return nullptr;
 
 	for (unsigned int i = 0; i < space.objects.size(); i++)

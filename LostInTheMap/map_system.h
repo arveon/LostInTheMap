@@ -14,6 +14,7 @@ class map_system
 private:
 	static levels cur_level;
 	static int tile_width;
+	static int tile_height;
 public:
 	static void init_terrain_map(int** tile_ids, Entity* tilemap);
 	static void init_terrain_collisions(int** collision_map, Entity* tilemap);
@@ -27,6 +28,7 @@ public:
 	static SDL_Point tilemap_ids_to_world(SDL_Point ids, ITerrain* tilemap);
 
 	static int get_tile_width() { return tile_width; }
+	static int get_tile_height() { return tile_height; }
 	map_system();
 	~map_system();
 };

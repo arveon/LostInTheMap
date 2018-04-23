@@ -207,7 +207,6 @@ void SDL_manager::render_sprite_src(SDL_Texture * texture, SDL_Rect src, SDL_Rec
 	{
 		SDL_manager::get_window_size(&dest.w, &dest.h);
 	}
-
 	SDL_RenderCopy(SDL_manager::renderer, texture, &src, &dest);
 }
 

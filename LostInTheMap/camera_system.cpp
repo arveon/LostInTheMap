@@ -60,6 +60,12 @@ SDL_Point camera_system::screen_to_world_space(SDL_Point position)
 
 void camera_system::set_camera_target(Entity * new_target, bool snap, void(*callback)(Entity *))
 {
+	if (new_target == nullptr)
+	{
+		target = nullptr;
+		return;
+	}
+	
 	snapped = snap; 
 	target = new_target; 
 	if (callback != nullptr)
@@ -75,6 +81,8 @@ void camera_system::update_camera(int dt)
 {
 	if (snapped)
 	{
+		if (!target)
+			return;
 		Transform* tc = static_cast<Transform*>(target->get_component(Component::ComponentType::Transf));
 		if (!tc)
 			return;
@@ -200,13 +208,13 @@ void camera_system::set_camera_zoom(float new_zoom)
 	zoom = new_zoom;
 }
 
-SDL_Rect camera_system::get_camera_rect_ids(int tilewidth)
+SDL_Rect camera_system::get_camera_rect_ids(int tilewidth, int tileheight)
 {
 	SDL_Rect ids;
 	ids.x = (int)std::ceil(camera_system::camera_rect.x / tilewidth);
-	ids.y = (int)std::ceil(camera_system::camera_rect.y / tilewidth);
+	ids.y = (int)std::ceil(camera_system::camera_rect.y / tileheight);
 	ids.w = (int)std::ceil(camera_system::camera_rect.w / tilewidth);
-	ids.h = (int)std::ceil(camera_system::camera_rect.h / tilewidth);
+	ids.h = (int)std::ceil(camera_system::camera_rect.h / tileheight);
 	return ids;
 }
 

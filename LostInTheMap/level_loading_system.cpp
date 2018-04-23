@@ -196,18 +196,19 @@ void level_loading_system::load_game_components(Space & game_space)
 	{
 	case loading_state::loading_terrain:
 	{
-		int w, h, tw;
-		int** map_tile_ids = xml_system::load_map_tiles(level_to_load, &w, &h, &tw);
+		int w, h, tw, th;
+		int** map_tile_ids = xml_system::load_map_tiles(level_to_load, &w, &h, &tw, &th);
 		Entity * terrain = new Entity(entity_type::tilemap, "terrain");
 		ITerrain* tc = new ITerrain(terrain);
 		tc->width = w;
 		tc->height = h;
 		tc->tile_width = tw;
+		tc->tile_height = th;
 		terrain->add_component(tc);
 		map_system::init_terrain_map(map_tile_ids, terrain);
 		game_space.objects.push_back(terrain);
 
-		camera_system::init_camera(tw,tc->width*tc->tile_width, tc->height*tc->tile_width);
+		camera_system::init_camera(tw,tc->width*tc->tile_width, tc->height*tc->tile_height);
 	}
 		break;
 	case loading_state::creating_terrain_collisions:
@@ -260,7 +261,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		Entity* tr = SpaceSystem::find_entity_by_name(game_space, "terrain");
 		ITerrain* terrain = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
 
-		asset_controller::load_terrain_textures("assets/tilesets/" + level_name + ".png", terrain->tile_width);
+		asset_controller::load_terrain_textures("assets/tilesets/" + level_name + ".png", terrain_texture_width, terrain_texture_height);
 	}
 		break;
 	case loading_state::loading_object_textures:
@@ -289,8 +290,9 @@ void level_loading_system::load_game_components(Space & game_space)
 				IDrawable* dc = static_cast<IDrawable*>(terrain->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable));
 				dc->sprite = asset_controller::get_terrain_texture(dc->id);
 				dc->draw_rect = camera_system::world_to_camera_space(tf->position, dc->draw_rect);
-				dc->draw_rect.w = dc->draw_rect.h = terrain->tile_width;
-				dc->sprite_origin = { terrain->tile_width / 2, terrain->tile_width/2 };
+				dc->draw_rect.w = terrain->tile_width;
+				dc->draw_rect.h = terrain->tile_height;
+				dc->sprite_origin = { terrain->tile_width / 2, terrain->tile_height /2 };
 			}
 	}
 		break;
@@ -427,17 +429,21 @@ void level_loading_system::load_combat(levels level, Space& game_space, IFightab
 	Entity* player = SpaceSystem::find_entity_by_name(game_space, "player");
 
 	//load terrain
-	int w, h, tw;
+	int w, h, tw, th;
 	int** map = nullptr;
 	int** collisions;
 	if (level == levels::pyramid)
 	{
-		map = xml_system::load_map_tiles(levels::pyramid, &w, &h, &tw, true);
+		map = xml_system::load_map_tiles(levels::pyramid, &w, &h, &tw, &th, true);
 		collisions = xml_system::load_map_collisions(levels::pyramid, w, h, true);
 	}
 
 	Entity* tilemap = new Entity(entity_type::game_object_combat, "cb_terrain");
 	ITerrain* tc = new ITerrain(tilemap);
+	tc->width = w;
+	tc->height = h;
+	tc->tile_width = tw;
+	tc->tile_height = th;
 	tilemap->add_component(tc);
 	//create entities for all tiles
 	map_system::init_terrain_map(map, tilemap);
@@ -449,25 +455,43 @@ void level_loading_system::load_combat(levels level, Space& game_space, IFightab
 			if (!tc->terrain_tiles[i][j])
 				continue;
 			Transform* tf = static_cast<Transform*>(tc->terrain_tiles[i][j]->get_component(Component::ComponentType::Transf));
+			tf->position = 
+			{
+				j * tc->tile_width,
+				i * tc->tile_height,
+				tc->tile_width,
+				tc->tile_height
+			};
 			IDrawable* dc = static_cast<IDrawable*>(tc->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable));
 			dc->sprite = asset_controller::get_terrain_texture(dc->id);
-			dc->draw_rect = camera_system::world_to_camera_space(tf->position, dc->draw_rect);
-			dc->draw_rect.w = dc->draw_rect.h = tc->tile_width;
-			dc->sprite_origin = { tc->tile_width / 2, tc->tile_width / 2 };
+			dc->draw_rect = tf->position;
+			dc->draw_rect.w = tc->tile_width;
+			dc->draw_rect.h = tc->tile_height;
+			dc->sprite_origin = { tc->tile_width / 2, tc->tile_height };
 		}
 	game_space.objects.push_back(tilemap);
 
 	//create combat units
 	std::vector<army_unit> army = xml_system::load_army(fc->army_file, level_to_load);
+	//how many units
+	int size = army.size();
+	int total_tiles = tc->width;
+	//what the tile distances between them
+	int distances = std::floor(total_tiles / (float)army.size());
+	int id = 0;
 	for (army_unit u : army)
 	{
-		int id = 0;
+		
 		std::string name = "cb_unit_" +  NameToTypeConversion::get_character_name_by_type(u.type) + std::to_string(id);
 		Entity* unit = new Entity(entity_type::game_object_combat, name);
 
 		//transform
 		Transform* tf = new Transform(unit);
 		//TODO init transform position
+		tf->position.x = (tc->width*tc->tile_width) - tc->tile_width / 2;
+		//what's the id of this one = what distance from prev?
+		tf->position.y = (tc->tile_height * distances * id)+tc->tile_height -1;
+		
 		unit->add_component(tf);
 
 		//draw
@@ -476,6 +500,8 @@ void level_loading_system::load_combat(levels level, Space& game_space, IFightab
 		unit->add_component(dc);
 		//animation
 		IAnimatable* anim = new IAnimatable(unit);
+		anim->spritesheet = asset_controller::get_character_spritesheet(u.type);
+		dc->sprite = asset_controller::get_sprite_from_spritesheet(anim->spritesheet, {0,0,32,32});
 		unit->add_component(anim);
 
 		//movement
@@ -490,6 +516,7 @@ void level_loading_system::load_combat(levels level, Space& game_space, IFightab
 		//
 
 		game_space.objects.push_back(unit);
+		id++;
 	}
 
 

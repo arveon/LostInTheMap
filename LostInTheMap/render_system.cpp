@@ -61,6 +61,8 @@ void render_system::flush_queues()
 	surface.clear();
 	foreground.clear();
 	ui.clear();
+	asset_controller::destroy_texture(terrain_sprite);
+	terrain_prepared = false;
 	mouse = nullptr;
 }
 
@@ -84,6 +86,10 @@ void render_system::sort_queues()
 
 			if (first_y > second_y)
 			{
+				//swap ID's so that the draw components always contain their up-to-date version
+				dr1->id++;
+				dr2->id--;
+
 				surface.at(i) = dr2;
 				surface.at(i+1) = dr1;
 				swapped = true;
@@ -121,7 +127,6 @@ void render_system::sort_queues()
 void render_system::render_queues()
 {
 	float zoom = camera_system::get_camera_zoom();
-
 	SDL_Rect camera = camera_system::get_camera_rect();
 
 	SDL_manager::start_render();
@@ -221,28 +226,55 @@ void render_system::render_queues()
 	if(mouse != nullptr)
 		if(mouse->isActive)
 			SDL_manager::render_sprite(mouse->sprite, mouse->draw_rect);
+
 	SDL_manager::end_render();
 }
 
-bool render_system::remove_from_queue(int id, IDrawable::layers layer)
+void render_system::set_terrain_texture(SDL_Texture* tex)
 {
-	switch (layer)
+	asset_controller::destroy_texture(terrain_sprite);
+	terrain_sprite = tex;
+}
+
+bool render_system::remove_from_queue(IDrawable* dc)
+{
+	switch (dc->layer)
 	{
 	case IDrawable::layers::background:
-		background.erase(background.begin() + id);
-		id = background.size() - 1;
+		background.erase(background.begin() + dc->id);
+		for (IDrawable* d_c : background)
+		{
+			if (d_c->id < dc->id)
+				continue;
+			d_c->id--;
+		}
 		break;
 	case IDrawable::layers::surface:
-		surface.erase(surface.begin() + id);
-		id = surface.size() - 1;
+		surface.erase(surface.begin() + dc->id);
+		for (IDrawable* d_c : surface)
+		{
+			if (d_c->id < dc->id)
+				continue;
+			d_c->id--;
+		}
 		break;
 	case IDrawable::layers::foreground:
-		foreground.erase(foreground.begin() + id);
-		id = foreground.size() - 1;
+		foreground.erase(foreground.begin() + dc->id);
+		for (IDrawable* d_c : foreground)
+		{
+			if (d_c->id < dc->id)
+				continue;
+			d_c->id--;
+		}
 		break;
 	case IDrawable::layers::ui:
-		ui.erase(ui.begin() + id);
-		id = ui.size() - 1;
+		ui.erase(ui.begin() + dc->id);
+		for (IDrawable* d_c : ui)
+		{
+			if (d_c->id < dc->id)
+				continue;
+			d_c->id--;
+		}
 		break;
 	case IDrawable::layers::mouse:
 		render_system::mouse = nullptr;

@@ -1,6 +1,7 @@
 #include "map_system.h"
 
 int map_system::tile_width;
+int map_system::tile_height;
 void map_system::init_terrain_map(int ** tile_ids, Entity* tilemap)
 {
 	ITerrain* tc = static_cast<ITerrain*>(tilemap->get_component(Component::ComponentType::Terrain));
@@ -9,6 +10,7 @@ void map_system::init_terrain_map(int ** tile_ids, Entity* tilemap)
 	int h = tc->height;
 	int t_w = tc->tile_width;
 	map_system::tile_width = tc->tile_width;
+	map_system::tile_height = tc->tile_height;
 
 	//initialise all possible tiles in the map to a nullptr
 	tc->terrain_tiles = new Entity**[h];
@@ -70,9 +72,9 @@ void map_system::init_terrain_collisions(int ** collision_map, Entity * tilemap)
 			Transform* transform = static_cast<Transform*>(tr->terrain_tiles[i][j]->get_component(Component::ComponentType::Transf));
 			transform->position = {
 				static_cast<int>(j*tr->tile_width),
-				static_cast<int>(i*tr->tile_width),
+				static_cast<int>(i*tr->tile_height),
 				static_cast<int>(tr->tile_width),
-				static_cast<int>(tr->tile_width)
+				static_cast<int>(tr->tile_height)
 			};
 			transform->origin.x = transform->position.w / 2;
 			transform->origin.y = transform->position.h / 2;
@@ -119,9 +121,9 @@ std::vector<Entity*> map_system::init_triggers(Actor ** trigger_map, ITerrain* t
 				Transform* tf = new Transform(trigger);
 				tf->position = {
 					static_cast<int>(j*tr->tile_width),
-					static_cast<int>(i*tr->tile_width),
+					static_cast<int>(i*tr->tile_height),
 					static_cast<int>(tr->tile_width),
-					static_cast<int>(tr->tile_width)
+					static_cast<int>(tr->tile_height)
 				};
 				trigger->add_component(tf);
 
@@ -157,9 +159,9 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 				Transform* tf = new Transform(obj);
 				tf->position = {
 					static_cast<int>(j*tr->tile_width),
-					static_cast<int>(i*tr->tile_width),
+					static_cast<int>(i*tr->tile_height),
 					static_cast<int>(tr->tile_width),
-					static_cast<int>(tr->tile_width)
+					static_cast<int>(tr->tile_height)
 				};
 				obj->add_component(tf);
 
@@ -301,7 +303,7 @@ SDL_Point map_system::world_to_tilemap_ids(SDL_Point world_coords, ITerrain* til
 {
 	SDL_Point result;
 	result.x = (int)std::floor(world_coords.x / tilemap->tile_width);
-	result.y = (int)std::floor(world_coords.y / tilemap->tile_width);
+	result.y = (int)std::floor(world_coords.y / tilemap->tile_height);
 	return result;
 }
 
@@ -310,7 +312,7 @@ SDL_Point map_system::tilemap_ids_to_world(SDL_Point ids, ITerrain * tilemap)
 	SDL_Point result = ids;
 
 	result.x = result.x * tilemap->tile_width;
-	result.y = result.y * tilemap->tile_width;
+	result.y = result.y * tilemap->tile_height;
 
 	return result;
 }

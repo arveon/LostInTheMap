@@ -87,11 +87,13 @@ MenuLayout xml_system::load_interface_layout(std::string name)
 //TODO: add layer system to load methods switch(cur_tile->name()) case "terrain" - load tiles, etc 
 
 
-int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* tilewidth, bool is_combat)
+int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* tilewidth, int* tileheight, bool is_combat)
 {
 	int** tilemap = nullptr;
 
 	std::string path = "map.xml";
+	if (is_combat)
+		path = "map_combat.xml";
 	std::string temp = NameToTypeConversion::get_level_path_prefix(level);
 	path = temp + path;
 
@@ -102,6 +104,7 @@ int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* ti
 	*width = std::stoi(doc.first_node("tilemap")->first_attribute("tileswide")->value());
 	*height = std::stoi(doc.first_node("tilemap")->first_attribute("tileshigh")->value());
 	*tilewidth = std::stoi(doc.first_node("tilemap")->first_attribute("tilewidth")->value());
+	*tileheight = std::stoi(doc.first_node("tilemap")->first_attribute("tileheight")->value());
 
 
 	//initialise the tilemap to -1s as it will represent a tile with nothing

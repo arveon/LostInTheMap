@@ -37,6 +37,10 @@ void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
 		drawable->id = render_system::add_object_to_queue(drawable);
 	}
 
+	//TODO rework this function so that this is used instead of a loop
+	//SpaceSystem::add_space_to_render_queue(game_space);
+
+
 	//init mouse
 	game_flow_normal::mouse = mouse_system::create_mouse();
 	game_space.objects.push_back(mouse);
@@ -48,14 +52,14 @@ void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
 	//camera_system::init_camera(tc->tile_width);
 	camera_system::set_camera_zoom(2.f);
 
-	SDL_Rect camera_rect_ids = camera_system::get_camera_rect_ids(tc->tile_width);
+	SDL_Rect camera_rect_ids = camera_system::get_camera_rect_ids(tc->tile_width, tc->tile_height);
 	lee_pathfinder::set_camera_position(camera_rect_ids.x, camera_rect_ids.y);
 	lee_pathfinder::set_camera_dimensions(camera_rect_ids.w, camera_rect_ids.h);
 	mouse_system::change_mouse_icon(mouse_system::mouse_icons::walking, static_cast<IAnimatable*>(mouse->get_component(Component::ComponentType::Animated)), static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
 
 	director::set_space(&game_space);
 
-	render_system::prepare_terrain(tc->width * tc->tile_width, tc->height * tc->tile_width);
+	render_system::prepare_terrain(tc->width * tc->tile_width, tc->height * tc->tile_height);
 	game_space.initialised = true;
 	game_flow_normal::lmb_down_event = false;
 
@@ -72,13 +76,25 @@ void game_flow_normal::update_space(Space & space, int dt)
 	camera_system::update_camera(dt);
 	SpaceSystem::apply_animation_sprite_changes(space);
 
-	
 	SpaceSystem::update_draw_rects(space);
-	
+
 	if (combat_flow::is_in_combat())
 	{
 		if (!combat_flow::is_initialised())
 			combat_flow::init_combat_space(space);
+		combat_flow::update(space, dt);
+	}
+	else if (!combat_flow::is_in_combat() && combat_flow::is_initialised())
+	{
+		script_system::action_over(SpaceSystem::find_entity_by_name(space, "player"));
+		combat_flow::destroy_combat(space);
+
+		//return cursor to render queue as it was swapped over by cursor from combat flow
+		render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
+
+		Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
+		ITerrain* tc = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
+		render_system::prepare_terrain(tc->width*tc->tile_width, tc->height*tc->tile_height);
 	}
 	else
 	{
@@ -140,7 +156,7 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 		{
 			Entity* text = SpaceSystem::find_entity_by_name(space, "dialogue_text");
 			IDrawable* text_dc = static_cast<IDrawable*>(text->get_component(Component::ComponentType::Drawable));
-			
+
 			if (dialogue_system::is_line_done())
 			{
 				Entity* portrait = SpaceSystem::find_entity_by_name(space, "dialogue_portrait");
@@ -157,7 +173,7 @@ void game_flow_normal::handle_mouse_clicks(Space& space)
 			text_dc->draw_rect.w = size.w;
 			text_dc->draw_rect.h = size.h;
 		}
-		else if(!script_system::is_player_blocked())
+		else if (!script_system::is_player_blocked())
 			set_movement(space);
 
 		lmb_down_event = false;//clear event flag
@@ -194,7 +210,7 @@ void game_flow_normal::set_movement(Space& space)
 void game_flow_normal::update_pathfinder(Space& space)
 {
 	lee_pathfinder::reset_obstructed();
-	
+
 	Entity* tr = SpaceSystem::find_entity_by_name(space, "terrain");
 	if (!tr)
 		return;
@@ -213,7 +229,7 @@ void game_flow_normal::update_pathfinder(Space& space)
 	}
 
 	//set camera inside pathfinder
-	SDL_Rect camera_rect_ids = camera_system::get_camera_rect_ids(trc->tile_width);
+	SDL_Rect camera_rect_ids = camera_system::get_camera_rect_ids(trc->tile_width, trc->tile_height);
 	lee_pathfinder::set_camera_position(camera_rect_ids.x, camera_rect_ids.y);
 	lee_pathfinder::set_camera_dimensions(camera_rect_ids.w, camera_rect_ids.h);
 }
@@ -247,6 +263,7 @@ void game_flow_normal::clear_all_systems(Space& space)
 	director::reset_director();
 	asset_controller::clear_stored_textures();
 	lee_pathfinder::destroy_pathfinding();
+	combat_flow::destroy_combat(space);
 }
 
 void game_flow_normal::mouse_down_event()
