@@ -68,6 +68,8 @@ public:
 	static xml_system::Dialogue pyramid_entrance_dialogues(Entity * target);
 	static xml_system::Dialogue pyramid_gold_picked_up_dialogues(Entity * target);
 	static xml_system::Dialogue pyramid_gold_taken_dialogues(Entity * target);
-	static xml_system::Dialogue get_archaeologist_dialogue(Entity * target, ICharacter* cc);
+	static xml_system::Dialogue juji_start_dialogues(Entity * target);
+	static xml_system::Dialogue get_secondary_dialogue(Entity * target, ICharacter * cc, std::string character_type);
+	static xml_system::Dialogue get_juji_villager_dialogue(Entity * target, ICharacter * cc);
 };
 

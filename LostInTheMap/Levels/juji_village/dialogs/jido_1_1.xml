@@ -1,0 +1,4 @@
+<dialogue character="giovanni" character="jido">
+	<rep character="1" text="The guard is at the east side of the village. Go talk to him!" />
+	<rep character="0" text="Ok, ok, I'm going!" />
+</dialogue>

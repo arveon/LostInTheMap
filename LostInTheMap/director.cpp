@@ -28,7 +28,7 @@ xml_system::Dialogue director::get_dialogue(Entity * target)
 		result = director::pyramid_gold_taken_dialogues(target);
 		break;
 	case story_stage::juji_start:
-		//result = director::juji_start_dialogues(target);
+		result = director::juji_start_dialogues(target);
 		break;
 	}
 
@@ -205,7 +205,7 @@ xml_system::Dialogue director::pyramid_entrance_dialogues(Entity* target)
 	case character_type::npc_archaeologist_2:
 	case character_type::npc_archaeologist_3:
 	case character_type::npc_archaeologist_4:
-		result = get_archaeologist_dialogue(target, cc);
+		result = get_secondary_dialogue(target, cc, "archaeologist");
 	}
 	return result;
 }
@@ -226,7 +226,7 @@ xml_system::Dialogue director::pyramid_gold_picked_up_dialogues(Entity* target)
 	case character_type::npc_archaeologist_2:
 	case character_type::npc_archaeologist_3:
 	case character_type::npc_archaeologist_4:
-		result = get_archaeologist_dialogue(target, cc);
+		result = get_secondary_dialogue(target, cc, "archaeologist");
 	}
 	return result;
 }
@@ -246,12 +246,33 @@ xml_system::Dialogue director::pyramid_gold_taken_dialogues(Entity* target)
 	case character_type::npc_archaeologist_2:
 	case character_type::npc_archaeologist_3:
 	case character_type::npc_archaeologist_4:
-		result = get_archaeologist_dialogue(target, cc);
+		result = director::get_secondary_dialogue(target, cc, "archaeologist");
+		break;
 	}
 	return result;
 }
 
-xml_system::Dialogue director::get_archaeologist_dialogue(Entity* target, ICharacter* cc)
+xml_system::Dialogue director::juji_start_dialogues(Entity* target)
+{
+	xml_system::Dialogue result;
+	ICharacter* cc = static_cast<ICharacter*>(target->get_component(Component::ComponentType::Character));
+	if (!cc)
+		return xml_system::Dialogue();
+	switch (cc->c_type)
+	{
+	case character_type::h_jido:
+		result = xml_system::load_dialogue(cur_level, "jido_1_1.xml");
+		break;
+	case character_type::npc_archaeologist_1:
+	case character_type::npc_archaeologist_2:
+	case character_type::npc_archaeologist_3:
+	case character_type::npc_archaeologist_4:
+		result = get_secondary_dialogue(target, cc, "villager");
+	}
+	return result;
+}
+
+xml_system::Dialogue director::get_secondary_dialogue(Entity* target, ICharacter* cc, std::string char_name)
 {
 	xml_system::Dialogue result;
 	//if player already talked to this person, show same dialogue
@@ -267,26 +288,26 @@ xml_system::Dialogue director::get_archaeologist_dialogue(Entity* target, IChara
 		}
 	}
 
+	std::string path = char_name;
 	//if player hasn't talked to character since it's a secondary dialogue, load the appropriate one
-	if (secondary_counter == 0)
-		result = xml_system::load_dialogue(cur_level, "archaeologist_1.xml");
-	else if (secondary_counter == 1)
-		result = xml_system::load_dialogue(cur_level, "archaeologist_2.xml");
-	else if (secondary_counter == 2)
-		result = xml_system::load_dialogue(cur_level, "archaeologist_3.xml");
-	else if (secondary_counter >= 3)
-		result = xml_system::load_dialogue(cur_level, "archaeologist_4.xml");
+	if (secondary_counter > 3)//cap counter at 3
+		secondary_counter = 3;
+	path = path + "_" + std::to_string(secondary_counter + 1) + ".xml";
+	result = xml_system::load_dialogue(cur_level, path);
 	secondary_counter++;
 
-	//check all of the loaded characters and make sure proper archaeologist portraits are loaded
+	//before this code is run, it's considered the secondary character that player is interacting is is a first type of secondary character in this level
+	//so need to replace that with the current target so that it's a correct portrait displayed
 	for (unsigned int i = 0; i < result.characters.size(); i++)
 	{
-		if (result.characters.at(i) == character_type::npc_archaeologist_1)
+		character_type tp = result.characters.at(i);
+		if (tp == character_type::npc_archaeologist_1 || tp == character_type::juji_villager_1 || tp == character_type::zakra_villager_1)
 			result.characters.at(i) = cc->c_type;
 	}
 	for (unsigned int i = 0; i < result.lines.size(); i++)
 	{
-		if (result.lines.at(i).character == character_type::npc_archaeologist_1)
+		character_type tp = result.lines.at(i).character;
+		if (tp == character_type::npc_archaeologist_1 || tp == character_type::juji_villager_1 || tp == character_type::zakra_villager_1)
 			result.lines.at(i).character = cc->c_type;
 	}
 
