@@ -26,7 +26,9 @@ public:
 	static void render_queues();
 	static void set_terrain_texture(SDL_Texture * tex);
 	
-	static void prepare_terrain(int map_width, int map_height);//width and height in pixels
+	static void prepare_terrain(int map_width, int map_height);
+	static void unprepare_terrain();
+	//width and height in pixels
 	static bool remove_from_queue(IDrawable*);//remove the given component from queue
 	render_system();
 	~render_system();

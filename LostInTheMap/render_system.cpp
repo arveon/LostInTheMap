@@ -54,6 +54,12 @@ void render_system::prepare_terrain(int map_width, int map_height)
 	terrain_prepared = true;
 }
 
+void render_system::unprepare_terrain()
+{
+	asset_controller::destroy_texture(terrain_sprite);
+	terrain_prepared = false;
+}
+
 void render_system::flush_queues()
 {
 	background.clear();
@@ -153,24 +159,24 @@ void render_system::render_queues()
 	{
 		if(terrain_prepared)
 			SDL_manager::render_sprite_src(terrain_sprite, camera);
-		//else
-		//{
-		//	for (std::vector<IDrawable*>::iterator it = terrain.begin(); it != terrain.end(); it++)
-		//	{
-		//		IDrawable* obj = *it;
-		//		if (!obj->isActive)
-		//			continue;
-		//		SDL_Rect dr = obj->draw_rect;
-		//		dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
-		//		dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
-		//		dr.w = static_cast<int>(std::floor(dr.w * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
-		//		dr.h = static_cast<int>(std::floor(dr.h * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
-		//		if (dr.x + dr.w < 0 || dr.x > camera.x + camera.w || dr.y + dr.h < 0 || dr.y > camera.y + camera.h)
-		//			continue;
-		//		
-		//		SDL_manager::render_sprite(obj->sprite, dr);
-		//	}
-		//}
+		else
+		{
+			for (std::vector<IDrawable*>::iterator it = terrain.begin(); it != terrain.end(); it++)
+			{
+				IDrawable* obj = *it;
+				if (!obj->isActive)
+					continue;
+				SDL_Rect dr = obj->draw_rect;
+				dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
+				dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
+				dr.w = static_cast<int>(std::floor(dr.w * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
+				dr.h = static_cast<int>(std::floor(dr.h * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
+				/*if (dr.x + dr.w < 0 || dr.x > camera.x + camera.w || dr.y + dr.h < 0 || dr.y > camera.y + camera.h)
+					continue;*/
+				
+				SDL_manager::render_sprite(obj->sprite, dr);
+			}
+		}
 	}
 
 	if (surface.size() > 0)

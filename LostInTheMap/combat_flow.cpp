@@ -40,15 +40,35 @@ void combat_flow::init_combat_space(Space& game_space)
 		{
 			Entity* obj = terrain->terrain_tiles[i][j];
 			IDrawable* dc = static_cast<IDrawable*>(obj->get_component(Component::ComponentType::Drawable));
-			tiles.push_back({ dc->sprite, dc->draw_rect });
+			//tiles.push_back({ dc->sprite, dc->draw_rect });
+			if (dc)
+				dc->id = render_system::add_object_to_queue(dc);
+
 		}
-	render_system::set_terrain_texture(SDL_manager::create_terrain_texture(tiles, terrain->width*terrain->tile_width, terrain->height * terrain->tile_height));
+
+	render_system::unprepare_terrain();
+
+	//disable previous terrain
+	ITerrain* tc = SpaceSystem::get_terrain(game_space);
+	for(int i =0; i < tc->height; i++)
+		for (int j = 0; j < tc->width; j++)
+		{
+			if (tc->terrain_tiles[i][j])
+			{
+				IDrawable* dc = static_cast<IDrawable*>(tc->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable));
+				dc->isActive = false;
+			}
+		}
+
+
+
+	//render_system::set_terrain_texture(SDL_manager::create_terrain_texture(tiles, terrain->width*terrain->tile_width, terrain->height * terrain->tile_height));
 	//add other elements to renderer
 	SpaceSystem::add_space_to_render_queue(combat_space);
 
 	SDL_Point camera_dest = { (terrain->width / 2)*terrain->tile_width, (terrain->height / 2)*terrain->tile_height };
 	camera_system::move_camera_to({0,0});
-	camera_system::set_camera_zoom(1.5f);
+	camera_system::set_camera_zoom(1.93f);
 
 
 	combat_space.initialised = true;
@@ -115,6 +135,17 @@ void combat_flow::update(Space & game_space, int dt)
 {
 	mouse_system::update_mouse(combat_flow::mouse, game_space, false, false);
 
+	static bool in = true;
+	static float zoom = 1.f;
+
+	/*if (in)
+		zoom += .001f;
+	else
+		zoom -= .001f;
+
+	if (zoom >= 3 || zoom <= .5f)
+		in = !in;
+	camera_system::set_camera_zoom(zoom);*/
 }
 
 combat_flow::combat_flow()
