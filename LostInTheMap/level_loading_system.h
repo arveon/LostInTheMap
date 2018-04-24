@@ -51,6 +51,7 @@ private:
 	static void update_status_text(Space& space, int state_id);
 	static void load_game_components(Space& game_space);
 	static void load_combat(levels level, Space & game_space, IFightable*);
+	static void load_character_army(ITerrain * tc, Space & game_space, bool enemy, IFightable* character_fc = nullptr);//loads army and adds it to given game space
 public:
 	
 	static void load_new_game();

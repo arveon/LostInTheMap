@@ -283,12 +283,13 @@ class ICombatUnit : public Component
 {
 public:
 	army_unit unit_stats;
-
+	bool friendly;
 	ICombatUnit(Entity* owner, army_unit unit) : Component(owner)
 	{
 		type = ComponentType::CombatUnit;
 		unit_stats = unit;
 		isActive = true;
+		friendly = true;
 	}
 };
 

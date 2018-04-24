@@ -160,12 +160,14 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	//transform
 	Transform* tf = new Transform(unit);
 	//TODO init transform position
-	tf->position.x = ((tc->width-1)*tc->tile_width)/* - (tc->tile_width / 2) - 32*/;
+	if (enemy)
+		tf->position.x = ((tc->width - 1)*tc->tile_width)/* - (tc->tile_width / 2) - 32*/;
+	else
+		tf->position.x = 0;
 	//what's the id of this one = what distance from prev?
 	tf->position.y = ((tc->tile_height)* distances * id)/* + tc->tile_height - 1 - 63*/;
 	tf->position.w = tc->tile_width;
 	tf->position.h = tc->tile_height;
-
 
 	unit->add_component(tf);
 
@@ -190,6 +192,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 
 	//combat
 	ICombatUnit* cbu = new ICombatUnit(unit, u);
+	cbu->friendly = !enemy;
 	unit->add_component(cbu);
 
 	//

@@ -1,3 +1,5 @@
 <army>
 	<unit type="giovanni" quantity="1"/>
+	<unit type="rat" quantity="1"/>
+	<unit type="zakra_spearman" quantity="1"/>
 </army>

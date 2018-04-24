@@ -472,7 +472,27 @@ void level_loading_system::load_combat(levels level, Space& game_space, IFightab
 	game_space.objects.push_back(tilemap);
 
 	//create combat units
-	std::vector<army_unit> army = xml_system::load_army(fc->army_file, level_to_load);
+	//for enemy
+	load_character_army(tc, game_space, true, fc);
+	//how many units
+	load_character_army(tc, game_space, false);
+
+
+
+	combat_flow::set_in_combat();
+}
+
+void level_loading_system::load_character_army(ITerrain* tc, Space& game_space, bool enemy, IFightable* character_fc)
+{
+	std::vector<army_unit> army;
+	//for player
+	if (enemy)
+		army = xml_system::load_army(character_fc->army_file, level_to_load);
+	else
+		army = combat_flow::player_army;
+
+	//std::vector<army_unit> army = combat_flow::player_army;
+
 	//how many units
 	int size = army.size();
 	int total_tiles = tc->width;
@@ -481,15 +501,10 @@ void level_loading_system::load_combat(levels level, Space& game_space, IFightab
 	int id = 0;
 	for (army_unit u : army)
 	{
-		
-		Entity* unit = character_system::load_combat_character(distances, id, tc, u, true);
+		Entity* unit = character_system::load_combat_character(distances, id, tc, u, enemy);
 		game_space.objects.push_back(unit);
 		id++;
 	}
-
-
-
-	combat_flow::set_in_combat();
 }
 
 level_loading_system::level_loading_system()
