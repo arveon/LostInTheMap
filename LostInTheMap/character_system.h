@@ -17,6 +17,7 @@ private:
 	static std::vector<Entity*> characters;
 public:
 	static std::vector<Entity*> init_characters(Actor** character_map, int width, int height, ITerrain* tr, bool create_armies=false);
+	static Entity* load_combat_character(int distances, int id, ITerrain * tc, army_unit u);
 	static void attach_textures_to_characters(SDL_Point tile_origin);
 
 	//sets final destination of character in raw world coords (will be adjusted to character origin automatically)

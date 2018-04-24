@@ -153,24 +153,24 @@ void render_system::render_queues()
 	{
 		if(terrain_prepared)
 			SDL_manager::render_sprite_src(terrain_sprite, camera);
-		else
-		{
-			for (std::vector<IDrawable*>::iterator it = terrain.begin(); it != terrain.end(); it++)
-			{
-				IDrawable* obj = *it;
-				if (!obj->isActive)
-					continue;
-				SDL_Rect dr = obj->draw_rect;
-				dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
-				dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
-				dr.w = static_cast<int>(std::floor(dr.w * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
-				dr.h = static_cast<int>(std::floor(dr.h * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
-				if (dr.x + dr.w < 0 || dr.x > camera.x + camera.w || dr.y + dr.h < 0 || dr.y > camera.y + camera.h)
-					continue;
-				
-				SDL_manager::render_sprite(obj->sprite, dr);
-			}
-		}
+		//else
+		//{
+		//	for (std::vector<IDrawable*>::iterator it = terrain.begin(); it != terrain.end(); it++)
+		//	{
+		//		IDrawable* obj = *it;
+		//		if (!obj->isActive)
+		//			continue;
+		//		SDL_Rect dr = obj->draw_rect;
+		//		dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
+		//		dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
+		//		dr.w = static_cast<int>(std::floor(dr.w * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
+		//		dr.h = static_cast<int>(std::floor(dr.h * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
+		//		if (dr.x + dr.w < 0 || dr.x > camera.x + camera.w || dr.y + dr.h < 0 || dr.y > camera.y + camera.h)
+		//			continue;
+		//		
+		//		SDL_manager::render_sprite(obj->sprite, dr);
+		//	}
+		//}
 	}
 
 	if (surface.size() > 0)
@@ -234,6 +234,7 @@ void render_system::set_terrain_texture(SDL_Texture* tex)
 {
 	asset_controller::destroy_texture(terrain_sprite);
 	terrain_sprite = tex;
+	terrain_prepared = true;
 }
 
 bool render_system::remove_from_queue(IDrawable* dc)
@@ -241,6 +242,8 @@ bool render_system::remove_from_queue(IDrawable* dc)
 	switch (dc->layer)
 	{
 	case IDrawable::layers::background:
+		if (dc->id >= background.size())
+			break;
 		background.erase(background.begin() + dc->id);
 		for (IDrawable* d_c : background)
 		{
@@ -250,6 +253,8 @@ bool render_system::remove_from_queue(IDrawable* dc)
 		}
 		break;
 	case IDrawable::layers::surface:
+		if (dc->id >= surface.size())
+			break;
 		surface.erase(surface.begin() + dc->id);
 		for (IDrawable* d_c : surface)
 		{
@@ -259,6 +264,8 @@ bool render_system::remove_from_queue(IDrawable* dc)
 		}
 		break;
 	case IDrawable::layers::foreground:
+		if (dc->id >= foreground.size())
+			break;
 		foreground.erase(foreground.begin() + dc->id);
 		for (IDrawable* d_c : foreground)
 		{
@@ -268,6 +275,8 @@ bool render_system::remove_from_queue(IDrawable* dc)
 		}
 		break;
 	case IDrawable::layers::ui:
+		if (dc->id >= ui.size())
+			break;
 		ui.erase(ui.begin() + dc->id);
 		for (IDrawable* d_c : ui)
 		{

@@ -25,8 +25,8 @@ void combat_flow::init_combat_space(Space& game_space)
 			if(dc)
 				dc->isActive = false;
 		}
-
-		combat_space.objects.push_back(t);
+		else
+			combat_space.objects.push_back(t);
 	}
 	mouse = mouse_system::create_mouse();
 	render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
@@ -68,7 +68,13 @@ void combat_flow::destroy_combat(Space& game_space)
 		std::string first_letters = t->name.substr(0, 2);
 		//remove all of the combat objects from game space and 
 		if (first_letters.compare("cb") == 0)
+		{
 			game_space.objects.erase(game_space.objects.begin() + i);
+			//remove all combat stuff from renderer
+			IDrawable* dc = static_cast<IDrawable*>(t->get_component(Component::ComponentType::Drawable));
+			if(dc)
+				render_system::remove_from_queue(dc);
+		}
 		else
 			if (t->is_active)
 			{
@@ -76,9 +82,6 @@ void combat_flow::destroy_combat(Space& game_space)
 				if (dc)
 					dc->isActive = true;
 			}
-
-		//remove all combat stuff from renderer
-		IDrawable* dc = static_cast<IDrawable*>(t->get_component(Component::ComponentType::Drawable));
 	}
 
 	//destroy the terrain

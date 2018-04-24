@@ -84,11 +84,8 @@ void game_flow_normal::update_space(Space & space, int dt)
 	}
 	else if (!combat_flow::is_in_combat() && combat_flow::is_initialised())
 	{
-		
-
 		script_system::action_over(SpaceSystem::find_entity_by_name(space, "player"));
 		combat_flow::destroy_combat(space);
-
 		//return cursor to render queue as it was swapped over by cursor from combat flow
 		render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
 

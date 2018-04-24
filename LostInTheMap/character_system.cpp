@@ -152,6 +152,49 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 	return characters;
 }
 
+Entity* character_system::load_combat_character(int distances, int id, ITerrain* tc, army_unit u)
+{
+	std::string name = "cb_unit_" + NameToTypeConversion::get_character_name_by_type(u.type) + std::to_string(id);
+	Entity* unit = new Entity(entity_type::game_object_combat, name);
+
+	//transform
+	Transform* tf = new Transform(unit);
+	//TODO init transform position
+	tf->position.x = (tc->width*tc->tile_width) - (tc->tile_width / 2) - 32;
+	//what's the id of this one = what distance from prev?
+	tf->position.y = (tc->tile_height * distances * id) + tc->tile_height - 1 - 63;
+	tf->position.w = tc->tile_width*2;
+	tf->position.h = tc->tile_height*2;
+
+
+	unit->add_component(tf);
+
+	//draw
+	IDrawable* dc = new IDrawable(unit, IDrawable::surface);
+	dc->draw_rect = tf->position;
+	dc->sprite_origin = { 32, 63 };
+
+	unit->add_component(dc);
+	//animation
+	IAnimatable* anim = new IAnimatable(unit);
+	anim->spritesheet = asset_controller::get_character_spritesheet(u.type);
+	dc->sprite = asset_controller::get_sprite_from_spritesheet(anim->spritesheet, { 0,0,64,64 });
+	unit->add_component(anim);
+
+	//movement
+	IMoving* mc = new IMoving(unit, 0, 0);
+
+	unit->add_component(mc);
+
+	//combat
+	ICombatUnit* cbu = new ICombatUnit(unit, u);
+	unit->add_component(cbu);
+
+	//
+
+	return unit;
+}
+
 void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 {
 	for (unsigned int i = 0; i < characters.size(); i++)
