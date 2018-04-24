@@ -83,6 +83,7 @@ public:
 	SDL_Texture* sprite;
 	SDL_Rect draw_rect;
 	SDL_Point sprite_origin;
+	bool flipped_x;
 	IDrawable(Entity* owner, layers layer) : Component(owner)
 	{
 		id = 0;
@@ -90,6 +91,7 @@ public:
 		this->layer = layer;
 		type = ComponentType::Drawable;
 		isActive = true;
+		flipped_x = false;
 	}
 };
 

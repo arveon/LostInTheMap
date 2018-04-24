@@ -196,9 +196,17 @@ void SDL_manager::trigger_input_listeners()
 	}
 }
 
-void SDL_manager::render_sprite(SDL_Texture * texture, SDL_Rect dest)
+void SDL_manager::render_sprite(SDL_Texture * texture, SDL_Rect dest, bool flip_x, bool flip_y)
 {
-	SDL_RenderCopy(SDL_manager::renderer, texture, nullptr, &dest);
+	SDL_Point center = { dest.w / 2, dest.h / 2 };
+	if(flip_x && flip_y)
+		SDL_RenderCopyEx(SDL_manager::renderer, texture, nullptr, &dest, NULL, &center, (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL));
+	else if(flip_x)
+		SDL_RenderCopyEx(SDL_manager::renderer, texture, nullptr, &dest, NULL, &center, SDL_FLIP_HORIZONTAL);
+	else if(flip_y)
+			SDL_RenderCopyEx(SDL_manager::renderer, texture, nullptr, &dest, NULL, &center, SDL_FLIP_VERTICAL);
+	else
+		SDL_RenderCopy(SDL_manager::renderer, texture, nullptr, &dest);
 }
 
 void SDL_manager::render_sprite_src(SDL_Texture * texture, SDL_Rect src, SDL_Rect dest)

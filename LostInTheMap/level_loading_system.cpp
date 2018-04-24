@@ -482,7 +482,7 @@ void level_loading_system::load_combat(levels level, Space& game_space, IFightab
 	for (army_unit u : army)
 	{
 		
-		Entity* unit = character_system::load_combat_character(distances, id, tc, u);
+		Entity* unit = character_system::load_combat_character(distances, id, tc, u, true);
 		game_space.objects.push_back(unit);
 		id++;
 	}

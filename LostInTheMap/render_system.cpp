@@ -194,7 +194,7 @@ void render_system::render_queues()
 			if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
 				continue;
 
-			SDL_manager::render_sprite(obj->sprite, dr);
+			SDL_manager::render_sprite(obj->sprite, dr, obj->flipped_x);
 		}
 	}
 

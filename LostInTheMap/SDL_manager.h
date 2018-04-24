@@ -119,7 +119,7 @@ public:
 	static void update_input();
 	static void trigger_input_listeners();
 
-	static void render_sprite(SDL_Texture*, SDL_Rect dest);
+	static void render_sprite(SDL_Texture*, SDL_Rect dest, bool flip_x = false, bool flip_y = false);
 	static void render_sprite_src(SDL_Texture*, SDL_Rect src, SDL_Rect dest = { 0,0,-1,-1 });
 	static void start_render() 
 	{ 

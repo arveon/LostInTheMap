@@ -152,7 +152,7 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 	return characters;
 }
 
-Entity* character_system::load_combat_character(int distances, int id, ITerrain* tc, army_unit u)
+Entity* character_system::load_combat_character(int distances, int id, ITerrain* tc, army_unit u, bool enemy)
 {
 	std::string name = "cb_unit_" + NameToTypeConversion::get_character_name_by_type(u.type) + std::to_string(id);
 	Entity* unit = new Entity(entity_type::game_object_combat, name);
@@ -172,7 +172,9 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	//draw
 	IDrawable* dc = new IDrawable(unit, IDrawable::surface);
 	dc->draw_rect = tf->position;
-	dc->sprite_origin = { 32, 63 };
+	dc->draw_rect.w = dc->draw_rect.h = 32;
+	dc->sprite_origin = { 16, 32 };
+	dc->flipped_x = enemy;
 
 	unit->add_component(dc);
 	//animation
