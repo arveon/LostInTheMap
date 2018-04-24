@@ -5,10 +5,13 @@ void SpaceSystem::add_space_to_render_queue(Space& space)
 	for (std::vector<Entity*>::iterator it = space.objects.begin(); it != space.objects.end(); it++)
 	{
 		Entity* temp = *it;
+		if (temp->name.compare("mouse") == 0)
+			continue;
 		IDrawable* comp = static_cast<IDrawable*>(temp->get_component(Component::ComponentType::Drawable));
 
 		if (comp)
 			comp->id = render_system::add_object_to_queue(comp);
+		
 	}
 }//function will add all of the drawable components of objects in spaces to render manager
 

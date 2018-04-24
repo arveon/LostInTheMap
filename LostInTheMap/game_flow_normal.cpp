@@ -71,9 +71,7 @@ void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
 void game_flow_normal::update_space(Space & space, int dt)
 {
 	static int tw = 0;
-	mouse_system::update_mouse(game_flow_normal::mouse, space, dialogue_system::dialogue_pending(), script_system::is_player_blocked());
-	mouse_system::update_mouse_hover(space, game_flow_normal::mouse);
-	camera_system::update_camera(dt);
+	
 	SpaceSystem::apply_animation_sprite_changes(space);
 
 	SpaceSystem::update_draw_rects(space);
@@ -86,6 +84,8 @@ void game_flow_normal::update_space(Space & space, int dt)
 	}
 	else if (!combat_flow::is_in_combat() && combat_flow::is_initialised())
 	{
+		
+
 		script_system::action_over(SpaceSystem::find_entity_by_name(space, "player"));
 		combat_flow::destroy_combat(space);
 
@@ -98,6 +98,10 @@ void game_flow_normal::update_space(Space & space, int dt)
 	}
 	else
 	{
+		mouse_system::update_mouse(game_flow_normal::mouse, space, dialogue_system::dialogue_pending(), script_system::is_player_blocked());
+		mouse_system::update_mouse_hover(space, game_flow_normal::mouse);
+		camera_system::update_camera(dt);
+
 		if (dialogue_system::dialogue_pending())
 		{
 			dialogue_system::update(dt);

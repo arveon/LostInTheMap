@@ -20,7 +20,11 @@ void combat_flow::init_combat_space(Space& game_space)
 		std::string first_letters = t->name.substr(0, 2);
 		//if not a combat objects
 		if (first_letters.compare("cb") != 0)
-			continue;
+		{
+			IDrawable* dc = static_cast<IDrawable*>(t->get_component(Component::ComponentType::Drawable));
+			if(dc)
+				dc->isActive = false;
+		}
 
 		combat_space.objects.push_back(t);
 	}
@@ -46,6 +50,7 @@ void combat_flow::init_combat_space(Space& game_space)
 	camera_system::move_camera_to({0,0});
 	camera_system::set_camera_zoom(1.5f);
 
+
 	combat_space.initialised = true;
 	initialised = true;
 
@@ -61,9 +66,16 @@ void combat_flow::destroy_combat(Space& game_space)
 	{
 		Entity* t = game_space.objects.at(i);
 		std::string first_letters = t->name.substr(0, 2);
-		//remove all of the combat objects from game space
+		//remove all of the combat objects from game space and 
 		if (first_letters.compare("cb") == 0)
 			game_space.objects.erase(game_space.objects.begin() + i);
+		else
+			if (t->is_active)
+			{
+				IDrawable* dc = static_cast<IDrawable*>(t->get_component(Component::ComponentType::Drawable));
+				if (dc)
+					dc->isActive = true;
+			}
 
 		//remove all combat stuff from renderer
 		IDrawable* dc = static_cast<IDrawable*>(t->get_component(Component::ComponentType::Drawable));
@@ -83,6 +95,12 @@ void combat_flow::destroy_combat(Space& game_space)
 			delete obj;
 		}
 
+	delete mouse->transform;
+	for (Component* c : mouse->components)
+		delete c;
+
+	delete mouse;
+
 	SpaceSystem::destroy_space(combat_space, false);
 
 	initialised = false;
@@ -92,7 +110,7 @@ void combat_flow::destroy_combat(Space& game_space)
 
 void combat_flow::update(Space & game_space, int dt)
 {
-	mouse_system::update_mouse(mouse, game_space, false, false);
+	mouse_system::update_mouse(combat_flow::mouse, game_space, false, false);
 
 }
 

@@ -74,6 +74,8 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 
 #pragma region mouse
 	MainMenuSystem::mouse = mouse_system::create_mouse();
+	IDrawable* dc = static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable));
+	render_system::add_object_to_queue(dc);
 	space.objects.push_back(mouse);
 #pragma endregion
 

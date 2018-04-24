@@ -420,7 +420,7 @@ void level_loading_system::load_game_components(Space & game_space)
 		stage_id = max_stage;
 	}
 	update_status_text(game_space, stage_id);
-
+	
 }
 
 //is called when combat start script action is invoked
