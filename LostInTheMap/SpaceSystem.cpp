@@ -87,6 +87,8 @@ Entity* SpaceSystem::get_object_at_point(Space& space, int x, int y, bool ignore
 	Entity* ent = nullptr;
 
 	Entity* terr = SpaceSystem::find_entity_by_name(space, "terrain");
+	if (!terr)
+		terr = SpaceSystem::find_entity_by_name(space, "cb_terrain");
 	ITerrain* tc = static_cast<ITerrain*>(terr->get_component(Component::ComponentType::Terrain));
 	if (x < 0 || y < 0 || x >= tc->width * tc->tile_width || y >= tc->width * tc->tile_height)
 		return nullptr;

@@ -122,7 +122,7 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 						else
 						{
 							fc->army = xml_system::load_army("giovanni.xml", director::cur_level, false);
-							combat_flow::player_army = fc->army;
+							combat_flow::init_player_army(fc->army);
 						}
 					}
 
@@ -159,7 +159,6 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 
 	//transform
 	Transform* tf = new Transform(unit);
-	//TODO init transform position
 	if (enemy)
 		tf->position.x = ((tc->width - 1)*tc->tile_width)/* - (tc->tile_width / 2) - 32*/;
 	else
@@ -356,6 +355,71 @@ adding_interaction:
 		}
 	}
 
+}
+
+void character_system::set_final_destination_combat(ITerrain* terrain, Entity* character, SDL_Point mouse_pos, Space& space)
+{
+	IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
+	ICombatUnit* colc = static_cast<ICombatUnit*>(character->get_component(Component::ComponentType::Collision));
+	Transform* tra = static_cast<Transform*>(character->get_component(Component::ComponentType::Transf));
+	
+	//set pathfinder dest to tile_id
+	Entity* tile = map_system::get_tile_at(terrain->owner, mouse_pos);
+	ITile* tile_c = static_cast<ITile*>(tile->get_component(Component::ComponentType::Tile));
+	Transform* tile_t = static_cast<Transform*>(tile->get_component(Component::ComponentType::Transf));
+
+	SDL_Point char_ids = character_system::get_character_ids(character, terrain);
+	mc->pathfinder.set_origin(char_ids);
+	//set pathfinders destination to tile
+	mc->pathfinder.set_destination({ tile_c->x, tile_c->y });
+	//calculate and get path from pathfinder
+	mc->path = mc->pathfinder.get_path_to({ tile_c->x, tile_c->y }, true);
+
+	//set destination
+	SDL_Point dest_ids = map_system::world_to_tilemap_ids(mouse_pos, terrain);
+	Entity* target = SpaceSystem::get_object_at_point(space, mouse_pos.x, mouse_pos.y, true);
+	if (target)
+	{
+		ITile* tc = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));
+		if (tc)
+		{//if tile was returned
+			Entity* temp = SpaceSystem::get_object_at_ids(space, dest_ids.x, dest_ids.y);
+			target = (temp == nullptr || character->name.compare(temp->name) == 0) ? target : temp;
+
+		}
+	}
+
+	bool need_to_move = false;
+	if (!mc->path.empty())
+	{//if moving between tiles
+	 //set destination mouse click position
+		SDL_Point character_origin = character->get_object_origin();
+
+		need_to_move = true;
+
+		//check if point overlaps with any object and this object is not tile and collidable
+		ITile* t_test = nullptr;
+		ICollidable* c_test = nullptr;
+		if (target && target->is_active)
+			c_test = static_cast<ICollidable*>(target->get_component(Component::ComponentType::Collision));
+		if (c_test && target)
+		{
+			mc->path.erase(mc->path.begin());
+
+			if (mc->path.empty())
+			{
+				need_to_move = false;
+			}
+		}
+		mc->destination_reached = false;
+
+		//get last tile of path
+		SDL_Point temp_ids = *(mc->path.begin());
+		Entity* temp_tile = terrain->terrain_tiles[temp_ids.y][temp_ids.x];
+		ITile* temp_c = static_cast<ITile*>(temp_tile->get_component(Component::ComponentType::Tile));
+		Transform* temp_t = static_cast<Transform*>(temp_tile->get_component(Component::ComponentType::Transf));
+		mc->final_destination = { temp_c->x * terrain->tile_width + temp_t->origin.x - tra->origin.x, temp_c->y * terrain->tile_height + temp_t->origin.y - tra->origin.y };
+	}
 }
 
 void character_system::set_final_destination_ids(ITerrain * terrain, Entity * character, SDL_Point dest_ids, Space & space)

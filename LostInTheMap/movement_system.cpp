@@ -19,10 +19,9 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 
 		//get moving component to see if entity is movable
 		IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
-		ICollidable* cc = static_cast<ICollidable*>(character->get_component(Component::ComponentType::Collision));
 
 		//if not moving, skip
-		if (!mc || !cc)
+		if (!mc)
 			continue;
 		if (!mc->movement_allowed)
 		{
@@ -136,56 +135,55 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				}
 			}
 		}
+		movement_system::move_character_transform(dt, cur_dest, tc, mc);
+	}
+}
 
-		int delta_x, delta_y;
-		delta_x = cur_dest.x - tc->position.x;
-		delta_y = cur_dest.y - tc->position.y;
+void movement_system::move_character_transform(int dt, SDL_Point cur_dest, Transform* tc, IMoving* mc)
+{
+	int delta_x, delta_y;
+	delta_x = cur_dest.x - tc->position.x;
+	delta_y = cur_dest.y - tc->position.y;
 
-		double angle = (double)std::atan2(delta_y, delta_x);
-		float a = (float)std::cos(angle);
-		float b = (float)std::sin(angle);
-		float shift_x = a * movement_system::tps*dt;
-		float shift_y = b * movement_system::tps*dt;
+	double angle = (double)std::atan2(delta_y, delta_x);
+	float a = (float)std::cos(angle);
+	float b = (float)std::sin(angle);
+	float shift_x = a * movement_system::tps*dt;
+	float shift_y = b * movement_system::tps*dt;
 
-		//required so lower speeds could be used (buffer accumulates until reached >1
-		//if buffer reached whole numbers, it updates the character coordinates and is reduced down to 0.something)
-		//static float shift_buffer_x = 0, shift_buffer_y = 0;
-		mc->shift_buffer_x += shift_x;
-		mc->shift_buffer_y += shift_y;
-		if (mc->shift_buffer_x > 1.f || mc->shift_buffer_x < -1.f)
-		{
-			//since floor rounds negative values down towards negative (-0.5 to -1) and ceil rounds them up towards positive (-0.5 to 0)
-			//without this if statement speed is larger towards negative 
-			if (mc->shift_buffer_x > 0)
-				tc->position.x += (int)std::floor(mc->shift_buffer_x);
-			else
-				tc->position.x += (int)std::ceil(mc->shift_buffer_x);
-			//reset shift buffer
-			if (mc->shift_buffer_x > 0)
-				mc->shift_buffer_x -= 1.f;
-			else
-				//tc->position.x -= std::ceil(shift_buffer_x);
-				mc->shift_buffer_x += 1.f;
-		}
-
-		if (mc->shift_buffer_y > 1.f || mc->shift_buffer_y < -1.f)
-		{
-			if (mc->shift_buffer_y > 0)
-				tc->position.y += (int)std::floor(mc->shift_buffer_y);
-			else
-				tc->position.y += (int)std::ceil(mc->shift_buffer_y);
-			//reset shift buffer
-			if (mc->shift_buffer_y > 0)
-				mc->shift_buffer_y -= 1.f;
-			else
-				mc->shift_buffer_y += 1.f;
-		}
-		
+	//required so lower speeds could be used (buffer accumulates until reached >1
+	//if buffer reached whole numbers, it updates the character coordinates and is reduced down to 0.something)
+	//static float shift_buffer_x = 0, shift_buffer_y = 0;
+	mc->shift_buffer_x += shift_x;
+	mc->shift_buffer_y += shift_y;
+	if (mc->shift_buffer_x > 1.f || mc->shift_buffer_x < -1.f)
+	{
+		//since floor rounds negative values down towards negative (-0.5 to -1) and ceil rounds them up towards positive (-0.5 to 0)
+		//without this if statement speed is larger towards negative 
+		if (mc->shift_buffer_x > 0)
+			tc->position.x += (int)std::floor(mc->shift_buffer_x);
+		else
+			tc->position.x += (int)std::ceil(mc->shift_buffer_x);
+		//reset shift buffer
+		if (mc->shift_buffer_x > 0)
+			mc->shift_buffer_x -= 1.f;
+		else
+			//tc->position.x -= std::ceil(shift_buffer_x);
+			mc->shift_buffer_x += 1.f;
 	}
 
-
-
-
+	if (mc->shift_buffer_y > 1.f || mc->shift_buffer_y < -1.f)
+	{
+		if (mc->shift_buffer_y > 0)
+			tc->position.y += (int)std::floor(mc->shift_buffer_y);
+		else
+			tc->position.y += (int)std::ceil(mc->shift_buffer_y);
+		//reset shift buffer
+		if (mc->shift_buffer_y > 0)
+			mc->shift_buffer_y -= 1.f;
+		else
+			mc->shift_buffer_y += 1.f;
+	}
 }
 
 movement_system::movement_system()

@@ -6,6 +6,7 @@
 #include "asset_controller.h"
 #include "map_system.h"
 #include "mouse_system.h"
+#include "movement_system.h"
 
 
 class combat_flow
@@ -13,11 +14,13 @@ class combat_flow
 private:
 	static bool combat_finished;
 	static bool initialised;
-	static Space combat_space;
+	
 	static Entity* mouse;
+	static int cur_turn;
 
 	static std::vector<army_unit*> order_of_turns;
 public:
+	static Space combat_space;
 	static std::vector<army_unit> player_army;
 	static std::vector<army_unit> enemy_army;
 
@@ -35,6 +38,12 @@ public:
 	static void set_in_combat() { combat_finished = false; }
 
 	static void compose_turn_orders();
+
+	static void mouse_clicked();
+
+	static void unit_finished_turn();
+
+	static void combat_round_finished();
 
 	combat_flow();
 	~combat_flow();

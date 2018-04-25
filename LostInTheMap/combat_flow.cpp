@@ -6,6 +6,7 @@ Space combat_flow::combat_space;
 std::vector<army_unit> combat_flow::player_army;
 std::vector<army_unit> combat_flow::enemy_army;
 std::vector<army_unit*> combat_flow::order_of_turns;
+int combat_flow::cur_turn;
 
 Entity* combat_flow::mouse;
 
@@ -68,8 +69,6 @@ void combat_flow::init_combat_space(Space& game_space)
 			}
 		}
 
-
-
 	//render_system::set_terrain_texture(SDL_manager::create_terrain_texture(tiles, terrain->width*terrain->tile_width, terrain->height * terrain->tile_height));
 	//add other elements to renderer
 	SpaceSystem::add_space_to_render_queue(combat_space);
@@ -77,6 +76,9 @@ void combat_flow::init_combat_space(Space& game_space)
 	SDL_Point camera_dest = { (terrain->width / 2)*terrain->tile_width, (terrain->height / 2)*terrain->tile_height };
 	camera_system::move_camera_to({0,0});
 	camera_system::set_camera_zoom(1.93f);
+
+	//init pathfinder
+	lee_pathfinder::init_pathfinder(map_system::get_pathfinding_map(terrain), terrain->width, terrain->height);
 
 	combat_flow::compose_turn_orders();
 
@@ -140,23 +142,81 @@ void combat_flow::destroy_combat(Space& game_space)
 	initialised = false;
 	combat_finished = true;
 	std::cout << "Combat ended" << std::endl;
+	cur_turn = 0;
 }
 
 void combat_flow::update(Space & game_space, int dt)
 {
 	mouse_system::update_mouse(combat_flow::mouse, game_space, false, false);
 
-	static bool in = true;
-	static float zoom = 1.f;
+	Entity* tr = SpaceSystem::find_entity_by_name(combat_space, "cb_terrain");
+	ITerrain* tc = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
+	movement_system::move_characters_tick(combat_space,dt,tc);
+}
 
-	/*if (in)
-		zoom += .001f;
-	else
-		zoom -= .001f;
+void combat_flow::mouse_clicked()
+{
+	//only process mouse input if it was clicked NOT during an enemy turn
+	/*if (!order_of_turns.at(cur_turn)->is_enemy)
+	{*/
+		std::cout << cur_turn << " tried to move, health " << order_of_turns.at(cur_turn)->health_of_first << std::endl;
+		Entity* tr = SpaceSystem::find_entity_by_name(combat_space, "cb_terrain");
+		ITerrain* tc = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
+		character_system::set_final_destination_combat(tc,order_of_turns.at(cur_turn)->unit_entity, mouse_system::get_mouse_in_world(combat_flow::mouse),combat_space);
+		unit_finished_turn();
+	//}
 
-	if (zoom >= 3 || zoom <= .5f)
-		in = !in;
-	camera_system::set_camera_zoom(zoom);*/
+
+}
+
+void combat_flow::unit_finished_turn()
+{
+	cur_turn--;
+	if(cur_turn >= 0)
+		while (order_of_turns.at(cur_turn)->health_of_first <= 0)//will make sure that dead units don't get a turn
+		{
+			std::cout << "dead" << std::endl;
+			cur_turn--;
+			if (cur_turn < 0)
+				break;
+		}
+	if (cur_turn < 0)
+		combat_round_finished();
+	
+
+	//check if there are live units on both sides (winning/losing conditions)
+	bool player = false;
+	for (army_unit u : player_army)
+		if (u.health_of_first > 0)
+		{
+			player = true;
+			break;
+		}
+
+	bool enemy = false;
+	for (army_unit u : enemy_army)
+		if (u.health_of_first > 0)
+		{
+			enemy = true;
+			break;
+		}
+
+	if (!player || !enemy)
+	{
+		combat_finished = true;
+	}
+}
+
+void combat_flow::combat_round_finished()
+{
+	cur_turn = order_of_turns.size() - 1;
+	while (order_of_turns.at(cur_turn)->health_of_first <= 0)//will make sure that dead units don't get a turn
+	{
+		std::cout << "dead" << std::endl;
+		cur_turn--;
+		if (cur_turn < 0)
+			break;
+	}
 }
 
 void combat_flow::compose_turn_orders()
@@ -194,7 +254,8 @@ void combat_flow::compose_turn_orders()
 		}
 		order_of_turns.push_back(slowest);
 	}
-	//TODO rat in player's army has speed of 7, why?
+	//start from fastest (at the end of vector)
+	cur_turn = order_of_turns.size() - 1;
 }
 
 combat_flow::combat_flow()

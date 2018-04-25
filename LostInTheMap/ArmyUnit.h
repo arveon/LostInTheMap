@@ -1,5 +1,6 @@
 #pragma once
 #include "CharacterTypes.h"
+class Entity;
 struct army_unit
 {
 	character_type type;
@@ -13,4 +14,6 @@ struct army_unit
 	int max_damage_ranged;
 	int speed;
 	bool ranged_allowed;
+
+	Entity* unit_entity;
 };

@@ -22,6 +22,7 @@ public:
 
 	//sets final destination of character in raw world coords (will be adjusted to character origin automatically)
 	static void set_final_destination(ITerrain* terrain, Entity* character, SDL_Point dest, Space& space);
+	static void set_final_destination_combat(ITerrain * terrain, Entity * character, SDL_Point mouse_pos, Space & space);
 	static void set_final_destination_ids(ITerrain* terrain, Entity* character, SDL_Point dest_ids, Space& space);
 	static SDL_Point get_character_ids(Entity* character, ITerrain* tc);
 	static void stop_character_movement(Entity* character);
