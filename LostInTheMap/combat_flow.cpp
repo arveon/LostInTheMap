@@ -183,10 +183,11 @@ void combat_flow::compose_turn_orders()
 			}
 			else if (un->speed == slowest->speed)
 			{
+				//make sure that if player and enemy units have same speed, player goes first
 				if (un->is_enemy && !slowest->is_enemy)
 				{
-					all_units.at(i) = slowest;
-					all_units.at(j) = un;
+					all_units.at(j) = slowest;
+					all_units.at(i) = un;
 					slowest = un;
 				}
 			}

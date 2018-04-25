@@ -444,7 +444,7 @@ xml_system::Dialogue xml_system::load_dialogue(levels level, std::string path)
 	return result;
 }
 
-std::vector<army_unit> xml_system::load_army(std::string army_path, levels level)
+std::vector<army_unit> xml_system::load_army(std::string army_path, levels level, bool is_enemy)
 {
 	std::vector<army_unit> result;
 
@@ -536,17 +536,21 @@ std::vector<army_unit> xml_system::load_army(std::string army_path, levels level
 			//apply units stats to all units of that type in the army
 			for (army_unit& u : result)
 			{
-				u.health_of_first = health;
-				u.max_health = health;
+				if (u.type == unit)
+				{
+					u.health_of_first = health;
+					u.max_health = health;
 
-				u.min_damage_close = close_min;
-				u.max_damage_close = close_max;
+					u.min_damage_close = close_min;
+					u.max_damage_close = close_max;
 
-				u.min_damage_ranged = ranged_min;
-				u.max_damage_ranged = ranged_max;
-				u.ranged_allowed = ranged_allowed;
+					u.min_damage_ranged = ranged_min;
+					u.max_damage_ranged = ranged_max;
+					u.ranged_allowed = ranged_allowed;
 
-				u.speed = speed;
+					u.speed = speed;
+					u.is_enemy = is_enemy;
+				}
 			}
 		}
 	}

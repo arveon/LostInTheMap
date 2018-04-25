@@ -121,7 +121,7 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 							fc->army = combat_flow::player_army;
 						else
 						{
-							fc->army = xml_system::load_army("giovanni.xml", director::cur_level);
+							fc->army = xml_system::load_army("giovanni.xml", director::cur_level, false);
 							combat_flow::player_army = fc->army;
 						}
 					}
