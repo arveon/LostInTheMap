@@ -487,7 +487,10 @@ void level_loading_system::load_character_army(ITerrain* tc, Space& game_space, 
 	std::vector<army_unit> army;
 	//for player
 	if (enemy)
+	{
 		army = xml_system::load_army(character_fc->army_file, level_to_load);
+		combat_flow::enemy_army = army;
+	}
 	else
 		army = combat_flow::player_army;
 
@@ -501,6 +504,7 @@ void level_loading_system::load_character_army(ITerrain* tc, Space& game_space, 
 	int id = 0;
 	for (army_unit u : army)
 	{
+		u.is_enemy = enemy;
 		Entity* unit = character_system::load_combat_character(distances, id, tc, u, enemy);
 		game_space.objects.push_back(unit);
 		id++;

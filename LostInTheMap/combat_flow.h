@@ -15,10 +15,14 @@ private:
 	static bool initialised;
 	static Space combat_space;
 	static Entity* mouse;
+
+	static std::vector<army_unit*> order_of_turns;
 public:
 	static std::vector<army_unit> player_army;
+	static std::vector<army_unit> enemy_army;
 
 	static void init_player_army(std::vector<army_unit> army);
+	static void init_enemy_army(std::vector<army_unit> army);
 	static void init_combat_space(Space& game_space);
 	static void destroy_combat(Space& game_space);
 
@@ -30,7 +34,7 @@ public:
 
 	static void set_in_combat() { combat_finished = false; }
 
-
+	static void compose_turn_orders();
 
 	combat_flow();
 	~combat_flow();

@@ -4,6 +4,8 @@ bool combat_flow::combat_finished = true;
 bool combat_flow::initialised = false;
 Space combat_flow::combat_space;
 std::vector<army_unit> combat_flow::player_army;
+std::vector<army_unit> combat_flow::enemy_army;
+std::vector<army_unit*> combat_flow::order_of_turns;
 
 Entity* combat_flow::mouse;
 
@@ -11,6 +13,12 @@ void combat_flow::init_player_army(std::vector<army_unit> army)
 {
 	if (player_army.size() == 0)
 		combat_flow::player_army = army;
+}
+
+void combat_flow::init_enemy_army(std::vector<army_unit> army)
+{
+	if (enemy_army.size() == 0)
+		combat_flow::enemy_army = army;
 }
 
 void combat_flow::init_combat_space(Space& game_space)
@@ -70,6 +78,7 @@ void combat_flow::init_combat_space(Space& game_space)
 	camera_system::move_camera_to({0,0});
 	camera_system::set_camera_zoom(1.93f);
 
+	combat_flow::compose_turn_orders();
 
 	combat_space.initialised = true;
 	initialised = true;
@@ -78,6 +87,8 @@ void combat_flow::init_combat_space(Space& game_space)
 	/*combat_finished = true;*/
 	std::cout << "Combat started" << std::endl;
 }
+
+
 
 void combat_flow::destroy_combat(Space& game_space)
 {
@@ -146,6 +157,43 @@ void combat_flow::update(Space & game_space, int dt)
 	if (zoom >= 3 || zoom <= .5f)
 		in = !in;
 	camera_system::set_camera_zoom(zoom);*/
+}
+
+void combat_flow::compose_turn_orders()
+{
+	//compose vector of all of the units
+	std::vector<army_unit*> all_units;
+	for (int i = 0; i < player_army.size(); i++)
+		all_units.push_back(&player_army.at(i));
+	for (int i = 0; i < enemy_army.size(); i++)
+		all_units.push_back(&enemy_army.at(i));
+
+	//compose vector starting slowest
+	for (int i = 0; i < all_units.size(); i++)
+	{
+		army_unit* slowest = all_units.at(i);
+		for (int j = i+1; j < all_units.size(); j++)
+		{
+			army_unit* un = all_units.at(j);
+			if (un->speed < slowest->speed)
+			{
+				all_units.at(i) = un;
+				all_units.at(j) = slowest;
+				slowest = un;
+			}
+			else if (un->speed == slowest->speed)
+			{
+				if (un->is_enemy && !slowest->is_enemy)
+				{
+					all_units.at(i) = slowest;
+					all_units.at(j) = un;
+					slowest = un;
+				}
+			}
+		}
+		order_of_turns.push_back(slowest);
+	}
+	//TODO rat in player's army has speed of 7, why?
 }
 
 combat_flow::combat_flow()
