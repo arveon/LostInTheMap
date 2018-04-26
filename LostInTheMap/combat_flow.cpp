@@ -77,6 +77,7 @@ void combat_flow::init_combat_space(Space& game_space)
 
 	SDL_Point camera_dest = { (terrain->width / 2)*terrain->tile_width, (terrain->height / 2)*terrain->tile_height };
 	camera_system::move_camera_to({0,0});
+	//camera_system::set_camera_zoom(1.f);
 	camera_system::set_camera_zoom(1.93f);
 
 	//init pathfinder
@@ -162,24 +163,26 @@ void combat_flow::mouse_clicked()
 	//only process mouse input if it was clicked NOT during an enemy turn
 	if (!order_of_turns.at(cur_turn)->is_enemy)
 	{
-		std::cout << cur_turn << " tried to move, health " << order_of_turns.at(cur_turn)->health_of_first << std::endl;
 		Entity* tr = SpaceSystem::find_entity_by_name(combat_space, "cb_terrain");
 		ITerrain* tc = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
 		IMoving* mc = static_cast<IMoving*>(order_of_turns.at(cur_turn)->unit_entity->get_component(Component::ComponentType::Movement));
-		/*if (mc->path.size() != 0 && mc->path.size() <= order_of_turns.at(cur_turn)->speed)
-		{*/
-		if(mc->destination_reached)
-			character_system::set_final_destination_combat(tc, order_of_turns.at(cur_turn)->unit_entity, mouse_system::get_mouse_in_world(combat_flow::mouse), combat_space);
-		//}
+		if (mc->path.size() != 0 && mc->path.size() <= order_of_turns.at(cur_turn)->speed)
+		{
+			if (mc->destination_reached)
+			{
+				character_system::set_final_destination_combat(tc, order_of_turns.at(cur_turn)->unit_entity, mouse_system::get_mouse_in_world(combat_flow::mouse), combat_space);
+				mc->movement_allowed = true;
+			}
+		}
 	}
-	else
-		unit_finished_turn();//TODO replace with AI decision making
 
 
 }
 
 void combat_flow::unit_finished_moving(Entity* unit)
 {
+	IMoving* mc = static_cast<IMoving*>(order_of_turns.at(cur_turn)->unit_entity->get_component(Component::ComponentType::Movement));
+	mc->movement_allowed = false;
 	unit_finished_turn();//TODO make it so unit_finished_turn() is only called when a unit finished movement
 }
 
@@ -197,6 +200,9 @@ void combat_flow::unit_finished_turn()
 	if (cur_turn < 0)
 		combat_round_finished();
 	
+	if (order_of_turns.at(cur_turn)->is_enemy)
+		unit_finished_turn();//REPLACE WITH AI LOGIC LATER
+
 
 	//check if there are live units on both sides (winning/losing conditions)
 	bool player = false;
@@ -214,6 +220,8 @@ void combat_flow::unit_finished_turn()
 			enemy = true;
 			break;
 		}
+
+	std::cout << order_of_turns.at(cur_turn)->unit_entity->name << std::endl;
 
 	if (!player || !enemy)
 	{

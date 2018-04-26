@@ -167,6 +167,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	tf->position.y = ((tc->tile_height)* distances * id)/* + tc->tile_height - 1 - 63*/;
 	tf->position.w = tc->tile_width;
 	tf->position.h = tc->tile_height;
+	tf->origin = {16,32};
 
 	unit->add_component(tf);
 
@@ -186,7 +187,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 
 	//movement
 	IMoving* mc = new IMoving(unit, 0, 0);
-
+	mc->movement_allowed = false;
 	unit->add_component(mc);
 
 	//combat

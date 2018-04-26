@@ -177,15 +177,14 @@ void movement_system::move_characters_tick_combat(Space& game_space, int dt, ITe
 		SDL_Point cur_dest;
 		cur_dest = mc->path.back();
 		Transform* tile_t = static_cast<Transform*>(tr->terrain_tiles[cur_dest.y][cur_dest.x]->get_component(Component::ComponentType::Transf));
-		cur_dest.x = cur_dest.x * tilewidth + tile_t->origin.x - tc->origin.x;
-		cur_dest.y = cur_dest.y * tilehigh + tile_t->origin.y - tc->origin.y;
+		cur_dest.x = cur_dest.x * tilewidth + tile_t->origin.x;
+		cur_dest.y = cur_dest.y * tilehigh + tile_t->origin.y;
 
 		if (tc->position.x == cur_dest.x && tc->position.y == cur_dest.y)
 		{
 			SDL_Point ori = mc->path.back();
 			mc->pathfinder.set_origin({ ori.x, ori.y });
 			mc->path.pop_back();
-			mc->path = mc->pathfinder.get_path(false);
 			if (mc->path.size() == 0)
 			{
 				if (movement_finished != nullptr)

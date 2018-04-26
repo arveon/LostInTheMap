@@ -141,23 +141,25 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 	dc->draw_rect.x = input_system::mouse.x - mt->origin.x;
 	dc->draw_rect.y = input_system::mouse.y - mt->origin.y;
 
-	/*IMoving* movement_component = static_cast<IMoving*>(cur_unit->get_component(Component::ComponentType::Movement));
-	ITerrain* tc = SpaceSystem::get_terrain(space);	
-	movement_component->pathfinder.set_origin(map_system::get_entity_ids(cur_unit, tc));
+	IMoving* movement_component = static_cast<IMoving*>(cur_unit->get_component(Component::ComponentType::Movement));
+	if(movement_component->destination_reached)
+	{
+		ITerrain* tc = SpaceSystem::get_terrain(space);
 
-	std::vector<SDL_Point> path = movement_component->pathfinder.get_path_to(mouse_system::get_mouse_ids(mouse, tc), true);
-	if (path.size() <= steps_allowed)
-	{
-		movement_component->movement_allowed = false;
-		movement_component->path = path;
-		change_mouse_icon(mouse_system::mouse_icons::walking, ac, dc);
+		movement_component->pathfinder.set_origin(map_system::world_to_tilemap_ids(cur_unit->get_origin_in_world(),tc));
+
+		std::vector<SDL_Point> path = movement_component->pathfinder.get_path_to(mouse_system::get_mouse_ids(mouse, tc), true);
+		if (path.size() <= steps_allowed)
+		{
+			movement_component->path = path;
+			change_mouse_icon(mouse_system::mouse_icons::walking, ac, dc);
+		}
+		else
+		{
+			movement_component->path.clear();
+			change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
+		}
 	}
-	else
-	{
-		movement_component->movement_allowed = false;
-		movement_component->path.clear();
-		change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
-	}*/
 }
 
 SDL_Point mouse_system::get_mouse_ids(Entity* mouse, ITerrain* tc)
