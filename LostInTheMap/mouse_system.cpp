@@ -129,6 +129,46 @@ void mouse_system::update_mouse(Entity* mouse, Space& space, bool in_dialogue, b
 		dc->isActive = true;
 }
 
+void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_allowed, Entity* cur_unit)
+{
+	IDrawable* dc = static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable));
+	IAnimatable* ac = static_cast<IAnimatable*>(mouse->get_component(Component::ComponentType::Animated));
+	IMouse* mc = static_cast<IMouse*>(mouse->get_component(Component::ComponentType::Mouse));
+	Transform* mt = mouse->transform;
+
+	mouse->transform->position.x = input_system::mouse.x;
+	mouse->transform->position.y = input_system::mouse.y;
+	dc->draw_rect.x = input_system::mouse.x - mt->origin.x;
+	dc->draw_rect.y = input_system::mouse.y - mt->origin.y;
+
+	/*IMoving* movement_component = static_cast<IMoving*>(cur_unit->get_component(Component::ComponentType::Movement));
+	ITerrain* tc = SpaceSystem::get_terrain(space);	
+	movement_component->pathfinder.set_origin(map_system::get_entity_ids(cur_unit, tc));
+
+	std::vector<SDL_Point> path = movement_component->pathfinder.get_path_to(mouse_system::get_mouse_ids(mouse, tc), true);
+	if (path.size() <= steps_allowed)
+	{
+		movement_component->movement_allowed = false;
+		movement_component->path = path;
+		change_mouse_icon(mouse_system::mouse_icons::walking, ac, dc);
+	}
+	else
+	{
+		movement_component->movement_allowed = false;
+		movement_component->path.clear();
+		change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
+	}*/
+}
+
+SDL_Point mouse_system::get_mouse_ids(Entity* mouse, ITerrain* tc)
+{
+	SDL_Point result;
+	SDL_Point world = mouse_system::get_mouse_in_world(mouse);
+
+	result = map_system::world_to_tilemap_ids(world, tc);
+	return result;
+}
+
 SDL_Point mouse_system::get_mouse_in_world(Entity * mouse)
 {
 	IMouse* ms = static_cast<IMouse*>(mouse->get_component(Component::ComponentType::Mouse));
@@ -186,11 +226,6 @@ void mouse_system::change_mouse_icon(mouse_icons icon, IAnimatable* anim_compone
 		break;
 	}
 
-
-}
-
-void mouse_system::update_mouse_hover(Space& space, Entity* mouse)
-{
 
 }
 

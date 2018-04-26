@@ -24,6 +24,8 @@ public:
 
 	static Entity* get_tile_at(Entity* terrain, SDL_Point world_coords);
 
+	static SDL_Point get_entity_ids(Entity * entity, ITerrain * tc);
+
 	static SDL_Point world_to_tilemap_ids(SDL_Point world_coords, ITerrain* tilemap);
 	static SDL_Point tilemap_ids_to_world(SDL_Point ids, ITerrain* tilemap);
 

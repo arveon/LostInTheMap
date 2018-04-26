@@ -24,7 +24,8 @@ public:
 	static pathfinding_tile*** map;
 
 	std::vector<SDL_Point> get_path(bool limit_to_map_size);
-	std::vector<SDL_Point> get_path_to(SDL_Point destination, bool limit_to_map_size);
+	//destination in tile ids
+	std::vector<SDL_Point> get_path_to(SDL_Point destination, bool limit_to_camera_size);
 	void reset_pathfinder();
 	void print_pathfinding_values();
 	std::vector<SDL_Point> track_back();
@@ -37,6 +38,7 @@ public:
 		if (destination.x > 0 && destination.x < width && destination.y > 0 && destination.y < height) 
 			this->destination = destination; 
 	};
+	//origin in tile coordinates
 	void set_origin(SDL_Point origin) 
 	{ 
 		if (origin.x >= 0 && origin.x < lee_pathfinder::width && origin.y >= 0 && origin.y < lee_pathfinder::height) 

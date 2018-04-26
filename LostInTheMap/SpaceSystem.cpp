@@ -202,6 +202,7 @@ Entity* SpaceSystem::find_object_of_type(Space& game_space, object_types type)
 		if (src->o_type == type)
 			return ent;
 	}
+	return nullptr;
 }
 
 

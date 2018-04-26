@@ -41,6 +41,7 @@ public:
 
 	static void mouse_clicked();
 
+	static void unit_finished_moving(Entity* unit);
 	static void unit_finished_turn();
 
 	static void combat_round_finished();

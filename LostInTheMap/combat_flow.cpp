@@ -38,6 +38,8 @@ void combat_flow::init_combat_space(Space& game_space)
 			combat_space.objects.push_back(t);
 	}
 	mouse = mouse_system::create_mouse();
+	mouse->name = "cb_mouse";
+	game_space.objects.push_back(mouse);
 	render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
 
 	//add terrain to renderer
@@ -81,6 +83,7 @@ void combat_flow::init_combat_space(Space& game_space)
 	lee_pathfinder::init_pathfinder(map_system::get_pathfinding_map(terrain), terrain->width, terrain->height);
 
 	combat_flow::compose_turn_orders();
+	movement_system::set_movement_finished_callback(&unit_finished_moving);
 
 	combat_space.initialised = true;
 	initialised = true;
@@ -147,26 +150,37 @@ void combat_flow::destroy_combat(Space& game_space)
 
 void combat_flow::update(Space & game_space, int dt)
 {
-	mouse_system::update_mouse(combat_flow::mouse, game_space, false, false);
+	mouse_system::update_mouse_combat(combat_flow::mouse, game_space, order_of_turns.at(cur_turn)->speed, order_of_turns.at(cur_turn)->unit_entity);
 
 	Entity* tr = SpaceSystem::find_entity_by_name(combat_space, "cb_terrain");
 	ITerrain* tc = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
-	movement_system::move_characters_tick(combat_space,dt,tc);
+	movement_system::move_characters_tick_combat(combat_space,dt,tc);
 }
 
 void combat_flow::mouse_clicked()
 {
 	//only process mouse input if it was clicked NOT during an enemy turn
-	/*if (!order_of_turns.at(cur_turn)->is_enemy)
-	{*/
+	if (!order_of_turns.at(cur_turn)->is_enemy)
+	{
 		std::cout << cur_turn << " tried to move, health " << order_of_turns.at(cur_turn)->health_of_first << std::endl;
 		Entity* tr = SpaceSystem::find_entity_by_name(combat_space, "cb_terrain");
 		ITerrain* tc = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
-		character_system::set_final_destination_combat(tc,order_of_turns.at(cur_turn)->unit_entity, mouse_system::get_mouse_in_world(combat_flow::mouse),combat_space);
-		unit_finished_turn();
-	//}
+		IMoving* mc = static_cast<IMoving*>(order_of_turns.at(cur_turn)->unit_entity->get_component(Component::ComponentType::Movement));
+		/*if (mc->path.size() != 0 && mc->path.size() <= order_of_turns.at(cur_turn)->speed)
+		{*/
+		if(mc->destination_reached)
+			character_system::set_final_destination_combat(tc, order_of_turns.at(cur_turn)->unit_entity, mouse_system::get_mouse_in_world(combat_flow::mouse), combat_space);
+		//}
+	}
+	else
+		unit_finished_turn();//TODO replace with AI decision making
 
 
+}
+
+void combat_flow::unit_finished_moving(Entity* unit)
+{
+	unit_finished_turn();//TODO make it so unit_finished_turn() is only called when a unit finished movement
 }
 
 void combat_flow::unit_finished_turn()

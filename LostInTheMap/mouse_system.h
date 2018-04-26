@@ -19,9 +19,10 @@ public:
 	static void change_mouse_icon(mouse_icons icon, IAnimatable* anim_component, IDrawable* draw_component);
 	static Entity* create_mouse();
 	static void update_mouse(Entity* mouse, Space& space, bool in_dialog, bool is_hidden);
+	static void update_mouse_combat(Entity* mouse, Space& space, int steps_allowed, Entity* cur_unit);
+	static SDL_Point get_mouse_ids(Entity * mouse, ITerrain * tc);
 	static SDL_Point get_mouse_in_world(Entity* mouse);
 
-	static void update_mouse_hover(Space& space, Entity* mouse);
 	mouse_system();
 	~mouse_system();
 

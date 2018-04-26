@@ -250,7 +250,7 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 	ITile* tile_c = static_cast<ITile*>(tile->get_component(Component::ComponentType::Tile));
 	Transform* tile_t = static_cast<Transform*>(tile->get_component(Component::ComponentType::Transf));
 
-	SDL_Point char_ids = character_system::get_character_ids(character, terrain);
+	SDL_Point char_ids = map_system::get_entity_ids(character, terrain);
 	mc->pathfinder.set_origin(char_ids);
 	//set pathfinders destination to tile
 	mc->pathfinder.set_destination({ tile_c->x, tile_c->y });
@@ -368,7 +368,7 @@ void character_system::set_final_destination_combat(ITerrain* terrain, Entity* c
 	ITile* tile_c = static_cast<ITile*>(tile->get_component(Component::ComponentType::Tile));
 	Transform* tile_t = static_cast<Transform*>(tile->get_component(Component::ComponentType::Transf));
 
-	SDL_Point char_ids = character_system::get_character_ids(character, terrain);
+	SDL_Point char_ids = map_system::get_entity_ids(character, terrain);
 	mc->pathfinder.set_origin(char_ids);
 	//set pathfinders destination to tile
 	mc->pathfinder.set_destination({ tile_c->x, tile_c->y });
@@ -431,12 +431,6 @@ void character_system::set_final_destination_ids(ITerrain * terrain, Entity * ch
 	coords.y += tf->origin.y;
 
 	set_final_destination(terrain, character, coords, space);
-}
-
-SDL_Point character_system::get_character_ids(Entity* character, ITerrain* tc)
-{
-	SDL_Point player_ids = map_system::world_to_tilemap_ids(character->get_origin_in_world(), tc);
-	return player_ids;
 }
 
 void character_system::stop_character_movement(Entity * character)

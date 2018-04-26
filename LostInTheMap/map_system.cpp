@@ -335,6 +335,12 @@ Entity* map_system::get_tile_at(Entity* terrain, SDL_Point world_coords)
 	return tile;
 }
 
+SDL_Point map_system::get_entity_ids(Entity* entity, ITerrain* tc)
+{
+	SDL_Point ids = map_system::world_to_tilemap_ids(entity->get_origin_in_world(), tc);
+	return ids;
+}
+
 map_system::map_system()
 {
 }

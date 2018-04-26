@@ -11,7 +11,7 @@ bool render_system::terrain_prepared;
 
 int render_system::add_object_to_queue(IDrawable * obj)
 {
-	if (obj->owner->name.compare("mouse") == 0)
+	if (obj->owner->name.compare("mouse") == 0 || obj->owner->name.compare("cb_mouse") == 0)
 	{
 		render_system::mouse = obj;
 		return 0;

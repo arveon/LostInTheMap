@@ -97,7 +97,6 @@ void game_flow_normal::update_space(Space & space, int dt)
 	else
 	{
 		mouse_system::update_mouse(game_flow_normal::mouse, space, dialogue_system::dialogue_pending(), script_system::is_player_blocked());
-		mouse_system::update_mouse_hover(space, game_flow_normal::mouse);
 		camera_system::update_camera(dt);
 
 		if (dialogue_system::dialogue_pending())

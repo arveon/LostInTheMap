@@ -1,6 +1,7 @@
 #include "movement_system.h"
 
 float movement_system::tps = .1f;
+void(*movement_system::movement_finished)(Entity*);
 
 void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* tr)
 {
@@ -133,6 +134,63 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 						}
 					}
 				}
+			}
+		}
+		movement_system::move_character_transform(dt, cur_dest, tc, mc);
+	}
+}
+
+void movement_system::move_characters_tick_combat(Space& game_space, int dt, ITerrain* tr)
+{
+	//std::cout << "dt = " << dt << std::endl;
+	if (dt > 20)
+		return;
+	int tilewidth = tr->tile_width;
+	int tilehigh = tr->tile_height;
+	for (unsigned int i = 0; i < game_space.objects.size(); i++)
+	{
+		Entity* character = game_space.objects.at(i);
+
+		//if character inactive, skip it
+		if (!character->is_active)
+			continue;
+
+		//get moving component to see if entity is movable
+		IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
+
+		//if not moving, skip
+		if (!mc)
+			continue;
+		if (!mc->movement_allowed)
+		{
+			//mc->path.clear();
+			//mc->destination_reached = true;
+			continue;
+		}
+
+		Transform* tc = static_cast<Transform*>(character->get_component(Component::ComponentType::Transf));
+		IDrawable* dc = static_cast<IDrawable*>(character->get_component(Component::ComponentType::Drawable));
+
+		if (mc->destination_reached && mc->path.size() == 0)//if destination tile reached (or not moving at all)
+			continue;
+
+		SDL_Point cur_dest;
+		cur_dest = mc->path.back();
+		Transform* tile_t = static_cast<Transform*>(tr->terrain_tiles[cur_dest.y][cur_dest.x]->get_component(Component::ComponentType::Transf));
+		cur_dest.x = cur_dest.x * tilewidth + tile_t->origin.x - tc->origin.x;
+		cur_dest.y = cur_dest.y * tilehigh + tile_t->origin.y - tc->origin.y;
+
+		if (tc->position.x == cur_dest.x && tc->position.y == cur_dest.y)
+		{
+			SDL_Point ori = mc->path.back();
+			mc->pathfinder.set_origin({ ori.x, ori.y });
+			mc->path.pop_back();
+			mc->path = mc->pathfinder.get_path(false);
+			if (mc->path.size() == 0)
+			{
+				if (movement_finished != nullptr)
+					movement_finished(character);
+				mc->destination_reached = true;
 			}
 		}
 		movement_system::move_character_transform(dt, cur_dest, tc, mc);
