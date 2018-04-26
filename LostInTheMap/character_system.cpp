@@ -365,42 +365,42 @@ void character_system::set_final_destination_combat(ITerrain* terrain, Entity* c
 	IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
 	Transform* tra = static_cast<Transform*>(character->get_component(Component::ComponentType::Transf));
 
-	//set destination
-	SDL_Point dest_ids = map_system::world_to_tilemap_ids(mouse_pos, terrain);
-	Entity* target = SpaceSystem::get_object_at_point(space, mouse_pos.x, mouse_pos.y, true);
-	if (target)
-	{
-		ITile* tc = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));
-		if (tc)
-		{//if tile was returned
-			Entity* temp = SpaceSystem::get_object_at_ids(space, dest_ids.x, dest_ids.y);
-			target = (temp == nullptr || character->name.compare(temp->name) == 0) ? target : temp;
-		}
-	}
+	////set destination
+	//SDL_Point dest_ids = map_system::world_to_tilemap_ids(mouse_pos, terrain);
+	//Entity* target = SpaceSystem::get_object_at_point(space, mouse_pos.x, mouse_pos.y, true);
+	//if (target)
+	//{
+	//	ITile* tc = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));
+	//	if (tc)
+	//	{//if tile was returned
+	//		Entity* temp = SpaceSystem::get_object_at_ids(space, dest_ids.x, dest_ids.y);
+	//		target = (temp == nullptr || character->name.compare(temp->name) == 0) ? target : temp;
+	//	}
+	//}
 
-	bool need_to_move = false;
+	//bool need_to_move = false;
 
-	if (!mc->path.empty())
-	{//if there are still nodes in path, set final destination
-		SDL_Point character_origin = character->get_object_origin();
-		need_to_move = true;
+	//if (!mc->path.empty())
+	//{//if there are still nodes in path, set final destination
+	//	SDL_Point character_origin = character->get_object_origin();
+	//	need_to_move = true;
 
-		//check if point overlaps with any object and this object is not tile and collidable and not the same object as one moving
-		ITile* t_test = nullptr;
-		ICollidable* c_test = nullptr;
-		if (target && target->is_active)
-			c_test = static_cast<ICollidable*>(target->get_component(Component::ComponentType::Collision));
-		if (c_test && target)
-		{
-			mc->path.erase(mc->path.begin());
-			if (mc->path.empty())
-			{
-				mc->destination_reached = true;
-				mc->movement_allowed = false;
-				need_to_move = false;
-				return;
-			}
-		}
+	//	//check if point overlaps with any object and this object is not tile and collidable and not the same object as one moving
+	//	ITile* t_test = nullptr;
+	//	ICollidable* c_test = nullptr;
+	//	if (target && target->is_active)
+	//		c_test = static_cast<ICollidable*>(target->get_component(Component::ComponentType::Collision));
+	//	if (c_test && target)
+	//	{
+	//		mc->path.erase(mc->path.begin());
+	//		if (mc->path.empty())
+	//		{
+	//			mc->destination_reached = true;
+	//			mc->movement_allowed = false;
+	//			need_to_move = false;
+	//			return;
+	//		}
+	//	}
 
 		mc->destination_reached = false;
 		//SETTING FINAL DESTINATION
@@ -410,7 +410,7 @@ void character_system::set_final_destination_combat(ITerrain* terrain, Entity* c
 		ITile* temp_c = static_cast<ITile*>(temp_tile->get_component(Component::ComponentType::Tile));
 		Transform* temp_t = static_cast<Transform*>(temp_tile->get_component(Component::ComponentType::Transf));
 		mc->final_destination = { temp_c->x * terrain->tile_width + temp_t->origin.x - tra->origin.x, temp_c->y * terrain->tile_height + temp_t->origin.y - tra->origin.y };
-	}
+	//}
 }
 
 void character_system::set_final_destination_ids(ITerrain * terrain, Entity * character, SDL_Point dest_ids, Space & space)

@@ -5,7 +5,7 @@ int lee_pathfinder::width;
 int lee_pathfinder::height;
 SDL_Rect lee_pathfinder::camera;
 
-void lee_pathfinder::init_pathfinder(int ** map, int width, int height)
+void lee_pathfinder::init_pathfinder(int ** map, int width, int height, bool allow_diagonal_movement)
 {
 	lee_pathfinder::width = width;
 	lee_pathfinder::height = height;
@@ -46,25 +46,28 @@ void lee_pathfinder::init_pathfinder(int ** map, int width, int height)
 				tile->neighbours.push_back(lee_pathfinder::map[i + 1][j]);
 			if (j < width - 1)
 				tile->neighbours.push_back(lee_pathfinder::map[i][j + 1]);
-			if (i > 0 && j > 0)
+			if (allow_diagonal_movement)
 			{
-				if(lee_pathfinder::map[i-1][j]->is_traversible && lee_pathfinder::map[i][j-1]->is_traversible)
-					tile->neighbours.push_back(lee_pathfinder::map[i - 1][j - 1]);
-			}
-			if (i > 0 && j < width - 1)
-			{
-				if (lee_pathfinder::map[i - 1][j]->is_traversible && lee_pathfinder::map[i][j+1]->is_traversible)
-					tile->neighbours.push_back(lee_pathfinder::map[i - 1][j + 1]);
-			}
-			if (i < height - 1 && j > 0)
-			{
-				if (lee_pathfinder::map[i][j - 1]->is_traversible && lee_pathfinder::map[i+1][j]->is_traversible)
-					tile->neighbours.push_back(lee_pathfinder::map[i + 1][j - 1]);
-			}
-			if (i < height - 1 && j < width - 1)
-			{
-				if (lee_pathfinder::map[i][j + 1]->is_traversible && lee_pathfinder::map[i + 1][j]->is_traversible)
-					tile->neighbours.push_back(lee_pathfinder::map[i + 1][j + 1]);
+				if (i > 0 && j > 0)
+				{
+					if (lee_pathfinder::map[i - 1][j]->is_traversible && lee_pathfinder::map[i][j - 1]->is_traversible)
+						tile->neighbours.push_back(lee_pathfinder::map[i - 1][j - 1]);
+				}
+				if (i > 0 && j < width - 1)
+				{
+					if (lee_pathfinder::map[i - 1][j]->is_traversible && lee_pathfinder::map[i][j + 1]->is_traversible)
+						tile->neighbours.push_back(lee_pathfinder::map[i - 1][j + 1]);
+				}
+				if (i < height - 1 && j > 0)
+				{
+					if (lee_pathfinder::map[i][j - 1]->is_traversible && lee_pathfinder::map[i + 1][j]->is_traversible)
+						tile->neighbours.push_back(lee_pathfinder::map[i + 1][j - 1]);
+				}
+				if (i < height - 1 && j < width - 1)
+				{
+					if (lee_pathfinder::map[i][j + 1]->is_traversible && lee_pathfinder::map[i + 1][j]->is_traversible)
+						tile->neighbours.push_back(lee_pathfinder::map[i + 1][j + 1]);
+				}
 			}
 		}
 }

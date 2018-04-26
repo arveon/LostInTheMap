@@ -81,7 +81,7 @@ void combat_flow::init_combat_space(Space& game_space)
 	camera_system::set_camera_zoom(1.93f);
 
 	//init pathfinder
-	lee_pathfinder::init_pathfinder(map_system::get_pathfinding_map(terrain), terrain->width, terrain->height);
+	lee_pathfinder::init_pathfinder(map_system::get_pathfinding_map(terrain), terrain->width, terrain->height, false);
 
 	combat_flow::compose_turn_orders();
 	movement_system::set_movement_finished_callback(&unit_finished_moving);

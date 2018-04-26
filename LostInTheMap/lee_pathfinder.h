@@ -32,7 +32,7 @@ public:
 
 	bool is_player = false;
 
-	static void init_pathfinder(int** map, int width, int height);
+	static void init_pathfinder(int** map, int width, int height, bool allow_diagonal_movement=true);
 	void set_destination(SDL_Point destination) 
 	{ 
 		if (destination.x > 0 && destination.x < width && destination.y > 0 && destination.y < height) 
