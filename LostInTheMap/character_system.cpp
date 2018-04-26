@@ -27,7 +27,7 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 					static_cast<int>(tr->tile_width),
 					static_cast<int>(tr->tile_height)
 				};
-				transf_c->origin = {transf_c->position.w/2, transf_c->position.h-1};
+				transf_c->origin = { transf_c->position.w / 2, transf_c->position.h - 1 };
 
 				ICollidable* colc = new ICollidable(ent);
 				colc->collidable = true;
@@ -96,7 +96,7 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 					value++;
 					is_friendly = false;
 					break;
-				
+
 				default:
 					ent->name = "Unnamed";
 					type = character_type::zakra_spearman;
@@ -110,7 +110,7 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 
 				ent->add_component(src);
 
-				if ((!is_friendly || type==character_type::h_giovanni) && create_armies)
+				if ((!is_friendly || type == character_type::h_giovanni) && create_armies)
 				{
 					IFightable* fc = new IFightable(ent, is_friendly);
 					fc->army_file = charact[i][j].army;
@@ -131,7 +131,7 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 
 					if (src->script_attached.compare("") == 0)
 						src->script_attached = "start_combat.xml";
-					
+
 					character_system::add_army_to_character(ent);
 				}
 
@@ -167,7 +167,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	tf->position.y = ((tc->tile_height)* distances * id)/* + tc->tile_height - 1 - 63*/;
 	tf->position.w = tc->tile_width;
 	tf->position.h = tc->tile_height;
-	tf->origin = {16,30};
+	tf->origin = { 16,30 };
 
 	unit->add_component(tf);
 
@@ -199,6 +199,40 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	ICollidable* cc = new ICollidable(unit);
 	unit->add_component(cc);
 
+	Entity* unit_description = new Entity(entity_type::ui_element, unit->name + "_quantity");
+	IDrawable* ddc = new IDrawable(unit_description, IDrawable::layers::world_ui);
+	Transform* dtc = new Transform(unit_description);
+	if (cbu->friendly)
+		dtc->position = {
+		tf->position.x + tf->position.w,
+		tf->position.y + tf->position.h - 5,
+		20,
+		10
+	};
+	else
+		dtc->position = {
+		tf->position.x-20,
+		tf->position.y + tf->position.h - 5,
+		20,
+		10
+	};
+	ddc->draw_rect = dtc->position;
+
+	IDescriptable* idc = new IDescriptable(unit_description);
+	idc->description = unit_description;
+	idc->box_background = asset_controller::load_texture("default.png");
+	idc->text = std::to_string(cbu->unit_stats.quantity);
+	idc->rendered_text = asset_controller::get_texture_from_text(idc->text, UI_text_type::game_dialog);
+	SDL_Rect text_rect = asset_controller::get_texture_size(idc->rendered_text);
+	text_rect.w += 5;
+	ddc->draw_rect.w = text_rect.w;
+	ddc->sprite = asset_controller::get_texture_from_two(idc->box_background, idc->rendered_text, text_rect);
+
+	unit_description->add_component(ddc);
+	unit_description->add_component(dtc);
+	//unit_description->add_component(idc);
+	unit->add_component(idc);
+
 	return unit;
 }
 
@@ -227,8 +261,8 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 		}
 
 		//set tile origin
-		dc->sprite_origin = { dc->draw_rect.w / 2, dc->draw_rect.h };		
-		
+		dc->sprite_origin = { dc->draw_rect.w / 2, dc->draw_rect.h };
+
 		//set up collision rect
 		colc->collision_rect.w = 25;
 		colc->collision_rect.h = 10;
@@ -269,8 +303,8 @@ void character_system::set_final_destination(ITerrain* terrain, Entity* characte
 		if (tc)
 		{//if tile was returned
 			Entity* temp = SpaceSystem::get_object_at_ids(space, dest_ids.x, dest_ids.y);
-			target = (temp==nullptr || character->name.compare(temp->name)==0) ? target : temp;
-			
+			target = (temp == nullptr || character->name.compare(temp->name) == 0) ? target : temp;
+
 		}
 	}
 
@@ -365,57 +399,19 @@ void character_system::set_final_destination_combat(ITerrain* terrain, Entity* c
 	IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
 	Transform* tra = static_cast<Transform*>(character->get_component(Component::ComponentType::Transf));
 
-	////set destination
-	//SDL_Point dest_ids = map_system::world_to_tilemap_ids(mouse_pos, terrain);
-	//Entity* target = SpaceSystem::get_object_at_point(space, mouse_pos.x, mouse_pos.y, true);
-	//if (target)
-	//{
-	//	ITile* tc = static_cast<ITile*>(target->get_component(Component::ComponentType::Tile));
-	//	if (tc)
-	//	{//if tile was returned
-	//		Entity* temp = SpaceSystem::get_object_at_ids(space, dest_ids.x, dest_ids.y);
-	//		target = (temp == nullptr || character->name.compare(temp->name) == 0) ? target : temp;
-	//	}
-	//}
-
-	//bool need_to_move = false;
-
-	//if (!mc->path.empty())
-	//{//if there are still nodes in path, set final destination
-	//	SDL_Point character_origin = character->get_object_origin();
-	//	need_to_move = true;
-
-	//	//check if point overlaps with any object and this object is not tile and collidable and not the same object as one moving
-	//	ITile* t_test = nullptr;
-	//	ICollidable* c_test = nullptr;
-	//	if (target && target->is_active)
-	//		c_test = static_cast<ICollidable*>(target->get_component(Component::ComponentType::Collision));
-	//	if (c_test && target)
-	//	{
-	//		mc->path.erase(mc->path.begin());
-	//		if (mc->path.empty())
-	//		{
-	//			mc->destination_reached = true;
-	//			mc->movement_allowed = false;
-	//			need_to_move = false;
-	//			return;
-	//		}
-	//	}
-
-		mc->destination_reached = false;
-		//SETTING FINAL DESTINATION
-		//get coordinates in last tile of path
-		SDL_Point temp_ids = *(mc->path.begin());
-		Entity* temp_tile = terrain->terrain_tiles[temp_ids.y][temp_ids.x];
-		ITile* temp_c = static_cast<ITile*>(temp_tile->get_component(Component::ComponentType::Tile));
-		Transform* temp_t = static_cast<Transform*>(temp_tile->get_component(Component::ComponentType::Transf));
-		mc->final_destination = { temp_c->x * terrain->tile_width + temp_t->origin.x - tra->origin.x, temp_c->y * terrain->tile_height + temp_t->origin.y - tra->origin.y };
-	//}
+	mc->destination_reached = false;
+	//SETTING FINAL DESTINATION
+	//get coordinates in last tile of path
+	SDL_Point temp_ids = *(mc->path.begin());
+	Entity* temp_tile = terrain->terrain_tiles[temp_ids.y][temp_ids.x];
+	ITile* temp_c = static_cast<ITile*>(temp_tile->get_component(Component::ComponentType::Tile));
+	Transform* temp_t = static_cast<Transform*>(temp_tile->get_component(Component::ComponentType::Transf));
+	mc->final_destination = { temp_c->x * terrain->tile_width + temp_t->origin.x - tra->origin.x, temp_c->y * terrain->tile_height + temp_t->origin.y - tra->origin.y };
 }
 
 void character_system::set_final_destination_ids(ITerrain * terrain, Entity * character, SDL_Point dest_ids, Space & space)
 {
-	SDL_Point coords = {0,0};
+	SDL_Point coords = { 0,0 };
 	coords = map_system::tilemap_ids_to_world(dest_ids, terrain);
 	Transform* tf = character->transform;
 	coords.x += tf->origin.x;
@@ -444,7 +440,7 @@ void character_system::add_army_to_character(Entity * character)
 {
 	IFightable* fc = static_cast<IFightable*>(character->get_component(Component::ComponentType::Fighting));
 	std::cout << "load army" << std::endl;
-	
+
 }
 
 Entity* character_system::get_character(character_type character)

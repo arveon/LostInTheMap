@@ -141,43 +141,44 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 	dc->draw_rect.x = input_system::mouse.x - mt->origin.x;
 	dc->draw_rect.y = input_system::mouse.y - mt->origin.y;
 
-	
+
 
 	IMoving* movement_component = static_cast<IMoving*>(cur_unit->get_component(Component::ComponentType::Movement));
-	if(movement_component->destination_reached)
+	if (movement_component->destination_reached)
 	{
 		ITerrain* tc = SpaceSystem::get_terrain(space);
 
 		//check if mouse hovered over friendly unit (don't even calculate movement then)
 		SDL_Point mouse_ids = mouse_system::get_mouse_ids(mouse, tc);
 		bool attacking = false;
-		Entity* a = SpaceSystem::get_object_at_ids(combat_flow::combat_space, mouse_ids.x, mouse_ids.y);
+		Entity* a = SpaceSystem::get_object_at_ids(combat_flow::combat_space, mouse_ids.x, mouse_ids.y, true);
 		if (a)
 		{
 			ICombatUnit* cbu = static_cast<ICombatUnit*>(a->get_component(Component::ComponentType::CombatUnit));
-			if (!cbu->unit_stats.is_enemy)
-			{//if mouse over friendly, don't calculate path
-				change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
-				movement_component->path.clear();
-				return;
-			}
-			else
-				attacking = true;
-	
+			if (cbu)
+				if (!cbu->unit_stats.is_enemy)
+				{//if mouse over friendly, don't calculate path
+					change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
+					movement_component->path.clear();
+					return;
+				}
+				else
+					attacking = true;
+
 		}
 
-		movement_component->pathfinder.set_origin(map_system::world_to_tilemap_ids(cur_unit->get_origin_in_world(),tc));
+		movement_component->pathfinder.set_origin(map_system::world_to_tilemap_ids(cur_unit->get_origin_in_world(), tc));
 		std::vector<SDL_Point> path = movement_component->pathfinder.get_path_to(mouse_system::get_mouse_ids(mouse, tc), true);
 		if (path.size() <= steps_allowed && path.size() > 0)
 		{
-			if(attacking)
+			if (attacking)
 				change_mouse_icon(mouse_system::mouse_icons::attack, ac, dc);
 			else
 			{
 				change_mouse_icon(mouse_system::mouse_icons::walking, ac, dc);
 				movement_component->path = path;
 			}
-			
+
 		}
 		else
 		{

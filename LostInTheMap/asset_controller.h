@@ -50,6 +50,8 @@ public:
 
 	static SDL_Texture* get_character_spritesheet(character_type ch);
 
+	static SDL_Texture * get_texture_from_two(SDL_Texture * tex, SDL_Texture * tex2, SDL_Rect draw_rect);
+
 	static SDL_Rect get_texture_size(SDL_Texture* texture);
 	static void set_texture_alpha(SDL_Texture* texture, int alpha);
 

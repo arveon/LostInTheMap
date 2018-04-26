@@ -4,6 +4,7 @@ std::vector<IDrawable*> render_system::background;
 std::vector<IDrawable*> render_system::terrain;
 std::vector<IDrawable*> render_system::foreground;
 std::vector<IDrawable*> render_system::surface;
+std::vector<IDrawable*> render_system::world_ui;
 std::vector<IDrawable*> render_system::ui;
 IDrawable* render_system::mouse;
 SDL_Texture* render_system::terrain_sprite;
@@ -34,6 +35,10 @@ int render_system::add_object_to_queue(IDrawable * obj)
 	case IDrawable::layers::foreground:
 		foreground.push_back(obj);
 		id = foreground.size()-1;
+		break;
+	case IDrawable::layers::world_ui:
+		world_ui.push_back(obj);
+		id = world_ui.size() - 1;
 		break;
 	case IDrawable::layers::ui:
 		ui.push_back(obj);
@@ -214,6 +219,21 @@ void render_system::render_queues()
 		}
 	}
 
+	for (IDrawable* obj : world_ui)
+	{
+		if (!obj->isActive)
+			continue;
+		SDL_Rect dr = obj->draw_rect;
+		dr.x = static_cast<int>(std::floor((float)(dr.x - camera.x) * zoom));
+		dr.y = static_cast<int>(std::floor((float)(dr.y - camera.y) * zoom));
+		dr.w = static_cast<int>(std::floor(dr.w * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
+		dr.h = static_cast<int>(std::floor(dr.h * zoom)) + 1;//+1 is required to avoid tearing when zooming in/out
+		if (dr.x + dr.w < 0 || dr.y + dr.h < 0)
+			continue;
+
+		SDL_manager::render_sprite(obj->sprite, dr);
+	}
+
 	if (ui.size() > 0)
 	{
 		for (std::vector<IDrawable*>::iterator it = ui.begin(); it != ui.end(); it++)
@@ -274,6 +294,17 @@ bool render_system::remove_from_queue(IDrawable* dc)
 			break;
 		foreground.erase(foreground.begin() + dc->id);
 		for (IDrawable* d_c : foreground)
+		{
+			if (d_c->id < dc->id)
+				continue;
+			d_c->id--;
+		}
+		break;
+	case IDrawable::layers::world_ui:
+		if (dc->id >= (int)world_ui.size())
+			break;
+		world_ui.erase(world_ui.begin() + dc->id);
+		for (IDrawable* d_c : ui)
 		{
 			if (d_c->id < dc->id)
 				continue;

@@ -139,6 +139,8 @@ public:
 
 	static SDL_Texture* create_terrain_texture(std::vector<SDL_manager::Tile> terrain, int width, int height);
 
+	static SDL_Texture* render_texture_on_texture(SDL_Texture* tex1, SDL_Texture* tex2, SDL_Rect draw_rect);
+
 	static void get_mouse_position(int* x, int* y) { SDL_GetMouseState(x, y); }
 };
 

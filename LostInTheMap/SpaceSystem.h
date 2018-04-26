@@ -24,7 +24,7 @@ public:
 	static Entity* get_object_at_point(Space& space, int x, int y, bool ignore_triggers);
 	static Entity* get_tile_at_point(Space& space, int x, int y);
 	static Entity* get_tile_at_ids(Space& space, int x, int y);
-	static Entity* get_object_at_ids(Space& space, int x, int y);
+	static Entity* get_object_at_ids(Space& space, int x, int y, bool ignore_ui = false);
 
 	static ITerrain* get_terrain(Space& space);
 

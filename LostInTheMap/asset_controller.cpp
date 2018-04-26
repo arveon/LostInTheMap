@@ -225,3 +225,8 @@ SDL_Texture* asset_controller::get_character_spritesheet(character_type ch)
 
 	return result;
 }
+
+SDL_Texture* asset_controller::get_texture_from_two(SDL_Texture* tex, SDL_Texture* tex2, SDL_Rect draw_rect)
+{
+	return SDL_manager::render_texture_on_texture(tex, tex2, draw_rect);
+}

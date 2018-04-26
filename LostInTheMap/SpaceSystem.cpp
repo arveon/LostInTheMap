@@ -132,7 +132,7 @@ Entity * SpaceSystem::get_tile_at_ids(Space & space, int x, int y)
 	return (tc->terrain_tiles[y][x]);
 }
 
-Entity* SpaceSystem::get_object_at_ids(Space& space, int x, int y)
+Entity* SpaceSystem::get_object_at_ids(Space& space, int x, int y, bool ignore_ui)
 {
 	Entity* result = nullptr;
 
@@ -143,6 +143,8 @@ Entity* SpaceSystem::get_object_at_ids(Space& space, int x, int y)
 	for (Entity* temp : space.objects)
 	{
 		if (temp->type == entity_type::trigger)
+			continue;
+		if (temp->type == entity_type::ui_element && ignore_ui)
 			continue;
 		//calculate ids
 		Transform* tf = temp->transform;

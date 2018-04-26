@@ -74,6 +74,7 @@ public:
 		terrain,
 		surface,
 		foreground,
+		world_ui,
 		ui,
 		mouse
 	};
@@ -293,6 +294,21 @@ public:
 	}
 };
 
+class IDescriptable : public Component
+{
+public:
+	SDL_Texture * box_background;
+	SDL_Texture* rendered_text;
+	std::string text;
+
+	Entity* description = nullptr;
+	IDescriptable(Entity* owner) : Component(owner)
+	{
+		type = ComponentType::Description;
+		isActive = true;
+	}
+};
+
 
 
 class ILiving : public Component
@@ -310,19 +326,7 @@ public:
 };
 
 
-class IDescriptable : public Component
-{
-public:
-	SDL_Texture * box_background;
-	SDL_Texture* rendered_text;
-	std::string text;
-	SDL_Rect box_draw_rect;
-	IDescriptable(Entity* owner) : Component(owner)
-	{
-		type = ComponentType::Description;
-		isActive = true;
-	}
-};
+
 
 class ITalkable : public Component
 {

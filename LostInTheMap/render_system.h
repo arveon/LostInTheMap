@@ -15,6 +15,7 @@ private:
 	static std::vector<IDrawable*> surface;//characters, items, other game objects
 	static std::vector<IDrawable*> foreground;
 	static std::vector<IDrawable*> ui;
+	static std::vector<IDrawable*> world_ui;
 	static SDL_Texture* terrain_sprite;
 	static bool terrain_prepared;
 	static IDrawable* mouse;

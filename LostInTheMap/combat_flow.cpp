@@ -35,7 +35,13 @@ void combat_flow::init_combat_space(Space& game_space)
 				dc->isActive = false;
 		}
 		else
+		{
+			IDescriptable* d = static_cast<IDescriptable*>(t->get_component(Component::ComponentType::Description));
+			if (d)
+				combat_space.objects.push_back(d->description);
+
 			combat_space.objects.push_back(t);
+		}
 	}
 	mouse = mouse_system::create_mouse();
 	mouse->name = "cb_mouse";
