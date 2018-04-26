@@ -164,8 +164,11 @@ ITerrain * SpaceSystem::get_terrain(Space & space)
 {
 	ITerrain* result = nullptr;
 	Entity* tr = SpaceSystem::find_entity_by_name(space, "terrain");
+	if (!tr)
+		tr = SpaceSystem::find_entity_by_name(space, "cb_terrain");
 	if (tr)
 		result = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
+	
 	return result;
 }
 

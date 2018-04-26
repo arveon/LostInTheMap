@@ -170,13 +170,16 @@ void combat_flow::mouse_clicked()
 		{
 			if (mc->destination_reached)
 			{
-				character_system::set_final_destination_combat(tc, order_of_turns.at(cur_turn)->unit_entity, mouse_system::get_mouse_in_world(combat_flow::mouse), combat_space);
 				mc->movement_allowed = true;
+				character_system::set_final_destination_combat(tc, order_of_turns.at(cur_turn)->unit_entity, mouse_system::get_mouse_in_world(combat_flow::mouse), combat_space);
+				if (mc->movement_allowed)
+					mouse_system::change_mouse_icon(
+						mouse_system::mouse_icons::normal, 
+						static_cast<IAnimatable*>(mouse->get_component(Component::ComponentType::Animated)), 
+						static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
 			}
 		}
 	}
-
-
 }
 
 void combat_flow::unit_finished_moving(Entity* unit)

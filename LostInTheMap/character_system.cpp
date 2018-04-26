@@ -167,7 +167,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	tf->position.y = ((tc->tile_height)* distances * id)/* + tc->tile_height - 1 - 63*/;
 	tf->position.w = tc->tile_width;
 	tf->position.h = tc->tile_height;
-	tf->origin = {16,32};
+	tf->origin = {16,30};
 
 	unit->add_component(tf);
 
@@ -175,7 +175,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	IDrawable* dc = new IDrawable(unit, IDrawable::surface);
 	dc->draw_rect = tf->position;
 	dc->draw_rect.w = dc->draw_rect.h = 32;
-	dc->sprite_origin = { 16, 32 };
+	dc->sprite_origin = tf->origin;
 	dc->flipped_x = enemy;
 
 	unit->add_component(dc);
@@ -195,7 +195,9 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	cbu->friendly = !enemy;
 	unit->add_component(cbu);
 
-	//
+	//collision
+	ICollidable* cc = new ICollidable(unit);
+	unit->add_component(cc);
 
 	return unit;
 }
@@ -361,20 +363,7 @@ adding_interaction:
 void character_system::set_final_destination_combat(ITerrain* terrain, Entity* character, SDL_Point mouse_pos, Space& space)
 {
 	IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
-	ICombatUnit* colc = static_cast<ICombatUnit*>(character->get_component(Component::ComponentType::Collision));
 	Transform* tra = static_cast<Transform*>(character->get_component(Component::ComponentType::Transf));
-	
-	//set pathfinder dest to tile_id
-	Entity* tile = map_system::get_tile_at(terrain->owner, mouse_pos);
-	ITile* tile_c = static_cast<ITile*>(tile->get_component(Component::ComponentType::Tile));
-	Transform* tile_t = static_cast<Transform*>(tile->get_component(Component::ComponentType::Transf));
-
-	SDL_Point char_ids = map_system::get_entity_ids(character, terrain);
-	mc->pathfinder.set_origin(char_ids);
-	//set pathfinders destination to tile
-	mc->pathfinder.set_destination({ tile_c->x, tile_c->y });
-	//calculate and get path from pathfinder
-	mc->path = mc->pathfinder.get_path_to({ tile_c->x, tile_c->y }, true);
 
 	//set destination
 	SDL_Point dest_ids = map_system::world_to_tilemap_ids(mouse_pos, terrain);
@@ -386,19 +375,17 @@ void character_system::set_final_destination_combat(ITerrain* terrain, Entity* c
 		{//if tile was returned
 			Entity* temp = SpaceSystem::get_object_at_ids(space, dest_ids.x, dest_ids.y);
 			target = (temp == nullptr || character->name.compare(temp->name) == 0) ? target : temp;
-
 		}
 	}
 
 	bool need_to_move = false;
-	if (!mc->path.empty())
-	{//if moving between tiles
-	 //set destination mouse click position
-		SDL_Point character_origin = character->get_object_origin();
 
+	if (!mc->path.empty())
+	{//if there are still nodes in path, set final destination
+		SDL_Point character_origin = character->get_object_origin();
 		need_to_move = true;
 
-		//check if point overlaps with any object and this object is not tile and collidable
+		//check if point overlaps with any object and this object is not tile and collidable and not the same object as one moving
 		ITile* t_test = nullptr;
 		ICollidable* c_test = nullptr;
 		if (target && target->is_active)
@@ -406,15 +393,18 @@ void character_system::set_final_destination_combat(ITerrain* terrain, Entity* c
 		if (c_test && target)
 		{
 			mc->path.erase(mc->path.begin());
-
 			if (mc->path.empty())
 			{
+				mc->destination_reached = true;
+				mc->movement_allowed = false;
 				need_to_move = false;
+				return;
 			}
 		}
-		mc->destination_reached = false;
 
-		//get last tile of path
+		mc->destination_reached = false;
+		//SETTING FINAL DESTINATION
+		//get coordinates in last tile of path
 		SDL_Point temp_ids = *(mc->path.begin());
 		Entity* temp_tile = terrain->terrain_tiles[temp_ids.y][temp_ids.x];
 		ITile* temp_c = static_cast<ITile*>(temp_tile->get_component(Component::ComponentType::Tile));

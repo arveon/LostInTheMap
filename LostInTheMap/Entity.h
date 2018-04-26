@@ -122,6 +122,21 @@ public:
 		return result;
 	}
 
+	//gets collision origin in world coordinate system or {-1,-1} if no collider found
+	SDL_Point get_collision_origin_in_world()
+	{
+		SDL_Point result;
+		Transform* tf = this->transform;
+		ICollidable* cc = static_cast<ICollidable*>(this->get_component(Component::ComponentType::Collision));
+
+		if (!tf || !cc)
+			return { -1,-1 };
+
+		result.x = tf->position.x + cc->collision_rect.x + cc->collision_rect.w / 2;
+		result.y = tf->position.y + cc->collision_rect.y + cc->collision_rect.h / 2;
+		return result;
+	}
+
 	//gets sprite origin in local sprite coordinates or {-1,-1} if no transform found
 	SDL_Point get_sprite_origin()
 	{
@@ -138,21 +153,6 @@ public:
 		if (!tc)
 			return { -1,-1 };
 		return tc->origin;
-	}
-
-	//gets collision origin in world coordinate system or {-1,-1} if no collider found
-	SDL_Point get_collision_origin_in_world()
-	{
-		SDL_Point result;
-		Transform* tf = this->transform;
-		ICollidable* cc = static_cast<ICollidable*>(this->get_component(Component::ComponentType::Collision));
-
-		if (!tf || !cc)
-			return { -1,-1 };
-
-		result.x = tf->position.x + cc->collision_rect.x + cc->collision_rect.w/2;
-		result.y = tf->position.y + cc->collision_rect.y + cc->collision_rect.h/2;
-		return result;
 	}
 
 };

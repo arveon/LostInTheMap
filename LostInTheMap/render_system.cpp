@@ -248,7 +248,7 @@ bool render_system::remove_from_queue(IDrawable* dc)
 	switch (dc->layer)
 	{
 	case IDrawable::layers::background:
-		if (dc->id >= background.size())
+		if (dc->id >= (int)background.size())
 			break;
 		background.erase(background.begin() + dc->id);
 		for (IDrawable* d_c : background)
@@ -259,7 +259,7 @@ bool render_system::remove_from_queue(IDrawable* dc)
 		}
 		break;
 	case IDrawable::layers::surface:
-		if (dc->id >= surface.size())
+		if (dc->id >= (int)surface.size())
 			break;
 		surface.erase(surface.begin() + dc->id);
 		for (IDrawable* d_c : surface)
@@ -270,7 +270,7 @@ bool render_system::remove_from_queue(IDrawable* dc)
 		}
 		break;
 	case IDrawable::layers::foreground:
-		if (dc->id >= foreground.size())
+		if (dc->id >= (int)foreground.size())
 			break;
 		foreground.erase(foreground.begin() + dc->id);
 		for (IDrawable* d_c : foreground)
@@ -281,7 +281,7 @@ bool render_system::remove_from_queue(IDrawable* dc)
 		}
 		break;
 	case IDrawable::layers::ui:
-		if (dc->id >= ui.size())
+		if (dc->id >= (int)ui.size())
 			break;
 		ui.erase(ui.begin() + dc->id);
 		for (IDrawable* d_c : ui)

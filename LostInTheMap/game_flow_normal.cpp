@@ -229,6 +229,8 @@ void game_flow_normal::update_pathfinder(Space& space)
 	for (unsigned int i = 0; i < space.objects.size(); i++)
 	{
 		Entity* ent = space.objects.at(i);
+		if (!ent->get_component(Component::ComponentType::Collision))
+			continue;
 
 		SDL_Point t = ent->get_origin_in_world();
 		if (t.x == -1 && t.y == -1)
