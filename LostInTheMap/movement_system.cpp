@@ -37,6 +37,8 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 		if (mc->destination_reached && mc->path.size() == 0)//if destination tile reached (or not moving at all)
 			continue;
 
+		animator::set_walking_animation(character);
+
 		SDL_Point cur_dest;
 		//if next tile is not last destination
 		if (mc->path.size() > 1)
@@ -53,7 +55,11 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				mc->path.pop_back();
 				mc->path = mc->pathfinder.get_path(false);
 				if (mc->path.size() == 0)
+				{
 					mc->destination_reached = true;
+					IAnimatable* ac = (IAnimatable*)(character->get_component(Component::ComponentType::Animated));
+					animator::start_animation(ac, animations::idle);
+				}
 
 				//only player can cause triggers
 				if (character->name.compare("player")==0)
@@ -95,6 +101,8 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 				tc->position.x = mc->final_destination.x;
 				tc->position.y = mc->final_destination.y;
 				mc->destination_reached = true;
+				IAnimatable* ac = (IAnimatable*)(character->get_component(Component::ComponentType::Animated));
+				animator::start_animation(ac, animations::idle);
 
 				//if was controlled by script, call a callback
 				ICharacter* ch = static_cast<ICharacter*>(character->get_component(Component::ComponentType::Character));
@@ -175,6 +183,8 @@ void movement_system::move_characters_tick_combat(Space& game_space, int dt, ITe
 		if (mc->destination_reached && mc->path.size() == 0)//if destination tile reached (or not moving at all)
 			continue;
 
+		animator::set_walking_animation(character);
+
 		SDL_Point cur_dest;
 		cur_dest = mc->path.back();
 		Transform* tile_t = static_cast<Transform*>(tr->terrain_tiles[cur_dest.y][cur_dest.x]->get_component(Component::ComponentType::Transf));
@@ -191,6 +201,8 @@ void movement_system::move_characters_tick_combat(Space& game_space, int dt, ITe
 				if (movement_finished != nullptr)
 					movement_finished(character);
 				mc->destination_reached = true;
+				IAnimatable* ac = (IAnimatable*)(character->get_component(Component::ComponentType::Animated));
+				animator::start_animation(ac, animations::idle);
 			}
 		}
 		movement_system::move_character_transform(dt, cur_dest, tc, mc);

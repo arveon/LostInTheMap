@@ -276,7 +276,8 @@ void game_flow_normal::clear_all_systems(Space& space)
 	director::reset_director();
 	asset_controller::clear_stored_textures();
 	lee_pathfinder::destroy_pathfinding();
-	combat_flow::destroy_combat(space);
+	if(combat_flow::is_initialised())
+		combat_flow::destroy_combat(space);
 }
 
 void game_flow_normal::mouse_down_event()

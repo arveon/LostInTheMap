@@ -27,6 +27,7 @@ private:
 public:
 	static void start_animation(IAnimatable*, animations, void(*done_callback)(Entity* source)=nullptr);
 	static void apply_animation_sprite_changes(Space & space);
+	static void set_walking_animation(Entity * ent);
 	static void update(Space& game_space, int dt);
 
 	animator();

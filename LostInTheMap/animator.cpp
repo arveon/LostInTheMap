@@ -38,17 +38,28 @@ void animator::update(Space& game_space, int dt)
 
 void animator::start_animation(IAnimatable* ac, animations type, void(*done_callback)(Entity* source))
 {
+	bool already_there = false;
 	switch (type)
 	{
 	case animations::idle:
+	{
+		IDrawable * dc = (IDrawable*)ac->owner->get_component(Component::ComponentType::Drawable);
+		dc->flipped_x = false;
+		if (ac->cur_row == 0)
+			already_there = true;
 		ac->cur_row = 0;
+	}
 		break;
 	case animations::walking_right:
 	{		
 		ac->cur_row = 1;
 		IDrawable* dc = (IDrawable*)ac->owner->get_component(Component::ComponentType::Drawable);
 		if (dc)
-		dc->flipped_x = false;
+		{
+			if (ac->cur_row == 1 && !dc->flipped_x)
+				already_there = true;
+			dc->flipped_x = false;
+		}
 	}
 		break;
 	case animations::walking_left:
@@ -56,19 +67,31 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 		ac->cur_row = 1;
 		IDrawable* dc = (IDrawable*)ac->owner->get_component(Component::ComponentType::Drawable);
 		if (dc)
+		{
+			if (ac->cur_row == 1 && dc->flipped_x)
+				already_there = true;
 			dc->flipped_x = true;
+		}
 	}
 		break;
 	case animations::walking_up:
+		if (ac->cur_row == 2)
+			already_there = true;
 		ac->cur_row = 2;
 	case animations::walking_down:
+		if (ac->cur_row == 3)
+			already_there = true;
 		ac->cur_row = 3;
 		break;
 	case animations::attacking_right:
 	{
 		IDrawable * dc = (IDrawable*)ac->owner->get_component(Component::ComponentType::Drawable);
 		if (dc)
+		{
+			if (ac->cur_row == 1 && !dc->flipped_x)
+				already_there = true;
 			dc->flipped_x = false;
+		}
 		ac->cur_row = 4;
 	}
 		break;
@@ -76,23 +99,33 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 	{
 		IDrawable * dc = (IDrawable*)ac->owner->get_component(Component::ComponentType::Drawable);
 		if (dc)
+		{
+			if (ac->cur_row == 1 && dc->flipped_x)
+				already_there = true;
 			dc->flipped_x = true;
+		}
 		ac->cur_row = 4;
 	}
 		break;
 	case animations::taking_damage:
+		if (ac->cur_row == 5)
+			already_there = true;
 		ac->cur_row = 5;
 		break;
 	case animations::death:
+		if (ac->cur_row == 6)
+			already_there = true;
 		ac->cur_row = 6;
 		break;
 	}
-	ac->cur_column = 0;
-	ac->sprite_changed = true;
-	ac->animation_finished = false;
-	ac->animation_started = true;
-	ac->time_elapsed = 0;
-
+	if (!already_there)
+	{
+		ac->cur_column = 0;
+		ac->sprite_changed = true;
+		ac->animation_finished = false;
+		ac->animation_started = true;
+		ac->time_elapsed = 0;
+	}
 	if (done_callback != nullptr)
 		animation_done_callbacks[ac] = done_callback;
 }
@@ -117,6 +150,20 @@ void animator::apply_animation_sprite_changes(Space& space)
 		ac->sprite_changed = false;
 
 	}
+}
+
+void animator::set_walking_animation(Entity* ent)
+{
+	IAnimatable* ac = (IAnimatable*)ent->get_component(Component::ComponentType::Animated);
+	IMoving* mc = (IMoving*)ent->get_component(Component::ComponentType::Movement);
+
+	if (mc->shift_buffer_x > 0)
+		animator::start_animation(ac, animations::walking_right);
+	else if (mc->shift_buffer_x < 0)
+		animator::start_animation(ac, animations::walking_left);
+	/*else if (mc->shift_buffer_y < 0)
+		animator::start_animation(ac, animations::walking_left);*/
+	
 }
 
 

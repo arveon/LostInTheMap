@@ -183,6 +183,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	IAnimatable* anim = new IAnimatable(unit);
 	anim->spritesheet = asset_controller::get_character_spritesheet(u.type);
 	anim->src_rect = {0,0,64,64};
+	anim->animation_started = true;
 	dc->sprite = asset_controller::get_sprite_from_spritesheet(anim->spritesheet, { 0,0,64,64 });
 	unit->add_component(anim);
 
@@ -253,8 +254,11 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 
 		//init texture and draw rect size
 		ac->spritesheet = asset_controller::get_character_spritesheet(cc->c_type);
-		dc->draw_rect.w = 50;
-		dc->draw_rect.h = 48;
+		ac->cur_row = 0;
+		ac->cur_column = 0;
+		ac->animation_started = true;
+		dc->draw_rect.w = 32;
+		dc->draw_rect.h = 32;
 		if (cc->c_type == character_type::zakra_spearman)
 		{
 			dc->draw_rect.w = 64;
@@ -272,7 +276,7 @@ void character_system::attach_textures_to_characters(SDL_Point tile_origin)
 
 		//set sprite
 		SDL_Rect r = asset_controller::get_texture_size(ac->spritesheet);
-		ac->src_rect = { 0,0, r.w, r.h };
+		ac->src_rect = { 0,0, 64, 64 };
 		dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
 	}
 }

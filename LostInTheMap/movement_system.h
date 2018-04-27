@@ -1,6 +1,7 @@
 #pragma once
 #include "Space.h"
 #include "map_system.h"
+#include "animator.h"
 
 #include <math.h>
 

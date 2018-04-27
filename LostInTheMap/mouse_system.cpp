@@ -177,7 +177,8 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 			}
 
 			movement_component->pathfinder.set_origin(map_system::world_to_tilemap_ids(cur_unit->get_origin_in_world(), tc));
-			std::vector<SDL_Point> path = (current_unit->attacking == nullptr) ? movement_component->pathfinder.get_path_to(mouse_system::get_mouse_ids(mouse, tc), true) : movement_component->path;
+			std::vector<SDL_Point> temp = movement_component->pathfinder.get_path_to(mouse_system::get_mouse_ids(mouse, tc), true);
+			std::vector<SDL_Point> path = (current_unit->attacking == nullptr) ? temp : movement_component->path;
 			if (path.size() <= steps_allowed && path.size() > 0)
 			{
 				if (current_unit->attacking)
@@ -188,6 +189,10 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 					movement_component->path = path;
 				}
 
+			}
+			else if (path.size() == 0 && temp.size()!=0 && temp.size() < steps_allowed && current_unit->attacking)
+			{
+				change_mouse_icon(mouse_system::mouse_icons::attack, ac, dc);
 			}
 			else
 			{
