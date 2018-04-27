@@ -101,10 +101,12 @@ class IAnimatable : public Component
 public:
 	SDL_Texture* spritesheet;
 	SDL_Rect src_rect;
-	//int cur_x_sprite, cur_y_sprite;
+	int cur_row, cur_column;
 	int time_elapsed;
 	int total_sprite_required_time = 100;
 	bool sprite_changed;
+	bool animation_started = false;
+	bool animation_finished = false;
 	IAnimatable(Entity* owner) : Component(owner) 
 	{  
 		src_rect = { 0,0,1,1 };
@@ -285,6 +287,8 @@ class ICombatUnit : public Component
 public:
 	army_unit unit_stats;
 	bool friendly;
+	Entity* attacking = nullptr;
+	bool dead = false;
 	ICombatUnit(Entity* owner, army_unit unit) : Component(owner)
 	{
 		type = ComponentType::CombatUnit;

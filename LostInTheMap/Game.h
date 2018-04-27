@@ -35,7 +35,7 @@ private:
 	SDL_manager sdl_manager;
 	static bool running;
 
-	time time;
+	game_time game_time;
 	static Space splash_screen_space;
 	static Space main_menu_space;
 	static Space game_space;

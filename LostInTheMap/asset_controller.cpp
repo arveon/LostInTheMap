@@ -122,6 +122,10 @@ SDL_Texture* asset_controller::get_texture_from_text(std::string text, UI_text_t
 		font = SDL_manager::load_font("assets/fonts/LinLibertine.ttf", 20, { 0,0,0 });
 		result = SDL_manager::get_texture_from_text(text.c_str(), { 0,0,0 }, font, max_width);
 		break;
+	case UI_text_type::game_ui_small:
+		font = SDL_manager::load_font("assets/fonts/Chapaza.ttf", 10, { 0,0,0 });
+		result = SDL_manager::get_texture_from_text(text.c_str(), { 0,0,0 }, font, max_width);
+		break;
 	}
 
 	if (font != nullptr)
@@ -226,7 +230,7 @@ SDL_Texture* asset_controller::get_character_spritesheet(character_type ch)
 	return result;
 }
 
-SDL_Texture* asset_controller::get_texture_from_two(SDL_Texture* tex, SDL_Texture* tex2, SDL_Rect draw_rect)
+SDL_Texture* asset_controller::get_texture_from_two(SDL_Texture* tex, SDL_Texture* tex2, int dest_w, int dest_h, SDL_Rect draw_rect)
 {
-	return SDL_manager::render_texture_on_texture(tex, tex2, draw_rect);
+	return SDL_manager::render_texture_on_texture(tex, tex2, dest_w, dest_h, draw_rect);
 }

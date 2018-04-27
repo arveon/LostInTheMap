@@ -2,7 +2,7 @@
 #include <SDL.h>
 
 ///Class responsible for updating and managing game running time and elapsed time
-class time
+class game_time
 {
 private:
 	Uint32 elapsed_time;

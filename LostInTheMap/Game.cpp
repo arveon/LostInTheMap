@@ -24,7 +24,7 @@ void Game::init()
 	Game::running = true;
 	state = game_state::main_menu;
 	cur_level = levels::pyramid;
-	time.init();
+	game_time.init();
 }
 
 void Game::init_splash()
@@ -100,7 +100,7 @@ void Game::game_loop()
 				init_splash();
 				SplashScreenSystem::register_splash_elapsed_listener(&splash_elapsed_handler);
 			}
-			SplashScreenSystem::update_space(splash_screen_space, time.get_delta_time());
+			SplashScreenSystem::update_space(splash_screen_space, game_time.get_delta_time());
 			
 			break;
 		case game_state::main_menu:
@@ -112,7 +112,7 @@ void Game::game_loop()
 				MainMenuSystem::register_start_listener(&start_handler);
 				
 			}
-			MainMenuSystem::update_space(main_menu_space, time.get_delta_time());
+			MainMenuSystem::update_space(main_menu_space, game_time.get_delta_time());
 			break;
 		case game_state::loading:
 			if (!loading_space.initialised)
@@ -122,7 +122,7 @@ void Game::game_loop()
 				level_loading_system::register_loading_done_listener(&loading_done_handler);
 				
 			}
-			level_loading_system::update_space(loading_space, game_space, time.get_delta_time());
+			level_loading_system::update_space(loading_space, game_space, game_time.get_delta_time());
 			break;
 		case game_state::pause_menu:
 			
@@ -134,7 +134,7 @@ void Game::game_loop()
 				game_flow_normal::mouse_down_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_down, game_flow_normal::mouse_down_event);
 				game_flow_normal::mouse_up_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_up, game_flow_normal::mouse_up_event);
 			}
-			game_flow_normal::update_space(game_space, time.get_delta_time());
+			game_flow_normal::update_space(game_space, game_time.get_delta_time());
 			
 			break;
 		case game_state::confirming_exit:
@@ -142,7 +142,7 @@ void Game::game_loop()
 			break;
 		}
 
-		time.update();
+		game_time.update();
 		render_system::sort_queues();
 		render_system::render_queues();
 	}

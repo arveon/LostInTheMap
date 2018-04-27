@@ -21,7 +21,8 @@ enum UI_text_type
 	main_menu_secondary_button,
 	main_menu_list_button,
 	main_menu_text,
-	game_dialog
+	game_dialog,
+	game_ui_small
 };
 
 //class will have functionality of loading/unloading visual and audio assets
@@ -50,7 +51,7 @@ public:
 
 	static SDL_Texture* get_character_spritesheet(character_type ch);
 
-	static SDL_Texture * get_texture_from_two(SDL_Texture * tex, SDL_Texture * tex2, SDL_Rect draw_rect);
+	static SDL_Texture * get_texture_from_two(SDL_Texture * tex, SDL_Texture * tex2, int dest_w, int dest_h, SDL_Rect draw_rect);
 
 	static SDL_Rect get_texture_size(SDL_Texture* texture);
 	static void set_texture_alpha(SDL_Texture* texture, int alpha);

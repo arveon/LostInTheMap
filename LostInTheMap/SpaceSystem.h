@@ -17,7 +17,6 @@ public:
 	virtual void update_space(Space& space, int delta_time) = 0;
 	//virtual void handle_mouse() {};
 	static void add_space_to_render_queue(Space& space);//function will add all of the drawable components of objects in spaces to render manager
-	static void apply_animation_sprite_changes(Space& space);
 	static void destroy_space(Space& space, bool destroy_textures = true);
 	
 	static Entity* find_entity_by_name(Space& space, std::string name);	

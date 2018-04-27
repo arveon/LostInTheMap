@@ -16,5 +16,5 @@
 <health value="20"/>
 <close_attack min_value="5" max_value="7"/>
 <ranged allowed="false"/>
-<speed value="7" />
+<speed value="15" />
 </zakra_spearman>

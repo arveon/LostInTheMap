@@ -306,13 +306,16 @@ SDL_Texture * SDL_manager::create_terrain_texture(std::vector<SDL_manager::Tile>
 	return final_tex;
 }
 
-SDL_Texture * SDL_manager::render_texture_on_texture(SDL_Texture * tex1, SDL_Texture * tex2, SDL_Rect draw_rect)
+SDL_Texture * SDL_manager::render_texture_on_texture(SDL_Texture * tex1, SDL_Texture * tex2, int dest_w, int dest_h, SDL_Rect draw_rect)
 {
-	SDL_Texture* combined = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, draw_rect.w, draw_rect.h);//texture that will contain new sprite
+	SDL_Texture* combined = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, dest_w, dest_h);//texture that will contain new sprite
 	SDL_SetTextureBlendMode(combined, SDL_BlendMode::SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 	SDL_SetRenderTarget(renderer, combined);
 	SDL_RenderClear(renderer);
+
+	draw_rect.x = dest_w / 2 - draw_rect.w / 2;
+	draw_rect.y = dest_h / 2 - draw_rect.h / 2;
 
 	SDL_RenderCopy(renderer, tex1, NULL, NULL);
 	SDL_RenderCopy(renderer, tex2, NULL, &draw_rect);

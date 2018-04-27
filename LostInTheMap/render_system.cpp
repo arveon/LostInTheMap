@@ -264,7 +264,9 @@ void render_system::set_terrain_texture(SDL_Texture* tex)
 }
 
 bool render_system::remove_from_queue(IDrawable* dc)
-{
+{ 
+	if (dc->id < 0)
+		return false;
 	switch (dc->layer)
 	{
 	case IDrawable::layers::background:

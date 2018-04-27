@@ -5,6 +5,7 @@
 #include "asset_controller.h"
 #include "input_system.h"
 #include "mouse_system.h"
+#include "animator.h"
 
 #include "sdl_utils.h"
 

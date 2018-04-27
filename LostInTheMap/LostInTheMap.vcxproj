@@ -122,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="animator.h" />
     <ClInclude Include="ArmyUnit.h" />
     <ClInclude Include="asset_controller.h" />
     <ClInclude Include="camera_system.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="xml_system.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="animator.cpp" />
     <ClCompile Include="asset_controller.cpp" />
     <ClCompile Include="camera_system.cpp" />
     <ClCompile Include="character_system.cpp" />

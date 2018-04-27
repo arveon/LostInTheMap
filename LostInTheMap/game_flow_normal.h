@@ -11,6 +11,7 @@
 #include "dialogue_system.h"
 #include "director.h"
 #include "combat_flow.h"
+#include "animator.h"
 
 #include "geometry_utilities.h"
 class game_flow_normal : public SpaceSystem

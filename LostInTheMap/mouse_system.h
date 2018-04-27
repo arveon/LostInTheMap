@@ -20,6 +20,8 @@ public:
 	static Entity* create_mouse();
 	static void update_mouse(Entity* mouse, Space& space, bool in_dialog, bool is_hidden);
 	static void update_mouse_combat(Entity* mouse, Space& space, int steps_allowed, Entity* cur_unit);
+	static void disable_mouse(Entity * mouse);
+	static void enable_mouse(Entity * mouse);
 	static SDL_Point get_mouse_ids(Entity * mouse, ITerrain * tc);
 	static SDL_Point get_mouse_in_world(Entity* mouse);
 

@@ -162,6 +162,9 @@
     <ClInclude Include="NameToTypeConversion.h">
       <Filter>Header Files\systems\utility_systems</Filter>
     </ClInclude>
+    <ClInclude Include="animator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -250,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="sdl_utils.cpp">
       <Filter>Source Files\systems\utility_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="animator.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

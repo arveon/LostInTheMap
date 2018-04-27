@@ -15,24 +15,7 @@ void SpaceSystem::add_space_to_render_queue(Space& space)
 	}
 }//function will add all of the drawable components of objects in spaces to render manager
 
-void SpaceSystem::apply_animation_sprite_changes(Space& space)
-{
-	for (unsigned int i = 0; i < space.objects.size(); i++)
-	{
-		IAnimatable* ac = static_cast<IAnimatable*>(space.objects.at(i)->get_component(Component::ComponentType::Animated));
-		if (!ac || !ac->sprite_changed)
-			continue;
 
-		IDrawable* dc = static_cast<IDrawable*>(space.objects.at(i)->get_component(Component::ComponentType::Drawable));
-		if (!dc)
-			continue;
-
-		asset_controller::destroy_texture(dc->sprite);
-		dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
-		ac->sprite_changed = false;
-
-	}
-}
 
 //function clears all memory allocated for entities inside space and their components
 void SpaceSystem::destroy_space(Space& space, bool destroy_textures)

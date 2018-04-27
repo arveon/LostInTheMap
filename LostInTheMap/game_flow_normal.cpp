@@ -72,7 +72,8 @@ void game_flow_normal::update_space(Space & space, int dt)
 {
 	static int tw = 0;
 	
-	SpaceSystem::apply_animation_sprite_changes(space);
+	animator::update(space, dt);
+	animator::apply_animation_sprite_changes(space);
 	SpaceSystem::update_draw_rects(space);
 
 	if (combat_flow::is_in_combat())

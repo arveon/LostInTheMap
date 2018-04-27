@@ -157,6 +157,7 @@ void movement_system::move_characters_tick_combat(Space& game_space, int dt, ITe
 
 		//get moving component to see if entity is movable
 		IMoving* mc = static_cast<IMoving*>(character->get_component(Component::ComponentType::Movement));
+		IDescriptable* ddc = static_cast<IDescriptable*>(character->get_component(Component::ComponentType::Description));
 
 		//if not moving, skip
 		if (!mc)
@@ -193,6 +194,17 @@ void movement_system::move_characters_tick_combat(Space& game_space, int dt, ITe
 			}
 		}
 		movement_system::move_character_transform(dt, cur_dest, tc, mc);
+		if (ddc)
+		{
+			IDrawable* desc_dc = static_cast<IDrawable*>(ddc->description->get_component(Component::ComponentType::Drawable));
+			ICombatUnit* combat_unit = static_cast<ICombatUnit*>(character->get_component(Component::ComponentType::CombatUnit));
+			if (combat_unit->friendly)
+				desc_dc->draw_rect.x = tc->position.x + tc->position.w;
+			else
+				desc_dc->draw_rect.x = tc->position.x;
+			desc_dc->draw_rect.y = tc->position.y + tc->position.h - desc_dc->draw_rect.h;
+
+		}
 	}
 }
 

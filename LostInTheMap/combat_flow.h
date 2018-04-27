@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <time.h>
+#include <random>
 
 #include "Levels.h"
 #include "xml_system.h"
@@ -7,6 +9,7 @@
 #include "map_system.h"
 #include "mouse_system.h"
 #include "movement_system.h"
+#include "animator.h"
 
 
 class combat_flow
@@ -40,6 +43,14 @@ public:
 	static void compose_turn_orders();
 
 	static void mouse_clicked();
+
+	static void unit_attacks(Entity * source, Entity * target);
+
+	static void attack_animation_finished_callback(Entity * source);
+
+	static void update_quantity_display(Entity * target);
+
+	static void damaged_animation_finished_callback(Entity * source);
 
 	static void unit_finished_moving(Entity* unit);
 	static void unit_finished_turn();

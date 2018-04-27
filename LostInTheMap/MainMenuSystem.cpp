@@ -112,7 +112,7 @@ void MainMenuSystem::update_space(Space & space, int dt)
 		}
 	}
 	//std::cout << dt << std::endl;
-	SpaceSystem::apply_animation_sprite_changes(space);
+	animator::apply_animation_sprite_changes(space);
 }
 
 void MainMenuSystem::destroy_space(Space & space)
@@ -133,18 +133,19 @@ void MainMenuSystem::mouse_target_changed(Entity* new_target)
 		IAnimatable* ac_old = static_cast<IAnimatable*>(mouse->cur_target->get_component(Component::ComponentType::Animated));
 		if (ac_old->src_rect.x != 0)
 		{
-			ac_old->src_rect.x = 0;
+			ac_old->cur_column = 0;
 			ac_old->sprite_changed = true;
 			mouse->cur_target = nullptr;
 		}
 	}
 	
-	//update new target and add reference to it to mouse
+	//hovered over button
 	if (new_target != nullptr)
 	{
 		IAnimatable* ac_new = static_cast<IAnimatable*>(new_target->get_component(Component::ComponentType::Animated));
 		if (new_target != nullptr)
 		{
+			ac_new->cur_column = 1;
 			ac_new->src_rect.x = ac_new->src_rect.w;
 			ac_new->sprite_changed = true;
 			mouse->cur_target = new_target;
@@ -165,7 +166,7 @@ void MainMenuSystem::mouse_down_listener()
 	{
 	case UI_Element_Type::button:
 		ac = static_cast<IAnimatable*>(mouse->cur_target->get_component(Component::ComponentType::Animated));
-		ac->src_rect.x = ac->src_rect.w * 2;
+		ac->cur_column = 2;
 		ac->sprite_changed = true;
 		break;
 	case UI_Element_Type::slider_slab:
@@ -194,7 +195,7 @@ void MainMenuSystem::mouse_clicked_on_entity()
 	switch (ui->element_type)
 	{
 	case UI_Element_Type::button:
-		ac->src_rect.x = ac->src_rect.w*3;
+		ac->cur_column = 3;
 		ac->sprite_changed = true;
 		if (ui->name == "Exit")
 		{

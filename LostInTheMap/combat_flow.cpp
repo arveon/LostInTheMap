@@ -95,6 +95,8 @@ void combat_flow::init_combat_space(Space& game_space)
 	combat_space.initialised = true;
 	initialised = true;
 
+	srand(time(0));
+
 	//TODO remove this when moving further into combat flow
 	/*combat_finished = true;*/
 	std::cout << "Combat started" << std::endl;
@@ -172,6 +174,8 @@ void combat_flow::mouse_clicked()
 		Entity* tr = SpaceSystem::find_entity_by_name(combat_space, "cb_terrain");
 		ITerrain* tc = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
 		IMoving* mc = static_cast<IMoving*>(order_of_turns.at(cur_turn)->unit_entity->get_component(Component::ComponentType::Movement));
+
+		ICombatUnit* cbu = (ICombatUnit*)order_of_turns.at(cur_turn)->unit_entity->get_component(Component::ComponentType::CombatUnit);
 		if (mc->path.size() != 0 && mc->path.size() <= order_of_turns.at(cur_turn)->speed)
 		{
 			if (mc->destination_reached)
@@ -183,16 +187,120 @@ void combat_flow::mouse_clicked()
 						mouse_system::mouse_icons::normal, 
 						static_cast<IAnimatable*>(mouse->get_component(Component::ComponentType::Animated)), 
 						static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
+				mouse_system::disable_mouse(mouse);
 			}
+		}
+
+		if (mc->path.size() == 0 && cbu->attacking)
+		{
+			mouse_system::disable_mouse(mouse);
+			unit_attacks(cbu->owner, cbu->attacking);
 		}
 	}
 }
 
+void combat_flow::unit_attacks(Entity* source, Entity* target)
+{
+	IAnimatable* ac = (IAnimatable*)source->get_component(Component::ComponentType::Animated);
+	if(source->transform->position.x < target->transform->position.x)
+		animator::start_animation(ac, animations::attacking_left,&attack_animation_finished_callback);
+	else
+		animator::start_animation(ac, animations::attacking_right, &attack_animation_finished_callback);
+}
+
+void combat_flow::attack_animation_finished_callback(Entity* source)
+{
+	ICombatUnit* cbu1 = (ICombatUnit*)source->get_component(Component::ComponentType::CombatUnit);
+	IAnimatable* ac1 = (IAnimatable*)source->get_component(Component::ComponentType::Animated);
+	animator::start_animation(ac1, animations::idle, nullptr);
+
+
+	Entity* target = cbu1->attacking;
+	IAnimatable* ac = (IAnimatable*)target->get_component(Component::ComponentType::Animated);
+	ICombatUnit* cbu2 = (ICombatUnit*)target->get_component(Component::ComponentType::CombatUnit);
+
+	//deal damage equal to (randomly generated value in range of min and max dmg) * (quantity)
+	int gap = (cbu1->unit_stats.max_damage_close - cbu1->unit_stats.min_damage_close);
+	float generated = rand()%gap+1;
+	int damage_dealt = (cbu1->unit_stats.min_damage_close + generated) * cbu1->unit_stats.quantity;
+
+	//get total health of unit stack
+	int total_unit_health = (cbu2->unit_stats.quantity - 1) * cbu2->unit_stats.max_health + cbu2->unit_stats.health_of_first;
+	total_unit_health -= damage_dealt;
+	if (total_unit_health > 0)
+	{
+		cbu2->unit_stats.quantity = std::ceil((float)total_unit_health / (float)cbu2->unit_stats.max_health);
+		cbu2->unit_stats.health_of_first = total_unit_health % cbu2->unit_stats.max_health;//remainder of rem_health/max_health
+		combat_flow::update_quantity_display(target);
+	}
+	else
+	{
+		cbu2->unit_stats.quantity = 0;
+		cbu2->unit_stats.health_of_first = 0;
+		cbu2->dead = true;
+		combat_flow::update_quantity_display(target);
+	}
+
+
+	//if (cbu2->unit_stats.health_of_first - damage_dealt <= 0)
+	//{//if damage dealt kills one of the unit numbers, reduce quantity
+	//	
+	//	cbu2->unit_stats.quantity -= 1;
+	//	cbu2->unit_stats.health_of_first = cbu2->unit_stats.max_health - (damage_dealt - cbu2->unit_stats.health_of_first);
+
+	//	combat_flow::update_quantity_display(target);
+	//}
+	//else
+	//	cbu2->unit_stats.health_of_first -= damage_dealt;
+
+	if(cbu2->unit_stats.quantity > 0)
+		animator::start_animation(ac, animations::taking_damage, &damaged_animation_finished_callback);
+	else
+	{
+		animator::start_animation(ac, animations::death, &damaged_animation_finished_callback);
+		cbu2->unit_stats.health_of_first = 0;
+	}
+}
+
+void combat_flow::update_quantity_display(Entity* target)
+{
+	ICombatUnit* cbu2 = (ICombatUnit*)target->get_component(Component::ComponentType::CombatUnit);
+	IDescriptable* ddc = (IDescriptable*)target->get_component(Component::ComponentType::Description);
+
+	if (cbu2->dead)
+		ddc->description->deactivate();
+	
+	IDrawable* desc_draw = (IDrawable*)ddc->description->get_component(Component::ComponentType::Drawable);
+
+	ddc->text = std::to_string(cbu2->unit_stats.quantity);
+	ddc->rendered_text = asset_controller::get_texture_from_text(ddc->text, UI_text_type::game_ui_small);
+	SDL_Rect text_rect = asset_controller::get_texture_size(ddc->rendered_text);
+
+	desc_draw->sprite = asset_controller::get_texture_from_two(ddc->box_background, ddc->rendered_text, ddc->description->transform->position.w, ddc->description->transform->position.h, text_rect);
+}
+
+void combat_flow::damaged_animation_finished_callback(Entity* source)
+{
+	IAnimatable* ac2 = (IAnimatable*)source->get_component(Component::ComponentType::Animated);
+	ICombatUnit* cbu2 = (ICombatUnit*)source->get_component(Component::ComponentType::CombatUnit);
+
+	if(!cbu2->dead)
+		animator::start_animation(ac2, animations::idle);
+
+	unit_finished_turn();
+}
+
 void combat_flow::unit_finished_moving(Entity* unit)
 {
-	IMoving* mc = static_cast<IMoving*>(order_of_turns.at(cur_turn)->unit_entity->get_component(Component::ComponentType::Movement));
+	IMoving* mc = static_cast<IMoving*>(unit->get_component(Component::ComponentType::Movement));
 	mc->movement_allowed = false;
-	unit_finished_turn();//TODO make it so unit_finished_turn() is only called when a unit finished movement
+	ICombatUnit* cbu = static_cast<ICombatUnit*>(unit->get_component(Component::ComponentType::CombatUnit));
+	if (cbu->attacking)
+		unit_attacks(unit, cbu->attacking);
+	else 
+		unit_finished_turn();
+
+	
 }
 
 void combat_flow::unit_finished_turn()
@@ -211,6 +319,8 @@ void combat_flow::unit_finished_turn()
 	
 	if (order_of_turns.at(cur_turn)->is_enemy)
 		unit_finished_turn();//REPLACE WITH AI LOGIC LATER
+	else
+		mouse_system::enable_mouse(mouse);
 
 
 	//check if there are live units on both sides (winning/losing conditions)

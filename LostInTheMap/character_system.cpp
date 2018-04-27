@@ -182,6 +182,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	//animation
 	IAnimatable* anim = new IAnimatable(unit);
 	anim->spritesheet = asset_controller::get_character_spritesheet(u.type);
+	anim->src_rect = {0,0,64,64};
 	dc->sprite = asset_controller::get_sprite_from_spritesheet(anim->spritesheet, { 0,0,64,64 });
 	unit->add_component(anim);
 
@@ -204,14 +205,14 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	Transform* dtc = new Transform(unit_description);
 	if (cbu->friendly)
 		dtc->position = {
-		tf->position.x + tf->position.w,
+		tf->position.x + tf->position.w-5,
 		tf->position.y + tf->position.h - 5,
 		20,
 		10
 	};
 	else
 		dtc->position = {
-		tf->position.x-20,
+		tf->position.x,
 		tf->position.y + tf->position.h - 5,
 		20,
 		10
@@ -222,11 +223,11 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	idc->description = unit_description;
 	idc->box_background = asset_controller::load_texture("default.png");
 	idc->text = std::to_string(cbu->unit_stats.quantity);
-	idc->rendered_text = asset_controller::get_texture_from_text(idc->text, UI_text_type::game_dialog);
+	idc->rendered_text = asset_controller::get_texture_from_text(idc->text, UI_text_type::game_ui_small);
+
 	SDL_Rect text_rect = asset_controller::get_texture_size(idc->rendered_text);
-	text_rect.w += 5;
-	ddc->draw_rect.w = text_rect.w;
-	ddc->sprite = asset_controller::get_texture_from_two(idc->box_background, idc->rendered_text, text_rect);
+	
+	ddc->sprite = asset_controller::get_texture_from_two(idc->box_background, idc->rendered_text, dtc->position.w, dtc->position.h, text_rect);
 
 	unit_description->add_component(ddc);
 	unit_description->add_component(dtc);

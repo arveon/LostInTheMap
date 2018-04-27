@@ -143,49 +143,70 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 
 
 
-	IMoving* movement_component = static_cast<IMoving*>(cur_unit->get_component(Component::ComponentType::Movement));
-	if (movement_component->destination_reached)
+	if (mouse->is_active)
 	{
-		ITerrain* tc = SpaceSystem::get_terrain(space);
-
-		//check if mouse hovered over friendly unit (don't even calculate movement then)
-		SDL_Point mouse_ids = mouse_system::get_mouse_ids(mouse, tc);
-		bool attacking = false;
-		Entity* a = SpaceSystem::get_object_at_ids(combat_flow::combat_space, mouse_ids.x, mouse_ids.y, true);
-		if (a)
+		IMoving* movement_component = static_cast<IMoving*>(cur_unit->get_component(Component::ComponentType::Movement));
+		if (movement_component->destination_reached)
 		{
-			ICombatUnit* cbu = static_cast<ICombatUnit*>(a->get_component(Component::ComponentType::CombatUnit));
-			if (cbu)
-				if (!cbu->unit_stats.is_enemy)
-				{//if mouse over friendly, don't calculate path
-					change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
-					movement_component->path.clear();
-					return;
-				}
-				else
-					attacking = true;
+			ITerrain* tc = SpaceSystem::get_terrain(space);
 
-		}
+			//check if mouse hovered over friendly unit (don't even calculate movement then)
+			SDL_Point mouse_ids = mouse_system::get_mouse_ids(mouse, tc);
 
-		movement_component->pathfinder.set_origin(map_system::world_to_tilemap_ids(cur_unit->get_origin_in_world(), tc));
-		std::vector<SDL_Point> path = movement_component->pathfinder.get_path_to(mouse_system::get_mouse_ids(mouse, tc), true);
-		if (path.size() <= steps_allowed && path.size() > 0)
-		{
-			if (attacking)
-				change_mouse_icon(mouse_system::mouse_icons::attack, ac, dc);
-			else
+			ICombatUnit* current_unit = (ICombatUnit*)cur_unit->get_component(Component::ComponentType::CombatUnit);
+			current_unit->attacking = nullptr;
+
+			Entity* a = SpaceSystem::get_object_at_ids(combat_flow::combat_space, mouse_ids.x, mouse_ids.y, true);
+			if (a)
 			{
-				change_mouse_icon(mouse_system::mouse_icons::walking, ac, dc);
-				movement_component->path = path;
+				ICombatUnit* cbu = static_cast<ICombatUnit*>(a->get_component(Component::ComponentType::CombatUnit));
+				if (cbu)
+				{
+					if (!cbu->unit_stats.is_enemy)
+					{//if mouse over friendly, don't calculate path
+						change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
+						movement_component->path.clear();
+						return;
+					}
+					else if (!cbu->dead)
+						current_unit->attacking = a;
+					else
+						current_unit->attacking = nullptr;
+				}
+
 			}
 
-		}
-		else
-		{
-			movement_component->path.clear();
-			change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
+			movement_component->pathfinder.set_origin(map_system::world_to_tilemap_ids(cur_unit->get_origin_in_world(), tc));
+			std::vector<SDL_Point> path = (current_unit->attacking == nullptr) ? movement_component->pathfinder.get_path_to(mouse_system::get_mouse_ids(mouse, tc), true) : movement_component->path;
+			if (path.size() <= steps_allowed && path.size() > 0)
+			{
+				if (current_unit->attacking)
+					change_mouse_icon(mouse_system::mouse_icons::attack, ac, dc);
+				else
+				{
+					change_mouse_icon(mouse_system::mouse_icons::walking, ac, dc);
+					movement_component->path = path;
+				}
+
+			}
+			else
+			{
+				current_unit->attacking = nullptr;
+				movement_component->path.clear();
+				change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
+			}
 		}
 	}
+}
+
+void mouse_system::disable_mouse(Entity* mouse)
+{
+	mouse->deactivate();
+}
+
+void mouse_system::enable_mouse(Entity* mouse)
+{
+	mouse->activate();
 }
 
 SDL_Point mouse_system::get_mouse_ids(Entity* mouse, ITerrain* tc)
@@ -220,34 +241,34 @@ void mouse_system::change_mouse_icon(mouse_icons icon, IAnimatable* anim_compone
 	case mouse_icons::normal:
 		cur_icon = mouse_icons::normal;
 		tf->origin = { 0,0 };
-		anim_component->src_rect.x = 0;
+		anim_component->cur_column = 0;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 16;
 		anim_component->sprite_changed = true;
 		break;
 	case mouse_icons::walking:
 		cur_icon = mouse_icons::walking;
-		anim_component->src_rect.x = 16;
+		anim_component->cur_column = 1;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 24;
 		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
 		anim_component->sprite_changed = true;
 		break;
 	case mouse_icons::attack:
 		cur_icon = mouse_icons::attack;
-		anim_component->src_rect.x = 32;
+		anim_component->cur_column = 2;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 32;
 		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
 		anim_component->sprite_changed = true;
 		break;
 	case mouse_icons::blocked:
 		cur_icon = mouse_icons::blocked;
-		anim_component->src_rect.x = 48;
+		anim_component->cur_column = 3;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 24;
 		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
 		anim_component->sprite_changed = true;
 		break;
 	case mouse_icons::talk:
 		cur_icon = mouse_icons::talk;
-		anim_component->src_rect.x = 64;
+		anim_component->cur_column = 4;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 32;
 		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
 		anim_component->sprite_changed = true;
