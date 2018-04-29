@@ -44,7 +44,14 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 	case animations::idle:
 	{
 		IDrawable * dc = (IDrawable*)ac->owner->get_component(Component::ComponentType::Drawable);
-		dc->flipped_x = false;
+		ICombatUnit* cbu = (ICombatUnit*)ac->owner->get_component(Component::ComponentType::CombatUnit);
+		if (cbu)
+			if (cbu->unit_stats.is_enemy)
+				dc->flipped_x = true;
+			else
+				dc->flipped_x = false;
+		else
+			dc->flipped_x = false;
 		if (ac->cur_row == 0)
 			already_there = true;
 		ac->cur_row = 0;
@@ -88,7 +95,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 		IDrawable * dc = (IDrawable*)ac->owner->get_component(Component::ComponentType::Drawable);
 		if (dc)
 		{
-			if (ac->cur_row == 1 && !dc->flipped_x)
+			if (ac->cur_row == 4 && !dc->flipped_x)
 				already_there = true;
 			dc->flipped_x = false;
 		}
@@ -100,7 +107,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 		IDrawable * dc = (IDrawable*)ac->owner->get_component(Component::ComponentType::Drawable);
 		if (dc)
 		{
-			if (ac->cur_row == 1 && dc->flipped_x)
+			if (ac->cur_row == 4 && dc->flipped_x)
 				already_there = true;
 			dc->flipped_x = true;
 		}

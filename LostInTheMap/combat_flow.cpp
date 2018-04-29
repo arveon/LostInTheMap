@@ -297,8 +297,12 @@ void combat_flow::unit_finished_moving(Entity* unit)
 	ICombatUnit* cbu = static_cast<ICombatUnit*>(unit->get_component(Component::ComponentType::CombatUnit));
 	if (cbu->attacking)
 		unit_attacks(unit, cbu->attacking);
-	else 
+	else
+	{
+		IAnimatable* ac = (IAnimatable*)(unit->get_component(Component::ComponentType::Animated));
+		animator::start_animation(ac, animations::idle);
 		unit_finished_turn();
+	}
 
 	
 }
@@ -316,9 +320,29 @@ void combat_flow::unit_finished_turn()
 		}
 	if (cur_turn < 0)
 		combat_round_finished();
+
+	army_unit* a = order_of_turns.at(cur_turn);
 	
-	if (order_of_turns.at(cur_turn)->is_enemy)
-		unit_finished_turn();//REPLACE WITH AI LOGIC LATER
+	if (a->is_enemy)
+	{
+		switch (a->type)
+		{
+		case character_type::rat:
+			ai_system::process_rat_move(a->unit_entity, player_army, SpaceSystem::get_terrain(combat_space));
+			break;
+		default:
+			unit_finished_turn();
+		}
+
+		IMoving* mc = (IMoving*)a->unit_entity->get_component(Component::ComponentType::Movement);
+		if (mc)
+		{
+			ICombatUnit* cbu = (ICombatUnit*)a->unit_entity->get_component(Component::ComponentType::CombatUnit);
+			if (mc->path.size() == 0 && cbu->attacking)
+				unit_attacks(a->unit_entity, cbu->attacking);
+		}
+		
+	}
 	else
 		mouse_system::enable_mouse(mouse);
 
@@ -340,7 +364,7 @@ void combat_flow::unit_finished_turn()
 			break;
 		}
 
-	std::cout << order_of_turns.at(cur_turn)->unit_entity->name << std::endl;
+	std::cout << a->unit_entity->name << std::endl;
 
 	if (!player || !enemy)
 	{
@@ -362,6 +386,7 @@ void combat_flow::combat_round_finished()
 
 void combat_flow::compose_turn_orders()
 {
+	order_of_turns.clear();
 	//compose vector of all of the units
 	std::vector<army_unit*> all_units;
 	for (int i = 0; i < player_army.size(); i++)

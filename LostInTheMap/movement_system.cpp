@@ -202,7 +202,7 @@ void movement_system::move_characters_tick_combat(Space& game_space, int dt, ITe
 					movement_finished(character);
 				mc->destination_reached = true;
 				IAnimatable* ac = (IAnimatable*)(character->get_component(Component::ComponentType::Animated));
-				animator::start_animation(ac, animations::idle);
+
 			}
 		}
 		movement_system::move_character_transform(dt, cur_dest, tc, mc);

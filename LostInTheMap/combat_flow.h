@@ -10,6 +10,7 @@
 #include "mouse_system.h"
 #include "movement_system.h"
 #include "animator.h"
+#include "ai_system.h"
 
 
 class combat_flow
