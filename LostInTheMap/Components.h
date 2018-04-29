@@ -271,7 +271,7 @@ public:
 class IFightable : public Component
 {
 public:
-	std::vector<army_unit> army;//can be up to 6 different units in army
+	std::vector<army_unit*> army;//can be up to 6 different units in army
 	std::string army_file;
 	bool friendly;
 	IFightable(Entity* owner, bool friendly = false) : Component(owner)
@@ -285,11 +285,12 @@ public:
 class ICombatUnit : public Component
 {
 public:
-	army_unit unit_stats;
+	army_unit* unit_stats;
 	bool friendly;
 	Entity* attacking = nullptr;
 	bool dead = false;
-	ICombatUnit(Entity* owner, army_unit unit) : Component(owner)
+	bool skipping_turn = false;
+	ICombatUnit(Entity* owner, army_unit* unit) : Component(owner)
 	{
 		type = ComponentType::CombatUnit;
 		unit_stats = unit;

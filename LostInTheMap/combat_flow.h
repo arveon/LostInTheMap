@@ -25,11 +25,11 @@ private:
 	static std::vector<army_unit*> order_of_turns;
 public:
 	static Space combat_space;
-	static std::vector<army_unit> player_army;
-	static std::vector<army_unit> enemy_army;
+	static std::vector<army_unit*> player_army;
+	static std::vector<army_unit*> enemy_army;
 
-	static void init_player_army(std::vector<army_unit> army);
-	static void init_enemy_army(std::vector<army_unit> army);
+	static void init_player_army(std::vector<army_unit*> army);
+	static void init_enemy_army(std::vector<army_unit*> army);
 	static void init_combat_space(Space& game_space);
 	static void destroy_combat(Space& game_space);
 

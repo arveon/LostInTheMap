@@ -444,9 +444,9 @@ xml_system::Dialogue xml_system::load_dialogue(levels level, std::string path)
 	return result;
 }
 
-std::vector<army_unit> xml_system::load_army(std::string army_path, levels level, bool is_enemy)
+std::vector<army_unit*> xml_system::load_army(std::string army_path, levels level, bool is_enemy)
 {
-	std::vector<army_unit> result;
+	std::vector<army_unit*> result;
 
 	std::string path = NameToTypeConversion::get_level_path_prefix(level) + "armies/" + army_path.c_str();
 	rapidxml::file<> file(path.c_str());
@@ -457,29 +457,29 @@ std::vector<army_unit> xml_system::load_army(std::string army_path, levels level
 	//load unit types and quantities
 	while (unit)
 	{
-		army_unit u;
+		army_unit* u = new army_unit();
 		std::string name = unit->first_attribute("type")->value();
-		u.type = NameToTypeConversion::get_character_type_by_name(name);
-		u.quantity = std::stoi(unit->first_attribute("quantity")->value());
+		u->type = NameToTypeConversion::get_character_type_by_name(name);
+		u->quantity = std::stoi(unit->first_attribute("quantity")->value());
 		result.push_back(u);
 		unit = unit->next_sibling("unit");
 	}
 
 	//construct the vector of units that need to be loaded
 	std::vector<character_type> units_to_be_loaded;
-	for (army_unit u : result)
+	for (army_unit* u : result)
 	{
 		bool already_exists = false;
 		for (character_type existing_type : units_to_be_loaded)
 		{
-			if (u.type == existing_type)
+			if (u->type == existing_type)
 			{
 				already_exists = true;
 				continue;
 			}
 		}
 		if (!already_exists)
-			units_to_be_loaded.push_back(u.type);
+			units_to_be_loaded.push_back(u->type);
 	}
 
 	//preload units file
@@ -534,22 +534,22 @@ std::vector<army_unit> xml_system::load_army(std::string army_path, levels level
 			}
 
 			//apply units stats to all units of that type in the army
-			for (army_unit& u : result)
+			for (army_unit* u : result)
 			{
-				if (u.type == unit)
+				if (u->type == unit)
 				{
-					u.health_of_first = health;
-					u.max_health = health;
+					u->health_of_first = health;
+					u->max_health = health;
 
-					u.min_damage_close = close_min;
-					u.max_damage_close = close_max;
+					u->min_damage_close = close_min;
+					u->max_damage_close = close_max;
 
-					u.min_damage_ranged = ranged_min;
-					u.max_damage_ranged = ranged_max;
-					u.ranged_allowed = ranged_allowed;
+					u->min_damage_ranged = ranged_min;
+					u->max_damage_ranged = ranged_max;
+					u->ranged_allowed = ranged_allowed;
 
-					u.speed = speed;
-					u.is_enemy = is_enemy;
+					u->speed = speed;
+					u->is_enemy = is_enemy;
 				}
 			}
 		}

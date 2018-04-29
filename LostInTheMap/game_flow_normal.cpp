@@ -71,7 +71,7 @@ void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
 void game_flow_normal::update_space(Space & space, int dt)
 {
 	static int tw = 0;
-	
+
 	animator::update(space, dt);
 	animator::apply_animation_sprite_changes(space);
 	SpaceSystem::update_draw_rects(space);
@@ -90,9 +90,40 @@ void game_flow_normal::update_space(Space & space, int dt)
 		//return cursor to render queue as it was swapped over by cursor from combat flow
 		render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
 
+
 		Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
 		ITerrain* tc = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
+
+		render_system::flush_queues();
+		SpaceSystem::add_space_to_render_queue(space);
+		for (int i = 0; i < tc->height; i++)
+			for (int j = 0; j < tc->width; j++)
+			{
+				if (tc->terrain_tiles[i][j])
+				{
+					IDrawable* dc = (IDrawable*)tc->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable);
+					if (dc)
+					{
+						render_system::add_object_to_queue(dc);
+					}
+				}
+			}
+
 		render_system::prepare_terrain(tc->width*tc->tile_width, tc->height*tc->tile_height);
+
+		camera_system::set_camera_zoom(2.f);
+		Entity* player = SpaceSystem::find_entity_by_name(space, "player");
+		camera_system::set_camera_target(player);
+		mouse->activate();
+		render_system::add_object_to_queue((IDrawable*)mouse->get_component(Component::ComponentType::Drawable));
+
+		IInteractionSource* p_ics = (IInteractionSource*)player->get_component(Component::ComponentType::InteractionSource);
+		p_ics->interaction_target->deactivate();
+		//init pathfinder
+		lee_pathfinder::init_pathfinder(map_system::get_pathfinding_map(tc), tc->width, tc->height);
+		SDL_Rect camera_rect_ids = camera_system::get_camera_rect_ids(tc->tile_width, tc->tile_height);
+		lee_pathfinder::set_camera_position(camera_rect_ids.x, camera_rect_ids.y);
+		lee_pathfinder::set_camera_dimensions(camera_rect_ids.w, camera_rect_ids.h);
 	}
 	else
 	{
@@ -137,7 +168,7 @@ void game_flow_normal::update_space(Space & space, int dt)
 		Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
 		ITerrain* tr = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
 		movement_system::move_characters_tick(space, dt, tr);
-		
+
 		if (script_system::is_script_going())
 			script_system::update(dt);
 
@@ -221,7 +252,7 @@ void game_flow_normal::update_pathfinder(Space& space)
 	lee_pathfinder::reset_obstructed();
 
 	Entity* tr = SpaceSystem::find_entity_by_name(space, "terrain");
-	if(!tr)
+	if (!tr)
 		tr = SpaceSystem::find_entity_by_name(space, "cb_terrain");
 	if (!tr)
 		return;
@@ -230,7 +261,8 @@ void game_flow_normal::update_pathfinder(Space& space)
 	for (unsigned int i = 0; i < space.objects.size(); i++)
 	{
 		Entity* ent = space.objects.at(i);
-		if (!ent->get_component(Component::ComponentType::Collision))
+
+		if (!ent->get_component(Component::ComponentType::Collision) || !ent->is_active)
 			continue;
 
 		SDL_Point t = ent->get_origin_in_world();
@@ -276,7 +308,7 @@ void game_flow_normal::clear_all_systems(Space& space)
 	director::reset_director();
 	asset_controller::clear_stored_textures();
 	lee_pathfinder::destroy_pathfinding();
-	if(combat_flow::is_initialised())
+	if (combat_flow::is_initialised())
 		combat_flow::destroy_combat(space);
 }
 

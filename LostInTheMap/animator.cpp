@@ -46,7 +46,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 		IDrawable * dc = (IDrawable*)ac->owner->get_component(Component::ComponentType::Drawable);
 		ICombatUnit* cbu = (ICombatUnit*)ac->owner->get_component(Component::ComponentType::CombatUnit);
 		if (cbu)
-			if (cbu->unit_stats.is_enemy)
+			if (cbu->unit_stats->is_enemy)
 				dc->flipped_x = true;
 			else
 				dc->flipped_x = false;

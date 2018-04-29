@@ -68,7 +68,7 @@ public:
 	static DialogueFrame load_dialogue_frame();
 	static Script load_script(std::string name, levels level);
 
-	static std::vector<army_unit> load_army(std::string army_path, levels level, bool is_enemy = true);
+	static std::vector<army_unit*> load_army(std::string army_path, levels level, bool is_enemy = true);
 
 	static Dialogue load_dialogue(levels level, std::string path);
 

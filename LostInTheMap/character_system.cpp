@@ -152,9 +152,9 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 	return characters;
 }
 
-Entity* character_system::load_combat_character(int distances, int id, ITerrain* tc, army_unit u, bool enemy)
+Entity* character_system::load_combat_character(int distances, int id, ITerrain* tc, army_unit* u, bool enemy)
 {
-	std::string name = "cb_unit_" + NameToTypeConversion::get_character_name_by_type(u.type) + std::to_string(id);
+	std::string name = "cb_unit_" + NameToTypeConversion::get_character_name_by_type(u->type) + std::to_string(id);
 	Entity* unit = new Entity(entity_type::game_object_combat, name);
 
 	//transform
@@ -181,7 +181,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	unit->add_component(dc);
 	//animation
 	IAnimatable* anim = new IAnimatable(unit);
-	anim->spritesheet = asset_controller::get_character_spritesheet(u.type);
+	anim->spritesheet = asset_controller::get_character_spritesheet(u->type);
 	anim->src_rect = {0,0,64,64};
 	anim->animation_started = true;
 	dc->sprite = asset_controller::get_sprite_from_spritesheet(anim->spritesheet, { 0,0,64,64 });
@@ -223,7 +223,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	IDescriptable* idc = new IDescriptable(unit_description);
 	idc->description = unit_description;
 	idc->box_background = asset_controller::load_texture("default.png");
-	idc->text = std::to_string(cbu->unit_stats.quantity);
+	idc->text = std::to_string(cbu->unit_stats->quantity);
 	idc->rendered_text = asset_controller::get_texture_from_text(idc->text, UI_text_type::game_ui_small);
 
 	SDL_Rect text_rect = asset_controller::get_texture_size(idc->rendered_text);

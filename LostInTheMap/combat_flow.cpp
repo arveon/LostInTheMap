@@ -3,20 +3,20 @@
 bool combat_flow::combat_finished = true;
 bool combat_flow::initialised = false;
 Space combat_flow::combat_space;
-std::vector<army_unit> combat_flow::player_army;
-std::vector<army_unit> combat_flow::enemy_army;
+std::vector<army_unit*> combat_flow::player_army;
+std::vector<army_unit*> combat_flow::enemy_army;
 std::vector<army_unit*> combat_flow::order_of_turns;
 int combat_flow::cur_turn;
 
 Entity* combat_flow::mouse;
 
-void combat_flow::init_player_army(std::vector<army_unit> army)
+void combat_flow::init_player_army(std::vector<army_unit*> army)
 {
 	if (player_army.size() == 0)
 		combat_flow::player_army = army;
 }
 
-void combat_flow::init_enemy_army(std::vector<army_unit> army)
+void combat_flow::init_enemy_army(std::vector<army_unit*> army)
 {
 	if (enemy_army.size() == 0)
 		combat_flow::enemy_army = army;
@@ -176,7 +176,12 @@ void combat_flow::mouse_clicked()
 		IMoving* mc = static_cast<IMoving*>(order_of_turns.at(cur_turn)->unit_entity->get_component(Component::ComponentType::Movement));
 
 		ICombatUnit* cbu = (ICombatUnit*)order_of_turns.at(cur_turn)->unit_entity->get_component(Component::ComponentType::CombatUnit);
-		if (mc->path.size() != 0 && mc->path.size() <= order_of_turns.at(cur_turn)->speed)
+		if (cbu->skipping_turn)
+		{
+			cbu->skipping_turn = false;
+			unit_finished_turn();
+		}
+		else if (mc->path.size() != 0 && mc->path.size() <= order_of_turns.at(cur_turn)->speed)
 		{
 			if (mc->destination_reached)
 			{
@@ -220,45 +225,33 @@ void combat_flow::attack_animation_finished_callback(Entity* source)
 	ICombatUnit* cbu2 = (ICombatUnit*)target->get_component(Component::ComponentType::CombatUnit);
 
 	//deal damage equal to (randomly generated value in range of min and max dmg) * (quantity)
-	int gap = (cbu1->unit_stats.max_damage_close - cbu1->unit_stats.min_damage_close);
+	int gap = (cbu1->unit_stats->max_damage_close - cbu1->unit_stats->min_damage_close);
 	float generated = rand()%gap+1;
-	int damage_dealt = (cbu1->unit_stats.min_damage_close + generated) * cbu1->unit_stats.quantity;
+	int damage_dealt = (cbu1->unit_stats->min_damage_close + generated) * cbu1->unit_stats->quantity;
 
 	//get total health of unit stack
-	int total_unit_health = (cbu2->unit_stats.quantity - 1) * cbu2->unit_stats.max_health + cbu2->unit_stats.health_of_first;
+	int total_unit_health = (cbu2->unit_stats->quantity - 1) * cbu2->unit_stats->max_health + cbu2->unit_stats->health_of_first;
 	total_unit_health -= damage_dealt;
 	if (total_unit_health > 0)
 	{
-		cbu2->unit_stats.quantity = std::ceil((float)total_unit_health / (float)cbu2->unit_stats.max_health);
-		cbu2->unit_stats.health_of_first = total_unit_health % cbu2->unit_stats.max_health;//remainder of rem_health/max_health
+		cbu2->unit_stats->quantity = std::ceil((float)total_unit_health / (float)cbu2->unit_stats->max_health);
+		cbu2->unit_stats->health_of_first = total_unit_health % cbu2->unit_stats->max_health;//remainder of rem_health/max_health
 		combat_flow::update_quantity_display(target);
 	}
 	else
 	{
-		cbu2->unit_stats.quantity = 0;
-		cbu2->unit_stats.health_of_first = 0;
+		cbu2->unit_stats->quantity = 0;
+		cbu2->unit_stats->health_of_first = 0;
 		cbu2->dead = true;
 		combat_flow::update_quantity_display(target);
 	}
 
-
-	//if (cbu2->unit_stats.health_of_first - damage_dealt <= 0)
-	//{//if damage dealt kills one of the unit numbers, reduce quantity
-	//	
-	//	cbu2->unit_stats.quantity -= 1;
-	//	cbu2->unit_stats.health_of_first = cbu2->unit_stats.max_health - (damage_dealt - cbu2->unit_stats.health_of_first);
-
-	//	combat_flow::update_quantity_display(target);
-	//}
-	//else
-	//	cbu2->unit_stats.health_of_first -= damage_dealt;
-
-	if(cbu2->unit_stats.quantity > 0)
+	if(cbu2->unit_stats->quantity > 0)
 		animator::start_animation(ac, animations::taking_damage, &damaged_animation_finished_callback);
 	else
 	{
 		animator::start_animation(ac, animations::death, &damaged_animation_finished_callback);
-		cbu2->unit_stats.health_of_first = 0;
+		cbu2->unit_stats->health_of_first = 0;
 	}
 }
 
@@ -272,7 +265,7 @@ void combat_flow::update_quantity_display(Entity* target)
 	
 	IDrawable* desc_draw = (IDrawable*)ddc->description->get_component(Component::ComponentType::Drawable);
 
-	ddc->text = std::to_string(cbu2->unit_stats.quantity);
+	ddc->text = std::to_string(cbu2->unit_stats->quantity);
 	ddc->rendered_text = asset_controller::get_texture_from_text(ddc->text, UI_text_type::game_ui_small);
 	SDL_Rect text_rect = asset_controller::get_texture_size(ddc->rendered_text);
 
@@ -325,6 +318,7 @@ void combat_flow::unit_finished_turn()
 	
 	if (a->is_enemy)
 	{
+		mouse_system::disable_mouse(mouse);
 		switch (a->type)
 		{
 		case character_type::rat:
@@ -349,16 +343,16 @@ void combat_flow::unit_finished_turn()
 
 	//check if there are live units on both sides (winning/losing conditions)
 	bool player = false;
-	for (army_unit u : player_army)
-		if (u.health_of_first > 0)
+	for (army_unit* u : player_army)
+		if (u->health_of_first > 0)
 		{
 			player = true;
 			break;
 		}
 
 	bool enemy = false;
-	for (army_unit u : enemy_army)
-		if (u.health_of_first > 0)
+	for (army_unit* u : enemy_army)
+		if (u->health_of_first > 0)
 		{
 			enemy = true;
 			break;
@@ -390,9 +384,9 @@ void combat_flow::compose_turn_orders()
 	//compose vector of all of the units
 	std::vector<army_unit*> all_units;
 	for (int i = 0; i < player_army.size(); i++)
-		all_units.push_back(&player_army.at(i));
+		all_units.push_back(player_army.at(i));
 	for (int i = 0; i < enemy_army.size(); i++)
-		all_units.push_back(&enemy_army.at(i));
+		all_units.push_back(enemy_army.at(i));
 
 	//compose vector starting slowest
 	for (int i = 0; i < all_units.size(); i++)

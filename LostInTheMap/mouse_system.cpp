@@ -141,8 +141,6 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 	dc->draw_rect.x = input_system::mouse.x - mt->origin.x;
 	dc->draw_rect.y = input_system::mouse.y - mt->origin.y;
 
-
-
 	if (mouse->is_active)
 	{
 		IMoving* movement_component = static_cast<IMoving*>(cur_unit->get_component(Component::ComponentType::Movement));
@@ -159,19 +157,26 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 			Entity* a = SpaceSystem::get_object_at_ids(combat_flow::combat_space, mouse_ids.x, mouse_ids.y, true);
 			if (a)
 			{
-				ICombatUnit* cbu = static_cast<ICombatUnit*>(a->get_component(Component::ComponentType::CombatUnit));
-				if (cbu)
+				if (a == cur_unit)
 				{
-					if (!cbu->unit_stats.is_enemy)
-					{//if mouse over friendly, don't calculate path
-						change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
-						movement_component->path.clear();
-						return;
+					current_unit->skipping_turn = true;
+				}
+				else
+				{
+					ICombatUnit* cbu = static_cast<ICombatUnit*>(a->get_component(Component::ComponentType::CombatUnit));
+					if (cbu)
+					{
+						if (!cbu->unit_stats->is_enemy)
+						{//if mouse over friendly, don't calculate path
+							change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
+							movement_component->path.clear();
+							return;
+						}
+						else if (!cbu->dead)
+							current_unit->attacking = a;
+						else
+							current_unit->attacking = nullptr;
 					}
-					else if (!cbu->dead)
-						current_unit->attacking = a;
-					else
-						current_unit->attacking = nullptr;
 				}
 
 			}
