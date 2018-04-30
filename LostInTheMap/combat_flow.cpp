@@ -1,6 +1,7 @@
 #include "combat_flow.h"
 
 bool combat_flow::combat_finished = true;
+bool combat_flow::player_is_winner = false;
 bool combat_flow::initialised = false;
 Space combat_flow::combat_space;
 std::vector<army_unit*> combat_flow::player_army;
@@ -18,8 +19,7 @@ void combat_flow::init_player_army(std::vector<army_unit*> army)
 
 void combat_flow::init_enemy_army(std::vector<army_unit*> army)
 {
-	if (enemy_army.size() == 0)
-		combat_flow::enemy_army = army;
+	combat_flow::enemy_army = army;
 }
 
 void combat_flow::init_combat_space(Space& game_space)
@@ -150,6 +150,8 @@ void combat_flow::destroy_combat(Space& game_space)
 	delete mouse;
 
 	SpaceSystem::destroy_space(combat_space, false);
+	order_of_turns.clear();
+	enemy_army.clear();
 
 	initialised = false;
 	combat_finished = true;
@@ -302,6 +304,8 @@ void combat_flow::unit_finished_moving(Entity* unit)
 
 void combat_flow::unit_finished_turn()
 {
+	if (combat_flow::check_combat_finished())
+		return;
 	cur_turn--;
 	if(cur_turn >= 0)
 		while (order_of_turns.at(cur_turn)->health_of_first <= 0)//will make sure that dead units don't get a turn
@@ -341,6 +345,11 @@ void combat_flow::unit_finished_turn()
 		mouse_system::enable_mouse(mouse);
 
 
+	std::cout << a->unit_entity->name << std::endl;
+}
+
+bool combat_flow::check_combat_finished()
+{
 	//check if there are live units on both sides (winning/losing conditions)
 	bool player = false;
 	for (army_unit* u : player_army)
@@ -357,13 +366,15 @@ void combat_flow::unit_finished_turn()
 			enemy = true;
 			break;
 		}
-
-	std::cout << a->unit_entity->name << std::endl;
-
 	if (!player || !enemy)
 	{
+		if (!player)
+			player_is_winner = false;
+		else if (!enemy)
+			player_is_winner = true;
 		combat_finished = true;
 	}
+	return combat_finished;
 }
 
 void combat_flow::combat_round_finished()

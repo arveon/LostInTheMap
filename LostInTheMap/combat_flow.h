@@ -27,6 +27,7 @@ public:
 	static Space combat_space;
 	static std::vector<army_unit*> player_army;
 	static std::vector<army_unit*> enemy_army;
+	static bool player_is_winner;
 
 	static void init_player_army(std::vector<army_unit*> army);
 	static void init_enemy_army(std::vector<army_unit*> army);
@@ -55,6 +56,8 @@ public:
 
 	static void unit_finished_moving(Entity* unit);
 	static void unit_finished_turn();
+
+	static bool check_combat_finished();
 
 	static void combat_round_finished();
 

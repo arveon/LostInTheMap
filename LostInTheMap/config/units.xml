@@ -5,6 +5,13 @@
 <speed value="5" />
 </giovanni>
 
+<archaeologist_1>
+<health value="50"/>
+<close_attack min_value="10" max_value="15"/>
+<ranged allowed="true" min_value="5" max_value="10"/>
+<speed value="8" />
+</archaeologist_1>
+
 <rat>
 <health value="10"/>
 <close_attack min_value="3" max_value="5"/>

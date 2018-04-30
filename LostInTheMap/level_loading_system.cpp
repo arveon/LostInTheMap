@@ -474,7 +474,7 @@ void level_loading_system::load_combat(levels level, Space& game_space, IFightab
 	//create combat units
 	//for enemy
 	load_character_army(tc, game_space, true, fc);
-	//how many units
+	//for player
 	load_character_army(tc, game_space, false);
 
 	combat_flow::set_in_combat();
@@ -503,6 +503,8 @@ void level_loading_system::load_character_army(ITerrain* tc, Space& game_space, 
 	for (int i = 0; i < army.size(); i++)
 	{
 		army_unit* u = army.at(i);
+		if (army.at(i)->health_of_first == 0)
+			continue;
 		u->is_enemy = enemy;
 		Entity* unit = character_system::load_combat_character(distances, id, tc, u, enemy);
 		if (enemy)

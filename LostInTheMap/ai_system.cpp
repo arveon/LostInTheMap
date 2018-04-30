@@ -49,7 +49,6 @@ void ai_system::process_rat_move(Entity * rat, std::vector<army_unit*> player_ar
 		priority_queue.insert(priority_queue.begin() + priority_lvl, unit_priority);
 	}
 
-
 	bool target_found = false;
 	while (!target_found)
 	{
@@ -89,49 +88,6 @@ void ai_system::process_rat_move(Entity * rat, std::vector<army_unit*> player_ar
 		
 
 	}
-
-
-
-	//while (!target_found)
-	//{
-	//	//find the weakest unit (least attack)
-	//	army_unit* weakest = player_army.at(0);
-	//	for (army_unit* u : player_army)
-	//	{
-	//		//check if already tried reaching it and unreachable
-	//		bool is_ignored = false;
-	//		for (army_unit* ignored : ignored_units)
-	//			if (ignored == u)
-	//			{
-	//				is_ignored = true;
-	//				break;
-	//			}
-	//		if (is_ignored)
-	//		{
-	//			continue;
-	//		}
-
-	//		
-	//		if (u->max_damage_close < weakest->max_damage_close)
-	//			weakest = u;
-	//	}
-
-	//	//get weakest units map coordinates
-	//	SDL_Point move = map_system::get_entity_ids(weakest->unit_entity, tc);
-	//	cbu->attacking = weakest->unit_entity;
-	//	
-	//	r_mc->pathfinder.set_origin(map_system::get_entity_ids(rat, tc));
-	//	r_mc->path = r_mc->pathfinder.get_path_to(move, true);
-
-	//	if (r_mc->path.size() > 0)//don't go ONTOP of the unit
-	//	{
-	//		r_mc->path.erase(r_mc->path.begin());
-	//		target_found = true;
-	//	}
-
-	
-
-	//}
 
 	r_mc->movement_allowed = true;
 }
