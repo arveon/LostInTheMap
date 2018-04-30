@@ -8,6 +8,8 @@ void animator::update(Space& game_space, int dt)
 		dt = 1;
 	for (Entity* e : game_space.objects)
 	{
+		if (e->name.compare("cb_unit_zakra_spearman1") == 0)
+			std::cout << "a";
 		IAnimatable* ac = static_cast<IAnimatable*>(e->get_component(Component::ComponentType::Animated));
 		if (!ac)
 			continue;
@@ -22,10 +24,10 @@ void animator::update(Space& game_space, int dt)
 			ac->cur_column = (ac->cur_column + 1 >= max_frames_in_animation) ? 0 : ac->cur_column+1;
 			if (ac->cur_column == 0 && animation_done_callbacks[ac] != nullptr)
 			{
+				ac->cur_column = max_frames_in_animation - 1;
+				ac->animation_finished = true;
 				animation_done_callbacks[ac](ac->owner);
 				animation_done_callbacks[ac] = nullptr;
-				ac->cur_column = max_frames_in_animation-1;
-				ac->animation_finished = true;
 			}
 			ac->sprite_changed = true;
 		}
@@ -135,6 +137,8 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 	}
 	if (done_callback != nullptr)
 		animation_done_callbacks[ac] = done_callback;
+	else
+		animation_done_callbacks[ac] = nullptr;
 }
 
 void animator::apply_animation_sprite_changes(Space& space)

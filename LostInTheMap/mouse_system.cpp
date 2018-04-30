@@ -163,6 +163,7 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 				}
 				else
 				{
+					current_unit->skipping_turn = false;
 					ICombatUnit* cbu = static_cast<ICombatUnit*>(a->get_component(Component::ComponentType::CombatUnit));
 					if (cbu)
 					{
@@ -180,6 +181,8 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 				}
 
 			}
+			else
+				current_unit->skipping_turn = false;
 
 			movement_component->pathfinder.set_origin(map_system::world_to_tilemap_ids(cur_unit->get_origin_in_world(), tc));
 			std::vector<SDL_Point> temp = movement_component->pathfinder.get_path_to(mouse_system::get_mouse_ids(mouse, tc), true);

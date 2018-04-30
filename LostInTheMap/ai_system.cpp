@@ -15,6 +15,9 @@ void ai_system::process_rat_move(Entity * rat, std::vector<army_unit*> player_ar
 	SDL_Point cur_unit_ids = map_system::get_entity_ids(rat, tc);
 	for (army_unit* u : player_army)
 	{
+		if (u->health_of_first == 0)
+			continue;
+
 		std::pair<army_unit*, float> unit_priority;
 		unit_priority.first = u;
 		
@@ -32,11 +35,14 @@ void ai_system::process_rat_move(Entity * rat, std::vector<army_unit*> player_ar
 		{
 			if (unit_priority.second > priority_queue.at(i).second)
 			{
+				priority_lvl = i+1;
+				continue;
+			}
+			else
+			{
 				priority_lvl = i;
 				break;
 			}
-			else
-				continue;
 
 			
 		}
