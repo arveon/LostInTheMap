@@ -184,6 +184,28 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 			else
 				current_unit->skipping_turn = false;
 
+			if (current_unit->attacking)
+			{
+				//calculate distance to character
+				SDL_Point cur_unit_ids = map_system::get_entity_ids(cur_unit, tc);
+				SDL_Point target_ids = map_system::get_entity_ids(current_unit->attacking, tc);
+				SDL_Point catetes;
+				catetes.x = std::abs(cur_unit_ids.x - target_ids.x);
+				catetes.y = std::abs(cur_unit_ids.y - target_ids.y);
+				float full_dist = std::sqrt(std::pow(catetes.x, 2) + std::pow(catetes.y, 2));
+
+				//if path = 0 and distance != 0, calculate path (means some bug occured with the mouse)
+				if (movement_component->path.size() == 0 && full_dist > 0.01f)
+				{
+					movement_component->pathfinder.set_origin(map_system::world_to_tilemap_ids(cur_unit->get_origin_in_world(), tc));
+					movement_component->path = movement_component->pathfinder.get_path_to(target_ids, false);
+					if (movement_component->path.size() == 0)
+						current_unit->attacking = nullptr;
+					movement_component->path.erase(movement_component->path.begin());
+				}
+
+			}
+
 			movement_component->pathfinder.set_origin(map_system::world_to_tilemap_ids(cur_unit->get_origin_in_world(), tc));
 			std::vector<SDL_Point> temp = movement_component->pathfinder.get_path_to(mouse_system::get_mouse_ids(mouse, tc), true);
 			std::vector<SDL_Point> path = (current_unit->attacking == nullptr) ? temp : movement_component->path;

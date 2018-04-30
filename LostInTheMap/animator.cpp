@@ -8,8 +8,6 @@ void animator::update(Space& game_space, int dt)
 		dt = 1;
 	for (Entity* e : game_space.objects)
 	{
-		if (e->name.compare("cb_unit_zakra_spearman1") == 0)
-			std::cout << "a";
 		IAnimatable* ac = static_cast<IAnimatable*>(e->get_component(Component::ComponentType::Animated));
 		if (!ac)
 			continue;
