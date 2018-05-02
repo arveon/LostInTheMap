@@ -50,8 +50,10 @@ void script_system::action_over(Entity * action_performer)
 		mc->movement_allowed = true;
 	}
 
-
-	cur_script.actions.at(cur_action).finished = true;
+	if(cur_action < cur_script.actions.size())
+		cur_script.actions.at(cur_action).finished = true;
+	else
+		cur_script.actions.at(cur_script.actions.size()).finished = true;
 	cur_action++;
 	if (cur_action < (int)cur_script.actions.size())
 	{//if more actions are there
@@ -88,6 +90,7 @@ void script_system::update(int dt)
 void script_system::reset()
 {
 	cur_script.actions.clear();
+	cur_action = 0;
 	waiting_timer = 0;
 }
 

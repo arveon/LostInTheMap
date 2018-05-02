@@ -93,7 +93,7 @@ void game_flow_normal::update_space(Space & space, int dt)
 		else
 		{//if combat won
 			script_system::action_over(SpaceSystem::find_entity_by_name(space, "player"));
-			combat_flow::destroy_combat(space);
+ 			combat_flow::destroy_combat(space);
 			//return cursor to render queue as it was swapped over by cursor from combat flow
 			render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
 
@@ -269,6 +269,11 @@ void game_flow_normal::update_pathfinder(Space& space)
 	for (unsigned int i = 0; i < space.objects.size(); i++)
 	{
 		Entity* ent = space.objects.at(i);
+
+		ICombatUnit* cbu = (ICombatUnit*)ent->get_component(Component::ComponentType::CombatUnit);
+		if (cbu)
+			if (cbu->dead)
+				continue;
 
 		if (!ent->get_component(Component::ComponentType::Collision) || !ent->is_active)
 			continue;

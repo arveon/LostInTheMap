@@ -137,6 +137,10 @@ Entity* SpaceSystem::get_object_at_ids(Space& space, int x, int y, bool ignore_u
 			t_ids = map_system::world_to_tilemap_ids(t_ids, tc);
 			if (t_ids.x == x && t_ids.y == y)
 			{
+				ICombatUnit* cbu = (ICombatUnit*)temp->get_component(Component::ComponentType::CombatUnit);
+				if (cbu)
+					if (cbu->dead)
+						continue;
 				result = temp;
 				break;
 			}

@@ -144,6 +144,9 @@ void combat_flow::destroy_combat(Space& game_space)
 		for (int j = 0; j < terrain->width; j++)
 		{
 			Entity* obj = terrain->terrain_tiles[i][j];
+			IDrawable* dc = (IDrawable*)obj->get_component(Component::ComponentType::Drawable);
+			if (dc)
+				render_system::remove_from_queue(dc);
 			delete obj->transform;
 			for (Component* c : obj->components)
 				delete c;
