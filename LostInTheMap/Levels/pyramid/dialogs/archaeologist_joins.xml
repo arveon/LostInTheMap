@@ -1,0 +1,4 @@
+<dialogue character="archaeologist_1" character="giovanni">
+	<rep character="0" text="Hey! Wait for me, I'll help you with the rats!" />
+	<rep character="1" text="I bet there could be something interesting there..." />
+</dialogue>

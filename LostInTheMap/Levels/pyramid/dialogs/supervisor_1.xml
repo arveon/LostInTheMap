@@ -1,7 +1,7 @@
 <dialogue character="giovanni" character="arch_supervisor">
-	<rep character="1" text="Come on, Giovanni, don't be afraid to step in, old ruins don't bite!" />
+	<rep character="1" text="Come on, Giovanni, come on in, old ruins don't bite!" />
 	<rep character="0" text="Ruins don't, but all these rats probably do..." />
-	<rep character="0" text="Do I have to stay here?" />
-	<rep character="1" text="Yes you do! That's your job now!" />
+	<rep character="0" text="Do I really have to be here?" />
+	<rep character="1" text="Yes you do! That's your job, remember?" />
 	<rep character="1" text="You are to explore these halls. Report any findings to me directly!" />
 </dialogue>

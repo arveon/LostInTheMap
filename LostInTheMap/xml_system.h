@@ -70,6 +70,8 @@ public:
 
 	static std::vector<army_unit*> load_army(std::string army_path, levels level, bool is_enemy = true);
 
+	static army_unit* load_army_unit(character_type ch);
+
 	static Dialogue load_dialogue(levels level, std::string path);
 
 	xml_system();

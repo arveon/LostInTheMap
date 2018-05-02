@@ -92,6 +92,14 @@ void combat_flow::init_combat_space(Space& game_space)
 	combat_flow::compose_turn_orders();
 	movement_system::set_movement_finished_callback(&unit_finished_moving);
 
+	if (order_of_turns.at(cur_turn)->health_of_first != 0)
+	{
+		IAnimatable* ac = (IAnimatable*)order_of_turns.at(cur_turn)->unit_entity->get_component(Component::ComponentType::Animated);
+		animator::start_animation(ac, animations::selected);
+	}
+	else
+		unit_finished_turn();
+
 	combat_space.initialised = true;
 	initialised = true;
 
@@ -298,14 +306,17 @@ void combat_flow::unit_finished_moving(Entity* unit)
 		animator::start_animation(ac, animations::idle);
 		unit_finished_turn();
 	}
-
-	
 }
 
 void combat_flow::unit_finished_turn()
 {
 	if (combat_flow::check_combat_finished())
 		return;
+
+	//reset animation just in case
+	IAnimatable* ac = (IAnimatable*)order_of_turns.at(cur_turn)->unit_entity->get_component(Component::ComponentType::Animated);
+	animator::start_animation(ac, animations::idle);
+
 	cur_turn--;
 	if(cur_turn >= 0)
 		while (order_of_turns.at(cur_turn)->health_of_first <= 0)//will make sure that dead units don't get a turn
@@ -342,7 +353,11 @@ void combat_flow::unit_finished_turn()
 		
 	}
 	else
+	{
+		IAnimatable* ac = (IAnimatable*)a->unit_entity->get_component(Component::ComponentType::Animated);
+		animator::start_animation(ac, animations::selected);
 		mouse_system::enable_mouse(mouse);
+	}
 
 
 	std::cout << a->unit_entity->name << std::endl;
@@ -373,6 +388,9 @@ bool combat_flow::check_combat_finished()
 		else if (!enemy)
 			player_is_winner = true;
 		combat_finished = true;
+
+		for (army_unit* u : order_of_turns)
+			u->health_of_first = u->max_health;
 	}
 	return combat_finished;
 }

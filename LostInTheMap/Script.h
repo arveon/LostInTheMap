@@ -15,7 +15,8 @@ enum action_type
 	set_story_state,
 	object_disappear,
 	character_disappear,
-	level_switch
+	level_switch,
+	join_army
 };
 
 class Action
@@ -37,6 +38,7 @@ public:
 
 	//utility stuff
 	std::string utility;
+	int num_utility;
 };
 
 class Script

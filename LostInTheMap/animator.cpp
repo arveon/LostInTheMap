@@ -55,6 +55,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 		if (ac->cur_row == 0)
 			already_there = true;
 		ac->cur_row = 0;
+		ac->total_sprite_required_time = 170;
 	}
 		break;
 	case animations::walking_right:
@@ -67,6 +68,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 				already_there = true;
 			dc->flipped_x = false;
 		}
+		ac->total_sprite_required_time = 100;
 	}
 		break;
 	case animations::walking_left:
@@ -79,15 +81,18 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 				already_there = true;
 			dc->flipped_x = true;
 		}
+		ac->total_sprite_required_time = 100;
 	}
 		break;
 	case animations::walking_up:
 		if (ac->cur_row == 2)
 			already_there = true;
+		ac->total_sprite_required_time = 100;
 		ac->cur_row = 2;
 	case animations::walking_down:
 		if (ac->cur_row == 3)
 			already_there = true;
+		ac->total_sprite_required_time = 100;
 		ac->cur_row = 3;
 		break;
 	case animations::attacking_right:
@@ -99,6 +104,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 				already_there = true;
 			dc->flipped_x = false;
 		}
+		ac->total_sprite_required_time = 100;
 		ac->cur_row = 4;
 	}
 		break;
@@ -111,6 +117,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 				already_there = true;
 			dc->flipped_x = true;
 		}
+		ac->total_sprite_required_time = 100;
 		ac->cur_row = 4;
 	}
 		break;
@@ -118,11 +125,19 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 		if (ac->cur_row == 5)
 			already_there = true;
 		ac->cur_row = 5;
+		ac->total_sprite_required_time = 100;
 		break;
 	case animations::death:
 		if (ac->cur_row == 6)
 			already_there = true;
 		ac->cur_row = 6;
+		ac->total_sprite_required_time = 100;
+		break;
+	case animations::selected:
+		if (ac->cur_row == 7)
+			already_there = true;
+		ac->cur_row = 7;
+		ac->total_sprite_required_time = 170;
 		break;
 	}
 	if (!already_there)

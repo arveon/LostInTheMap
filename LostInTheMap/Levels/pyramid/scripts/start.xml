@@ -3,7 +3,6 @@
 <action type="camera_target" character="player" />
 </script>
 
-
 <action type="wait" character="arch_supervisor" time="1000"/>
 <action type="camera_target" character="arch_supervisor" />
 <action type="move" character="arch_supervisor" dest_x="33" dest_y="24" />

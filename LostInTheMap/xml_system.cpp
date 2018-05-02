@@ -385,6 +385,12 @@ Script xml_system::load_script(std::string name, levels level)
 				temp.type = action_type::level_switch;
 				temp.utility = cur_node->first_attribute("level")->value();
 			}
+			else if (type.compare("join_army") == 0)
+			{
+				temp.type = action_type::join_army;
+				temp.target_type = NameToTypeConversion::get_character_type_by_name(cur_node->first_attribute("character")->value());
+				temp.num_utility = std::stoi(cur_node->first_attribute("quantity")->value());
+			}
 			else
 				temp.type = action_type::not_set;
 
@@ -482,85 +488,83 @@ std::vector<army_unit*> xml_system::load_army(std::string army_path, levels leve
 			units_to_be_loaded.push_back(u->type);
 	}
 
-	//preload units file
-	rapidxml::file<> units_file("config/units.xml");
-	rapidxml::xml_document<> units_doc;
-	units_doc.parse<0>(units_file.data());
-
 	//load unit stats
 	if (units_to_be_loaded.size() > 0)
 	{
 		for (character_type unit : units_to_be_loaded)
 		{
-			std::string name = NameToTypeConversion::get_character_name_by_type(unit);
-			rapidxml::xml_node<>* unit_data =  units_doc.first_node(name.c_str())->first_node();
-
-			int health = 0;
-			int close_min = 0;
-			int close_max = 0;
-			int ranged_min = 0;
-			int ranged_max = 0;
-			int speed = 0;
-			bool ranged_allowed = false;
-
-			//read in units stats of the given unit
-			while (unit_data)
-			{
-				std::string data_name = unit_data->name();
-				if (data_name.compare("health") == 0)
-				{
-					health = std::stoi(unit_data->first_attribute("value")->value());
-				}
-				else if (data_name.compare("close_attack") == 0)
-				{
-					close_min = std::stoi(unit_data->first_attribute("min_value")->value());
-					close_max = std::stoi(unit_data->first_attribute("max_value")->value());
-				}
-				else if (data_name.compare("ranged_attack") == 0)
-				{
-					std::string val = unit_data->first_attribute("allowed")->value();
-					if (val.compare("true") == 0)
-					{
-						ranged_allowed = true;
-						ranged_min = std::stoi(unit_data->first_attribute("min_value")->value());
-						ranged_max = std::stoi(unit_data->first_attribute("max_value")->value());
-					}
-				}
-				else if (data_name.compare("speed") == 0)
-				{
-					speed = std::stoi(unit_data->first_attribute("value")->value());
-				}				
-				unit_data = unit_data->next_sibling();
-			}
+			army_unit* un = xml_system::load_army_unit(unit);
 
 			//apply units stats to all units of that type in the army
 			for (army_unit* u : result)
 			{
 				if (u->type == unit)
 				{
-					u->health_of_first = health;
-					u->max_health = health;
+					u->health_of_first = un->health_of_first;
+					u->max_health = un->max_health;
 
-					u->min_damage_close = close_min;
-					u->max_damage_close = close_max;
+					u->min_damage_close = un->min_damage_close;
+					u->max_damage_close = un->max_damage_close;
 
-					u->min_damage_ranged = ranged_min;
-					u->max_damage_ranged = ranged_max;
-					u->ranged_allowed = ranged_allowed;
+					u->min_damage_ranged = un->min_damage_ranged;
+					u->max_damage_ranged = un->max_damage_ranged;
+					u->ranged_allowed = un->ranged_allowed;
 
-					u->speed = speed;
+					u->speed = un->speed;
 					u->is_enemy = is_enemy;
 				}
 			}
+			delete un;
 		}
 	}
 
 	return result;
 }
 
+army_unit* xml_system::load_army_unit(character_type ch)
+{
+	//preload units file
+	rapidxml::file<> units_file("config/units.xml");
+	rapidxml::xml_document<> units_doc;
+	units_doc.parse<0>(units_file.data());
 
+	army_unit* u = new army_unit();
+	std::string name = NameToTypeConversion::get_character_name_by_type(ch);
+	rapidxml::xml_node<>* unit_data = units_doc.first_node(name.c_str())->first_node();
 
+	//read in units stats of the given unit
+	while (unit_data)
+	{
+		std::string data_name = unit_data->name();
+		if (data_name.compare("health") == 0)
+		{
+			u->health_of_first = std::stoi(unit_data->first_attribute("value")->value());
+			u->max_health = std::stoi(unit_data->first_attribute("value")->value());
+		}
+		else if (data_name.compare("close_attack") == 0)
+		{
+			u->min_damage_close = std::stoi(unit_data->first_attribute("min_value")->value());
+			u->max_damage_close= std::stoi(unit_data->first_attribute("max_value")->value());
+		}
+		else if (data_name.compare("ranged_attack") == 0)
+		{
+			std::string val = unit_data->first_attribute("allowed")->value();
+			if (val.compare("true") == 0)
+			{
+				u->ranged_allowed = true;
+				u->min_damage_ranged= std::stoi(unit_data->first_attribute("min_value")->value());
+				u->max_damage_ranged= std::stoi(unit_data->first_attribute("max_value")->value());
+			}
+		}
+		else if (data_name.compare("speed") == 0)
+		{
+			u->speed= std::stoi(unit_data->first_attribute("value")->value());
+		}
+		unit_data = unit_data->next_sibling();
+	}
 
+	return u;
+}
 
 xml_system::xml_system()
 {

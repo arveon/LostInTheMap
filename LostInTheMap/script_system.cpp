@@ -210,6 +210,20 @@ void script_system::perform_action()
 		action_over(nullptr);
 		break;
 	}
+	case action_type::join_army:
+	{
+		army_unit* u = xml_system::load_army_unit(to_perform->target_type);
+		u->quantity = to_perform->num_utility;
+		u->type = to_perform->target_type;
+		combat_flow::player_army.push_back(u);
+		
+		Entity* pl = SpaceSystem::find_entity_by_name(*game_space, "player");
+		IFightable* fc = (IFightable*)pl->get_component(Component::ComponentType::Fighting);
+		fc->army.push_back(u);
+		
+		action_over(nullptr);
+		break;
+	}
 	}
 }
 

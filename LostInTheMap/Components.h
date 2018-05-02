@@ -103,7 +103,7 @@ public:
 	SDL_Rect src_rect;
 	int cur_row, cur_column;
 	int time_elapsed;
-	int total_sprite_required_time = 100;
+	int total_sprite_required_time = 170;
 	bool sprite_changed;
 	bool animation_started = false;
 	bool animation_finished = false;

@@ -1,0 +1,4 @@
+<script block_player="true" once="true">
+<action type="dialogue" dialogue="archaeologist_joins.xml"/>
+<action type="join_army" character="archaeologist_1" quantity="1"/>
+</script>
