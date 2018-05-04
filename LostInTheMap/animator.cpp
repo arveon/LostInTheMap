@@ -17,15 +17,24 @@ void animator::update(Space& game_space, int dt)
 		ac->time_elapsed += dt;
 		if (ac->time_elapsed >= ac->total_sprite_required_time)
 		{
+			if (ac->owner->name.compare("cb_unit_rat1") == 0)
+				std::cout << "a";
 			ac->time_elapsed = 0;
 			SDL_Rect size = asset_controller::get_texture_size(ac->spritesheet);
-			ac->cur_column = (ac->cur_column + 1 >= max_frames_in_animation) ? 0 : ac->cur_column+1;
+			ac->cur_column++;
+			if (ac->cur_column >= max_frames_in_animation)
+				ac->cur_column = 0;
+			//ac->cur_column = (ac->cur_column + 1 >= max_frames_in_animation) ? 0 : ac->cur_column+1;
+			
 			if (ac->cur_column == 0 && animation_done_callbacks[ac] != nullptr)
 			{
+				if (ac->owner->name.compare("cb_unit_rat1") == 0)
+					std::cout << "a";
 				ac->cur_column = max_frames_in_animation - 1;
 				ac->animation_finished = true;
-				animation_done_callbacks[ac](ac->owner);
+				void(*a)(Entity*) = animation_done_callbacks[ac];
 				animation_done_callbacks[ac] = nullptr;
+				a(ac->owner);
 			}
 			ac->sprite_changed = true;
 		}
@@ -150,8 +159,6 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 	}
 	if (done_callback != nullptr)
 		animation_done_callbacks[ac] = done_callback;
-	else
-		animation_done_callbacks[ac] = nullptr;
 }
 
 void animator::apply_animation_sprite_changes(Space& space)
