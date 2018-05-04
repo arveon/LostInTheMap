@@ -292,7 +292,6 @@ SDL_Texture* SDL_manager::get_sprite_from_spritesheet(SDL_Texture * texture, SDL
 	return subtexture;
 }
 
-
 SDL_Texture * SDL_manager::create_terrain_texture(std::vector<SDL_manager::Tile> tiles, int width, int height)
 {
 	SDL_Texture* final_tex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width,height);
@@ -323,4 +322,19 @@ SDL_Texture * SDL_manager::render_texture_on_texture(SDL_Texture * tex1, SDL_Tex
 	SDL_SetRenderTarget(renderer, NULL);
 
 	return combined;
+}
+
+/*
+function that creates a plain texture of given width, height and color
+*/
+SDL_Texture* SDL_manager::create_texture(int w, int h, SDL_Color color)
+{
+	SDL_Texture* temp = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, w, h);//create a texture
+	Uint32* pixels = new Uint32[w * h];// array that holds all the pixel values for the texture
+	memset(pixels, 255, w * h * sizeof(Uint32));//set all the pixels to max value
+	SDL_UpdateTexture(temp, NULL, pixels, w * sizeof(Uint32)); //apply pixels to texture
+	delete[] pixels;//remove the array from memory to avoid memory leak
+	SDL_SetTextureColorMod(temp, color.r, color.g, color.b);//set color of the texture
+	SDL_SetTextureBlendMode(temp, SDL_BLENDMODE_BLEND);
+	return temp;
 }

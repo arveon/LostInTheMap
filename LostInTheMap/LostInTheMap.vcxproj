@@ -149,6 +149,7 @@
     <ClInclude Include="mouse_system.h" />
     <ClInclude Include="movement_system.h" />
     <ClInclude Include="NameToTypeConversion.h" />
+    <ClInclude Include="overlay_system.h" />
     <ClInclude Include="player_system.h" />
     <ClInclude Include="render_system.h" />
     <ClInclude Include="Script.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="movement_system.cpp" />
     <ClCompile Include="NameToTypeConversion.cpp" />
     <ClCompile Include="ObjectTypes.h" />
+    <ClCompile Include="overlay_system.cpp" />
     <ClCompile Include="player_system.cpp" />
     <ClCompile Include="render_system.cpp" />
     <ClCompile Include="script_system.cpp" />

@@ -168,6 +168,9 @@
     <ClInclude Include="ai_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="overlay_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -261,6 +264,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ai_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="overlay_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

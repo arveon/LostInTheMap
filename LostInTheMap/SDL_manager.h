@@ -141,6 +141,8 @@ public:
 
 	static SDL_Texture* render_texture_on_texture(SDL_Texture* tex1, SDL_Texture* tex2, int dest_w, int dest_h, SDL_Rect draw_rect);
 
+	static SDL_Texture * create_texture(int w, int h, SDL_Color color);
+
 	static void get_mouse_position(int* x, int* y) { SDL_GetMouseState(x, y); }
 };
 

@@ -9,19 +9,19 @@
 <action type="dialogue" dialogue="door_opened.xml"/>
 <action type="wait" time="1000"/>
 
-<action type="move" character="arch_supervisor" dest_x="27" dest_y="16" />
+<action type="move" character="arch_supervisor" dest_x="27" dest_y="15" />
 <action type="character_disappear" character="arch_supervisor"/>
 
-<action type="move" character="archaeologist_1" dest_x="27" dest_y="16" />
+<action type="move" character="archaeologist_1" dest_x="27" dest_y="15" />
 <action type="character_disappear" character="archaeologist_1"/>
 
-<action type="move" character="archaeologist_2" dest_x="27" dest_y="16" />
+<action type="move" character="archaeologist_2" dest_x="27" dest_y="15" />
 <action type="character_disappear" character="archaeologist_2"/>
 
-<action type="move" character="archaeologist_3" dest_x="27" dest_y="16" />
+<action type="move" character="archaeologist_3" dest_x="27" dest_y="15" />
 <action type="character_disappear" character="archaeologist_3"/>
 
-<action type="move" character="archaeologist_4" dest_x="27" dest_y="16" />
+<action type="move" character="archaeologist_4" dest_x="27" dest_y="15" />
 <action type="character_disappear" character="archaeologist_4"/>
 
 

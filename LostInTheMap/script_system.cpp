@@ -50,7 +50,7 @@ void script_system::action_over(Entity * action_performer)
 		mc->movement_allowed = true;
 	}
 
-	if(cur_action < cur_script.actions.size())
+	if (cur_action < cur_script.actions.size())
 		cur_script.actions.at(cur_action).finished = true;
 	else
 		cur_script.actions.at(cur_script.actions.size()).finished = true;
@@ -58,7 +58,7 @@ void script_system::action_over(Entity * action_performer)
 	if (cur_action < (int)cur_script.actions.size())
 	{//if more actions are there
 		perform_action();
-	}		
+	}
 	else
 	{//if no more actions
 		//unblock player
@@ -109,7 +109,7 @@ void script_system::perform_action()
 		ICharacter* ch = static_cast<ICharacter*>(to_move->get_component(Component::ComponentType::Character));
 		if (!ch || !to_move->is_active)
 			action_over(nullptr);
-		
+
 		IMoving* mc = static_cast<IMoving*>(to_move->get_component(Component::ComponentType::Movement));
 		if (!mc->movement_allowed)
 			mc->movement_allowed = true;
@@ -134,7 +134,7 @@ void script_system::perform_action()
 		Entity * to_stop = character_system::get_character(to_perform->target_type);
 		if (to_stop)
 		{
-			
+
 
 			to_perform->target = to_stop;
 			IMoving* mc = static_cast<IMoving*>(to_stop->get_component(Component::ComponentType::Movement));
@@ -219,12 +219,22 @@ void script_system::perform_action()
 		u->quantity = to_perform->num_utility;
 		u->type = to_perform->target_type;
 		combat_flow::player_army.push_back(u);
-		
+
 		Entity* pl = SpaceSystem::find_entity_by_name(*game_space, "player");
 		IFightable* fc = (IFightable*)pl->get_component(Component::ComponentType::Fighting);
 		fc->army.push_back(u);
-		
+
 		action_over(nullptr);
+		break;
+	}
+	case action_type::fade_in:
+	{
+		overlay_system::set_fade_in(to_perform->time, to_perform->num_utility, &action_over);
+		break;
+	}
+	case action_type::fade_out:
+	{
+		overlay_system::set_fade_out(to_perform->time, &action_over);
 		break;
 	}
 	}

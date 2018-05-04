@@ -16,7 +16,9 @@ enum action_type
 	object_disappear,
 	character_disappear,
 	level_switch,
-	join_army
+	join_army,
+	fade_in,
+	fade_out
 };
 
 class Action

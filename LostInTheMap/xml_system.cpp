@@ -391,6 +391,20 @@ Script xml_system::load_script(std::string name, levels level)
 				temp.target_type = NameToTypeConversion::get_character_type_by_name(cur_node->first_attribute("character")->value());
 				temp.num_utility = std::stoi(cur_node->first_attribute("quantity")->value());
 			}
+			else if (type.compare("fadein") == 0)
+			{
+				temp.type = action_type::fade_in;
+				temp.time = std::stoi(cur_node->first_attribute("time")->value());
+
+				rapidxml::xml_attribute<>* wait = cur_node->first_attribute("wait_time");
+				if(wait)
+					temp.num_utility = std::stoi(wait->value());
+			}
+			else if (type.compare("fadeout") == 0)
+			{
+				temp.type = action_type::fade_out;
+				temp.time = std::stoi(cur_node->first_attribute("time")->value());
+			}
 			else
 				temp.type = action_type::not_set;
 

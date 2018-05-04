@@ -6,6 +6,7 @@
 #include "camera_system.h"
 #include "StoryStages.h"
 #include "NameToTypeConversion.h"
+#include "overlay_system.h"
 
 class script_system
 {

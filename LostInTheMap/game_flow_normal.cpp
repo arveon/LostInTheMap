@@ -66,6 +66,18 @@ void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
 	//update camera needed here as it sets camera coords to player
 	camera_system::update_camera(1);
 	director::script_trigger("start.xml");
+
+	//create the fade overlay object
+	Entity* overlay = new Entity(entity_type::ui_element, "fade_overlay");
+	IDrawable* dc = new IDrawable(overlay, IDrawable::layers::ui);
+	dc->draw_rect = { 0,0,0,0 };
+	SDL_manager::get_window_size(&dc->draw_rect.w, &dc->draw_rect.h);
+	dc->sprite = SDL_manager::create_texture(dc->draw_rect.w, dc->draw_rect.h, {0,0,0,1});
+	//dc->sprite = asset_controller::load_texture("assets/graphics/characters/default.png");
+	asset_controller::set_texture_alpha(dc->sprite, 0);
+	overlay->add_component(dc);
+	render_system::add_object_to_queue(dc);
+	overlay_system::init_fade(overlay);
 }
 
 void game_flow_normal::update_space(Space & space, int dt)
@@ -75,6 +87,9 @@ void game_flow_normal::update_space(Space & space, int dt)
 	animator::update(space, dt);
 	animator::apply_animation_sprite_changes(space);
 	SpaceSystem::update_draw_rects(space);
+
+	if (!overlay_system::is_fade_done())
+		overlay_system::update(dt);
 
 	if (combat_flow::is_in_combat())
 	{
