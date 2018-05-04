@@ -26,8 +26,6 @@ void animator::update(Space& game_space, int dt)
 			
 			if (ac->cur_column == 0 && animation_done_callbacks[ac] != nullptr)
 			{
-				if (ac->owner->name.compare("cb_unit_rat1") == 0)
-					std::cout << "a";
 				ac->cur_column = max_frames_in_animation - 1;
 				ac->animation_finished = true;
 				void(*a)(Entity*) = animation_done_callbacks[ac];
@@ -36,9 +34,6 @@ void animator::update(Space& game_space, int dt)
 			}
 			ac->sprite_changed = true;
 		}
-
-
-
 	}
 
 }
@@ -96,6 +91,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 			already_there = true;
 		ac->total_sprite_required_time = 100;
 		ac->cur_row = 2;
+		break;
 	case animations::walking_down:
 		if (ac->cur_row == 3)
 			already_there = true;
@@ -181,11 +177,29 @@ void animator::apply_animation_sprite_changes(Space& space)
 	}
 }
 
-void animator::set_walking_animation(Entity* ent)
+void animator::set_walking_animation(Entity* ent, ITerrain* tc)
 {
 	IAnimatable* ac = (IAnimatable*)ent->get_component(Component::ComponentType::Animated);
 	IMoving* mc = (IMoving*)ent->get_component(Component::ComponentType::Movement);
 
+	/*if (mc->path.size() > 0)
+	{
+		SDL_Point next_dest = *mc->path.begin();
+		SDL_Point pos = map_system::get_entity_ids(ent, tc);
+
+
+		if (next_dest.x > pos.x)
+			animator::start_animation(ac, animations::walking_right);
+		else if (next_dest.x < pos.x)
+			animator::start_animation(ac, animations::walking_left);
+		else
+		{
+			if (next_dest.y > pos.y)
+				animator::start_animation(ac, animations::walking_down);
+			else if (next_dest.y < pos.y)
+				animator::start_animation(ac, animations::walking_up);
+		}
+	}*/
 	if (mc->shift_buffer_x > 0)
 		animator::start_animation(ac, animations::walking_right);
 	else if (mc->shift_buffer_x < 0)

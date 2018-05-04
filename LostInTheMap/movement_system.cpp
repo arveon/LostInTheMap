@@ -37,7 +37,7 @@ void movement_system::move_characters_tick(Space& game_space, int dt, ITerrain* 
 		if (mc->destination_reached && mc->path.size() == 0)//if destination tile reached (or not moving at all)
 			continue;
 
-		animator::set_walking_animation(character);
+		animator::set_walking_animation(character, tr);
 
 		SDL_Point cur_dest;
 		//if next tile is not last destination
@@ -183,7 +183,7 @@ void movement_system::move_characters_tick_combat(Space& game_space, int dt, ITe
 		if (mc->destination_reached && mc->path.size() == 0)//if destination tile reached (or not moving at all)
 			continue;
 
-		animator::set_walking_animation(character);
+		animator::set_walking_animation(character, tr);
 
 		SDL_Point cur_dest;
 		cur_dest = mc->path.back();
