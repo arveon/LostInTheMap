@@ -212,7 +212,13 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 			if (path.size() <= steps_allowed && path.size() > 0)
 			{
 				if (current_unit->attacking)
-					change_mouse_icon(mouse_system::mouse_icons::attack, ac, dc);
+				{
+					//calculate distance to character
+					SDL_Point attack_from = *movement_component->path.begin();
+					SDL_Point target_ids = map_system::get_entity_ids(current_unit->attacking, tc);
+					set_mouse_icon_attack(attack_from, target_ids, dc, ac);
+					
+				}
 				else
 				{
 					change_mouse_icon(mouse_system::mouse_icons::walking, ac, dc);
@@ -222,14 +228,48 @@ void mouse_system::update_mouse_combat(Entity * mouse, Space & space, int steps_
 			}
 			else if (path.size() == 0 && temp.size()!=0 && temp.size() < steps_allowed && current_unit->attacking)
 			{
-				change_mouse_icon(mouse_system::mouse_icons::attack, ac, dc);
+				//calculate distance to character
+				SDL_Point attack_from = map_system::get_entity_ids(cur_unit, tc);
+				SDL_Point target_ids = map_system::get_entity_ids(current_unit->attacking, tc);
+				set_mouse_icon_attack(attack_from, target_ids, dc, ac);
 			}
 			else
 			{
 				current_unit->attacking = nullptr;
 				movement_component->path.clear();
-				change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
+				if(current_unit->skipping_turn)
+					change_mouse_icon(mouse_system::mouse_icons::skip_turn, ac, dc);
+				else
+					change_mouse_icon(mouse_system::mouse_icons::normal, ac, dc);
 			}
+		}
+	}
+}
+
+void mouse_system::set_mouse_icon_attack(SDL_Point attack_from, SDL_Point target_ids, IDrawable* dc, IAnimatable* ac)
+{
+	change_mouse_icon(mouse_system::mouse_icons::attack, ac, dc);
+	if (attack_from.x < target_ids.x)
+	{
+		change_mouse_icon(mouse_system::mouse_icons::attack_horizontal, ac, dc);
+		dc->flipped_x = false;
+	}
+	else if (attack_from.x > target_ids.x)
+	{
+		change_mouse_icon(mouse_system::mouse_icons::attack_horizontal, ac, dc);
+		dc->flipped_x = true;
+	}
+	else
+	{
+		if (attack_from.y < target_ids.y)
+		{
+			change_mouse_icon(mouse_system::mouse_icons::attack_vertical, ac, dc);
+			dc->flipped_y = true;
+		}
+		else if (attack_from.y > target_ids.y)
+		{
+			change_mouse_icon(mouse_system::mouse_icons::attack_vertical, ac, dc);
+			dc->flipped_y = false;
 		}
 	}
 }
@@ -271,44 +311,60 @@ void mouse_system::change_mouse_icon(mouse_icons icon, IAnimatable* anim_compone
 	Transform* tf = static_cast<Transform*>(anim_component->owner->get_component(Component::ComponentType::Transf));
 	if (!tf)
 		return;
+	anim_component->sprite_changed = true;
+	draw_component->flipped_x = false;
+	draw_component->flipped_y = false;
 	switch (icon)
 	{
 	case mouse_icons::normal:
-		cur_icon = mouse_icons::normal;
 		tf->origin = { 0,0 };
 		anim_component->cur_column = 0;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 16;
-		anim_component->sprite_changed = true;
+		
 		break;
 	case mouse_icons::walking:
-		cur_icon = mouse_icons::walking;
 		anim_component->cur_column = 1;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 24;
 		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
-		anim_component->sprite_changed = true;
 		break;
 	case mouse_icons::attack:
-		cur_icon = mouse_icons::attack;
 		anim_component->cur_column = 2;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 32;
 		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
-		anim_component->sprite_changed = true;
 		break;
 	case mouse_icons::blocked:
-		cur_icon = mouse_icons::blocked;
 		anim_component->cur_column = 3;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 24;
 		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
-		anim_component->sprite_changed = true;
 		break;
 	case mouse_icons::talk:
-		cur_icon = mouse_icons::talk;
 		anim_component->cur_column = 4;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 32;
 		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
-		anim_component->sprite_changed = true;
+		break;
+	case mouse_icons::attack_horizontal:
+		anim_component->cur_column = 6;
+		draw_component->draw_rect.w = draw_component->draw_rect.h = 32;
+		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
+		break;
+	case mouse_icons::attack_vertical:
+		anim_component->cur_column = 5;
+		draw_component->draw_rect.w = draw_component->draw_rect.h = 32;
+		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
+		break;
+	case mouse_icons::skip_turn:
+		anim_component->cur_column = 7;
+		draw_component->draw_rect.w = draw_component->draw_rect.h = 32;
+		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
+		
+		break;
+	case mouse_icons::look_at:
+		anim_component->cur_column = 8;
+		draw_component->draw_rect.w = draw_component->draw_rect.h = 32;
+		tf->origin = { draw_component->draw_rect.w / 2, draw_component->draw_rect.h / 2 };
 		break;
 	}
+	cur_icon = icon;
 
 
 }
