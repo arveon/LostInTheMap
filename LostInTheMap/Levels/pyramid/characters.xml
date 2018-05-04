@@ -1277,7 +1277,7 @@
     <tile x="24" y="25" tile="-1" flipX="false"/>
     <tile x="25" y="25" tile="2" type="archaeologist_1" rot="0" flipX="false"/>
     <tile x="26" y="25" tile="-1" rot="0" flipX="false"/>
-    <tile x="27" y="25" tile="-1" rot="0" flipX="false"/>
+    <tile x="27" y="25" tile="4" type="trigger" script="archaeologist_joins.xml" rot="0" flipX="false"/>
     <tile x="28" y="25" tile="2" type="arch_supervisor" rot="0" flipX="false"/>
     <tile x="29" y="25" tile="-1" rot="0" flipX="false"/>
     <tile x="30" y="25" tile="-1" rot="0" flipX="false"/>
@@ -1327,7 +1327,7 @@
     <tile x="24" y="26" tile="-1" rot="0" flipX="false"/>
     <tile x="25" y="26" tile="-1" rot="0" flipX="false"/>
     <tile x="26" y="26" tile="-1" rot="0" flipX="false"/>
-    <tile x="27" y="26" tile="4" type="trigger" script="archaeologist_joins.xml"  rot="0" flipX="false"/>
+    <tile x="27" y="26" tile="-1"  rot="0" flipX="false"/>
     <tile x="28" y="26" tile="-1" rot="0" flipX="false"/>
     <tile x="29" y="26" tile="-1" rot="0" flipX="false"/>
     <tile x="30" y="26" tile="-1" rot="0" flipX="false"/>

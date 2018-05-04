@@ -162,14 +162,14 @@
     <ClInclude Include="NameToTypeConversion.h">
       <Filter>Header Files\systems\utility_systems</Filter>
     </ClInclude>
-    <ClInclude Include="animator.h">
+    <ClInclude Include="overlay_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ai_system.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\systems\utility_systems</Filter>
     </ClInclude>
-    <ClInclude Include="overlay_system.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="animator.h">
+      <Filter>Header Files\systems\core_systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -254,20 +254,20 @@
     <ClCompile Include="ToDoList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NameToTypeConversion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sdl_utils.cpp">
       <Filter>Source Files\systems\utility_systems</Filter>
     </ClCompile>
-    <ClCompile Include="animator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ai_system.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="overlay_system.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="animator.cpp">
+      <Filter>Source Files\systems\core_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ai_system.cpp">
+      <Filter>Source Files\systems\utility_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="NameToTypeConversion.cpp">
+      <Filter>Source Files\systems\utility_systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -17,8 +17,6 @@ void animator::update(Space& game_space, int dt)
 		ac->time_elapsed += dt;
 		if (ac->time_elapsed >= ac->total_sprite_required_time)
 		{
-			if (ac->owner->name.compare("cb_unit_rat1") == 0)
-				std::cout << "a";
 			ac->time_elapsed = 0;
 			SDL_Rect size = asset_controller::get_texture_size(ac->spritesheet);
 			ac->cur_column++;

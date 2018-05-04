@@ -103,7 +103,7 @@ void mouse_system::update_mouse(Entity* mouse, Space& space, bool in_dialogue, b
 				else if (interaction)
 				{
 					mc->cur_target = target_object;
-					change_mouse_icon(mouse_icons::normal, ac, dc);
+					change_mouse_icon(mouse_icons::look_at, ac, dc);
 				}
 			}
 			else
