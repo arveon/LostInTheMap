@@ -18,7 +18,8 @@ enum action_type
 	level_switch,
 	join_army,
 	fade_in,
-	fade_out
+	fade_out,
+	animate_object
 };
 
 class Action

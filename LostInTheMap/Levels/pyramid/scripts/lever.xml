@@ -1,5 +1,8 @@
 <script block_player="true">
+<action type="dialogue" dialogue="wonder.xml"/>
+<action type="animate_object" object="lever"/>
 <action type="move_camera" dest_x="28" dest_y="18"/>
+<action type="animate_object" object="hidden_door"/>
 <action type="object_disappear" object_type="hidden_door"/>
 <action type="move" character="arch_supervisor" dest_x="27" dest_y="18" />
 <action type="move" character="archaeologist_1" dest_x="28" dest_y="18" />

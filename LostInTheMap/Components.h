@@ -106,6 +106,7 @@ public:
 	int cur_row, cur_column;
 	int time_elapsed;
 	int total_sprite_required_time = 170;
+	int num_frames;
 	bool sprite_changed;
 	bool animation_started = false;
 	bool animation_finished = false;
@@ -115,6 +116,7 @@ public:
 		sprite_changed = false;
 		time_elapsed = 0;
 		type = ComponentType::Animated;
+		num_frames = 6;
 		isActive = true;
 	}
 

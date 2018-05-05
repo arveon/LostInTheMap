@@ -271,7 +271,9 @@ void level_loading_system::load_game_components(Space & game_space)
 			IInteractionSource* oo = static_cast<IInteractionSource*>(a->get_component(Component::ComponentType::InteractionSource));
 			SDL_Texture* tex = asset_controller::get_object_texture(NameToTypeConversion::get_object_name_by_type(oo->o_type));
 			IDrawable* dc = static_cast<IDrawable*>(a->get_component(Component::ComponentType::Drawable));
-			dc->sprite = tex;
+			IAnimatable* ac = static_cast<IAnimatable*>(a->get_component(Component::ComponentType::Animated));
+			ac->spritesheet = tex;
+			dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
 		}
 		
 	}

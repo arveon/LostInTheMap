@@ -20,7 +20,7 @@ void animator::update(Space& game_space, int dt)
 			ac->time_elapsed = 0;
 			SDL_Rect size = asset_controller::get_texture_size(ac->spritesheet);
 			ac->cur_column++;
-			if (ac->cur_column >= max_frames_in_animation)
+			if (ac->cur_column >= ac->num_frames)
 				ac->cur_column = 0;
 			//ac->cur_column = (ac->cur_column + 1 >= max_frames_in_animation) ? 0 : ac->cur_column+1;
 			
@@ -141,6 +141,12 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 			already_there = true;
 		ac->cur_row = 7;
 		ac->total_sprite_required_time = 170;
+		break;
+	case animations::object_animation:
+		if (ac->cur_row == 1)
+			already_there = true;
+		ac->cur_row = 1;
+		ac->total_sprite_required_time = 300;
 		break;
 	}
 	if (!already_there)

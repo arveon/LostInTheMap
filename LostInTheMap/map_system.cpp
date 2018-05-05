@@ -169,6 +169,8 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 				IDrawable* dc = new IDrawable(obj, IDrawable::layers::surface);
 				dc->draw_rect = tf->position;
 
+				IAnimatable* ac = new IAnimatable(obj);
+
 				object_types type = NameToTypeConversion::get_object_type_by_name(objects_map[i][j].type);
 				tf->origin = { tf->position.w / 2, tf->position.h - 1 };
 				
@@ -203,6 +205,7 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 					collider->collidable = true;
 					collider->collision_rect.w = tf->position.w;
 					collider->collision_rect.h = tf->position.h;
+					ac->num_frames = 3;
 					break;
 				}
 				case object_types::barrel:
@@ -247,6 +250,7 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 					dc->draw_rect.w = 64;
 					dc->draw_rect.h = 32;
 					tf->position.w = 64;
+					ac->num_frames = 8;
 
 					collider->collidable = true;
 					collider->collision_rect.w = tf->position.w;
@@ -257,8 +261,10 @@ std::vector<Entity*> map_system::init_objects(Actor ** objects_map, ITerrain* tr
 
 				}
 				dc->sprite_origin = {dc->draw_rect.w / 2, dc->draw_rect.h};
+				ac->src_rect = { 0,0, dc->draw_rect.w, dc->draw_rect.h };
 
 				obj->add_component(dc);
+				obj->add_component(ac);
 				obj->add_component(i_obj);
 				obj->add_component(collider);
 

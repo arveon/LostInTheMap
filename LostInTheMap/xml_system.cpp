@@ -405,6 +405,11 @@ Script xml_system::load_script(std::string name, levels level)
 				temp.type = action_type::fade_out;
 				temp.time = std::stoi(cur_node->first_attribute("time")->value());
 			}
+			else if (type.compare("animate_object") == 0)
+			{
+				temp.type = action_type::animate_object;
+				temp.utility = cur_node->first_attribute("object")->value();
+			}
 			else
 				temp.type = action_type::not_set;
 

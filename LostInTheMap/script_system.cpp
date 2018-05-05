@@ -44,10 +44,16 @@ void script_system::action_over(Entity * action_performer)
 {
 	if (action_performer)
 	{//unblock character
+		IAnimatable* ac = static_cast<IAnimatable*>(action_performer->get_component(Component::ComponentType::Animated));
 		ICharacter* ch = static_cast<ICharacter*>(action_performer->get_component(Component::ComponentType::Character));
 		IMoving* mc = static_cast<IMoving*>(action_performer->get_component(Component::ComponentType::Movement));
-		ch->controlled_by_script = false;
-		mc->movement_allowed = true;
+		if(ch)
+			ch->controlled_by_script = false;
+		if(mc)
+			mc->movement_allowed = true;
+		if (ac)
+			animator::start_animation(ac, animations::idle);
+
 	}
 
 	if (cur_action < cur_script.actions.size())
@@ -235,6 +241,13 @@ void script_system::perform_action()
 	case action_type::fade_out:
 	{
 		overlay_system::set_fade_out(to_perform->time, &action_over);
+		break;
+	}
+	case action_type::animate_object:
+	{
+		Entity* obj = SpaceSystem::find_object_of_type(*game_space, NameToTypeConversion::get_object_type_by_name(to_perform->utility));;
+		IAnimatable* ac = (IAnimatable*)obj->get_component(Component::ComponentType::Animated);
+		animator::start_animation(ac, animations::object_animation, &action_over);
 		break;
 	}
 	}
