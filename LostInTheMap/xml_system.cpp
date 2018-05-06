@@ -1,13 +1,16 @@
 #include "xml_system.h"
 
+const std::string xml_system::core_config_filepath = "config/core_config.xml";
+
 xml_system::WindowConfig xml_system::load_config_file()
 {
 	WindowConfig cfg;
 	cfg.fullscreen = false;
 
-	rapidxml::file<> file("config/core_config.xml");
+	std::vector<char> filecontents = xml_system::get_file_content_string(core_config_filepath);
+
 	rapidxml::xml_document<> doc;
-	doc.parse<0>(file.data());
+	doc.parse<0>(&filecontents[0]);
 
 	rapidxml::xml_node<>* cur_node = doc.first_node("window_config")->first_node();
 
@@ -466,6 +469,19 @@ xml_system::Dialogue xml_system::load_dialogue(levels level, std::string path)
 		replica = replica->next_sibling("rep");
 	}
 	result.initialised = true;
+	return result;
+}
+
+std::vector<char> xml_system::get_file_content_string(std::string path)
+{
+	std::string result_str;
+
+	std::ifstream is(path);
+	result_str.assign(std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>());
+
+	std::vector<char> result(result_str.begin(), result_str.end());
+	result.push_back('\0');
+
 	return result;
 }
 

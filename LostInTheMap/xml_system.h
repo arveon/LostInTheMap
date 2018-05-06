@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 #include <string>
 #include <iostream>
 #include <vector>
@@ -20,7 +21,7 @@
 class xml_system
 {
 private:
-	const std::string core_config_filepath = "config/core_config";
+	static const std::string core_config_filepath;
 public:
 	typedef struct
 	{
@@ -73,6 +74,8 @@ public:
 	static army_unit* load_army_unit(character_type ch);
 
 	static Dialogue load_dialogue(levels level, std::string path);
+
+	static std::vector<char> get_file_content_string(std::string path);
 
 	xml_system();
 	~xml_system();
