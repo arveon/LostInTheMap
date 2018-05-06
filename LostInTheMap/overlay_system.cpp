@@ -28,8 +28,9 @@ void overlay_system::update(int dt)
 				asset_controller::set_texture_alpha(comp->sprite, cur_alpha);
 		}
 	}
-	if (cur_state == fading_in || cur_state == fading_out)
+	if (cur_state == overlay_system::fading_in || cur_state == overlay_system::fading_out)
 	{
+		
 		elapsed_time += dt;
 
 		if (elapsed_time >= total_time)

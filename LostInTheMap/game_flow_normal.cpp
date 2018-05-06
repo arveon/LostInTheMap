@@ -83,6 +83,12 @@ void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
 void game_flow_normal::update_space(Space & space, int dt)
 {
 	static int tw = 0;
+	static bool combat_fadein = false;
+	if (combat_fadein)
+	{
+		overlay_system::set_fade_in(500, 100, nullptr);
+		combat_fadein = false;
+	}
 
 	animator::update(space, dt);
 	animator::apply_animation_sprite_changes(space);
@@ -100,56 +106,9 @@ void game_flow_normal::update_space(Space & space, int dt)
 	}
 	else if (!combat_flow::is_in_combat() && combat_flow::is_initialised())
 	{
-		if (!combat_flow::player_is_winner)
-		{//if combat lost
-			combat_flow::player_army = xml_system::load_army("giovanni.xml", director::cur_level, false);
-			change_level_callback(director::cur_level);
-		}
-		else
-		{//if combat won
-			script_system::action_over(SpaceSystem::find_entity_by_name(space, "player"));
- 			combat_flow::destroy_combat(space);
-
-			render_system::flush_queues();
-			
-			//return cursor to render queue as it was swapped over by cursor from combat flow
-			render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
-
-			Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
-			ITerrain* tc = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
-
-			
-			SpaceSystem::add_space_to_render_queue(space);
-			for (int i = 0; i < tc->height; i++)
-				for (int j = 0; j < tc->width; j++)
-				{
-					if (tc->terrain_tiles[i][j])
-					{
-						IDrawable* dc = (IDrawable*)tc->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable);
-						if (dc)
-						{
-							dc->isActive = true;
-							render_system::add_object_to_queue(dc);
-						}
-					}
-				}
-
-			render_system::prepare_terrain(tc->width*tc->tile_width, tc->height*tc->tile_height);
-
-			camera_system::set_camera_zoom(2.f);
-			Entity* player = SpaceSystem::find_entity_by_name(space, "player");
-			camera_system::set_camera_target(player);
-			mouse->activate();
-			render_system::add_object_to_queue((IDrawable*)mouse->get_component(Component::ComponentType::Drawable));
-
-			IInteractionSource* p_ics = (IInteractionSource*)player->get_component(Component::ComponentType::InteractionSource);
-			p_ics->interaction_target->deactivate();
-			//init pathfinder
-			lee_pathfinder::init_pathfinder(map_system::get_pathfinding_map(tc), tc->width, tc->height);
-			SDL_Rect camera_rect_ids = camera_system::get_camera_rect_ids(tc->tile_width, tc->tile_height);
-			lee_pathfinder::set_camera_position(camera_rect_ids.x, camera_rect_ids.y);
-			lee_pathfinder::set_camera_dimensions(camera_rect_ids.w, camera_rect_ids.h);
-		}
+		apply_combat_results(space);
+		render_system::add_object_to_queue((IDrawable*)overlay_system::get_fade()->get_component(Component::ComponentType::Drawable));
+		combat_fadein = true;
 	}
 	else
 	{
@@ -204,6 +163,60 @@ void game_flow_normal::update_space(Space & space, int dt)
 		}
 	}
 	game_flow_normal::handle_mouse_clicks(space);
+}
+
+
+void game_flow_normal::apply_combat_results(Space& space)
+{
+	if (!combat_flow::player_is_winner)
+	{//if combat lost
+		combat_flow::player_army = xml_system::load_army("giovanni.xml", director::cur_level, false);
+		change_level_callback(director::cur_level);
+	}
+	else
+	{//if combat won
+		script_system::action_over(SpaceSystem::find_entity_by_name(space, "player"));
+		combat_flow::destroy_combat(space);
+
+		render_system::flush_queues();
+
+		//return cursor to render queue as it was swapped over by cursor from combat flow
+		render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
+
+		Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
+		ITerrain* tc = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
+
+		SpaceSystem::add_space_to_render_queue(space);
+		for (int i = 0; i < tc->height; i++)
+			for (int j = 0; j < tc->width; j++)
+			{
+				if (tc->terrain_tiles[i][j])
+				{
+					IDrawable* dc = (IDrawable*)tc->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable);
+					if (dc)
+					{
+						dc->isActive = true;
+						render_system::add_object_to_queue(dc);
+					}
+				}
+			}
+
+		render_system::prepare_terrain(tc->width*tc->tile_width, tc->height*tc->tile_height);
+
+		camera_system::set_camera_zoom(2.f);
+		Entity* player = SpaceSystem::find_entity_by_name(space, "player");
+		camera_system::set_camera_target(player);
+		mouse->activate();
+		render_system::add_object_to_queue((IDrawable*)mouse->get_component(Component::ComponentType::Drawable));
+
+		IInteractionSource* p_ics = (IInteractionSource*)player->get_component(Component::ComponentType::InteractionSource);
+		p_ics->interaction_target->deactivate();
+		//init pathfinder
+		lee_pathfinder::init_pathfinder(map_system::get_pathfinding_map(tc), tc->width, tc->height);
+		SDL_Rect camera_rect_ids = camera_system::get_camera_rect_ids(tc->tile_width, tc->tile_height);
+		lee_pathfinder::set_camera_position(camera_rect_ids.x, camera_rect_ids.y);
+		lee_pathfinder::set_camera_dimensions(camera_rect_ids.w, camera_rect_ids.h);
+	}
 }
 
 void game_flow_normal::handle_mouse_clicks(Space& space)

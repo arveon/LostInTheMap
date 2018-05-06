@@ -3,6 +3,7 @@
 bool combat_flow::combat_finished = true;
 bool combat_flow::player_is_winner = false;
 bool combat_flow::initialised = false;
+bool combat_flow::combat_started = false;
 Space combat_flow::combat_space;
 std::vector<army_unit*> combat_flow::player_army;
 std::vector<army_unit*> combat_flow::enemy_army;
@@ -24,6 +25,7 @@ void combat_flow::init_enemy_army(std::vector<army_unit*> army)
 
 void combat_flow::init_combat_space(Space& game_space)
 {
+	combat_started = false;
 	for (Entity* t : game_space.objects)
 	{
 		std::string first_letters = t->name.substr(0, 2);
@@ -108,12 +110,24 @@ void combat_flow::init_combat_space(Space& game_space)
 	//TODO remove this when moving further into combat flow
 	/*combat_finished = true;*/
 	std::cout << "Combat started" << std::endl;
+
+	overlay_system::set_fade_in(1500, 300, &start);
 }
 
+void combat_flow::start(Entity* fade)
+{
+	combat_started = true;
+}
+
+void combat_flow::finish(Entity* fade)
+{
+	combat_finished = true;
+}
 
 
 void combat_flow::destroy_combat(Space& game_space)
 {
+	combat_started = false;
 	//logic for destroying all combat structs
 	for (int i = (int)game_space.objects.size() - 1; i >= 0; i--)
 	{
@@ -178,14 +192,20 @@ void combat_flow::destroy_combat(Space& game_space)
 void combat_flow::update(Space & game_space, int dt)
 {
 	mouse_system::update_mouse_combat(combat_flow::mouse, game_space, order_of_turns.at(cur_turn)->speed, order_of_turns.at(cur_turn)->unit_entity);
-
-	Entity* tr = SpaceSystem::find_entity_by_name(combat_space, "cb_terrain");
-	ITerrain* tc = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
-	movement_system::move_characters_tick_combat(combat_space,dt,tc);
+	if (combat_started)
+	{
+		Entity* tr = SpaceSystem::find_entity_by_name(combat_space, "cb_terrain");
+		ITerrain* tc = static_cast<ITerrain*>(tr->get_component(Component::ComponentType::Terrain));
+		movement_system::move_characters_tick_combat(combat_space, dt, tc);
+	}
 }
 
 void combat_flow::mouse_clicked()
 {
+	//ignore mouse input if combat hasnt started
+	if (!combat_started)
+		return;
+
 	//only process mouse input if it was clicked NOT during an enemy turn
 	if (!order_of_turns.at(cur_turn)->is_enemy)
 	{
@@ -319,7 +339,10 @@ void combat_flow::unit_finished_moving(Entity* unit)
 void combat_flow::unit_finished_turn()
 {
 	if (combat_flow::check_combat_finished())
+	{
+		overlay_system::set_fade_out(2000, &finish);
 		return;
+	}
 
 	//reset animation just in case
 	IAnimatable* ac = (IAnimatable*)order_of_turns.at(cur_turn)->unit_entity->get_component(Component::ComponentType::Animated);
@@ -366,13 +389,11 @@ void combat_flow::unit_finished_turn()
 		animator::start_animation(ac, animations::selected);
 		mouse_system::enable_mouse(mouse);
 	}
-
-
-	std::cout << a->unit_entity->name << std::endl;
 }
 
 bool combat_flow::check_combat_finished()
 {
+	bool combat_finished = false;
 	//check if there are live units on both sides (winning/losing conditions)
 	bool player = false;
 	for (army_unit* u : player_army)

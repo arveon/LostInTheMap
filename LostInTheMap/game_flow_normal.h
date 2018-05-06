@@ -27,6 +27,8 @@ public:
 	static int mouse_down_listener_id;
 	static void init(Space& game_space, void(*change_level_cb)(levels));
 	static void update_space(Space& space, int dt);
+	static void combat_finished_callback(Entity * a);
+	static void apply_combat_results(Space & space);
 	static void handle_mouse_clicks(Space& space);
 	static void update_pathfinder(Space& space);
 	static void set_movement(Space& space);

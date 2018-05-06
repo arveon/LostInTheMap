@@ -18,6 +18,8 @@ class combat_flow
 private:
 	static bool combat_finished;
 	static bool initialised;
+
+	static bool combat_started;
 	
 	static Entity* mouse;
 	static int cur_turn;
@@ -32,6 +34,8 @@ public:
 	static void init_player_army(std::vector<army_unit*> army);
 	static void init_enemy_army(std::vector<army_unit*> army);
 	static void init_combat_space(Space& game_space);
+	static void start(Entity* fade);
+	static void finish(Entity * fade);
 	static void destroy_combat(Space& game_space);
 
 	static void update(Space& game_space, int dt);
