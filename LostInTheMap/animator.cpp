@@ -86,6 +86,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 		ac->total_sprite_required_time = 100;
 	}
 		break;
+	case animations::object_active:
 	case animations::walking_up:
 		if (ac->cur_row == 2)
 			already_there = true;

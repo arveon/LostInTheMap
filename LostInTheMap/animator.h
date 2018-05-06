@@ -16,7 +16,8 @@ enum animations
 	taking_damage,
 	death,
 	selected,
-	object_animation
+	object_animation,
+	object_active
 };
 
 class animator

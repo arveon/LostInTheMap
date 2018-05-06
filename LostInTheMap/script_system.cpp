@@ -47,12 +47,20 @@ void script_system::action_over(Entity * action_performer)
 		IAnimatable* ac = static_cast<IAnimatable*>(action_performer->get_component(Component::ComponentType::Animated));
 		ICharacter* ch = static_cast<ICharacter*>(action_performer->get_component(Component::ComponentType::Character));
 		IMoving* mc = static_cast<IMoving*>(action_performer->get_component(Component::ComponentType::Movement));
-		if(ch)
+		if (ac)
+		{
+			ac->animation_finished = true;
+			animator::start_animation(ac, animations::object_active);
+		}
+		if (ch)
+		{
 			ch->controlled_by_script = false;
+			animator::start_animation(ac, animations::idle);
+
+		}
 		if(mc)
 			mc->movement_allowed = true;
-		if (ac)
-			animator::start_animation(ac, animations::idle);
+		
 
 	}
 
