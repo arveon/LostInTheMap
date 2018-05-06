@@ -296,7 +296,8 @@ SDL_Texture * SDL_manager::create_terrain_texture(std::vector<SDL_manager::Tile>
 {
 	SDL_Texture* final_tex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width,height);
 	SDL_SetRenderTarget(renderer, final_tex);
-
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	SDL_RenderClear(renderer);
 	for (Tile t : tiles)
 	{
 		SDL_RenderCopy(renderer, t.tex, NULL, &t.draw_rect);

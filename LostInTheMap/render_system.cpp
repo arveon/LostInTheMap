@@ -62,6 +62,7 @@ void render_system::prepare_terrain(int map_width, int map_height)
 void render_system::unprepare_terrain()
 {
 	asset_controller::destroy_texture(terrain_sprite);
+	terrain_sprite = nullptr;
 	terrain_prepared = false;
 }
 
@@ -72,7 +73,9 @@ void render_system::flush_queues()
 	surface.clear();
 	foreground.clear();
 	ui.clear();
+	world_ui.clear();
 	asset_controller::destroy_texture(terrain_sprite);
+	terrain_sprite = nullptr;
 	terrain_prepared = false;
 	mouse = nullptr;
 }
@@ -127,6 +130,10 @@ void render_system::sort_queues()
 
 			if (first_y > second_y)
 			{
+				//swap ID's so that the draw components always contain their up-to-date version
+				dr1->id++;
+				dr2->id--;
+
 				ui.at(i) = dr2;
 				ui.at(i + 1) = dr1;
 				swapped = true;
@@ -162,8 +169,11 @@ void render_system::render_queues()
 
 	if (terrain.size() > 0)
 	{
-		if(terrain_prepared)
+		if (terrain_prepared)
+		{
 			SDL_manager::render_sprite_src(terrain_sprite, camera);
+			//SDL_manager::render_sprite_src(terrain_sprite, { 0,0,16000, 16000 }, { 700, 0, 100, 50 });
+		}
 		else
 		{
 			for (std::vector<IDrawable*>::iterator it = terrain.begin(); it != terrain.end(); it++)

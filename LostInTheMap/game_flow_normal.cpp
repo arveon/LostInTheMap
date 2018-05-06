@@ -109,14 +109,16 @@ void game_flow_normal::update_space(Space & space, int dt)
 		{//if combat won
 			script_system::action_over(SpaceSystem::find_entity_by_name(space, "player"));
  			combat_flow::destroy_combat(space);
+
+			render_system::flush_queues();
+			
 			//return cursor to render queue as it was swapped over by cursor from combat flow
 			render_system::add_object_to_queue(static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable)));
-
 
 			Entity* terrain = SpaceSystem::find_entity_by_name(space, "terrain");
 			ITerrain* tc = static_cast<ITerrain*>(terrain->get_component(Component::ComponentType::Terrain));
 
-			render_system::flush_queues();
+			
 			SpaceSystem::add_space_to_render_queue(space);
 			for (int i = 0; i < tc->height; i++)
 				for (int j = 0; j < tc->width; j++)
@@ -126,6 +128,7 @@ void game_flow_normal::update_space(Space & space, int dt)
 						IDrawable* dc = (IDrawable*)tc->terrain_tiles[i][j]->get_component(Component::ComponentType::Drawable);
 						if (dc)
 						{
+							dc->isActive = true;
 							render_system::add_object_to_queue(dc);
 						}
 					}

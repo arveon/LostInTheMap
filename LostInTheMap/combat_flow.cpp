@@ -123,10 +123,6 @@ void combat_flow::destroy_combat(Space& game_space)
 		if (first_letters.compare("cb") == 0)
 		{
 			game_space.objects.erase(game_space.objects.begin() + i);
-			//remove all combat stuff from renderer
-			IDrawable* dc = static_cast<IDrawable*>(t->get_component(Component::ComponentType::Drawable));
-			if(dc)
-				render_system::remove_from_queue(dc);
 		}
 		else
 			if (t->is_active)
@@ -144,15 +140,24 @@ void combat_flow::destroy_combat(Space& game_space)
 		for (int j = 0; j < terrain->width; j++)
 		{
 			Entity* obj = terrain->terrain_tiles[i][j];
-			IDrawable* dc = (IDrawable*)obj->get_component(Component::ComponentType::Drawable);
-			if (dc)
-				render_system::remove_from_queue(dc);
 			delete obj->transform;
 			for (Component* c : obj->components)
 				delete c;
-
 			delete obj;
 		}
+
+	for (Entity* t : combat_space.objects)
+	{
+		if (t->name.compare("cb_terrain") == 0)
+		{
+			delete t;
+			continue;
+		}
+		delete t->transform;
+		for (Component* c : t->components)
+			delete c;
+		delete t;
+	}
 
 	delete mouse->transform;
 	for (Component* c : mouse->components)
@@ -160,7 +165,7 @@ void combat_flow::destroy_combat(Space& game_space)
 
 	delete mouse;
 
-	SpaceSystem::destroy_space(combat_space, false);
+	combat_space.objects.clear();
 	order_of_turns.clear();
 	enemy_army.clear();
 
