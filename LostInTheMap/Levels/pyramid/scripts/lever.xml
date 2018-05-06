@@ -27,8 +27,6 @@
 <action type="move" character="archaeologist_4" dest_x="27" dest_y="15" />
 <action type="character_disappear" character="archaeologist_4"/>
 
-
-
 <action type="camera_target" character="player" />
 <action type="set_story_state" new_state="pyramid_lever_switched"/>
 </script>
