@@ -44,9 +44,9 @@ MenuLayout xml_system::load_interface_layout(std::string name)
 {
 	MenuLayout layout;
 
-	rapidxml::file<> file("config/menus.xml");
+	std::vector<char> filecontents = xml_system::get_file_content_string("config/menus.xml");
 	rapidxml::xml_document<> doc;
-	doc.parse<0>(file.data());
+	doc.parse<0>(&filecontents[0]);
 
 	rapidxml::xml_node<>* cur_node = doc.first_node(name.c_str());
 	layout.background_path = cur_node->first_attribute("background")->value();
@@ -100,9 +100,9 @@ int ** xml_system::load_map_tiles(levels level, int* width, int* height, int* ti
 	std::string temp = NameToTypeConversion::get_level_path_prefix(level);
 	path = temp + path;
 
-	rapidxml::file<> file(path.c_str());
+	std::vector<char> filecontents = xml_system::get_file_content_string(path);
 	rapidxml::xml_document<> doc;
-	doc.parse<0>(file.data());
+	doc.parse<0>(&filecontents[0]);
 
 	*width = std::stoi(doc.first_node("tilemap")->first_attribute("tileswide")->value());
 	*height = std::stoi(doc.first_node("tilemap")->first_attribute("tileshigh")->value());
@@ -148,9 +148,9 @@ int** xml_system::load_map_collisions(levels level, int width, int height, bool 
 	std::string temp = NameToTypeConversion::get_level_path_prefix(level);
 	path = temp + path;
 
-	rapidxml::file<> file(path.c_str());
+	std::vector<char> filecontents = xml_system::get_file_content_string(path);
 	rapidxml::xml_document<> doc;
-	doc.parse<0>(file.data());
+	doc.parse<0>(&filecontents[0]);
 
 	//initialise the tilemap to -1s as it will represent a tile with nothing
 	tilemap = new int*[height];
@@ -196,9 +196,9 @@ Actor** xml_system::load_characters_and_objects(levels level, int width, int hei
 	std::string temp = NameToTypeConversion::get_level_path_prefix(level);
 	path = temp + path;
 
-	rapidxml::file<> file(path.c_str());
+	std::vector<char> filecontents = xml_system::get_file_content_string(path);
 	rapidxml::xml_document<> doc;
-	doc.parse<0>(file.data());
+	doc.parse<0>(&filecontents[0]);
 
 	rapidxml::xml_node<>* cur_node = doc.first_node("tilemap")->first_node("layer")->first_node("tile");
 	while (cur_node)
@@ -237,9 +237,9 @@ std::vector<xml_system::LoadingState> xml_system::get_loading_states()
 {
 	std::vector<xml_system::LoadingState> states;
 
-	rapidxml::file<> file("config/loading_states.xml");
+	std::vector<char> filecontents = xml_system::get_file_content_string("config/loading_states.xml");
 	rapidxml::xml_document<> doc;
-	doc.parse<0>(file.data());
+	doc.parse<0>(&filecontents[0]);
 
 	rapidxml::xml_node<>* cur_node = doc.first_node("state");
 	while (cur_node)
@@ -256,9 +256,9 @@ std::vector<xml_system::LoadingState> xml_system::get_loading_states()
 xml_system::DialogueFrame xml_system::load_dialogue_frame()
 {
 	DialogueFrame result;
-	rapidxml::file<> file("config/dialogue_layout.xml");
+	std::vector<char> filecontents = xml_system::get_file_content_string("config/dialogue_layout.xml");
 	rapidxml::xml_document<> doc;
-	doc.parse<0>(file.data());
+	doc.parse<0>(&filecontents[0]);
 
 	rapidxml::xml_node<>* bg = doc.first_node("dialog_window")->first_node("bg");
 	result.bg_path = bg->first_attribute("image")->value();
@@ -292,9 +292,9 @@ Script xml_system::load_script(std::string name, levels level)
 
 	try
 	{
-		rapidxml::file<> file(name.c_str());
+		std::vector<char> filecontents = xml_system::get_file_content_string(name);
 		rapidxml::xml_document<> doc;
-		doc.parse<0>(file.data());
+		doc.parse<0>(&filecontents[0]);
 
 		rapidxml::xml_node<>* cur_node = doc.first_node("script");
 
@@ -439,9 +439,9 @@ xml_system::Dialogue xml_system::load_dialogue(levels level, std::string path)
 	std::string final_path = NameToTypeConversion::get_level_path_prefix(level);
 	final_path = final_path + "dialogs/" + path;
 
-	rapidxml::file<> file(final_path.c_str());
+	std::vector<char> filecontents = xml_system::get_file_content_string(final_path);
 	rapidxml::xml_document<> doc;
-	doc.parse<0>(file.data());
+	doc.parse<0>(&filecontents[0]);
 
 	rapidxml::xml_node<>* character = doc.first_node("dialogue");
 
@@ -490,9 +490,9 @@ std::vector<army_unit*> xml_system::load_army(std::string army_path, levels leve
 	std::vector<army_unit*> result;
 
 	std::string path = NameToTypeConversion::get_level_path_prefix(level) + "armies/" + army_path.c_str();
-	rapidxml::file<> file(path.c_str());
+	std::vector<char> filecontents = xml_system::get_file_content_string(path);
 	rapidxml::xml_document<> doc;
-	doc.parse<0>(file.data());
+	doc.parse<0>(&filecontents[0]);
 
 	rapidxml::xml_node<>* unit = doc.first_node("army")->first_node("unit");
 	//load unit types and quantities
@@ -559,9 +559,9 @@ std::vector<army_unit*> xml_system::load_army(std::string army_path, levels leve
 army_unit* xml_system::load_army_unit(character_type ch)
 {
 	//preload units file
-	rapidxml::file<> units_file("config/units.xml");
+	std::vector<char> filecontents = xml_system::get_file_content_string("config/units.xml");
 	rapidxml::xml_document<> units_doc;
-	units_doc.parse<0>(units_file.data());
+	units_doc.parse<0>(&filecontents[0]);
 
 	army_unit* u = new army_unit();
 	std::string name = NameToTypeConversion::get_character_name_by_type(ch);
