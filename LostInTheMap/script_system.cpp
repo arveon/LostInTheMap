@@ -64,7 +64,7 @@ void script_system::action_over(Entity * action_performer)
 
 	}
 
-	if (cur_action < cur_script.actions.size())
+	if (cur_action < (int)cur_script.actions.size())
 		cur_script.actions.at(cur_action).finished = true;
 	else
 		cur_script.actions.at(cur_script.actions.size()).finished = true;
@@ -232,7 +232,7 @@ void script_system::perform_action()
 		army_unit* u = xml_system::load_army_unit(to_perform->target_type);
 		u->quantity = to_perform->num_utility;
 		u->type = to_perform->target_type;
-		combat_flow::player_army.push_back(u);
+		army_system::add_to_player_army(u);
 
 		Entity* pl = SpaceSystem::find_entity_by_name(*game_space, "player");
 		IFightable* fc = (IFightable*)pl->get_component(Component::ComponentType::Fighting);

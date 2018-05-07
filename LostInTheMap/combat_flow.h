@@ -11,6 +11,7 @@
 #include "movement_system.h"
 #include "animator.h"
 #include "ai_system.h"
+#include "army_system.h"
 
 
 class combat_flow
@@ -27,7 +28,7 @@ private:
 	static std::vector<army_unit*> order_of_turns;
 public:
 	static Space combat_space;
-	static std::vector<army_unit*> player_army;
+	//static std::vector<army_unit*> player_army;
 	static std::vector<army_unit*> enemy_army;
 	static bool player_is_winner;
 
@@ -42,7 +43,6 @@ public:
 
 	static bool is_initialised() { return initialised; }
 	static bool is_in_combat() { return !combat_finished; }
-	static bool is_player_army_initialised() { return player_army.size() != 0; }
 
 	static void set_in_combat() { combat_finished = false; }
 

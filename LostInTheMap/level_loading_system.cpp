@@ -492,7 +492,7 @@ void level_loading_system::load_character_army(ITerrain* tc, Space& game_space, 
 		combat_flow::init_enemy_army(army);
 	}
 	else
-		army = combat_flow::player_army;
+		army = army_system::get_player_army();
 
 	//std::vector<army_unit> army = combat_flow::player_army;
 
@@ -502,7 +502,7 @@ void level_loading_system::load_character_army(ITerrain* tc, Space& game_space, 
 	//what the tile distances between them
 	int distances = std::floor(total_tiles / (float)army.size());
 	int id = 0;
-	for (int i = 0; i < army.size(); i++)
+	for (int i = 0; i < (int)army.size(); i++)
 	{
 		army_unit* u = army.at(i);
 		if (army.at(i)->health_of_first == 0)
@@ -512,7 +512,7 @@ void level_loading_system::load_character_army(ITerrain* tc, Space& game_space, 
 		if (enemy)
 			combat_flow::enemy_army.at(i)->unit_entity = unit;
 		else
-			combat_flow::player_army.at(i)->unit_entity = unit;
+			army_system::get_player_army().at(i)->unit_entity = unit;
 		game_space.objects.push_back(unit);
 		id++;
 	}

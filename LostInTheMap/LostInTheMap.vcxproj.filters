@@ -171,6 +171,9 @@
     <ClInclude Include="overlay_system.h">
       <Filter>Header Files\systems\utility_systems</Filter>
     </ClInclude>
+    <ClInclude Include="army_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -268,6 +271,9 @@
     </ClCompile>
     <ClCompile Include="overlay_system.cpp">
       <Filter>Source Files\systems\utility_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="army_system.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

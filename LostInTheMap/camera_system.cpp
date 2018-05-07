@@ -154,7 +154,7 @@ void camera_system::update_camera(int dt)
 
 		//calculate the speed depending on remaining distance to desired position
 		float tick_delta_x, tick_delta_y;
-		float angle = std::atan2(required_delta_y, required_delta_x);
+		float angle = (float)std::atan2(required_delta_y, required_delta_x);
 		tick_delta_x = std::cos(angle) * cur_speed_x * dt;
 		tick_delta_y = std::sin(angle) * cur_speed_y * dt;
 

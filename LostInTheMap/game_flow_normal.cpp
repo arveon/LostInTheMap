@@ -78,6 +78,7 @@ void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
 	overlay->add_component(dc);
 	render_system::add_object_to_queue(dc);
 	overlay_system::init_fade(overlay);
+	init_player_army_frames(&game_space);
 }
 
 void game_flow_normal::update_space(Space & space, int dt)
@@ -170,7 +171,7 @@ void game_flow_normal::apply_combat_results(Space& space)
 {
 	if (!combat_flow::player_is_winner)
 	{//if combat lost
-		combat_flow::player_army = xml_system::load_army("giovanni.xml", director::cur_level, false);
+		army_system::set_player_army(xml_system::load_army("giovanni.xml", director::cur_level, false));
 		change_level_callback(director::cur_level);
 	}
 	else
@@ -354,6 +355,14 @@ void game_flow_normal::clear_all_systems(Space& space)
 	lee_pathfinder::destroy_pathfinding();
 	if (combat_flow::is_initialised())
 		combat_flow::destroy_combat(space);
+}
+
+void game_flow_normal::init_player_army_frames(Space* game_space)
+{
+	for (army_unit* u : army_system::get_player_army())
+	{
+		std::cout << u->health_of_first << std::endl;
+	}
 }
 
 void game_flow_normal::mouse_down_event()

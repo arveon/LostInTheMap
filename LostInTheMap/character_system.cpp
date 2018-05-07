@@ -117,8 +117,8 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 
 					if (type == character_type::h_giovanni)
 					{
-						if (combat_flow::is_player_army_initialised())
-							fc->army = combat_flow::player_army;
+						if (army_system::is_player_army_initialised())
+							fc->army = army_system::get_player_army();
 						else
 						{
 							fc->army = xml_system::load_army("giovanni.xml", director::cur_level, false);

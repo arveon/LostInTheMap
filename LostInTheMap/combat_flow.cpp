@@ -5,7 +5,7 @@ bool combat_flow::player_is_winner = false;
 bool combat_flow::initialised = false;
 bool combat_flow::combat_started = false;
 Space combat_flow::combat_space;
-std::vector<army_unit*> combat_flow::player_army;
+//std::vector<army_unit*> combat_flow::player_army;
 std::vector<army_unit*> combat_flow::enemy_army;
 std::vector<army_unit*> combat_flow::order_of_turns;
 int combat_flow::cur_turn;
@@ -14,8 +14,7 @@ Entity* combat_flow::mouse;
 
 void combat_flow::init_player_army(std::vector<army_unit*> army)
 {
-	if (player_army.size() == 0)
-		combat_flow::player_army = army;
+	army_system::set_player_army(army);
 }
 
 void combat_flow::init_enemy_army(std::vector<army_unit*> army)
@@ -219,7 +218,7 @@ void combat_flow::mouse_clicked()
 			cbu->skipping_turn = false;
 			unit_finished_turn();
 		}
-		else if (mc->path.size() != 0 && mc->path.size() <= order_of_turns.at(cur_turn)->speed)
+		else if (mc->path.size() != 0 && (int)mc->path.size() <= order_of_turns.at(cur_turn)->speed)
 		{
 			if (mc->destination_reached)
 			{
@@ -368,7 +367,7 @@ void combat_flow::unit_finished_turn()
 		switch (a->type)
 		{
 		case character_type::rat:
-			ai_system::process_rat_move(a->unit_entity, player_army, SpaceSystem::get_terrain(combat_space));
+			ai_system::process_rat_move(a->unit_entity, army_system::get_player_army(), SpaceSystem::get_terrain(combat_space));
 			break;
 		default:
 			unit_finished_turn();
@@ -396,7 +395,7 @@ bool combat_flow::check_combat_finished()
 	bool combat_finished = false;
 	//check if there are live units on both sides (winning/losing conditions)
 	bool player = false;
-	for (army_unit* u : player_army)
+	for (army_unit* u : army_system::get_player_army())
 		if (u->health_of_first > 0)
 		{
 			player = true;
@@ -441,16 +440,17 @@ void combat_flow::compose_turn_orders()
 	order_of_turns.clear();
 	//compose vector of all of the units
 	std::vector<army_unit*> all_units;
-	for (int i = 0; i < player_army.size(); i++)
+	std::vector<army_unit*> player_army = army_system::get_player_army();
+	for (int i = 0; i < (int)player_army.size(); i++)
 		all_units.push_back(player_army.at(i));
-	for (int i = 0; i < enemy_army.size(); i++)
+	for (int i = 0; i < (int)enemy_army.size(); i++)
 		all_units.push_back(enemy_army.at(i));
 
 	//compose vector starting slowest
-	for (int i = 0; i < all_units.size(); i++)
+	for (int i = 0; i < (int)all_units.size(); i++)
 	{
 		army_unit* slowest = all_units.at(i);
-		for (int j = i+1; j < all_units.size(); j++)
+		for (int j = i+1; j < (int)all_units.size(); j++)
 		{
 			army_unit* un = all_units.at(j);
 			if (un->speed < slowest->speed)

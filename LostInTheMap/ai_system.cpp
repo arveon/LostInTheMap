@@ -31,7 +31,7 @@ void ai_system::process_rat_move(Entity * rat, std::vector<army_unit*> player_ar
 		unit_priority.second = (1.f / full_dist) + 1.f/u->max_damage_close;
 
 		int priority_lvl = 0;
-		for (int i = 0; i < priority_queue.size(); i++)
+		for (int i = 0; i < (int)priority_queue.size(); i++)
 		{
 			if (unit_priority.second > priority_queue.at(i).second)
 			{

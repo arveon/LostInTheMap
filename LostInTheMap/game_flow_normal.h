@@ -35,6 +35,8 @@ public:
 
 	static void clear_all_systems(Space& space);
 
+	static void init_player_army_frames(Space * game_space);
+
 	static void mouse_down_event();
 	static void mouse_up_event();
 	game_flow_normal();
