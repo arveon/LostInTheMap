@@ -29,7 +29,7 @@ public:
 
 	static bool is_player_army_initialised() { return player_army.size() != 0; }
 
-	static void reset_army_system() { unit_frames.clear(); a = 0; }
+	static void reset_army_system() { unit_frames.clear(); a = 0; player_army.clear(); }
 
 	//static void apply_battle_results() { player_army.clear(); }
 	army_system();

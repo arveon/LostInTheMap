@@ -356,6 +356,7 @@ void game_flow_normal::clear_all_systems(Space& space)
 	if (combat_flow::is_initialised())
 		combat_flow::destroy_combat(space);
 	army_system::reset_army_system();
+	army_system::set_player_army(xml_system::load_army("giovanni.xml", director::cur_level, false));
 }
 
 void game_flow_normal::mouse_down_event()
