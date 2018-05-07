@@ -472,21 +472,6 @@ xml_system::Dialogue xml_system::load_dialogue(levels level, std::string path)
 	return result;
 }
 
-std::vector<char> xml_system::get_file_content_string(std::string path)
-{
-	//load file into a string
-	std::string result_str;
-	std::ifstream is(path);
-	result_str.assign(std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>());
-
-
-	//copy string into a vector of characters and add a null terminator at the end
-	std::vector<char> result(result_str.begin(), result_str.end());
-	result.push_back('\0');
-
-	return result;
-}
-
 std::vector<army_unit*> xml_system::load_army(std::string army_path, levels level, bool is_enemy)
 {
 	std::vector<army_unit*> result;
@@ -601,6 +586,22 @@ army_unit* xml_system::load_army_unit(character_type ch)
 	}
 
 	return u;
+}
+
+std::vector<char> xml_system::get_file_content_string(std::string path)
+{
+	//load file into a string
+	std::string result_str;
+	std::ifstream is(path);
+	result_str.assign(std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>());
+
+	result_str = Encoder::decode_base64(result_str);
+
+	//copy string into a vector of characters and add a null terminator at the end
+	std::vector<char> result(result_str.begin(), result_str.end());
+	result.push_back('\0');
+
+	return result;
 }
 
 xml_system::xml_system()

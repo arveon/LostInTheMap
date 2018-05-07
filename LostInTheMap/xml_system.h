@@ -8,6 +8,8 @@
 #include <rapidxml\rapidxml.hpp>
 #include <rapidxml\rapidxml_utils.hpp>
 
+#include "Encoder.h"
+
 #include "Levels.h"
 #include "Script.h"
 

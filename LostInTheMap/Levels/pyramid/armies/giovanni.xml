@@ -1,5 +1,3 @@
 <army>
 	<unit type="giovanni" quantity="1"/>
-	<unit type="rat" quantity="12"/>
 </army>
-<unit type="archaeologist_1" quantity="1"/>

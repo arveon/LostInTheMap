@@ -135,6 +135,7 @@
     <ClInclude Include="Components.h" />
     <ClInclude Include="dialogue_system.h" />
     <ClInclude Include="director.h" />
+    <ClInclude Include="Encoder.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventTypes.h" />
     <ClInclude Include="Game.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="combat_flow.cpp" />
     <ClCompile Include="dialogue_system.cpp" />
     <ClCompile Include="director.cpp" />
+    <ClCompile Include="Encoder.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="game_flow_normal.cpp" />
     <ClCompile Include="geometry_utilities.cpp" />
