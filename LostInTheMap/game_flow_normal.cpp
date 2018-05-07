@@ -78,7 +78,7 @@ void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
 	overlay->add_component(dc);
 	render_system::add_object_to_queue(dc);
 	overlay_system::init_fade(overlay);
-	init_player_army_frames(&game_space);
+	army_system::init_player_army_frames(&game_space);
 }
 
 void game_flow_normal::update_space(Space & space, int dt)
@@ -208,7 +208,6 @@ void game_flow_normal::apply_combat_results(Space& space)
 		Entity* player = SpaceSystem::find_entity_by_name(space, "player");
 		camera_system::set_camera_target(player);
 		mouse->activate();
-		render_system::add_object_to_queue((IDrawable*)mouse->get_component(Component::ComponentType::Drawable));
 
 		IInteractionSource* p_ics = (IInteractionSource*)player->get_component(Component::ComponentType::InteractionSource);
 		p_ics->interaction_target->deactivate();
@@ -218,6 +217,7 @@ void game_flow_normal::apply_combat_results(Space& space)
 		lee_pathfinder::set_camera_position(camera_rect_ids.x, camera_rect_ids.y);
 		lee_pathfinder::set_camera_dimensions(camera_rect_ids.w, camera_rect_ids.h);
 	}
+	army_system::update_unit_frames();
 }
 
 void game_flow_normal::handle_mouse_clicks(Space& space)
@@ -355,14 +355,7 @@ void game_flow_normal::clear_all_systems(Space& space)
 	lee_pathfinder::destroy_pathfinding();
 	if (combat_flow::is_initialised())
 		combat_flow::destroy_combat(space);
-}
-
-void game_flow_normal::init_player_army_frames(Space* game_space)
-{
-	for (army_unit* u : army_system::get_player_army())
-	{
-		std::cout << u->health_of_first << std::endl;
-	}
+	army_system::reset_army_system();
 }
 
 void game_flow_normal::mouse_down_event()

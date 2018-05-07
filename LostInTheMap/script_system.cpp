@@ -232,7 +232,7 @@ void script_system::perform_action()
 		army_unit* u = xml_system::load_army_unit(to_perform->target_type);
 		u->quantity = to_perform->num_utility;
 		u->type = to_perform->target_type;
-		army_system::add_to_player_army(u);
+		army_system::add_to_player_army(u, game_space);
 
 		Entity* pl = SpaceSystem::find_entity_by_name(*game_space, "player");
 		IFightable* fc = (IFightable*)pl->get_component(Component::ComponentType::Fighting);

@@ -310,6 +310,7 @@ public:
 	SDL_Texture* rendered_text;
 	std::string text;
 
+	void* described_object;
 	Entity* description = nullptr;
 	IDescriptable(Entity* owner) : Component(owner)
 	{

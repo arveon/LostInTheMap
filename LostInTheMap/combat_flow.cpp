@@ -34,6 +34,12 @@ void combat_flow::init_combat_space(Space& game_space)
 			IDrawable* dc = static_cast<IDrawable*>(t->get_component(Component::ComponentType::Drawable));
 			if(dc)
 				dc->isActive = false;
+			IDescriptable* desc = static_cast<IDescriptable*>(t->get_component(Component::ComponentType::Description));
+			if (desc)
+			{
+				IDrawable* ddc = (IDrawable*)desc->description->get_component(Component::ComponentType::Drawable);
+				ddc->isActive = false;
+			}
 		}
 		else
 		{
@@ -143,6 +149,12 @@ void combat_flow::destroy_combat(Space& game_space)
 				IDrawable* dc = static_cast<IDrawable*>(t->get_component(Component::ComponentType::Drawable));
 				if (dc)
 					dc->isActive = true;
+				IDescriptable* desc = static_cast<IDescriptable*>(t->get_component(Component::ComponentType::Description));
+				if (desc)
+				{
+					IDrawable* ddc = (IDrawable*)desc->description->get_component(Component::ComponentType::Drawable);
+					ddc->isActive = true;
+				}
 			}
 	}
 

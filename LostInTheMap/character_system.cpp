@@ -201,6 +201,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	ICollidable* cc = new ICollidable(unit);
 	unit->add_component(cc);
 
+	//description
 	Entity* unit_description = new Entity(entity_type::ui_element, unit->name + "_quantity");
 	IDrawable* ddc = new IDrawable(unit_description, IDrawable::layers::world_ui);
 	Transform* dtc = new Transform(unit_description);
