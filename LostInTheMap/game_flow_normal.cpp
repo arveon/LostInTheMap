@@ -114,6 +114,7 @@ void game_flow_normal::update_space(Space & space, int dt)
 	else
 	{
 		mouse_system::update_mouse(game_flow_normal::mouse, space, dialogue_system::dialogue_pending(), script_system::is_player_blocked());
+		army_system::update_mouse_over_frame({ game_flow_normal::mouse->transform->position.x, game_flow_normal::mouse->transform->position.y });
 		camera_system::update_camera(dt);
 
 		if (dialogue_system::dialogue_pending())

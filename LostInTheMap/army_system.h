@@ -9,6 +9,7 @@ class army_system
 private:
 	static std::vector<army_unit*> player_army;
 	static std::vector<Entity*> unit_frames;
+	static std::vector<Entity*> unit_frame_details;
 
 	static SDL_Point panel;
 	static int portrait_width;
@@ -23,7 +24,11 @@ public:
 
 	static Entity * create_unit_frame(army_unit * u);
 
-	static void update_frame_quantity(Entity * frame);
+	static Entity * create_unit_frame_details(Entity* frame, army_unit* u);
+
+	static void update_frame_quantity(Entity * frame, army_unit* u);
+
+	static void update_mouse_over_frame(SDL_Point mouse_pos);
 
 	static void update_unit_frames();
 

@@ -22,6 +22,8 @@ public:
 	std::string name;
 	bool is_active;
 
+	void* utility;
+
 	Entity(entity_type type, std::string name = "no_name")
 	{
 		this->type = type;

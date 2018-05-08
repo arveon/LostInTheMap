@@ -57,7 +57,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 		if (ac->cur_row == 0)
 			already_there = true;
 		ac->cur_row = 0;
-		ac->total_sprite_required_time = 170;
+		ac->total_sprite_required_time = 300;
 	}
 		break;
 	case animations::walking_right:
