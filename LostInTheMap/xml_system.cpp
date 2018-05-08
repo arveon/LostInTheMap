@@ -594,8 +594,9 @@ std::vector<char> xml_system::get_file_content_string(std::string path)
 	std::string result_str;
 	std::ifstream is(path);
 	result_str.assign(std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>());
-
 	//result_str = Encoder::decode_base64(result_str);
+	std::cout << result_str << std::endl;
+
 
 	//copy string into a vector of characters and add a null terminator at the end
 	std::vector<char> result(result_str.begin(), result_str.end());

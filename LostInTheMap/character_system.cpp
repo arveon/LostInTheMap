@@ -10,7 +10,6 @@ std::vector<Entity*> character_system::init_characters(Actor** charact, int widt
 		for (int j = 0; j < width; j++)
 		{
 			//if there is a character in this tile initialise an object for it
-			//TODO: UNCOMMENT CHARACTER LOADING WHEN ALL LEVEL TRANSITIONS READY
 			if (charact[i][j].value == 2 || charact[i][j].value == 3 || charact[i][j].value == 1)
 			{
 				Entity* ent = new Entity(entity_type::game_object);
