@@ -99,7 +99,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 		ac->total_sprite_required_time = 100;
 		ac->cur_row = 3;
 		break;
-	case animations::attacking_right:
+	case animations::attacking_from_left:
 	{
 		IDrawable * dc = (IDrawable*)ac->owner->get_component(Component::ComponentType::Drawable);
 		if (dc)
@@ -112,7 +112,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 		ac->cur_row = 4;
 	}
 		break;
-	case animations::attacking_left:
+	case animations::attacking_from_right:
 	{
 		IDrawable * dc = (IDrawable*)ac->owner->get_component(Component::ComponentType::Drawable);
 		if (dc)

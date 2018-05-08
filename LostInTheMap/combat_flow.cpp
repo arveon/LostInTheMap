@@ -257,9 +257,9 @@ void combat_flow::unit_attacks(Entity* source, Entity* target)
 {
 	IAnimatable* ac = (IAnimatable*)source->get_component(Component::ComponentType::Animated);
 	if(source->transform->position.x < target->transform->position.x)
-		animator::start_animation(ac, animations::attacking_left, &attack_animation_finished_callback);
+		animator::start_animation(ac, animations::attacking_from_left, &attack_animation_finished_callback);
 	else
-		animator::start_animation(ac, animations::attacking_right, &attack_animation_finished_callback);
+		animator::start_animation(ac, animations::attacking_from_right, &attack_animation_finished_callback);
 }
 
 void combat_flow::attack_animation_finished_callback(Entity* source)
