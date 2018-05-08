@@ -1,4 +1,6 @@
 <script block_player="true">
 <action type="wait" time="1000" />
+<action type="animate_object" object="map" />
+<action type="fadeout" time="200"/>
 <action type="change_level" level="juji_village"/>
 </script>

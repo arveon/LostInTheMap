@@ -315,8 +315,15 @@ SDL_Texture * SDL_manager::render_texture_on_texture(SDL_Texture * tex1, SDL_Tex
 	SDL_SetRenderTarget(renderer, combined);
 	SDL_RenderClear(renderer);
 
-	tex2_draw_rect.x = tex2_draw_rect.x;
-	tex2_draw_rect.y = tex2_draw_rect.y;
+	if (tex2_draw_rect.x != -1)
+		tex2_draw_rect.x = tex2_draw_rect.x;
+	else
+		tex2_draw_rect.x = dest_w / 2 - tex2_draw_rect.w / 2;
+
+	if (tex2_draw_rect.y != -1)
+		tex2_draw_rect.y = tex2_draw_rect.y;
+	else
+		tex2_draw_rect.y = dest_h / 2 - tex2_draw_rect.h / 2;
 
 	SDL_RenderCopy(renderer, tex1, NULL, NULL);
 	SDL_RenderCopy(renderer, tex2, NULL, &tex2_draw_rect);

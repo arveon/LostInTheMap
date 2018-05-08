@@ -317,6 +317,8 @@ void combat_flow::update_quantity_display(Entity* target)
 	ddc->text = std::to_string(cbu2->unit_stats->quantity);
 	ddc->rendered_text = asset_controller::get_texture_from_text(ddc->text, UI_text_type::game_ui_small);
 	SDL_Rect text_rect = asset_controller::get_texture_size(ddc->rendered_text);
+	text_rect.x = -1;
+	text_rect.y = -1;
 
 	desc_draw->sprite = asset_controller::get_texture_from_two(ddc->box_background, ddc->rendered_text, ddc->description->transform->position.w, ddc->description->transform->position.h, text_rect);
 }

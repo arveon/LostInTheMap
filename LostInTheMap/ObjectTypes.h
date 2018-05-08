@@ -5,6 +5,7 @@ enum object_types
 	type_none,
 	lever,
 	hidden_door,
+	map,
 	chest,
 	barrel,
 	dead_tree,

@@ -203,6 +203,8 @@ object_types NameToTypeConversion::get_object_type_by_name(std::string name)
 		result = object_types::lever;
 	else if (name.compare("hidden_door") == 0)
 		result = object_types::hidden_door;
+	else if (name.compare("map") == 0)
+		result = object_types::map;
 	else if (name.compare("juji_house_1") == 0 || name.compare("juji_house") == 0)
 		result = object_types::juji_house_1;
 	else if (name.compare("juji_house_2") == 0)
@@ -250,6 +252,9 @@ std::string NameToTypeConversion::get_object_name_by_type(object_types type)
 		break;
 	case object_types::hidden_door:
 		result = "hidden_door";
+		break;
+	case object_types::map:
+		result = "map";
 		break;
 	case object_types::barrel:
 		result = "barrel";

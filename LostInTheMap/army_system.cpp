@@ -148,7 +148,8 @@ void army_system::update_frame_quantity(Entity* frame, army_unit* u)
 	SDL_Texture* text_bg = asset_controller::load_texture("default.png");
 
 	SDL_Rect text_rect = asset_controller::get_texture_size(text_tex);
-	text_rect.x = 15 / 2 - text_rect.w / 2;
+	text_rect.x = -1;
+	text_rect.y = -1;
 
 	//text rendered onto the background
 	SDL_Texture* combined_text_bg = asset_controller::get_texture_from_two(text_bg, text_tex, 15, text_rect.h, text_rect);

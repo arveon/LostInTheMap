@@ -228,6 +228,7 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	idc->rendered_text = asset_controller::get_texture_from_text(idc->text, UI_text_type::game_ui_small);
 
 	SDL_Rect text_rect = asset_controller::get_texture_size(idc->rendered_text);
+	text_rect.x = text_rect.y = -1;
 	
 	ddc->sprite = asset_controller::get_texture_from_two(idc->box_background, idc->rendered_text, dtc->position.w, dtc->position.h, text_rect);
 

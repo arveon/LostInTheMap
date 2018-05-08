@@ -229,7 +229,7 @@ SDL_Texture* asset_controller::get_character_spritesheet(character_type ch)
 
 	return result;
 }
-
+//set tex2_draw_rect x or y to -1 to align second texture to center of result texture
 SDL_Texture* asset_controller::get_texture_from_two(SDL_Texture* tex, SDL_Texture* tex2, int dest_w, int dest_h, SDL_Rect tex2_draw_rect)
 {
 	return SDL_manager::render_texture_on_texture(tex, tex2, dest_w, dest_h, tex2_draw_rect);
