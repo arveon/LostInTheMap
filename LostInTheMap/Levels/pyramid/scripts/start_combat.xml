@@ -1,4 +1,4 @@
 <script block_player="true" once="false">
-<action type="fadeout" time="100" />
+<action type="fadeout" time="200" />
 <action type="start_combat"/>
 </script>

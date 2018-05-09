@@ -1,4 +1,4 @@
 <army>
 	<unit type="giovanni" quantity="1"/>
-	<unit type="rat" quantity="10"/>
-</army>
+	
+</army><unit type="rat" quantity="10"/>
