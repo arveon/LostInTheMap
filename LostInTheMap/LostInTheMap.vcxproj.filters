@@ -177,6 +177,15 @@
     <ClInclude Include="army_system.h">
       <Filter>Header Files\systems\utility_systems</Filter>
     </ClInclude>
+    <ClInclude Include="PauseMenuSystem.h">
+      <Filter>Header Files\systems\menu_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuSystem.h">
+      <Filter>Header Files\systems\menu_systems</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStates.h">
+      <Filter>Header Files\structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -280,6 +289,12 @@
     </ClCompile>
     <ClCompile Include="army_system.cpp">
       <Filter>Source Files\systems\utility_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseMenuSystem.cpp">
+      <Filter>Source Files\systems\menu_systems</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuSystem.cpp">
+      <Filter>Source Files\systems\menu_systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

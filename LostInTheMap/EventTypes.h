@@ -8,5 +8,6 @@ enum HardInputEventType
 	right_mouse_up,
 	r_pressed,
 	f1_pressed,
-	f2_pressed
+	f2_pressed,
+	esc_pressed
 };

@@ -12,6 +12,7 @@
 #include "director.h"
 #include "combat_flow.h"
 #include "animator.h"
+#include "PauseMenuSystem.h"
 
 #include "geometry_utilities.h"
 class game_flow_normal : public SpaceSystem
@@ -23,6 +24,8 @@ private:
 	static bool lmb_down_event;
 	static bool lmb_up_event;
 public:
+	static void(*return_to_menu)();
+
 	static int mouse_up_listener_id;
 	static int mouse_down_listener_id;
 	static void init(Space& game_space, void(*change_level_cb)(levels));
@@ -35,6 +38,7 @@ public:
 
 	static void clear_all_systems(Space& space);
 
+	static void trigger_pause();
 	static void mouse_down_event();
 	static void mouse_up_event();
 	game_flow_normal();

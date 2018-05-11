@@ -21,8 +21,9 @@ void Game::init()
 	input_system::register_event_callback(HardInputEventType::f1_pressed, &Game::dec_level);
 	input_system::register_event_callback(HardInputEventType::f2_pressed, &Game::inc_level);
 	input_system::register_event_callback(HardInputEventType::r_pressed, &Game::reload_game);
+	input_system::register_event_callback(HardInputEventType::esc_pressed, &Game::escape_pressed);
 	Game::running = true;
-	state = game_state::main_menu;
+	state = game_state::menu;
 	cur_level = levels::pyramid;
 	game_time.init();
 }
@@ -57,15 +58,16 @@ void Game::splash_elapsed_handler()
 		SplashScreenSystem::destroy_space(splash_screen_space);
 		render_system::flush_queues();
 	}
-	state = game_state::main_menu;
+	state = game_state::menu;
 	
 }
 
 void Game::start_handler()
 {
-	if (state == game_state::main_menu)
+	if (state == game_state::menu)
 	{
 		MainMenuSystem::destroy_space(main_menu_space);
+		main_menu_space.initialised = false;
 		MainMenuSystem::remove_listeners();
 		render_system::flush_queues();
 	}
@@ -83,7 +85,7 @@ void Game::exit_game_flow()
 		game_flow_normal::destroy_space(game_space);
 		render_system::flush_queues();
 	}
-	state = game_state::main_menu;
+	state = game_state::menu;
 }
 
 void Game::game_loop()
@@ -101,16 +103,14 @@ void Game::game_loop()
 				SplashScreenSystem::register_splash_elapsed_listener(&splash_elapsed_handler);
 			}
 			SplashScreenSystem::update_space(splash_screen_space, game_time.get_delta_time());
-			
 			break;
-		case game_state::main_menu:
+		case game_state::menu:
 			if (!main_menu_space.initialised)
 			{
 				MenuLayout layout = xml_system::load_interface_layout("mainmenu");
 				MainMenuSystem::init(main_menu_space, layout, &register_mousedown_listener, &register_mouseup_listener, &deregister_event_listener);
 				MainMenuSystem::register_exit_listener(&window_close_handler);
 				MainMenuSystem::register_start_listener(&start_handler);
-				
 			}
 			MainMenuSystem::update_space(main_menu_space, game_time.get_delta_time());
 			break;
@@ -124,15 +124,13 @@ void Game::game_loop()
 			}
 			level_loading_system::update_space(loading_space, game_space, game_time.get_delta_time());
 			break;
-		case game_state::pause_menu:
-			
-			break;
 		case game_state::game_flow:
 			if (!game_space.initialised)
 			{
 				game_flow_normal::init(game_space, &Game::change_to_level);
 				game_flow_normal::mouse_down_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_down, game_flow_normal::mouse_down_event);
 				game_flow_normal::mouse_up_listener_id = input_system::register_event_callback(HardInputEventType::left_mouse_up, game_flow_normal::mouse_up_event);
+				game_flow_normal::return_to_menu = &Game::return_to_menu;
 			}
 			game_flow_normal::update_space(game_space, game_time.get_delta_time());
 			
@@ -144,8 +142,20 @@ void Game::game_loop()
 
 		game_time.update();
 		render_system::sort_queues();
-		render_system::render_queues();
+		render_system::render_queues(state);
 	}
+}
+	
+void Game::return_to_menu()
+{
+	exit_game_flow();
+	state = game_state::menu;
+}
+
+void Game::escape_pressed()
+{
+	if (game_space.initialised)
+		game_flow_normal::trigger_pause();
 }
 
 void Game::reload_game()

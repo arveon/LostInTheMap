@@ -10,21 +10,10 @@
 #include "EventTypes.h"
 #include "Time.h"
 #include "Components.h"
+#include "GameStates.h"
 
 #include <stdlib.h>
 
-
-
-enum game_state
-{
-	splash,
-	main_menu,
-	loading,
-	pause_menu,
-	game_flow,
-	confirming_exit,
-	exit_confirmed
-};
 
 //generic game object that will contain initialisation logic and the game loop methods
 class Game
@@ -56,6 +45,8 @@ public:
 	static void start_handler();
 	static void exit_game_flow();
 
+	static void return_to_menu();
+	static void escape_pressed();
 	static void reload_game();
 	static void inc_level();
 	static void dec_level();

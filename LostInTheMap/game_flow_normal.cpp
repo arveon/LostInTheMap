@@ -6,6 +6,7 @@ int game_flow_normal::mouse_down_listener_id;
 bool game_flow_normal::lmb_down_event;
 bool game_flow_normal::lmb_up_event;
 
+void(*game_flow_normal::return_to_menu)();
 void(*game_flow_normal::change_level_callback)(levels level);
 
 void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
@@ -83,6 +84,12 @@ void game_flow_normal::init(Space & game_space, void(*change_level_cb)(levels))
 
 void game_flow_normal::update_space(Space & space, int dt)
 {
+	if (PauseMenuSystem::is_menu_on())
+	{
+		PauseMenuSystem::update_menu(dt);
+		return;
+	}
+
 	static int tw = 0;
 	static bool combat_fadein = false;
 	if (combat_fadein)
@@ -224,6 +231,9 @@ void game_flow_normal::apply_combat_results(Space& space)
 
 void game_flow_normal::handle_mouse_clicks(Space& space)
 {
+	if (PauseMenuSystem::is_menu_on())
+		return;
+
 	//handle mouse events
 	if (lmb_down_event)
 	{
@@ -359,15 +369,46 @@ void game_flow_normal::clear_all_systems(Space& space)
 		combat_flow::destroy_combat(space);
 	army_system::reset_army_system();
 	army_system::set_player_army(xml_system::load_army("giovanni.xml", director::cur_level, false));
+	PauseMenuSystem::close_menu();
+}
+
+void game_flow_normal::trigger_pause()
+{
+	if (!combat_flow::is_in_combat())
+	{
+		if (PauseMenuSystem::is_menu_on())
+			PauseMenuSystem::close_menu();
+		else
+		{
+			//prepare mouse to be used by pause menu
+			mouse_system::change_mouse_icon(
+				mouse_system::mouse_icons::normal,
+				(IAnimatable*)mouse->get_component(Component::ComponentType::Animated),
+				(IDrawable*)mouse->get_component(Component::ComponentType::Drawable));
+			mouse_system::apply_mouse_animation(mouse);
+			IMouse* mc = (IMouse*)mouse->get_component(Component::ComponentType::Mouse);
+			mc->cur_target = nullptr;
+			
+			PauseMenuSystem::init_space(mouse);
+			PauseMenuSystem::resume = &game_flow_normal::trigger_pause;
+			PauseMenuSystem::back_to_menu = return_to_menu;
+		}
+	}
+
 }
 
 void game_flow_normal::mouse_down_event()
 {
+	if (PauseMenuSystem::is_menu_on())
+		return;
+
 	lmb_down_event = true;
 }
 
 void game_flow_normal::mouse_up_event()
 {
+	if (PauseMenuSystem::is_menu_on())
+		return;
 	lmb_up_event = true;
 }
 

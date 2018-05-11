@@ -1,4 +1,5 @@
 #pragma once
+#include "MenuSystem.h"
 #include "SpaceSystem.h"
 #include "Space.h"
 #include "MenuLayout.h"
@@ -44,9 +45,10 @@ public:
 
 	static void update_space(Space& space, int dt);
 	static void destroy_space(Space& space);
-	
-	static void mouse_down_listener();
-	static void mouse_up_listener();
+
+	static void exit_clicked();
+
+	static void start_clicked();
 
 	static int register_exit_listener(void(*listener)()) { exit_listeners.push_back(listener); return (exit_listeners.size() - 1); }
 	static bool deregister_exit_listener(int listener_id) 

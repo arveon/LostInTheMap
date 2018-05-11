@@ -13,6 +13,8 @@ Entity* mouse_system::create_mouse()
 	m_anim_comp->spritesheet = asset_controller::load_texture("assets/graphics/ui/mouse.png");
 	m_anim_comp->src_rect = { 0,0,16,16 };
 	m_anim_comp->sprite_changed = false;
+	m_anim_comp->animation_started = false;
+	m_anim_comp->animation_finished = true;
 
 	IDrawable* m_draw_comp = new IDrawable(mouse, IDrawable::layers::mouse);
 	m_draw_comp->sprite = asset_controller::get_sprite_from_spritesheet(m_anim_comp->spritesheet, m_anim_comp->src_rect);
@@ -320,7 +322,6 @@ void mouse_system::change_mouse_icon(mouse_icons icon, IAnimatable* anim_compone
 		tf->origin = { 0,0 };
 		anim_component->cur_column = 0;
 		draw_component->draw_rect.w = draw_component->draw_rect.h = 16;
-		
 		break;
 	case mouse_icons::walking:
 		anim_component->cur_column = 1;
@@ -367,6 +368,24 @@ void mouse_system::change_mouse_icon(mouse_icons icon, IAnimatable* anim_compone
 	cur_icon = icon;
 
 
+}
+
+void mouse_system::apply_mouse_animation(Entity* mouse)
+{
+	IAnimatable* ac = static_cast<IAnimatable*>(mouse->get_component(Component::ComponentType::Animated));
+	if (!ac || !ac->sprite_changed)
+		return;
+
+	IDrawable* dc = static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable));
+	if (!dc)
+		return;
+
+	asset_controller::destroy_texture(dc->sprite);
+	//apply cur coordinate changes to src rect and crop src rect from spritesheet into draw components sprite
+	ac->src_rect.x = ac->cur_column * ac->src_rect.w;
+	ac->src_rect.y = ac->cur_row* ac->src_rect.h;
+	dc->sprite = asset_controller::get_sprite_from_spritesheet(ac->spritesheet, ac->src_rect);
+	ac->sprite_changed = false;
 }
 
 

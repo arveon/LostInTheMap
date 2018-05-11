@@ -142,10 +142,16 @@ void render_system::sort_queues()
 	}
 }
 
-void render_system::render_queues()
+void render_system::render_queues(game_state state)
 {
-	float zoom = camera_system::get_camera_zoom();
-	SDL_Rect camera = camera_system::get_camera_rect();
+	float zoom = 1.f;
+	SDL_Rect camera = { 0,0,0,0 };
+	SDL_manager::get_window_size(&camera.w, &camera.h);
+	if (state == game_state::game_flow)
+	{
+		zoom = camera_system::get_camera_zoom();
+		camera = camera_system::get_camera_rect();
+	}
 
 	SDL_manager::start_render();
 	if (background.size() > 0)

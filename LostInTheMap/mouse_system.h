@@ -19,8 +19,9 @@ public:
 		look_at,
 		skip_turn
 	};
-	
+
 	static void change_mouse_icon(mouse_icons icon, IAnimatable* anim_component, IDrawable* draw_component);
+	static void apply_mouse_animation(Entity * mouse);
 	static Entity* create_mouse();
 	static void update_mouse(Entity* mouse, Space& space, bool in_dialog, bool is_hidden);
 	static void update_mouse_combat(Entity* mouse, Space& space, int steps_allowed, Entity* cur_unit);

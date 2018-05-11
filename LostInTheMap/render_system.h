@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "SDL_manager.h"
 #include "camera_system.h"
+#include "GameStates.h"
 
 #include <vector>
 
@@ -24,7 +25,7 @@ public:
 	static int add_object_to_queue(IDrawable* obj);
 	static void flush_queues();
 	static void sort_queues();
-	static void render_queues();
+	static void render_queues(game_state state);
 	static void set_terrain_texture(SDL_Texture * tex);
 	
 	static void prepare_terrain(int map_width, int map_height);

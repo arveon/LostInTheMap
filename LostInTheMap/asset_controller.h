@@ -21,6 +21,8 @@ enum UI_text_type
 	main_menu_secondary_button,
 	main_menu_list_button,
 	main_menu_text,
+	pause_menu_button,
+	pause_menu_text,
 	game_dialog,
 	game_ui_small
 };

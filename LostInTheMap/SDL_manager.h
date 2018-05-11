@@ -37,6 +37,7 @@ private:
 	static std::vector<callback> f1_down_callbacks;
 	static std::vector<callback> f2_down_callbacks;
 	static std::vector<callback> window_close_callbacks;
+	static std::vector<callback> esc_down_callbacks;
 	static std::vector<HardInputEventType> events;
 public:
 	typedef struct
@@ -111,6 +112,17 @@ public:
 		if (listener_id <= (static_cast<int>(f2_down_callbacks.size()) - 1))
 		{
 			f2_down_callbacks.erase(f2_down_callbacks.begin() + listener_id); return true;
+		}
+		else
+			return false;
+	};
+
+	static int register_esc_down_listener(callback response) { esc_down_callbacks.push_back(response); return (static_cast<int>(esc_down_callbacks.size()) - 1); }
+	static bool remove_esc_down_listener(int listener_id)
+	{
+		if (listener_id <= (static_cast<int>(esc_down_callbacks.size()) - 1))
+		{
+			esc_down_callbacks.erase(esc_down_callbacks.begin() + listener_id); return true;
 		}
 		else
 			return false;

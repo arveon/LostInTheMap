@@ -32,6 +32,9 @@ int input_system::register_event_callback(HardInputEventType type, SDL_manager::
 	case HardInputEventType::f2_pressed:
 		id = SDL_manager::register_f2_down_listener(callback);
 		break;
+	case HardInputEventType::esc_pressed:
+		id = SDL_manager::register_esc_down_listener(callback);
+		break;
 	}
 	return id;
 }

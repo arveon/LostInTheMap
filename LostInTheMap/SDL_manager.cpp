@@ -8,6 +8,7 @@ std::vector<SDL_manager::callback> SDL_manager::window_close_callbacks;
 std::vector<SDL_manager::callback> SDL_manager::r_down_callbacks;
 std::vector<SDL_manager::callback> SDL_manager::f2_down_callbacks;
 std::vector<SDL_manager::callback> SDL_manager::f1_down_callbacks;
+std::vector<SDL_manager::callback> SDL_manager::esc_down_callbacks;
 SDL_manager::mouse SDL_manager::mouse_state;
 std::vector<HardInputEventType> SDL_manager::events;
 SDL_Renderer* SDL_manager::renderer;
@@ -65,6 +66,7 @@ void SDL_manager::update_input()
 	static bool last_r = false;
 	static bool last_f1 = false;
 	static bool last_f2 = false;
+	static bool last_esc = false;
 	//storing mouse clicks and mouse releases in mouse class
 	//reading events such as windows X button pressed
 	SDL_Event event;
@@ -126,6 +128,13 @@ void SDL_manager::update_input()
 
 				last_f2 = true;
 			}
+			else if (event.key.keysym.sym == SDLK_ESCAPE)
+			{
+				if (!last_esc)
+					events.push_back(HardInputEventType::esc_pressed);
+
+				last_esc = true;
+			}
 		}
 		else if (event.type == SDL_KEYUP)
 		{
@@ -135,6 +144,8 @@ void SDL_manager::update_input()
 				last_f1 = false;
 			else if (event.key.keysym.sym == SDLK_F2)
 				last_f2 = false;
+			else if (event.key.keysym.sym == SDLK_ESCAPE)
+				last_esc = false;
 		}
 	}
 	//keyboard_state = SDL_GetKeyboardState();
@@ -190,7 +201,13 @@ void SDL_manager::trigger_input_listeners()
 				cb();
 			}
 			break;
-
+		case HardInputEventType::esc_pressed:
+			for (unsigned int i = 0; i < esc_down_callbacks.size(); i++)
+			{
+				callback cb = esc_down_callbacks.at(i);
+				cb();
+			}
+			break;
 		}
 		events.pop_back();
 	}
@@ -252,6 +269,12 @@ SDL_Texture * SDL_manager::get_texture_from_text(const char*  text, SDL_Color co
 	return temp_t;
 }
 
+/*order:
+0 - normal
+1 - hover
+2 - pressed
+3 - blocked
+*/
 SDL_Texture * SDL_manager::get_spritesheet_from_sprites(std::vector<SDL_Texture*> sprites)
 {
 	if (sprites.size() < 1)
