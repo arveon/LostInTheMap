@@ -28,6 +28,8 @@ void MainMenuSystem::init_space(Space & space, MenuLayout layout)
 	//initialising background
 
 	MenuSystem::init_menu(layout, space, menu_type::main_menu);
+	animator::apply_animation_sprite_changes(space);
+
 #pragma region mouse
 	MainMenuSystem::mouse = mouse_system::create_mouse();
 	IDrawable* dc = static_cast<IDrawable*>(mouse->get_component(Component::ComponentType::Drawable));

@@ -43,7 +43,9 @@ void MenuSystem::init_menu(MenuLayout layout, Space & space, menu_type type)
 		{
 			//create animation component
 			IAnimatable* animation = new IAnimatable(element);
-			
+			animation->cur_column = 0;
+			animation->sprite_changed = false;
+
 			if(type == main_menu)
 				animation->spritesheet = asset_controller::create_ui_text_button_spritesheet(button.name, UI_text_type::main_menu_button_main);
 			else if (type == pause_menu)
@@ -66,6 +68,15 @@ void MenuSystem::init_menu(MenuLayout layout, Space & space, menu_type type)
 			IUIElement* uic = new IUIElement(element);
 			uic->element_type = UI_Element_Type::button;
 			uic->name = button.name;
+
+			//disable load game button
+			if (button.name == "Load game")
+			{
+				animation->cur_column = 4;
+				animation->sprite_changed = true;
+				uic->enabled = false;
+			}
+
 			element->add_component(uic);
 
 
@@ -88,7 +99,6 @@ void MenuSystem::update_menu_space(Space& space, int dt, Entity* mouse)
 		{
 			Transform* temp_t = static_cast<Transform*>(temp_e->get_component(Component::ComponentType::Transf));
 			IMouse* mc = static_cast<IMouse*>(mouse->get_component(Component::ComponentType::Mouse));
-			//IAnimatable* anim = static_cast<IAnimatable*>(find_component_on_object(space.objects.at(i), ComponentType::Animated));
 			if (sdl_utils::is_point_in_rect({ mouse->transform->position.x, mouse->transform->position.y }, temp_t->position))
 			{
 				if (mc->cur_target != temp_e)
@@ -101,7 +111,6 @@ void MenuSystem::update_menu_space(Space& space, int dt, Entity* mouse)
 
 		}
 	}
-	//std::cout << dt << std::endl;
 	animator::apply_animation_sprite_changes(space);
 }
 
@@ -124,6 +133,16 @@ void MenuSystem::mouse_target_changed(Entity* new_target, Entity* mouse_obj)
 	//hovered over button
 	if (new_target != nullptr)
 	{
+		IUIElement* ui = (IUIElement*)new_target->get_component(Component::ComponentType::UIElement);
+		if (!ui)
+			return;
+		if (!ui->enabled)
+		{
+			mouse->cur_target = nullptr;
+			return;
+		}
+
+
 		IAnimatable* ac_new = static_cast<IAnimatable*>(new_target->get_component(Component::ComponentType::Animated));
 		if (new_target != nullptr)
 		{
@@ -174,6 +193,8 @@ void MenuSystem::mouse_clicked_on_entity()
 	Entity* clicked = mouse->cur_target;
 	IUIElement* ui = static_cast<IUIElement*>(clicked->get_component(Component::ComponentType::UIElement));
 	IAnimatable * ac = static_cast<IAnimatable*>(clicked->get_component(Component::ComponentType::Animated));
+	if (!ui->enabled)
+		return;
 	switch (ui->element_type)
 	{
 	case UI_Element_Type::button:

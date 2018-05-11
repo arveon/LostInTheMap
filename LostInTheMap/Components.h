@@ -167,6 +167,7 @@ class IUIElement : public Component
 {
 public:
 	UI_Element_Type element_type;
+	bool enabled = true;;
 	std::string name;
 	IUIElement(Entity* owner) : Component(owner)
 	{
