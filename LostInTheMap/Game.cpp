@@ -160,8 +160,11 @@ void Game::escape_pressed()
 
 void Game::reload_game()
 {
-	exit_game_flow();
-	state = game_state::loading;
+	if (state == game_state::game_flow)
+	{
+		exit_game_flow();
+		state = game_state::loading;
+	}
 }
 
 void Game::inc_level()
