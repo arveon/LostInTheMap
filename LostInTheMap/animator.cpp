@@ -108,7 +108,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 				already_there = true;
 			dc->flipped_x = false;
 		}
-		ac->total_sprite_required_time = 100;
+		ac->total_sprite_required_time = 150;
 		ac->cur_row = 4;
 	}
 		break;
@@ -121,7 +121,7 @@ void animator::start_animation(IAnimatable* ac, animations type, void(*done_call
 				already_there = true;
 			dc->flipped_x = true;
 		}
-		ac->total_sprite_required_time = 100;
+		ac->total_sprite_required_time = 150;
 		ac->cur_row = 4;
 	}
 		break;
