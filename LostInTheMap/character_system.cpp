@@ -206,15 +206,15 @@ Entity* character_system::load_combat_character(int distances, int id, ITerrain*
 	Transform* dtc = new Transform(unit_description);
 	if (cbu->friendly)
 		dtc->position = {
-		tf->position.x + tf->position.w-5,
-		tf->position.y + tf->position.h - 5,
+		tf->position.x + tf->position.w/2,
+		tf->position.y + tf->position.h,
 		20,
 		10
 	};
 	else
 		dtc->position = {
 		tf->position.x,
-		tf->position.y + tf->position.h - 5,
+		tf->position.y + tf->position.h,
 		20,
 		10
 	};
@@ -391,6 +391,7 @@ adding_interaction:
 		mc->final_destination = { -1,-1 };
 		mc->path.clear();
 		mc->destination_reached = true;
+		animator::start_animation((IAnimatable*)character->get_component(Component::Animated), animations::idle);
 		if (target && is && is->interaction_target != nullptr)
 		{
 			//is->has_triggered = true;

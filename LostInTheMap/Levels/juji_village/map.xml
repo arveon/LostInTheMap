@@ -8963,8 +8963,8 @@
     <tile x="60" y="89" tile="7" rot="0" flipX="false"/>
     <tile x="61" y="89" tile="7" rot="0" flipX="false"/>
     <tile x="62" y="89" tile="7" rot="0" flipX="false"/>
-    <tile x="63" y="89" tile="13" rot="0" flipX="false"/>
-    <tile x="64" y="89" tile="13" rot="0" flipX="false"/>
+    <tile x="63" y="89" tile="16" rot="0" flipX="false"/>
+    <tile x="64" y="89" tile="16" rot="0" flipX="false"/>
     <tile x="65" y="89" tile="7" rot="0" flipX="false"/>
     <tile x="66" y="89" tile="7" rot="0" flipX="false"/>
     <tile x="67" y="89" tile="7" rot="0" flipX="false"/>
@@ -18965,8 +18965,8 @@
     <tile x="60" y="89" tile="0" rot="0" flipX="false"/>
     <tile x="61" y="89" tile="0" rot="0" flipX="false"/>
     <tile x="62" y="89" tile="0" rot="0" flipX="false"/>
-    <tile x="63" y="89" tile="-1" rot="0" flipX="false"/>
-    <tile x="64" y="89" tile="-1" rot="0" flipX="false"/>
+    <tile x="63" y="89" tile="0" rot="0" flipX="false"/>
+    <tile x="64" y="89" tile="0" rot="0" flipX="false"/>
     <tile x="65" y="89" tile="0" rot="0" flipX="false"/>
     <tile x="66" y="89" tile="0" rot="0" flipX="false"/>
     <tile x="67" y="89" tile="-1" rot="0" flipX="false"/>

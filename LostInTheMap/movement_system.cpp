@@ -211,10 +211,10 @@ void movement_system::move_characters_tick_combat(Space& game_space, int dt, ITe
 			IDrawable* desc_dc = static_cast<IDrawable*>(ddc->description->get_component(Component::ComponentType::Drawable));
 			ICombatUnit* combat_unit = static_cast<ICombatUnit*>(character->get_component(Component::ComponentType::CombatUnit));
 			if (combat_unit->friendly)
-				desc_dc->draw_rect.x = tc->position.x + tc->position.w;
+				desc_dc->draw_rect.x = tc->position.x + tc->position.w/2;
 			else
 				desc_dc->draw_rect.x = tc->position.x;
-			desc_dc->draw_rect.y = tc->position.y + tc->position.h - desc_dc->draw_rect.h;
+			desc_dc->draw_rect.y = tc->position.y + tc->position.h;
 
 		}
 	}

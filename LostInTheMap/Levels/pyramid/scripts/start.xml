@@ -1,9 +1,4 @@
 <script block_player="true" once="true">
-
-<action type="camera_target" character="player" />
-</script>
-
-
 <action type="fadein" wait_time="1000" time="3000"/>
 <action type="wait" character="arch_supervisor" time="1000"/>
 <action type="camera_target" character="arch_supervisor" />
@@ -11,3 +6,8 @@
 <action type="dialogue" dialogue="supervisor_1.xml" />
 <action type="wait" character="arch_supervisor" time="1000"/>
 <action type="move" character="arch_supervisor" dest_x="28" dest_y="25" />
+<action type="camera_target" character="player" />
+</script>
+
+
+
